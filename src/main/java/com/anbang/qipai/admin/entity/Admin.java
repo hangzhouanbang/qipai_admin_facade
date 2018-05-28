@@ -2,14 +2,16 @@ package com.anbang.qipai.admin.entity;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "qipai_admin_facade")
+@Document(collection = "Admin")
 public class Admin {
-
+	@Id
 	private String id;// 管理员id
-	private String name;// 管理员名称
+	private String user;// 管理员名称
 	private String pass;// 管理员密码
+	private String name;
 	private String idCard;// 管理员身份证
 	private Integer sex;// 管理员性别：0-男1-女
 	private Date createTime;// 创建时间
@@ -60,6 +62,14 @@ public class Admin {
 
 	public void setcreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	@Override

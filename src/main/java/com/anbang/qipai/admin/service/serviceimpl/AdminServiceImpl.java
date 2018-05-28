@@ -19,4 +19,24 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.queryByNameAndPage(page, rows, name);
 	}
 
+	@Override
+	public void addAdmin(Admin admin) {
+		adminDao.addAdmin(admin);
+	}
+
+	@Override
+	public void deleteAdmin(String id) {
+		adminDao.deleteAdmin(id);
+	}
+
+	@Override
+	public Admin toeditAdmin(String id) {
+		return adminDao.toeditAdmin(id);
+	}
+
+	@Override
+	public void editAdmin(Admin admin) {
+		adminDao.editAdmin(admin);
+	}
+
 }

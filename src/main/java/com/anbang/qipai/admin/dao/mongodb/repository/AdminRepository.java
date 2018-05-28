@@ -14,4 +14,6 @@ public interface AdminRepository extends MongoRepository<Admin, String> {
 	 * @return	结果集
 	 */
 	Page<Admin> findByNameLike(String name,Pageable pageable);
+	
+	Admin findById(String id);
 }

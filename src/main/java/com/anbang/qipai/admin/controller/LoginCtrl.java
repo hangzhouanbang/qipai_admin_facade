@@ -9,7 +9,8 @@ public class LoginCtrl {
 
 	@RequestMapping("/verify")
 	@ResponseBody
-	public String verify() {
+	public String verify(String name,String pass) {
+		
 		return "";
 	}
 }
