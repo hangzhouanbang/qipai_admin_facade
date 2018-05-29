@@ -9,37 +9,39 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.dao.AdminDao;
 import com.anbang.qipai.admin.dao.mongodb.repository.AdminRepository;
 import com.anbang.qipai.admin.entity.Admin;
+
 @Component
-public class MongdbAdminDao implements AdminDao{
+public class MongdbAdminDao implements AdminDao {
 	@Autowired
 	private AdminRepository adminRepository;
 
-
 	@Override
-	public List<Admin> queryByNameAndPage(int page, int rows, String name) {
+	public List<Admin> queryAllByPage(int page, int rows) {
 		PageRequest pageRequest = new PageRequest(page - 1, rows);
-		return adminRepository.findByNameLike(name, pageRequest).getContent();
+		return adminRepository.findAll(pageRequest).getContent();
 	}
 
 	@Override
-	public void addAdmin(Admin admin) {
-		adminRepository.save(admin);
+	public List<Admin> queryByNameAndPage(int page, int rows, String nickName) {
+		PageRequest pageRequest = new PageRequest(page - 1, rows);
+		return adminRepository.findByNickNameLike(nickName, pageRequest).getContent();
 	}
 
 	@Override
-	public void deleteAdmin(String id) {
-		adminRepository.delete(id);;
+	public Admin addAdmin(Admin admin) {
+		return adminRepository.insert(admin);
 	}
 
 	@Override
-	public Admin toeditAdmin(String id) {
-		return adminRepository.findById(id);
+	public void deleteAdmins(String[] ids) {
+		for (String id : ids) {
+			adminRepository.delete(id);
+		}
 	}
 
 	@Override
-	public void editAdmin(Admin admin) {
-		adminRepository.save(admin);
+	public Admin editAdmin(Admin admin) {
+		return adminRepository.save(admin);
 	}
-	
 
 }
