@@ -16,6 +16,11 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDao adminDao;
 
 	@Override
+	public Admin verifyAdmin(String nickname, String pass) {
+		return adminDao.verifyAdmin(nickname, pass);
+	}
+
+	@Override
 	public List<Admin> queryByNameAndPage(int page, int size, String nickname) {
 		return adminDao.queryByNameAndPage(page, size, nickname);
 	}
@@ -34,5 +39,4 @@ public class AdminServiceImpl implements AdminService {
 	public void editAdmin(Admin admin) {
 		adminDao.editAdmin(admin);
 	}
-
 }

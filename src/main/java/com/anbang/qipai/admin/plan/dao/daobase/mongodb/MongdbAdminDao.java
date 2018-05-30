@@ -24,6 +24,16 @@ public class MongdbAdminDao extends MongodbDaoBase implements AdminDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
+	public Admin verifyAdmin(String nickname, String pass) {
+		Query query = new Query();
+		Criteria criteria = new Criteria();
+		criteria.and("nickname").is(nickname);
+		criteria.and("pass").is(pass);
+		query.addCriteria(criteria);
+		return mongoTemplate.findOne(query, Admin.class);
+	}
+
+	@Override
 	public List<Admin> queryByNameAndPage(int page, int size, String nickname) {
 		Map<String, Object> paramMap = null;
 		if (nickname != null) {
@@ -76,4 +86,5 @@ public class MongdbAdminDao extends MongodbDaoBase implements AdminDao {
 			e.printStackTrace();
 		}
 	}
+
 }
