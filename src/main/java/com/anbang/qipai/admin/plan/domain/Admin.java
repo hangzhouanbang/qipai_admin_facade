@@ -1,15 +1,18 @@
-package com.anbang.qipai.admin.entity;
+package com.anbang.qipai.admin.plan.domain;
+
+import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "qipai_admin_facade")
 public class Admin {
 	private String id;// 管理员id
-	private String user;// 管理员姓名
+	private String nickname;// 管理员昵稱
 	private String pass;// 管理员密码
-	private String nickName;// 管理员昵稱
+	private String user;// 管理员姓名
 	private String idCard;// 管理员身份证
 	private Integer sex;// 管理员性别：0-男1-女
+	private Date createTime;// 创建时间
 
 	public String getId() {
 		return id;
@@ -19,12 +22,12 @@ public class Admin {
 		this.id = id;
 	}
 
-	public String getUser() {
-		return user;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public String getPass() {
@@ -35,12 +38,12 @@ public class Admin {
 		this.pass = pass;
 	}
 
-	public String getnickName() {
-		return nickName;
+	public String getUser() {
+		return user;
 	}
 
-	public void setnickName(String nickName) {
-		this.nickName = nickName;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getIdCard() {
@@ -59,10 +62,18 @@ public class Admin {
 		this.sex = sex;
 	}
 
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
 	@Override
 	public String toString() {
-		return "Admin [id=" + id + ", user=" + user + ", pass=" + pass + ", nickName=" + nickName + ", idCard=" + idCard
-				+ ", sex=" + sex + "]";
+		return "Admin [id=" + id + ", nickname=" + nickname + ", pass=" + pass + ", user=" + user + ", idCard=" + idCard
+				+ ", sex=" + sex + ", createTime=" + createTime + "]";
 	}
 
 }
