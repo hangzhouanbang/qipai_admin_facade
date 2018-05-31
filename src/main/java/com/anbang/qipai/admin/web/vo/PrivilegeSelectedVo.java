@@ -4,7 +4,7 @@ import com.anbang.qipai.admin.plan.domain.Privilege;
 
 public class PrivilegeSelectedVo {
 	private Privilege privilege;
-	private Boolean selected = false;
+	private Boolean selected;
 
 	public Privilege getPrivilege() {
 		return privilege;

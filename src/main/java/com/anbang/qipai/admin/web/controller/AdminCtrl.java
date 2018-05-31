@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.service.AdminService;
 
+/**管理员Controller
+ * @author 林少聪 2018.5.31
+ *
+ */
 @Controller
 public class AdminCtrl {
 

@@ -4,7 +4,7 @@ import com.anbang.qipai.admin.plan.domain.Role;
 
 public class RoleSelectedVo {
 	private Role role;
-	private Boolean selected = false;
+	private Boolean selected;
 
 	public Role getRole() {
 		return role;

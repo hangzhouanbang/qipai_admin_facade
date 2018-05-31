@@ -11,6 +11,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+/**mongodb数据库操作通用抽象类
+ * @author 林少聪 2018.5.31
+ *
+ */
 public abstract class MongodbDaoBase {
 
 	protected MongoTemplate mongoTemplate;

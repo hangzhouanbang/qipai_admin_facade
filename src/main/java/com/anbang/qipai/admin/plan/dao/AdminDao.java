@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.anbang.qipai.admin.plan.domain.Admin;
 
+/**管理员Dao
+ * @author 林少聪 2018.5.31
+ *
+ */
 public interface AdminDao {
 
 	/**

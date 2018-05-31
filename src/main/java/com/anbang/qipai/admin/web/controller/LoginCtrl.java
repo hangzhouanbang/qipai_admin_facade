@@ -20,6 +20,10 @@ import com.anbang.qipai.admin.plan.service.RoleService;
 import com.anbang.qipai.admin.web.vo.PrivilegeSelectedVo;
 import com.anbang.qipai.admin.web.vo.RoleSelectedVo;
 
+/**登录Controller
+ * @author 林少聪 2018.5.31
+ *
+ */
 @Controller
 public class LoginCtrl {
 
@@ -46,6 +50,8 @@ public class LoginCtrl {
 		System.out.println("nickname:" + nickname + "pass:" + pass);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Admin admin = adminService.verifyAdmin(nickname, pass);
+//		Map<String,RoleSelectedVo> rsvos = new HashMap<String,RoleSelectedVo>();
+//		Map<String,PrivilegeSelectedVo> psvos = new HashMap<String,PrivilegeSelectedVo>();
 		List<RoleSelectedVo> rsvos = new ArrayList<RoleSelectedVo>();
 		List<PrivilegeSelectedVo> psvos = new ArrayList<PrivilegeSelectedVo>();
 		if (admin != null) {

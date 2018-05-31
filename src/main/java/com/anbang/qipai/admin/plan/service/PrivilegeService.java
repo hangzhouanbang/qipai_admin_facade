@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.anbang.qipai.admin.plan.domain.Privilege;
 
+/**权限service
+ * @author 林少聪 2018.5.31
+ *
+ */
 public interface PrivilegeService {
 	/**
 	 * 查询所有权限信息

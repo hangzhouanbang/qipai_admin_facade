@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.anbang.qipai.admin.plan.domain.Role;
 
+/**角色Dao
+ * @author 林少聪 2018.5.31
+ *
+ */
 public interface RoleDao {
 
 	/**查询所有角色信息
