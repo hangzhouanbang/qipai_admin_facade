@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anbang.qipai.admin.plan.domain.Notice;
 import com.anbang.qipai.admin.plan.service.NoticeService;
-import com.anbang.qipai.admin.qipaClient.NoticeQipaClients;
+import com.anbang.qipai.admin.remote.NoticeQipaClients;
 
 
  /**
   * 系统通告controller
+  * @author 程佳 2018.5.31
  **/
 @Controller
 public class NoticeCtrl {

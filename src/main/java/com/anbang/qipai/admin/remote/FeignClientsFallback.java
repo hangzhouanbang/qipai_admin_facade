@@ -1,8 +1,8 @@
-package com.anbang.qipai.admin.qipaClient;
+package com.anbang.qipai.admin.remote;
 
 import org.springframework.stereotype.Service;
 
-import com.anbang.qipai.admin.plan.domain.CommonVO;
+
 
 @Service
 public class FeignClientsFallback implements MemberQipaClients,NoticeQipaClients{

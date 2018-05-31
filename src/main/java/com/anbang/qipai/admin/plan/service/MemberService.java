@@ -1,7 +1,9 @@
 package com.anbang.qipai.admin.plan.service;
 
 import com.anbang.qipai.admin.plan.domain.CreateMemberConfiguration;
-
+/**设置金币service
+ * @author 程佳 2018.5.31
+ * **/
 public interface MemberService {
 	
 	/**设置金币

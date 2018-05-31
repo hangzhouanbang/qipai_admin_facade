@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anbang.qipai.admin.plan.domain.CreateMemberConfiguration;
 import com.anbang.qipai.admin.plan.service.MemberService;
-import com.anbang.qipai.admin.qipaClient.MemberQipaClients;
+import com.anbang.qipai.admin.remote.MemberQipaClients;
 
 
 
 /**
  * 设置金币Controller
+ * @author 程佳 2018.5.31
  * **/
 @Controller
 public class MemberCtrl {
@@ -30,7 +31,7 @@ public class MemberCtrl {
 	@RequestMapping("/addMember")
 	@ResponseBody
 	public String addMember(Integer goldForNewMember) {
-		if(goldForNewMember == null || goldForNewMember.equals("")) {
+		if(goldForNewMember == null) {
 			return "file";
 		}
 		CreateMemberConfiguration m = memberService.save(goldForNewMember);
