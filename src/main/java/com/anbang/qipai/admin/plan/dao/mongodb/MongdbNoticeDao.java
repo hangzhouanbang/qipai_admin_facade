@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao.daobase;
+package com.anbang.qipai.admin.plan.dao.mongodb;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.NoticeDao;
-import com.anbang.qipai.admin.plan.dao.daobase.mongodb.NoticeRepository;
+import com.anbang.qipai.admin.plan.dao.mongodb.repository.NoticeRepository;
 import com.anbang.qipai.admin.plan.domain.Notice;
 
 @Component

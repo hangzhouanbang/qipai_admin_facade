@@ -1,10 +1,10 @@
-package com.anbang.qipai.admin.plan.dao.daobase;
+package com.anbang.qipai.admin.plan.dao.mongodb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.MemberDao;
-import com.anbang.qipai.admin.plan.dao.daobase.mongodb.MemberRepository;
+import com.anbang.qipai.admin.plan.dao.mongodb.repository.MemberRepository;
 import com.anbang.qipai.admin.plan.domain.CreateMemberConfiguration;
 
 @Component

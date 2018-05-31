@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao.daobase.mongodb;
+package com.anbang.qipai.admin.plan.dao.mongodb.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
