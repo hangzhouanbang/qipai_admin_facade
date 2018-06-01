@@ -1,8 +1,5 @@
 package com.anbang.qipai.admin.plan.domain;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "qipai_admin_privilege")
 public class Privilege {
 
 	private String id;

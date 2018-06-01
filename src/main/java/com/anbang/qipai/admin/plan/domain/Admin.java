@@ -3,16 +3,13 @@ package com.anbang.qipai.admin.plan.domain;
 import java.util.Arrays;
 import java.util.Date;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "qipai_admin_user")
 public class Admin {
 	private String id;// 管理员id
 	private String nickname;// 管理员昵稱
 	private String pass;// 管理员密码
 	private String user;// 管理员姓名
 	private String idCard;// 管理员身份证
-	private Integer sex;// 管理员性别：0-男1-女
+	private String sex;// 管理员性别
 	private String[] roles;// 管理员角色
 	private Date createTime;// 创建时间
 
@@ -56,11 +53,11 @@ public class Admin {
 		this.idCard = idCard;
 	}
 
-	public Integer getSex() {
+	public String getSex() {
 		return sex;
 	}
 
-	public void setSex(Integer sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 
