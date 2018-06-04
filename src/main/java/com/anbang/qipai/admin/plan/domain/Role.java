@@ -2,9 +2,6 @@ package com.anbang.qipai.admin.plan.domain;
 
 import java.util.Arrays;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "qipai_admin_role")
 public class Role {
 	private String id;// 角色id
 	private String role;// 角色名称
