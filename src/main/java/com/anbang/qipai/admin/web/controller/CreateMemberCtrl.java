@@ -16,7 +16,7 @@ import com.anbang.qipai.admin.remote.MemberQipaClients;
  * @author 程佳 2018.5.31
  * **/
 @Controller
-public class MemberCtrl {
+public class CreateMemberCtrl {
 	
 	@Autowired
 	private MemberService memberService;

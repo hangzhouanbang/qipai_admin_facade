@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.anbang.qipai.admin.web.interceptor.AdminInterceptor;
 import com.anbang.qipai.admin.web.interceptor.LoginInterceptor;
 
-@Configuration
+//@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override

@@ -3,7 +3,7 @@ package com.anbang.qipai.admin.plan.service.serviceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.anbang.qipai.admin.plan.dao.MemberDao;
+import com.anbang.qipai.admin.plan.dao.CreateMemberDao;
 import com.anbang.qipai.admin.plan.domain.CreateMemberConfiguration;
 import com.anbang.qipai.admin.plan.service.MemberService;
 
@@ -11,7 +11,7 @@ import com.anbang.qipai.admin.plan.service.MemberService;
 public class MemberServiceImpl implements MemberService{
 
 	@Autowired
-	private MemberDao memberDao;
+	private CreateMemberDao memberDao;
 	
 	@Override
 	public CreateMemberConfiguration save(Integer goldForNewMember) {

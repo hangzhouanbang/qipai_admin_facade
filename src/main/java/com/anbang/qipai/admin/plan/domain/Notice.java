@@ -10,6 +10,16 @@ public class Notice {
 	private String id;//公告ID
 	private Integer state;//状态{1代表启用，0代表禁用}
 	private String notice;//公告信息
+	public Notice() {
+		
+	}
+	
+	public Notice(String id,Integer state,String notice) {
+		this.id=id;
+		this.state=state;
+		this.notice=notice;
+	}
+	
 	public String getId() {
 		return id;
 	}
