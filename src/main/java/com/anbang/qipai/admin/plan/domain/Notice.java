@@ -1,9 +1,7 @@
 package com.anbang.qipai.admin.plan.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Notice")
 public class Notice {
 	
 	@Id
