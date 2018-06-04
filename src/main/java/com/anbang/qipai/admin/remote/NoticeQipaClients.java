@@ -14,7 +14,7 @@ public interface NoticeQipaClients {
 	/**
 	 * 这里定义了类似于SpringMVC用法的方法，就可以进行RESTful的调用了
 	 * **/
-	@RequestMapping(value = "/NoticeCtrl/addNotice")
+	@RequestMapping(value = "/notice/addnotice")
 	public CommonVO addNotice(@RequestParam(value = "notice") String notice);
 
 }

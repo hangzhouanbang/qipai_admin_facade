@@ -35,6 +35,27 @@ spring:
           producer:
             partitionCount: 1
             
+        game:
+          destination: game
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+          producer:
+            partitionCount: 1
+         
+        createmember:
+          destination: createmember
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+          producer:
+            partitionCount: 1
+            
+            
   application:
     name: qipai_admin_facade
     
@@ -44,4 +65,4 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://127.0.0.1:8761/eureka/

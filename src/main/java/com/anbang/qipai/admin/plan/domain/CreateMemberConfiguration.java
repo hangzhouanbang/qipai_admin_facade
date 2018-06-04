@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author neo
  *
  */
-@Document(collection = "Member")
 public class CreateMemberConfiguration {
 
 	/**

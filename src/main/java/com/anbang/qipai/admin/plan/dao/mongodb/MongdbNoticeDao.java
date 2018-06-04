@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.plan.dao.NoticeDao;
 import com.anbang.qipai.admin.plan.dao.mongodb.repository.NoticeRepository;
 import com.anbang.qipai.admin.plan.domain.Notice;
+import com.anbang.qipai.admin.plan.service.NoticeService;
 
 @Component
 public class MongdbNoticeDao implements NoticeDao{
@@ -23,10 +24,22 @@ public class MongdbNoticeDao implements NoticeDao{
 	private NoticeRepository noticeRepository;
 	
 	@Autowired
+	private NoticeService noticeService;
+	
+	@Autowired
 	private MongoTemplate mongoTemplate;
 
 	@Override
 	public Notice addNotice(Notice notice) {
+		Integer state = 1;
+		Notice notice1 = noticeService.queryByState(state);
+			if(notice1 != null) {//有启用状态的公告,修改启用公告的状态
+				Notice notice2 = new Notice();
+				notice2.setId(notice1.getId());
+				notice2.setNotice(notice1.getNotice());
+				notice2.setState(0);
+				noticeService.updateNotice(notice2);
+			}
 		return noticeRepository.save(notice);
 	}
 
