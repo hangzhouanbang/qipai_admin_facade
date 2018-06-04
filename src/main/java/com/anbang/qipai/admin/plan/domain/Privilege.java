@@ -2,8 +2,9 @@ package com.anbang.qipai.admin.plan.domain;
 
 public class Privilege {
 
-	private String id;
-	private String privilege;
+	private String id;// 权限id
+	private String privilege;// 权限名称
+	private String uri;// 拦截URI
 
 	public String getId() {
 		return id;
@@ -21,12 +22,21 @@ public class Privilege {
 		this.privilege = privilege;
 	}
 
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((privilege == null) ? 0 : privilege.hashCode());
+		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
 		return result;
 	}
 
@@ -49,12 +59,17 @@ public class Privilege {
 				return false;
 		} else if (!privilege.equals(other.privilege))
 			return false;
+		if (uri == null) {
+			if (other.uri != null)
+				return false;
+		} else if (!uri.equals(other.uri))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Privilege [id=" + id + ", privilege=" + privilege + "]";
+		return "Privilege [id=" + id + ", privilege=" + privilege + ", uri=" + uri + "]";
 	}
 
 }

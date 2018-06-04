@@ -18,6 +18,8 @@ import com.anbang.qipai.admin.plan.domain.Role;
 import com.anbang.qipai.admin.plan.service.AdminService;
 import com.anbang.qipai.admin.plan.service.PrivilegeService;
 import com.anbang.qipai.admin.plan.service.RoleService;
+import com.anbang.qipai.admin.web.vo.PrivilegeVo;
+import com.anbang.qipai.admin.web.vo.RoleVo;
 import com.anbang.qipai.admin.web.vo.UserVo;
 
 /**
@@ -47,46 +49,46 @@ public class LoginCtrl {
 	 * @return 管理员信息及权限信息
 	 */
 	@RequestMapping("/login")
-	public Map<String, Object> login(@RequestParam(value = "nickname", required = true) String nickname,
-			@RequestParam(value = "pass", required = true) String pass, HttpSession session) {
+	public Map<String, Object> login(@RequestParam(name = "nickname", required = true) String nickname,
+			@RequestParam(name = "pass", required = true) String pass, HttpSession session) {
 		System.out.println("nickname:" + nickname + "pass:" + pass);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Admin admin = adminService.verifyAdmin(nickname, pass);
-		Map<String, Boolean> rsvos = new HashMap<String, Boolean>();
-		Map<String, Boolean> psvos = new HashMap<String, Boolean>();
+		Map<String, RoleVo> rolevos = new HashMap<String, RoleVo>();
+		Map<String, PrivilegeVo> privilegevos = new HashMap<String, PrivilegeVo>();
 		UserVo user = null;
 		if (admin != null) {
 			List<Role> roleList = roleService.getAllRoles();
 			List<Privilege> privilegeList = privilegeService.getAllPrivileges();
-			for (Role role : roleList) {
-				rsvos.put(role.getRole(), false);
-			}
-			for (Privilege privilege : privilegeList) {
-				psvos.put(privilege.getPrivilege(), false);
-			}
 			String[] roles = admin.getRoles();
 			List<Role> selectedRoleList = roleService.getAllRolesOfAdmin(roles);
 			for (Role role : roleList) {
 				if (selectedRoleList.contains(role)) {
-					rsvos.put(role.getRole(), true);
+					RoleVo rolevo = new RoleVo();
+					rolevo.setRole(role);
+					rolevo.setSelected(true);
+					rolevos.put(role.getRole(), rolevo);
 					List<Privilege> selectedPrivilegeList = privilegeService
 							.getAllPrivilegesOfRole(role.getPrivileges());
 					for (Privilege privilege : privilegeList) {
 						if (selectedPrivilegeList.contains(privilege)) {
-							psvos.put(privilege.getPrivilege(), true);
+							PrivilegeVo privilegevo = new PrivilegeVo();
+							privilegevo.setPrivilege(privilege);
+							privilegevo.setSelected(true);
+							privilegevos.put(privilege.getUri(), privilegevo);
 						}
 					}
 				}
 			}
 			user = new UserVo();
-			user.setNickname(admin.getNickname());
+			user.setAdmin(admin);
 			user.setLoginTime(new Date(System.currentTimeMillis()));
-			user.setPrivilegeList(psvos);
 			session.setAttribute("user", user);
+			session.setAttribute("privilegeList", privilegevos);
 		}
 		map.put("user", user);
-		// map.put("roleList", rsvos);
-		// map.put("privilegeList", psvos);
+		map.put("roleList", rolevos);
+		map.put("privilegeList", privilegevos);
 		return map;
 	}
 

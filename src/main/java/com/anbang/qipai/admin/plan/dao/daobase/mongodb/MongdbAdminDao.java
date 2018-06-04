@@ -34,11 +34,11 @@ public class MongdbAdminDao extends MongodbDaoBase implements AdminDao {
 	}
 
 	@Override
-	public List<Admin> queryByNameAndPage(int page, int size, String nickname) {
+	public List<Admin> queryByConditionsAndPage(int page, int size, Admin admin) {
 		Map<String, Object> paramMap = null;
-		if (nickname != null) {
+		if (admin.getNickname() != null) {
 			paramMap = new HashMap<String, Object>();
-			paramMap.put("nickname", nickname);
+			paramMap.put("nickname", admin.getNickname());
 		}
 		Sort sort = new Sort(new Order("id"));
 		super.setMongoTemplate(mongoTemplate);
@@ -55,8 +55,8 @@ public class MongdbAdminDao extends MongodbDaoBase implements AdminDao {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
 		WriteResult result = mongoTemplate.remove(query, Admin.class);
-		System.out.println(result.getN());
-		System.out.println(ids.length);
+		System.out.println("删除了" + result.getN() + "个管理员");
+		System.out.println("共要删除" + ids.length + "个管理员");
 		return result.getN() <= ids.length;
 	}
 
@@ -78,8 +78,8 @@ public class MongdbAdminDao extends MongodbDaoBase implements AdminDao {
 		if (admin.getSex() != null) {
 			inputs.put("sex", admin.getSex());
 		}
+		super.setMongoTemplate(mongoTemplate);
 		try {
-			super.setMongoTemplate(mongoTemplate);
 			updateMultiAttributes(admin.getId(), inputs, Admin.class);
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block

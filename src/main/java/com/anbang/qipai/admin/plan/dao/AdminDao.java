@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.anbang.qipai.admin.plan.domain.Admin;
 
-/**管理员Dao
+/**
+ * 管理员Dao
+ * 
  * @author 林少聪 2018.5.31
  *
  */
@@ -32,7 +34,7 @@ public interface AdminDao {
 	 *            管理员昵称
 	 * @return 结果集
 	 */
-	List<Admin> queryByNameAndPage(int page, int size, String nickname);
+	List<Admin> queryByConditionsAndPage(int page, int size, Admin admin);
 
 	/**
 	 * 添加管理员

@@ -25,4 +25,19 @@ public class RoleServiceImpl implements RoleService {
 		return roleDao.getAllRolesOfAdmin(roles);
 	}
 
+	@Override
+	public void addRole(Role role) {
+		roleDao.addRole(role);
+	}
+
+	@Override
+	public Boolean deleteRoles(String[] ids) {
+		return roleDao.deleteRoles(ids);
+	}
+
+	@Override
+	public void editRole(Role role) {
+		roleDao.editRole(role);
+	}
+
 }

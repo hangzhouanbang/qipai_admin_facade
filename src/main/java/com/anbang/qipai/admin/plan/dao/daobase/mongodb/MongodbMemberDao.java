@@ -1,8 +1,5 @@
 package com.anbang.qipai.admin.plan.dao.daobase.mongodb;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,43 +8,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.dao.CMemberDao;
+import com.anbang.qipai.admin.plan.dao.MemberDao;
 import com.anbang.qipai.admin.plan.dao.daobase.MongodbDaoBase;
 import com.anbang.qipai.admin.plan.domain.Member;
 
-public class MongodbMemberDao extends MongodbDaoBase implements CMemberDao {
+@Component
+public class MongodbMemberDao extends MongodbDaoBase implements MemberDao {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
 	@Override
 	public List<Member> queryByConditionsAndPage(int page, int size, Member member) {
 		Map<String, Object> paramMap = null;
-		if (member != null) {
+		if (member.getNickname() != null || member.getSex() != null || member.getAge() != null
+				|| member.getBirthday() != null || member.getAdress() != null) {
 			paramMap = new HashMap<String, Object>();
-			Field[] fields = Member.class.getDeclaredFields();
-			for (Field field : fields) {
-				String methodName = "get" + field.getName().substring(0, 1).toUpperCase()
-						+ field.getName().substring(1);
-				Method method;
-				try {
-					method = Member.class.getMethod(methodName, new Class<?>[0]);
-					paramMap.put(field.getName(), method.invoke(member));
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			paramMap.put("nickname", member.getNickname());
+			paramMap.put("sex", member.getSex());
+			paramMap.put("age", member.getAge());
+			paramMap.put("birthday", member.getBirthday());
+			paramMap.put("adress", member.getAdress());
 		}
 		Sort sort = new Sort(new Order("id"));
 		super.setMongoTemplate(mongoTemplate);
 		return searchLike(paramMap, (page - 1) * size, size, sort, Member.class);
+	}
+
+	@Override
+	public void addMember(Member member) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean deleteMember(String[] ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void editMember(Member member) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

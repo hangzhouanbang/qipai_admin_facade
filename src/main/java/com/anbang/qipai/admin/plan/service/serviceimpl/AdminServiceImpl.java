@@ -21,8 +21,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Admin> queryByNameAndPage(int page, int size, String nickname) {
-		return adminDao.queryByNameAndPage(page, size, nickname);
+	public List<Admin> queryByConditionsAndPage(int page, int size, Admin admin) {
+		return adminDao.queryByConditionsAndPage(page, size, admin);
 	}
 
 	@Override

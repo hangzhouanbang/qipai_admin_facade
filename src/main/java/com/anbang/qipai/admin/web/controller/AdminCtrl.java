@@ -36,9 +36,10 @@ public class AdminCtrl {
 	 * @return 结果集
 	 */
 	@RequestMapping("/queryAdmin")
-	public List<Admin> queryAdmin(Integer page, Integer size, String nickname) {
-		System.out.println("查询管理员:" + nickname);
-		List<Admin> list = adminService.queryByNameAndPage(page.intValue(), size.intValue(), nickname);
+	public List<Admin> queryAdmin(@RequestParam(name = "page", defaultValue = "1") Integer page,
+			@RequestParam(name = "size", defaultValue = "10") Integer size, Admin admin) {
+		System.out.println("查询管理员:" + admin);
+		List<Admin> list = adminService.queryByConditionsAndPage(page.intValue(), size.intValue(), admin);
 		return list;
 	}
 
@@ -69,9 +70,11 @@ public class AdminCtrl {
 	 * @return 操作结果
 	 */
 	@RequestMapping("/deleteAdmin")
-	public String deleteAdmin(@RequestParam("id") String[] ids) {
-		for (String s : ids) {
-			System.out.println("删除管理员:" + s);
+	public String deleteAdmin(@RequestParam(name = "id") String[] ids) {
+		for (String id : ids) {
+			if (id.equals("5b0d1133ceac1229f892c9ab")) {// 超级管理员无法删除
+				return "fail";
+			}
 		}
 		if (adminService.deleteAdmins(ids)) {
 			return "success";

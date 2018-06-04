@@ -1,19 +1,19 @@
 package com.anbang.qipai.admin.web.vo;
 
 import java.util.Date;
-import java.util.Map;
+
+import com.anbang.qipai.admin.plan.domain.Admin;
 
 public class UserVo {
-	private String nickname;
+	private Admin admin;
 	private Date loginTime;
-	private Map<String, Boolean> privilegeList;
 
-	public String getNickname() {
-		return nickname;
+	public Admin getAdmin() {
+		return admin;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 	public Date getLoginTime() {
@@ -22,19 +22,6 @@ public class UserVo {
 
 	public void setLoginTime(Date loginTime) {
 		this.loginTime = loginTime;
-	}
-
-	public Map<String, Boolean> getPrivilegeList() {
-		return privilegeList;
-	}
-
-	public void setPrivilegeList(Map<String, Boolean> privilegeList) {
-		this.privilegeList = privilegeList;
-	}
-
-	@Override
-	public String toString() {
-		return "UserVo [nickname=" + nickname + ", loginTime=" + loginTime + ", privilegeList=" + privilegeList + "]";
 	}
 
 }
