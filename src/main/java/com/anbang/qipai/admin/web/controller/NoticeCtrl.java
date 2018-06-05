@@ -3,11 +3,12 @@ package com.anbang.qipai.admin.web.controller;
 
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.service.NoticeService;
+import com.anbang.qipai.admin.remote.CommonVO;
 import com.anbang.qipai.admin.remote.NoticeQipaClients;
 
 
@@ -15,7 +16,8 @@ import com.anbang.qipai.admin.remote.NoticeQipaClients;
   * 系统通告controller
   * @author 程佳 2018.5.31
  **/
-@Controller
+@RestController
+@RequestMapping("noticectrl")
 public class NoticeCtrl {
 	
 	@Autowired
@@ -29,7 +31,7 @@ public class NoticeCtrl {
 	 * @param page 当前页
 	 * @param size 每页数量
 	 * **/
-	 @RequestMapping("/queryNotice")
+	 @RequestMapping("/querynotice")
 	 @ResponseBody
 	 public Map<String,Object> queryNotice(Integer page,Integer size){
 		 Map<String,Object> map = noticeService.findAll(page, size);
@@ -40,11 +42,16 @@ public class NoticeCtrl {
 	/**添加系统公告
 	 * 	@param notice 公告内容
 	 * **/
-	@RequestMapping("/addNotice")
+	@RequestMapping("/addnotice")
 	@ResponseBody
 	public String addNotice(String notice) {
-			noticeQipaClients.addNotice(notice);
-			return "success";
+			CommonVO co = noticeQipaClients.addNotice(notice);
+			if(co.isSuccess()) {
+				return "success";	
+			}else {
+				return "file";
+			}
+			
 		
 	}
 }
