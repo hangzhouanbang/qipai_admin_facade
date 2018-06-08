@@ -55,6 +55,16 @@ spring:
           producer:
             partitionCount: 1
             
+        mail:
+          destination: mail
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+          producer:
+            partitionCount: 1
+            
             
   application:
     name: qipai_admin_facade

@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
-import com.anbang.qipai.admin.plan.dao.NoticeDao;
-import com.anbang.qipai.admin.plan.domain.Notice;
+import com.anbang.qipai.admin.plan.dao.noticedao.NoticeDao;
+import com.anbang.qipai.admin.plan.domain.notice.Notice;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 
 @Service

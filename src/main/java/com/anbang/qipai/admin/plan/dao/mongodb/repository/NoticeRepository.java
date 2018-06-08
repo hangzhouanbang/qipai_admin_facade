@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao.mongodb.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.anbang.qipai.admin.plan.domain.Notice;
+import com.anbang.qipai.admin.plan.domain.notice.Notice;
 
 /**连接系统公告表
  * @author 程佳 2018.5.31

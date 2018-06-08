@@ -5,7 +5,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.CreateMemberSink;
-import com.anbang.qipai.admin.plan.domain.CreateMemberConfiguration;
+import com.anbang.qipai.admin.plan.domain.createmember.CreateMemberConfiguration;
 import com.anbang.qipai.admin.plan.service.CreateMemberService;
 
 import net.sf.json.JSONObject;
@@ -26,7 +26,6 @@ public class CreateMemberMsgReceiver {
 	 * **/
 	@StreamListener(CreateMemberSink.CreateMember)
 	public void members(Object payload) {
-		System.out.println("Received: " + payload);
 		JSONObject json = JSONObject.fromObject(payload);
 		JSONObject obj = (JSONObject) json.get("data");
 		CreateMemberConfiguration member = (CreateMemberConfiguration) JSONObject.toBean(obj, CreateMemberConfiguration.class);
