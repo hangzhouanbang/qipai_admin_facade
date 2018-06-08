@@ -1,13 +1,16 @@
 package com.anbang.qipai.admin.web.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.Member;
+import com.anbang.qipai.admin.plan.domain.Account;
+import com.anbang.qipai.admin.plan.service.AccountService;
 import com.anbang.qipai.admin.plan.service.MemberService;
 
 /**
@@ -23,11 +26,23 @@ public class MemberCtrl {
 	@Autowired
 	private MemberService memberService;
 
+	@Autowired
+	private AccountService accountService;
+
 	@RequestMapping("/queryMember")
-	public List<Member> queryMember(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, Member member) {
-		System.out.println("查询会员:" + member);
-		List<Member> list = memberService.queryByConditionsAndPage(page, size, member);
-		return list;
+	public Map<String, Object> queryMember(@RequestParam(name = "page", defaultValue = "1") Integer page,
+			@RequestParam(name = "size", defaultValue = "10") Integer size, String nickname) {
+		Sort sort = new Sort(new Order("id"));
+		Map<String, Object> map = memberService.queryByConditionsAndPage(page, size, sort, nickname);
+		return map;
+	}
+
+	@RequestMapping("/checkAccount")
+	public Map<String, Object> checkAccount(@RequestParam(name = "page", defaultValue = "1") Integer page,
+			@RequestParam(name = "size", defaultValue = "10") Integer size, Account account) {
+		Sort sort = new Sort(new Order("id"));
+		Map<String, Object> map = accountService.queryByConditionsAndPage(page.intValue(), size.intValue(), sort,
+				account);
+		return map;
 	}
 }

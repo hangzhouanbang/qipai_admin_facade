@@ -1,7 +1,11 @@
 package com.anbang.qipai.admin.plan.service;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.data.domain.Sort;
+
+import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.Role;
 
 /**
@@ -12,44 +16,17 @@ import com.anbang.qipai.admin.plan.domain.Role;
  */
 public interface RoleService {
 
-	/**
-	 * 查询所有角色信息
-	 * 
-	 * @return 所有角色集合
-	 */
 	List<Role> getAllRoles();
 
-	/**
-	 * 查询管理员所具有的角色
-	 * 
-	 * @param roles
-	 *            管理员具备的角色的id数组
-	 * @return 管理员所具有的角色的集合
-	 */
-	List<Role> getAllRolesOfAdmin(String[] roles);
+	List<Role> getAllRolesOfAdmin(Admin admin);
 
-	/**
-	 * 添加角色
-	 * 
-	 * @param role
-	 *            角色信息
-	 */
+	Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, String role);
+
 	void addRole(Role role);
 
-	/**
-	 * 删除角色
-	 * 
-	 * @param ids
-	 *            要删除的角色的id数组
-	 * @return 操作结果
-	 */
-	Boolean deleteRoles(String[] ids);
+	void deleteRoles(String[] ids);
 
-	/**
-	 * 编辑角色
-	 * 
-	 * @param role
-	 *            角色信息
-	 */
-	void editRole(Role role);
+	Boolean editRole(Role role);
+
+	Boolean editPrivilege(String roleId, String[] privilegeIds);
 }

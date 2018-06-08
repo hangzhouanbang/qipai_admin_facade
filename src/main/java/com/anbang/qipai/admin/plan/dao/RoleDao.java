@@ -2,7 +2,12 @@ package com.anbang.qipai.admin.plan.dao;
 
 import java.util.List;
 
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.Role;
+import com.anbang.qipai.admin.plan.domain.RoleRelationPrivilege;
 
 /**
  * 角色Dao
@@ -12,44 +17,21 @@ import com.anbang.qipai.admin.plan.domain.Role;
  */
 public interface RoleDao {
 
-	/**
-	 * 查询所有角色信息
-	 * 
-	 * @return 所有角色集合
-	 */
 	List<Role> getAllRoles();
 
-	/**
-	 * 查询管理员所具有的角色
-	 * 
-	 * @param roles
-	 *            管理员具备的角色的id数组
-	 * @return 管理员所具有的角色的集合
-	 */
-	List<Role> getAllRolesOfAdmin(String[] roles);
+	List<Role> getAllRolesOfAdmin(Admin admin);
 
-	/**
-	 * 添加角色
-	 * 
-	 * @param role
-	 *            角色信息
-	 */
+	List<Role> queryByConditionsAndPage(Query query);
+
 	void addRole(Role role);
 
-	/**
-	 * 删除角色
-	 * 
-	 * @param ids
-	 *            要删除的角色的id数组
-	 * @return 操作结果
-	 */
-	Boolean deleteRoles(String[] ids);
+	<T> void deleteRoles(Query query, Class<T> entityClass);
 
-	/**
-	 * 编辑角色
-	 * 
-	 * @param role
-	 *            角色信息
-	 */
-	void editRole(Role role);
+	Boolean editRole(Query query, Update update);
+
+	void deleteRolesById(String roleId);
+
+	void addPrivileges(List<RoleRelationPrivilege> refList);
+
+	long getAmount(Query query);
 }

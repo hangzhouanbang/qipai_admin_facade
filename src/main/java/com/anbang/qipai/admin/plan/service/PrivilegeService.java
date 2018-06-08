@@ -1,27 +1,30 @@
 package com.anbang.qipai.admin.plan.service;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.domain.Sort;
 
 import com.anbang.qipai.admin.plan.domain.Privilege;
+import com.anbang.qipai.admin.plan.domain.Role;
 
-/**权限service
+/**
+ * 权限service
+ * 
  * @author 林少聪 2018.5.31
  *
  */
 public interface PrivilegeService {
-	/**
-	 * 查询所有权限信息
-	 * 
-	 * @return 所有权限集合
-	 */
+
 	List<Privilege> getAllPrivileges();
 
-	/**
-	 * 查询角色所具有的权限
-	 * 
-	 * @param roles
-	 *            角色具备的权限的id数组
-	 * @return 角色所具有的权限的集合
-	 */
-	List<Privilege> getAllPrivilegesOfRole(String[] privileges);
+	List<Privilege> getAllPrivilegesOfRole(Role role);
+
+	Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, String privilege);
+
+	Boolean addPrivileges(Privilege[] privileges);
+
+	void deletePrivileges(String[] ids);
+
+	Boolean editPrivilege(Privilege Privilege);
 }

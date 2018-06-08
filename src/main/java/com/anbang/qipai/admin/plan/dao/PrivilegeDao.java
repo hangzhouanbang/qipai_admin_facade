@@ -2,26 +2,31 @@ package com.anbang.qipai.admin.plan.dao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.Privilege;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
-/**权限Dao
+import com.anbang.qipai.admin.plan.domain.Privilege;
+import com.anbang.qipai.admin.plan.domain.Role;
+
+/**
+ * 权限Dao
+ * 
  * @author 林少聪 2018.5.31
  *
  */
 public interface PrivilegeDao {
-	/**
-	 * 查询所有权限信息
-	 * 
-	 * @return 所有权限集合
-	 */
+
 	List<Privilege> getAllPrivileges();
 
-	/**
-	 * 查询角色所具有的权限
-	 * 
-	 * @param roles
-	 *            角色具备的权限的id数组
-	 * @return 角色所具有的权限的集合
-	 */
-	List<Privilege> getAllPrivilegesOfRole(String[] privileges);
+	List<Privilege> getAllPrivilegesOfRole(Role role);
+
+	List<Privilege> queryByConditionsAndPage(Query query);
+
+	long getAmount(Query query);
+
+	void addPrivileges(List<Privilege> list);
+
+	<T> void deletePrivileges(Query query, Class<T> entityClass);
+
+	Boolean editPrivilege(Query query, Update update);
 }

@@ -1,6 +1,10 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +24,17 @@ public class RoleCtrl {
 	@Autowired
 	private RoleService roleService;
 
+	@RequestMapping("/queryRole")
+	public Map<String, Object> queryRole(@RequestParam(name = "page", defaultValue = "1") Integer page,
+			@RequestParam(name = "size", defaultValue = "10") Integer size, String role) {
+		Sort sort = new Sort(new Order("id"));
+		Map<String, Object> map = roleService.queryByConditionsAndPage(page.intValue(), size.intValue(), sort, role);
+		return map;
+	}
+
 	@RequestMapping("/addRole")
 	public String addRole(Role role) {
-		if (role.getPrivileges() == null || role.getRole() == null) {
+		if (role.getRole() == null) {
 			return "fail";
 		}
 		roleService.addRole(role);
@@ -36,18 +48,20 @@ public class RoleCtrl {
 				return "fail";
 			}
 		}
-		if (roleService.deleteRoles(ids)) {
+		roleService.deleteRoles(ids);
+		return "success";
+	}
+
+	@RequestMapping("/editRole")
+	public String editRole(Role role) {
+		if (role.getId() != null || roleService.editRole(role)) {
 			return "success";
 		}
 		return "fail";
 	}
 
-	@RequestMapping("/editRole")
-	public String editRole(Role role) {
-		if (role.getId() == null) {
-			return "fail";
-		}
-		roleService.editRole(role);
-		return "success";
+	@RequestMapping("/editPrivilege")
+	public void editPrivilege(String roleId, String[] privilegeIds) {
+		roleService.editPrivilege(roleId, privilegeIds);
 	}
 }
