@@ -36,7 +36,7 @@ spring:
             partitionCount: 1
             
         game:
-          destination: game
+          destination: notice
           group: qipai_admin_facade
           consumer:
             concurrency: 1

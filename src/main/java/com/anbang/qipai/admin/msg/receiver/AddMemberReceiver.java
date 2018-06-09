@@ -18,7 +18,6 @@ public class AddMemberReceiver {
 
 	@StreamListener(NewMemberSink.member)
 	public void addMember(Object payload) {
-		System.out.println("Received: " + payload);
 		JSONObject json = JSONObject.fromObject(payload);
 		JSONObject obj = (JSONObject) json.get("data");
 		Member member = (Member) JSONObject.toBean(obj, Member.class);
