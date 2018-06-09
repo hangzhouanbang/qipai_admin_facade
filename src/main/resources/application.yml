@@ -12,17 +12,6 @@ spring:
           minPartitionCount: 1
           autoCreateTopics: true
           autoAddPartitions: false
-        bindings:
-          members:
-            producer:
-              configuration:
-                request:
-                  timeout:
-                    ms: 30000
-                linger:
-                  ms: 5
-                batch:
-                  size: 16384
 
       bindings:
         members:
@@ -57,6 +46,16 @@ spring:
             
         mail:
           destination: mail
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+          producer:
+            partitionCount: 1
+            
+        gameServer:
+          destination: gameServer
           group: qipai_admin_facade
           consumer:
             concurrency: 1

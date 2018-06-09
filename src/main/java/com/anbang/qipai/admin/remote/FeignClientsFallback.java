@@ -2,22 +2,23 @@ package com.anbang.qipai.admin.remote;
 
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 @Service
-public class FeignClientsFallback implements MemberQipaClients,NoticeQipaClients,MailQipaClients{
+public class FeignClientsFallback implements MemberQipaClients, NoticeQipaClients, MailQipaClients {
 
 	@Override
-	public CommonVO qipaAdmin(Integer goldForNewMember) {
+	public CommonRemoteVO qipaAdmin(Integer goldForNewMember) {
 		return null;
 	}
 
 	@Override
-	public CommonVO addNotice(String notice) {
+	public CommonRemoteVO addNotice(String notice) {
 		return null;
 	}
 
 	@Override
-	public CommonVO addmail(String mail) {
+	public CommonRemoteVO addmail(String mail) {
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.remote;
+package com.anbang.qipai.admin.web.vo;
 
 /**
  * 一般的view obj
