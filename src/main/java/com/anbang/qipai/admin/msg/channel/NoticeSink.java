@@ -1,7 +1,7 @@
 package com.anbang.qipai.admin.msg.channel;
 
 import org.springframework.cloud.stream.annotation.Input;
-import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.SubscribableChannel;
 
 /**
  * 接收系统公告返回消息接口
@@ -13,5 +13,5 @@ public interface NoticeSink {
 	String notice = "notice";
 
 	@Input
-	MessageChannel notice();
+	SubscribableChannel notice();
 }
