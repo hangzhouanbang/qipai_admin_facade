@@ -20,12 +20,12 @@ public class GameServerMsgReceiver {
 	public void gameServer(Object payload) {
 		JSONObject json = JSONObject.fromObject(payload);
 		String msg = json.getString("msg");
-		JSONObject obj = (JSONObject) json.get("data");
 		if (msg.equals("online")) {
+			JSONObject obj = (JSONObject) json.get("data");
 			GameServer gameServer = (GameServer) JSONObject.toBean(obj, GameServer.class);
 			gameService.onlineGameServer(gameServer);
 		} else if (msg.equals("offline")) {
-			String gameServerId = obj.toString();
+			String gameServerId = json.getString("data");
 			gameService.offlineGameServer(gameServerId);
 		}
 	}

@@ -1,6 +1,7 @@
 package com.anbang.qipai.admin.remote.service;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,7 +18,7 @@ import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 public interface QipaiGameRomoteService {
 
 	@RequestMapping(value = "/game/game_server_online")
-	public CommonRemoteVO game_gameServerOnline(@RequestParam("gameServer") GameServer gameServer);
+	public CommonRemoteVO game_gameServerOnline(@RequestBody GameServer gameServer);
 
 	@RequestMapping(value = "/game/game_server_offline")
 	public CommonRemoteVO game_gameServerOffline(@RequestParam("gameServerId") String gameServerId);
