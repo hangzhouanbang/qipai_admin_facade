@@ -1,6 +1,5 @@
 package com.anbang.qipai.admin.web.controller;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +36,11 @@ public class AdminCtrl {
 
 	@RequestMapping("/addAdmin")
 	public String addAdmin(Admin admin) {
-		if (admin.getNickname() == null || admin.getPass() == null) {
+		if (admin.getNickname() == null || admin.getPass() == null || admin.getUser() == null
+				|| admin.getIdCard() == null) {
 			return "fail";
 		}
-		admin.setCreateTime(new Date(System.currentTimeMillis()));
+		admin.setCreateTime(System.currentTimeMillis());
 		adminService.addAdmin(admin);
 		return "success";
 	}
