@@ -21,8 +21,6 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-          producer:
-            partitionCount: 1
             
         game:
           destination: notice
@@ -31,8 +29,6 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-          producer:
-            partitionCount: 1
          
         createmember:
           destination: createmember
@@ -41,8 +37,6 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-          producer:
-            partitionCount: 1
             
         mail:
           destination: mail
@@ -51,8 +45,6 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-          producer:
-            partitionCount: 1
             
         gameServer:
           destination: gameServer
@@ -61,12 +53,10 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-          producer:
-            partitionCount: 1
             
             
   application:
-    name: qipai_admin_facade
+    name: qipai-admin-facade
     
 server:
   port: 99
