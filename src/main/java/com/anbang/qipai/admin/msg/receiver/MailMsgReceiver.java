@@ -25,7 +25,6 @@ public class MailMsgReceiver {
 	 * **/
 	@StreamListener(MailSink.mail)
 	public void mail(Object payload) {
-		System.out.println("payload"+payload+"55555");
 		JSONObject json = JSONObject.fromObject(payload);
 		JSONObject obj = (JSONObject) json.get("data");
 		SystemMail mail = (SystemMail) JSONObject.toBean(obj, SystemMail.class);
