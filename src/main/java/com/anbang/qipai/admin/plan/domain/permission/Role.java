@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.domain;
+package com.anbang.qipai.admin.plan.domain.permission;
 
 public class Role {
 	private String id;// 角色id

@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao;
+package com.anbang.qipai.admin.plan.dao.permissiondao;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.anbang.qipai.admin.plan.domain.Admin;
-import com.anbang.qipai.admin.plan.domain.Role;
-import com.anbang.qipai.admin.plan.domain.RoleRelationPrivilege;
+import com.anbang.qipai.admin.plan.domain.permission.Role;
+import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 
 /**
  * 角色Dao
