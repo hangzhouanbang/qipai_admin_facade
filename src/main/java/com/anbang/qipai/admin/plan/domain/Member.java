@@ -4,6 +4,9 @@ public class Member {
 	private String id;// 会员id
 	private String nickname;// 会员昵称
 	private String gender;// 会员性别:男:male,女:female
+	private Boolean vip;// 是否VIP
+	private Integer vipLevel;// VIP等级
+	private Integer vipScore;// VIP积分
 	private String headimgurl;// 头像url
 	private String phone;// 会员手机
 	private Integer score;// 会员积分
@@ -33,6 +36,30 @@ public class Member {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public Boolean getVip() {
+		return vip;
+	}
+
+	public void setVip(Boolean vip) {
+		this.vip = vip;
+	}
+
+	public Integer getVipLevel() {
+		return vipLevel;
+	}
+
+	public void setVipLevel(Integer vipLevel) {
+		this.vipLevel = vipLevel;
+	}
+
+	public Integer getVipScore() {
+		return vipScore;
+	}
+
+	public void setVipScore(Integer vipScore) {
+		this.vipScore = vipScore;
 	}
 
 	public String getHeadimgurl() {
@@ -81,13 +108,6 @@ public class Member {
 
 	public void setVipEndTime(Long vipEndTime) {
 		this.vipEndTime = vipEndTime;
-	}
-
-	@Override
-	public String toString() {
-		return "Member [id=" + id + ", nickname=" + nickname + ", gender=" + gender + ", headimgurl=" + headimgurl
-				+ ", phone=" + phone + ", score=" + score + ", gold=" + gold + ", createTime=" + createTime
-				+ ", vipEndTime=" + vipEndTime + "]";
 	}
 
 }

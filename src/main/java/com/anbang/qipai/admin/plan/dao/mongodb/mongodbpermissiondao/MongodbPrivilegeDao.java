@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao.mongodb;
+package com.anbang.qipai.admin.plan.dao.mongodb.mongodbpermissiondao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.dao.PrivilegeDao;
-import com.anbang.qipai.admin.plan.domain.Privilege;
-import com.anbang.qipai.admin.plan.domain.Role;
-import com.anbang.qipai.admin.plan.domain.RoleRelationPrivilege;
+import com.anbang.qipai.admin.plan.dao.permissiondao.PrivilegeDao;
+import com.anbang.qipai.admin.plan.domain.permission.Privilege;
+import com.anbang.qipai.admin.plan.domain.permission.Role;
+import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 import com.mongodb.WriteResult;
 
 @Component
@@ -41,8 +41,13 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public void addPrivileges(List<Privilege> list) {
-		mongoTemplate.insert(list);
+	public void addPrivileges(List<Privilege> privilegeList) {
+		mongoTemplate.insert(privilegeList, Privilege.class);
+	}
+
+	@Override
+	public void addRoleRefPrivilege(List<RoleRelationPrivilege> refList) {
+		mongoTemplate.insert(refList, RoleRelationPrivilege.class);
 	}
 
 	@Override
@@ -64,6 +69,12 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	@Override
 	public long getAmount(Query query) {
 		return mongoTemplate.count(query, Privilege.class);
+	}
+
+	@Override
+	public List<Privilege> getAllNewPrivilege(List<String> uriList) {
+		Query query = new Query(Criteria.where("uri").in(uriList));
+		return mongoTemplate.find(query, Privilege.class);
 	}
 
 }

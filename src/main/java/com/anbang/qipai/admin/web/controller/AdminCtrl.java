@@ -60,14 +60,18 @@ public class AdminCtrl {
 
 	@RequestMapping("/editAdmin")
 	public String editAdmin(Admin admin) {
-		if (admin.getId() != null || adminService.editAdmin(admin)) {
+		if (admin.getId() != null && adminService.editAdmin(admin)) {
 			return "success";
 		}
 		return "fail";
 	}
 
 	@RequestMapping("/editRole")
-	public void editRole(String adminId, String[] roleIds) {
+	public String editRole(String adminId, @RequestParam(name = "roleId") String[] roleIds) {
+		if (adminId == "5b0d1133ceac1229f892c9ab") {
+			return "fail";
+		}
 		adminService.editRole(adminId, roleIds);
+		return "success";
 	}
 }

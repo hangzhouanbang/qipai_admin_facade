@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.Role;
+import com.anbang.qipai.admin.plan.domain.permission.Role;
 import com.anbang.qipai.admin.plan.service.RoleService;
 
 /**
@@ -54,14 +55,23 @@ public class RoleCtrl {
 
 	@RequestMapping("/editRole")
 	public String editRole(Role role) {
-		if (role.getId() != null || roleService.editRole(role)) {
+		if (role.getId() != null && roleService.editRole(role)) {
 			return "success";
 		}
 		return "fail";
 	}
 
 	@RequestMapping("/editPrivilege")
-	public void editPrivilege(String roleId, String[] privilegeIds) {
+	public String editPrivilege(String roleId,@RequestParam(name="privilegeId") String[] privilegeIds) {
+		if (roleId == "5b0d1f6035b436197c7a5b88") {
+			return "fail";
+		}
 		roleService.editPrivilege(roleId, privilegeIds);
+		return "success";
+	}
+
+	@RequestMapping("/queryAllRole")
+	public List<Role> queryAllRole() {
+		return roleService.getAllRoles();
 	}
 }

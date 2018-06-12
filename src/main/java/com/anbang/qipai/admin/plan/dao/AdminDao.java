@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.anbang.qipai.admin.plan.domain.Admin;
-import com.anbang.qipai.admin.plan.domain.AdminRelationRole;
+import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 
 /**
  * 管理员Dao

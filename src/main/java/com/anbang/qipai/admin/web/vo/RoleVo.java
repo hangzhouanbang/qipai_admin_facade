@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo;
 
-import com.anbang.qipai.admin.plan.domain.Role;
+import com.anbang.qipai.admin.plan.domain.permission.Role;
 
 public class RoleVo {
 	private Role role;

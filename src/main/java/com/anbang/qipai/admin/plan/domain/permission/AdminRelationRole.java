@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.domain;
+package com.anbang.qipai.admin.plan.domain.permission;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

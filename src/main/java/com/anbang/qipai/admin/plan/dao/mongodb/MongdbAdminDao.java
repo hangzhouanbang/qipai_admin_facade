@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.AdminDao;
 import com.anbang.qipai.admin.plan.domain.Admin;
-import com.anbang.qipai.admin.plan.domain.AdminRelationRole;
+import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 import com.mongodb.WriteResult;
 
 @Component

@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao.mongodb;
+package com.anbang.qipai.admin.plan.dao.mongodb.mongodbpermissiondao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.dao.RoleDao;
+import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
 import com.anbang.qipai.admin.plan.domain.Admin;
-import com.anbang.qipai.admin.plan.domain.AdminRelationRole;
-import com.anbang.qipai.admin.plan.domain.Role;
-import com.anbang.qipai.admin.plan.domain.RoleRelationPrivilege;
+import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
+import com.anbang.qipai.admin.plan.domain.permission.Role;
+import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 import com.mongodb.WriteResult;
 
 @Component
