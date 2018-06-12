@@ -12,7 +12,9 @@ public class GameServer {
 	private Game game;
 	private String name;
 	private String domainForHttp;
+	private int portForHttp;
 	private String wsUrl;
+	private long onlineTime;
 
 	public String getId() {
 		return id;
@@ -46,12 +48,28 @@ public class GameServer {
 		this.domainForHttp = domainForHttp;
 	}
 
+	public int getPortForHttp() {
+		return portForHttp;
+	}
+
+	public void setPortForHttp(int portForHttp) {
+		this.portForHttp = portForHttp;
+	}
+
 	public String getWsUrl() {
 		return wsUrl;
 	}
 
 	public void setWsUrl(String wsUrl) {
 		this.wsUrl = wsUrl;
+	}
+
+	public long getOnlineTime() {
+		return onlineTime;
+	}
+
+	public void setOnlineTime(long onlineTime) {
+		this.onlineTime = onlineTime;
 	}
 
 }
