@@ -1,13 +1,14 @@
 package com.anbang.qipai.admin.plan.domain.mail;
 
-import java.io.File;
 
 public class SystemMail {
 	private String id;//邮件id
 	
 	private String title;//邮件标题
 	
-	private File file;//图片
+	private String adminid;//管理员id
+	
+	private String file;//图片文档
 	
 	private long createtime;//发布时间
 	
@@ -41,11 +42,11 @@ public class SystemMail {
 		this.createtime = createtime;
 	}
 
-	public File getFile() {
+	public String getFile() {
 		return file;
 	}
 
-	public void setFile(File file) {
+	public void setFile(String file) {
 		this.file = file;
 	}
 
@@ -72,9 +73,16 @@ public class SystemMail {
 	public void setVipcard(Integer vipcard) {
 		this.vipcard = vipcard;
 	}
-	
-	
 
+	public String getAdminid() {
+		return adminid;
+	}
+
+	public void setAdminid(String adminid) {
+		this.adminid = adminid;
+	}
+
+	
 
 	
 	

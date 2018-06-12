@@ -2,30 +2,33 @@ package com.anbang.qipai.admin.plan.service;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+import com.anbang.qipai.admin.plan.dao.noticedao.NoticeDao;
 import com.anbang.qipai.admin.plan.domain.notice.Notice;
-/**系统公告service
- * @author 程佳 2018.5.31
- * **/
-public interface NoticeService {
-	/**添加系统公告
-	 * @param notice  添加系统公告信息
-	 * @return 返回对象
-	 * **/
-	Notice addNotice(Notice notice);
+
+@Service
+public class NoticeService{
 	
-	/**查询历史系统公告
-	 * @param page 当前页，size 每页条数
-	 * @return 返回查询结果
-	 * **/
-	Map<String,Object> findAll(Integer page,Integer size);
+	@Autowired
+	private NoticeDao noticeDao;
 	
-	/**修改公告状态
-	 * @param notice 修改的公告信息
-	 * **/
-	void updateNotice(Notice notice);
+	public Notice addNotice(Notice notice) {
+		return noticeDao.addNotice(notice);
+	}
 	
-	/**查询公告状态
-	 * @param state 公告状态
-	 * **/
-	Notice queryByState(Integer state);
+	public Notice queryByState(Integer state) {
+		return noticeDao.queryByState(state);
+	}
+
+	public void updateNotice(Notice notice) {
+	    noticeDao.updateNotice(notice);
+	}
+
+	public Map<String,Object> findAll(Integer page, Integer size) {
+		return noticeDao.findAll(page, size);
+	}
+
 }

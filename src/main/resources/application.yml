@@ -30,8 +30,8 @@ spring:
             partitioned: false
           contentType: application/json
          
-        createmember:
-          destination: createmember
+        membershiprights:
+          destination: membershiprights
           group: qipai_admin_facade
           consumer:
             concurrency: 1

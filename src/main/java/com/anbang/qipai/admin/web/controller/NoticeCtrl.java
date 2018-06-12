@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.service.NoticeService;
-import com.anbang.qipai.admin.remote.NoticeQipaClients;
+import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**
@@ -24,7 +24,7 @@ public class NoticeCtrl {
 	private NoticeService noticeService;
 
 	@Autowired
-	private NoticeQipaClients noticeQipaClients;
+	private QipaiGameRomoteService qipaiGameRomoteService;
 
 	/**
 	 * 查询公告记录
@@ -50,7 +50,7 @@ public class NoticeCtrl {
 	@RequestMapping("/addnotice")
 	@ResponseBody
 	public String addNotice(String notice) {
-		CommonRemoteVO co = noticeQipaClients.addNotice(notice);
+		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice);
 		if (co.isSuccess()) {
 			return "success";
 		} else {
