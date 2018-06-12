@@ -2,15 +2,15 @@ package com.anbang.qipai.admin.plan.dao;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.domain.Sort;
 
 import com.anbang.qipai.admin.plan.domain.Member;
 
 public interface MemberDao {
 
-	List<Member> queryByConditionsAndPage(Query query);
+	List<Member> queryByConditionsAndPage(int page, int size, Sort sort, String nickname);
 
-	long getAmount(Query query);
+	long getAmount();
 
 	void addMember(Member member);
 

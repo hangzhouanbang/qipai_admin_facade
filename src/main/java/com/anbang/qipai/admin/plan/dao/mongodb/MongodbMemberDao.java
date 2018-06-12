@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.plan.dao.mongodb;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,7 +19,14 @@ public class MongodbMemberDao implements MemberDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<Member> queryByConditionsAndPage(Query query) {
+	public List<Member> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
+		Query query = new Query();
+		if (nickname != null) {
+			query.addCriteria(Criteria.where("nickname").regex(nickname));
+		}
+		query.skip((page - 1) * size);
+		query.limit(size);
+		query.with(sort);
 		return mongoTemplate.find(query, Member.class);
 	}
 
@@ -43,7 +51,8 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public long getAmount(Query query) {
+	public long getAmount() {
+		Query query = new Query();
 		return mongoTemplate.count(query, Member.class);
 	}
 

@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.dao.permissiondao.PrivilegeDao;
@@ -17,11 +17,10 @@ import com.anbang.qipai.admin.plan.domain.permission.Role;
 import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 
 @Service
-public class PrivilegeService{
+public class PrivilegeService {
 
-
+	@Autowired
 	private PrivilegeDao privilegeDao;
-
 
 	public List<Privilege> getAllPrivileges() {
 		return privilegeDao.getAllPrivileges();
@@ -62,28 +61,14 @@ public class PrivilegeService{
 	}
 
 	public Boolean editPrivilege(Privilege privilege) {
-		Query query = new Query(Criteria.where("id").is(privilege.getId()));
-		Update update = new Update();
-		if (privilege.getPrivilege() != null && privilege.getUri() != null) {
-			update.set("privilege", privilege.getPrivilege());
-			update.set("uri", privilege.getUri());
-			return privilegeDao.editPrivilege(query, update);
-		}
-		return false;
+		return privilegeDao.editPrivilege(privilege);
 	}
 
 	public Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, String privilege) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		long amount = privilegeDao.getAmount(new Query());
+		long amount = privilegeDao.getAmount();
 		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
-		Query query = new Query();
-		if (privilege != null) {
-			query.addCriteria(Criteria.where("privilege").regex(privilege));
-		}
-		query.skip((page - 1) * size);
-		query.limit(size);
-		query.with(sort);
-		List<Privilege> privilegeList = privilegeDao.queryByConditionsAndPage(query);
+		List<Privilege> privilegeList = privilegeDao.queryByConditionsAndPage(page, size, sort, privilege);
 		map.put("pageNumber", pageNumber);
 		map.put("privilegeList", privilegeList);
 		return map;

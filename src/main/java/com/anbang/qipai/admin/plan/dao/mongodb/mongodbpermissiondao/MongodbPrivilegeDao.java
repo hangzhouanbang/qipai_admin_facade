@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -56,18 +57,33 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public Boolean editPrivilege(Query query, Update update) {
-		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Privilege.class);
-		return writeResult.getN() > 0;
+	public Boolean editPrivilege(Privilege privilege) {
+		Query query = new Query(Criteria.where("id").is(privilege.getId()));
+		Update update = new Update();
+		if (privilege.getPrivilege() != null && privilege.getUri() != null) {
+			update.set("privilege", privilege.getPrivilege());
+			update.set("uri", privilege.getUri());
+			WriteResult writeResult = mongoTemplate.updateFirst(query, update, Privilege.class);
+			return writeResult.getN() > 0;
+		}
+		return false;
 	}
 
 	@Override
-	public List<Privilege> queryByConditionsAndPage(Query query) {
+	public List<Privilege> queryByConditionsAndPage(int page, int size, Sort sort, String privilege) {
+		Query query = new Query();
+		if (privilege != null) {
+			query.addCriteria(Criteria.where("privilege").regex(privilege));
+		}
+		query.skip((page - 1) * size);
+		query.limit(size);
+		query.with(sort);
 		return mongoTemplate.find(query, Privilege.class);
 	}
 
 	@Override
-	public long getAmount(Query query) {
+	public long getAmount() {
+		Query query = new Query();
 		return mongoTemplate.count(query, Privilege.class);
 	}
 
