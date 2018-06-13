@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,7 +20,7 @@ import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 @Service
 public class PrivilegeService{
 
-
+	@Autowired
 	private PrivilegeDao privilegeDao;
 
 

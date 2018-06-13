@@ -28,6 +28,8 @@ public class MongodbMailDao implements MailDao{
 		 List<SystemMail> list = mongotemplate.find(query.with(pageable),SystemMail.class);
 		 map.put("list", list);
 		 map.put("count",count);
+		 System.out.println("总页数："+count);
+		 System.out.println("list大小："+list.size());
 		return map;
 	}
 

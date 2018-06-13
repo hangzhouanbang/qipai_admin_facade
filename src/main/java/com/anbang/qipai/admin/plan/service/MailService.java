@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,19 @@ public class MailService{
 	private MailDao maildao;
 	
 
-	public Map<String,Object> findall(Integer page,Integer size) {
+	public Map<String,Object> findall(Integer page,Integer size,String adminname) {
 		 if(page < 1) {
 			 page = 1;
 		 }
 		 Sort sort = new Sort(Sort.Direction.DESC, "createtime");
 		 
 		 Pageable pageable= new PageRequest(page-1, size,sort);
-		 
-		 Query query = new Query();
-		 
+		 Query query = null;
+		 if(adminname == null || adminname.equals("")) {
+			 query = new Query();
+		 }else {
+			 query = new Query(Criteria.where("adminname").is(adminname));
+		 }
 		return maildao.findall(query,pageable,size);
 	}
 

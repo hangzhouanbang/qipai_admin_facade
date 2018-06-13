@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.membershiprights.CommonUser;
 import com.anbang.qipai.admin.plan.domain.membershiprights.VipUser;
+import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
-
-import net.sf.json.JSONObject;
 
 /**
  * 会员权益Controller
@@ -20,11 +19,14 @@ import net.sf.json.JSONObject;
  * @author 程佳 2018.5.31
  **/
 @RestController
-@RequestMapping("rights")
+@RequestMapping("/rights")
 public class MemberShipRightsCtrl {
 
 	@Autowired
 	private QipaiMembersService qipaMemberClient;
+	
+	@Autowired
+	private QipaiGameRomoteService qipaiGameRomoteService;
 	
 	private static Logger logger = LoggerFactory.getLogger(MemberShipRightsCtrl.class);
 
@@ -35,11 +37,17 @@ public class MemberShipRightsCtrl {
 	@RequestMapping("/commonuser")
 	@ResponseBody
 	public String commonuser(CommonUser commonuser) {
-		JSONObject json = JSONObject.fromObject(commonuser);
-		String str = json.toString();
-		logger.info("aaa"+str);
-		CommonRemoteVO co = qipaMemberClient.commonuser(str);
-		if (co.isSuccess()) {
+		logger.info("aaa"+commonuser);
+		CommonRemoteVO co = qipaMemberClient.commonuser(commonuser.getSignGoldNumber(),commonuser.getGoldForNewNember(),
+				commonuser.getShareIntegralNumber(),commonuser.getShareGoldNumber(),commonuser.getInviteIntegralNumber(),
+				commonuser.getPlanGrowIntegralSpeed());
+		CommonRemoteVO cos = qipaiGameRomoteService.commonuser(commonuser.getPlanMemberRoomsCount(),
+				commonuser.getPlanMemberRoomsAliveHours(),commonuser.getPlanMemberMaxCreateRoomDaily(),
+				commonuser.getPlanMemberCreateRoomDailyGoldPrice(),commonuser.getPlanMemberCreateRoomDailyGoldPrice());
+		System.out.println("----------:"+commonuser.getPlanMemberRoomsCount()+
+				commonuser.getPlanMemberRoomsAliveHours()+commonuser.getPlanMemberMaxCreateRoomDaily()+
+				commonuser.getPlanMemberCreateRoomDailyGoldPrice()+commonuser.getPlanMemberCreateRoomDailyGoldPrice());
+		if (co.isSuccess() && cos.isSuccess()) {
 			return "success";
 		} else {
 			return "file";
@@ -52,12 +60,14 @@ public class MemberShipRightsCtrl {
 	 **/
 	@RequestMapping("/vipuser")
 	@ResponseBody
-	public String vipuser(VipUser vipuser) {
-		JSONObject json = JSONObject.fromObject(vipuser);
-		String str = json.toString();
-		logger.info("bbb"+str);
-		CommonRemoteVO co = qipaMemberClient.vipuser(str);
-		if (co.isSuccess()) {
+	public String vipuser(VipUser vipUser) {
+		CommonRemoteVO co = qipaMemberClient.vipuser(vipUser.getSignGoldNumber(),
+				vipUser.getShareIntegralNumber(),
+				vipUser.getShareGoldNumber(),vipUser.getInviteIntegralNumber(),
+				vipUser.getVipGrowIntegralSpeed(),
+				vipUser.getVipGrowGradeSpeed());
+		CommonRemoteVO cos = qipaiGameRomoteService.vipuser(vipUser.getVipMemberRoomsCount(),vipUser.getVipMemberRoomsAliveHours());
+		if (co.isSuccess() && cos.isSuccess()) {
 			return "success";
 		} else {
 			return "file";

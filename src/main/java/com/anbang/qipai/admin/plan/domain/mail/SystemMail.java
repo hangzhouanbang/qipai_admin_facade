@@ -6,7 +6,7 @@ public class SystemMail {
 	
 	private String title;//邮件标题
 	
-	private String adminid;//管理员id
+	private String adminname;//管理员名称
 	
 	private String file;//图片文档
 	
@@ -74,13 +74,14 @@ public class SystemMail {
 		this.vipcard = vipcard;
 	}
 
-	public String getAdminid() {
-		return adminid;
+	public String getAdminname() {
+		return adminname;
 	}
 
-	public void setAdminid(String adminid) {
-		this.adminid = adminid;
+	public void setAdminname(String adminname) {
+		this.adminname = adminname;
 	}
+
 
 	
 

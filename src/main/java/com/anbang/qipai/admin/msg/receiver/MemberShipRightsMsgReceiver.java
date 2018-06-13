@@ -20,7 +20,7 @@ public class MemberShipRightsMsgReceiver {
 	@Autowired
 	private MemberShipRightsService createMemberService;
 	
-	/**设置金币接收信息的方法
+	/**设置会员大厅权益接收信息的方法
 	 * @param payload 接收的json数据
 	 * 这里的方法的注解做消息监听
 	 * **/
@@ -30,15 +30,6 @@ public class MemberShipRightsMsgReceiver {
 		JSONObject obj = (JSONObject) json.get("data");
 		CommonUser commonuser = (CommonUser) JSONObject.toBean(obj, CommonUser.class);
 		createMemberService.commonsave(commonuser);
-	}
-	
-	/**设置房间数接收信息的方法
-	 * @param payload 接收的json数据
-	 * 这里的方法的注解做消息监听
-	 * **/
-	@StreamListener(MemberShipRightsSink.membershiprights)
-	public void numberroom(Object payload) {
-		System.out.println("payload"+payload);
 	}
 	
 	

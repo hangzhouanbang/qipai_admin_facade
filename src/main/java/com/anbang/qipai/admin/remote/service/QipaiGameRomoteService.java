@@ -28,5 +28,13 @@ public interface QipaiGameRomoteService {
 	
 	@RequestMapping(value = "/mail/addmail")
 	public CommonRemoteVO addmail(@RequestParam(value = "mail") String mail);
+	
+	@RequestMapping(value = "/member/plan_rights_conf")
+	public CommonRemoteVO commonuser(@RequestParam(value = "planMemberRoomsCount") Integer planMemberRoomsCount,@RequestParam(value = "memberRoomsAliveHours") Integer planMemberRoomsAliveHours,
+			@RequestParam(value = "planMemberMaxCreateRoomDaily") Integer planMemberMaxCreateRoomDaily,@RequestParam(value = "planMemberCreateRoomDailyGoldPrice")
+			Integer planMemberCreateRoomDailyGoldPrice,@RequestParam(value = "planMemberaddRoomDailyGoldPrice") Integer planMemberaddRoomDailyGoldPrice);
+	
+	@RequestMapping(value = "/member/vip_rights_conf")
+	public CommonRemoteVO vipuser(@RequestParam(value = "memberRoomsCount") int memberRoomsCount,@RequestParam(value = "memberRoomsAliveHours") int memberRoomsAliveHours);
 
 }

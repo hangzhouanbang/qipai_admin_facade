@@ -1,28 +1,26 @@
 package com.anbang.qipai.admin.plan.domain.membershiprights;
 
 public class VipUser {
+private String id;
 	
-	private String id;
+	private Integer signGoldNumber;//普通用户签到得金币数量
 	
-	private String vipcardid;//会员卡编号
+	private Integer shareIntegralNumber;//分享得积分数量
 	
-	private Integer qdgold;//签到得金币数量
+	private Integer shareGoldNumber;//分享得金币数量
 	
-	private Integer fxintegral;//分享得积分数量
+	private Integer inviteIntegralNumber;//邀请得积分数量
 	
-	private Integer fxgold;//分享得金币数量
+	private float vipGrowIntegralSpeed;//会员积分增长速度
 	
-	private Integer yqintegral;//邀请得积分数量
+	private float vipGrowGradeSpeed;//会员等级增长速度
 	
-	private float speed;//积分增长速度
+	private Integer createRoomGoldPrice;//创建房间的金币价格
+	private Integer addRoomGoldPrice;//加入房间的金币价格
 	
-	private float grade;//等级增长速度
+	private Integer vipMemberRoomsCount;//vip保存房间数量
 	
-	private Integer addgold;//加入房间的金币价格
-	
-	private Integer numberroom;//加入房间数量
-	
-	private long experiencevalue;//经验值
+	private Integer vipMemberRoomsAliveHours;//会员房间存活小时数
 
 	public String getId() {
 		return id;
@@ -32,87 +30,86 @@ public class VipUser {
 		this.id = id;
 	}
 
-	public String getVipcardid() {
-		return vipcardid;
+	public Integer getSignGoldNumber() {
+		return signGoldNumber;
 	}
 
-	public void setVipcardid(String vipcardid) {
-		this.vipcardid = vipcardid;
+	public void setSignGoldNumber(Integer signGoldNumber) {
+		this.signGoldNumber = signGoldNumber;
 	}
 
-	public Integer getQdgold() {
-		return qdgold;
+	public Integer getShareIntegralNumber() {
+		return shareIntegralNumber;
 	}
 
-	public void setQdgold(Integer qdgold) {
-		this.qdgold = qdgold;
+	public void setShareIntegralNumber(Integer shareIntegralNumber) {
+		this.shareIntegralNumber = shareIntegralNumber;
 	}
 
-	public Integer getFxintegral() {
-		return fxintegral;
+	public Integer getShareGoldNumber() {
+		return shareGoldNumber;
 	}
 
-	public void setFxintegral(Integer fxintegral) {
-		this.fxintegral = fxintegral;
+	public void setShareGoldNumber(Integer shareGoldNumber) {
+		this.shareGoldNumber = shareGoldNumber;
 	}
 
-	public Integer getFxgold() {
-		return fxgold;
+	public Integer getInviteIntegralNumber() {
+		return inviteIntegralNumber;
 	}
 
-	public void setFxgold(Integer fxgold) {
-		this.fxgold = fxgold;
+	public void setInviteIntegralNumber(Integer inviteIntegralNumber) {
+		this.inviteIntegralNumber = inviteIntegralNumber;
 	}
 
-	public Integer getYqintegral() {
-		return yqintegral;
+	public float getVipGrowIntegralSpeed() {
+		return vipGrowIntegralSpeed;
 	}
 
-	public void setYqintegral(Integer yqintegral) {
-		this.yqintegral = yqintegral;
+	public void setVipGrowIntegralSpeed(float vipGrowIntegralSpeed) {
+		this.vipGrowIntegralSpeed = vipGrowIntegralSpeed;
 	}
 
-	public float getSpeed() {
-		return speed;
+	public float getVipGrowGradeSpeed() {
+		return vipGrowGradeSpeed;
 	}
 
-	public void setSpeed(float speed) {
-		this.speed = speed;
+	public void setVipGrowGradeSpeed(float vipGrowGradeSpeed) {
+		this.vipGrowGradeSpeed = vipGrowGradeSpeed;
 	}
 
-	public float getGrade() {
-		return grade;
+	public Integer getCreateRoomGoldPrice() {
+		return createRoomGoldPrice;
 	}
 
-	public void setGrade(float grade) {
-		this.grade = grade;
+	public void setCreateRoomGoldPrice(Integer createRoomGoldPrice) {
+		this.createRoomGoldPrice = createRoomGoldPrice;
 	}
 
-	public Integer getAddgold() {
-		return addgold;
+	public Integer getAddRoomGoldPrice() {
+		return addRoomGoldPrice;
 	}
 
-	public void setAddgold(Integer addgold) {
-		this.addgold = addgold;
+	public void setAddRoomGoldPrice(Integer addRoomGoldPrice) {
+		this.addRoomGoldPrice = addRoomGoldPrice;
 	}
 
-	public Integer getNumberroom() {
-		return numberroom;
+	public Integer getVipMemberRoomsCount() {
+		return vipMemberRoomsCount;
 	}
 
-	public void setNumberroom(Integer numberroom) {
-		this.numberroom = numberroom;
+	public void setVipMemberRoomsCount(Integer vipMemberRoomsCount) {
+		this.vipMemberRoomsCount = vipMemberRoomsCount;
 	}
 
-	public long getExperiencevalue() {
-		return experiencevalue;
+	public Integer getVipMemberRoomsAliveHours() {
+		return vipMemberRoomsAliveHours;
 	}
 
-	public void setExperiencevalue(long experiencevalue) {
-		this.experiencevalue = experiencevalue;
+	public void setVipMemberRoomsAliveHours(Integer vipMemberRoomsAliveHours) {
+		this.vipMemberRoomsAliveHours = vipMemberRoomsAliveHours;
 	}
 	
-	
-	
+
 	
 }
