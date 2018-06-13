@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
@@ -19,7 +18,7 @@ import com.anbang.qipai.admin.plan.domain.permission.Role;
 import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 
 @Service
-public class RoleService{
+public class RoleService {
 
 	@Autowired
 	private RoleDao roleDao;
@@ -45,27 +44,14 @@ public class RoleService{
 	}
 
 	public Boolean editRole(Role role) {
-		Query query = new Query(Criteria.where("id").is(role.getId()));
-		Update update = new Update();
-		if (role.getRole() != null) {
-			update.set("role", role.getRole());
-			return roleDao.editRole(query, update);
-		}
-		return false;
+		return roleDao.editRole(role);
 	}
 
 	public Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, String role) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		long amount = roleDao.getAmount(new Query());
+		long amount = roleDao.getAmount();
 		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
-		Query query = new Query();
-		if (role != null) {
-			query.addCriteria(Criteria.where("role").regex(role));
-		}
-		query.skip((page - 1) * size);
-		query.limit(size);
-		query.with(sort);
-		List<Role> roleList = roleDao.queryByConditionsAndPage(query);
+		List<Role> roleList = roleDao.queryByConditionsAndPage(page, size, sort, role);
 		map.put("pageNumber", pageNumber);
 		map.put("roleList", roleList);
 		return map;

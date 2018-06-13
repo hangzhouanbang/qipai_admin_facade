@@ -62,7 +62,7 @@ public class RoleCtrl {
 	}
 
 	@RequestMapping("/editPrivilege")
-	public String editPrivilege(String roleId,@RequestParam(name="privilegeId") String[] privilegeIds) {
+	public String editPrivilege(String roleId, @RequestParam(name = "privilegeId") String[] privilegeIds) {
 		if (roleId == "5b0d1f6035b436197c7a5b88") {
 			return "fail";
 		}

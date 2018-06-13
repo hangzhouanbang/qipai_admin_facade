@@ -7,20 +7,21 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.dao.AdminDao;
+import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
 import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 
 @Service
-public class AdminService  {
+public class AdminService {
 
 	@Autowired
 	private AdminDao adminDao;
+
+	@Autowired
+	private RoleDao RolenDao;
 
 	public Admin verifyAdmin(String nickname, String pass) {
 		return adminDao.verifyAdmin(nickname, pass);
@@ -28,16 +29,13 @@ public class AdminService  {
 
 	public Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		long amount = adminDao.getAmount(new Query());
+		long amount = adminDao.getAmount();
 		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
-		Query query = new Query();
-		if (nickname != null) {
-			query.addCriteria(Criteria.where("nickname").regex(nickname));
+
+		List<Admin> adminList = adminDao.queryByConditionsAndPage(page, size, sort, nickname);
+		for (Admin admin : adminList) {
+			admin.setRoleList(RolenDao.getAllRolesOfAdmin(admin));
 		}
-		query.skip((page - 1) * size);
-		query.limit(size);
-		query.with(sort);
-		List<Admin> adminList = adminDao.queryByConditionsAndPage(query);
 		map.put("pageNumber", pageNumber);
 		map.put("adminList", adminList);
 		return map;
@@ -52,13 +50,7 @@ public class AdminService  {
 	}
 
 	public Boolean editAdmin(Admin admin) {
-		Query query = new Query(Criteria.where("id").is(admin.getId()));
-		Update update = new Update();
-		if (admin.getPass() != null) {
-			update.set("pass", admin.getPass());
-			return adminDao.editAdmin(query, update);
-		}
-		return false;
+		return adminDao.editAdmin(admin);
 	}
 
 	public void editRole(String adminId, String[] roleIds) {

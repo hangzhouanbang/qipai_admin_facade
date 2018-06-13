@@ -2,8 +2,7 @@ package com.anbang.qipai.admin.plan.dao;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.domain.Sort;
 
 import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
@@ -18,15 +17,15 @@ public interface AdminDao {
 
 	Admin verifyAdmin(String nickname, String pass);
 
-	long getAmount(Query query);
+	long getAmount();
 
-	List<Admin> queryByConditionsAndPage(Query query);
+	List<Admin> queryByConditionsAndPage(int page, int size, Sort sort, String nickname);
 
 	void addAdmin(Admin admin);
 
 	Boolean deleteAdmins(String[] ids);
 
-	Boolean editAdmin(Query query, Update upate);
+	Boolean editAdmin(Admin admin);
 
 	void deleteRolesById(String adminId);
 

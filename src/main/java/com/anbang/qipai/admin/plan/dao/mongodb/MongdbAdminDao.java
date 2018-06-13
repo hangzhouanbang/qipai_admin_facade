@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.plan.dao.mongodb;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -31,7 +32,14 @@ public class MongdbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public List<Admin> queryByConditionsAndPage(Query query) {
+	public List<Admin> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
+		Query query = new Query();
+		if (nickname != null) {
+			query.addCriteria(Criteria.where("nickname").regex(nickname));
+		}
+		query.skip((page - 1) * size);
+		query.limit(size);
+		query.with(sort);
 		return mongoTemplate.find(query, Admin.class);
 	}
 
@@ -49,13 +57,20 @@ public class MongdbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public Boolean editAdmin(Query query, Update update) {
-		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Admin.class);
-		return writeResult.getN() > 0;
+	public Boolean editAdmin(Admin admin) {
+		Query query = new Query(Criteria.where("id").is(admin.getId()));
+		Update update = new Update();
+		if (admin.getPass() != null) {
+			update.set("pass", admin.getPass());
+			WriteResult writeResult = mongoTemplate.updateFirst(query, update, Admin.class);
+			return writeResult.getN() > 0;
+		}
+		return false;
 	}
 
 	@Override
-	public long getAmount(Query query) {
+	public long getAmount() {
+		Query query = new Query();
 		return mongoTemplate.count(query, Admin.class);
 	}
 

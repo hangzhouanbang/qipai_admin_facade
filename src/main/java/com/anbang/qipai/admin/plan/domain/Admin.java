@@ -1,5 +1,9 @@
 package com.anbang.qipai.admin.plan.domain;
 
+import java.util.List;
+
+import com.anbang.qipai.admin.plan.domain.permission.Role;
+
 public class Admin {
 	private String id;// 管理员id
 	private String nickname;// 管理员昵稱
@@ -7,6 +11,7 @@ public class Admin {
 	private String user;// 管理员真实姓名
 	private String idCard;// 管理员身份证
 	private Long createTime;// 创建时间
+	private List<Role> roleList;//角色列表
 
 	public String getId() {
 		return id;
@@ -54,6 +59,14 @@ public class Admin {
 
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
+	}
+
+	public List<Role> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
 	}
 
 }
