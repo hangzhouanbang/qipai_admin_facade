@@ -1,7 +1,6 @@
 package com.anbang.qipai.admin.plan.domain.membershiprights;
 
-public class MemberShipRights {
-	
+public class CommonUser {
 	private String id;
 	
 	private int signGoldNumber;//用户签到得金币数量
@@ -24,14 +23,6 @@ public class MemberShipRights {
 	private int planMemberMaxCreateRoomDaily;//普通用户创建vip房间的上限
 	
 	private int planMemberRoomsAliveHours;//普通房间存活小时数
-	
-	private float vipGrowIntegralSpeed;//会员积分增长速度
-	
-	private float vipGrowGradeSpeed;//会员等级增长速度
-	
-	private int vipMemberRoomsCount;//vip保存房间数量
-	
-	private int vipMemberRoomsAliveHours;//会员房间存活小时数
 
 	public String getId() {
 		return id;
@@ -127,38 +118,6 @@ public class MemberShipRights {
 
 	public void setPlanMemberRoomsAliveHours(int planMemberRoomsAliveHours) {
 		this.planMemberRoomsAliveHours = planMemberRoomsAliveHours;
-	}
-
-	public float getVipGrowIntegralSpeed() {
-		return vipGrowIntegralSpeed;
-	}
-
-	public void setVipGrowIntegralSpeed(float vipGrowIntegralSpeed) {
-		this.vipGrowIntegralSpeed = vipGrowIntegralSpeed;
-	}
-
-	public float getVipGrowGradeSpeed() {
-		return vipGrowGradeSpeed;
-	}
-
-	public void setVipGrowGradeSpeed(float vipGrowGradeSpeed) {
-		this.vipGrowGradeSpeed = vipGrowGradeSpeed;
-	}
-
-	public int getVipMemberRoomsCount() {
-		return vipMemberRoomsCount;
-	}
-
-	public void setVipMemberRoomsCount(int vipMemberRoomsCount) {
-		this.vipMemberRoomsCount = vipMemberRoomsCount;
-	}
-
-	public int getVipMemberRoomsAliveHours() {
-		return vipMemberRoomsAliveHours;
-	}
-
-	public void setVipMemberRoomsAliveHours(int vipMemberRoomsAliveHours) {
-		this.vipMemberRoomsAliveHours = vipMemberRoomsAliveHours;
 	}
 	
 	

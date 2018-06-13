@@ -2,14 +2,21 @@ package com.anbang.qipai.admin.web.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.plan.domain.Admin;
+import com.anbang.qipai.admin.plan.domain.notice.Notice;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
+import com.anbang.qipai.admin.web.vo.UserVo;
 
 /**
  * 系统通告controller
@@ -22,6 +29,8 @@ public class NoticeCtrl {
 
 	@Autowired
 	private NoticeService noticeService;
+	
+	private static Logger logger = LoggerFactory.getLogger(NoticeCtrl.class);
 
 	@Autowired
 	private QipaiGameRomoteService qipaiGameRomoteService;
@@ -43,19 +52,39 @@ public class NoticeCtrl {
 
 	/**
 	 * 添加系统公告
-	 * 
-	 * @param notice
-	 *            公告内容
+	 * @param notice 公告内容
 	 **/
 	@RequestMapping("/addnotice")
 	@ResponseBody
-	public String addNotice(String notice) {
-		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice);
+	public String addNotice(String notice,String place,HttpSession session) {
+		UserVo uservo = (UserVo) session.getAttribute("user");
+		Admin admin = uservo.getAdmin();
+		logger.info("mail:"+admin.getNickname());
+		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice,place,admin.getNickname());
 		if (co.isSuccess()) {
 			return "success";
 		} else {
 			return "file";
 		}
+
+	}
+	
+
+	/**
+	 * 修改系统公告状态
+	 **/
+	@RequestMapping("/updatenotice")
+	@ResponseBody
+	public String updateNotice() {
+		Integer state = 1;
+		Notice notice1 = noticeService.queryByState(state);
+		//CommonRemoteVO co = qipaiGameRomoteService.addNotice();
+//		if (co.isSuccess()) {
+//			return "success";
+//		} else {
+//			return "file";
+//		}
+		return "";
 
 	}
 }

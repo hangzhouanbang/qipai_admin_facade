@@ -18,12 +18,12 @@ public interface QipaiMembersService {
 	 * 这里定义了类似于SpringMVC用法的方法，就可以进行RESTful的调用了
 	 **/
 	@RequestMapping(value = "/conf/commonuser")
-	public CommonRemoteVO commonuser(@RequestParam(value = "signGoldNumber")Integer signGoldNumber,@RequestParam(value = "goldForNewNember")Integer goldForNewNember,@RequestParam(value = "shareIntegralNumber")Integer
-			shareIntegralNumber,@RequestParam(value = "shareGoldNumber")Integer shareGoldNumber,@RequestParam(value = "inviteIntegralNumber")Integer inviteIntegralNumber,@RequestParam(value = "planGrowIntegralSpeed")float planGrowIntegralSpeed);
+	public CommonRemoteVO commonuser(@RequestParam(value = "signGoldNumber")int signGoldNumber,@RequestParam(value = "goldForNewNember")int goldForNewNember,@RequestParam(value = "shareIntegralNumber")int
+			shareIntegralNumber,@RequestParam(value = "shareGoldNumber")int shareGoldNumber,@RequestParam(value = "inviteIntegralNumber")int inviteIntegralNumber,@RequestParam(value = "planGrowIntegralSpeed")float planGrowIntegralSpeed);
 	
 	@RequestMapping(value = "/conf/vipuser")
-	public CommonRemoteVO  vipuser(@RequestParam(value = "signGoldNumber")Integer signGoldNumber,@RequestParam(value = "shareIntegralNumber")Integer
-			shareIntegralNumber,@RequestParam(value = "shareGoldNumber")Integer shareGoldNumber,@RequestParam(value = "inviteIntegralNumber")Integer
+	public CommonRemoteVO  vipuser(@RequestParam(value = "signGoldNumber")int signGoldNumber,@RequestParam(value = "shareIntegralNumber")int
+			shareIntegralNumber,@RequestParam(value = "shareGoldNumber")int shareGoldNumber,@RequestParam(value = "inviteIntegralNumber")int
 			inviteIntegralNumber,@RequestParam(value = "vipGrowIntegralSpeed")float vipGrowIntegralSpeed,@RequestParam(value = "vipGrowGradeSpeed")float vipGrowGradeSpeed);
 
 }
