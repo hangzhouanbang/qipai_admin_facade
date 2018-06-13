@@ -56,7 +56,7 @@ public class MongdbNoticeDao implements NoticeDao{
 	@Override
 	public Map<String,Object> findAll(Integer page, Integer size) {
 		 Map<String,Object> map = new HashMap<String,Object>();
-		 if(page < 1) {
+		 if(page == null || page < 1) {
 			 page = 1;
 		 }
 		 Sort sort = new Sort(Sort.Direction.DESC, "state");

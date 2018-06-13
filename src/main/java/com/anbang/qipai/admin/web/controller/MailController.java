@@ -43,10 +43,10 @@ public class MailController {
 	@ResponseBody
 	public String addmail(SystemMail mail,HttpSession session) {
 		UserVo uservo = (UserVo) session.getAttribute("user");
-		Admin admin = uservo.getAdmin();
-		logger.info("mail:"+admin.getNickname());
-		logger.info("mail:"+mail.getTitle());
-		mail.setAdminname(admin.getNickname());
+		//Admin admin = uservo.getAdmin();
+//		logger.info("mail:"+admin.getNickname());
+//		logger.info("mail:"+mail.getTitle());
+//		mail.setAdminname(admin.getNickname());
 		JSONObject json = JSONObject.fromObject(mail);
 		String str = json.toString();
 		logger.info(str);
@@ -60,8 +60,8 @@ public class MailController {
 	@RequestMapping("/querymail")
 	@ResponseBody
 	public Map<String,Object> querymail(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10")Integer size,String adminname){
-		Map<String,Object> map = mailService.findall(page, size,adminname);
+			@RequestParam(name = "size", defaultValue = "10")Integer size,String adminname,Integer status){
+		Map<String,Object> map = mailService.findall(page, size,adminname,status);
 		logger.info("adminname:"+adminname);
 		return map;
 	}

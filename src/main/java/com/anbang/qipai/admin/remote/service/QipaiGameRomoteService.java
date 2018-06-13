@@ -30,11 +30,11 @@ public interface QipaiGameRomoteService {
 	public CommonRemoteVO addmail(@RequestParam(value = "mail") String mail);
 	
 	@RequestMapping(value = "/member/plan_rights_conf")
-	public CommonRemoteVO commonuser(@RequestParam(value = "planMemberRoomsCount") Integer planMemberRoomsCount,@RequestParam(value = "memberRoomsAliveHours") Integer planMemberRoomsAliveHours,
-			@RequestParam(value = "planMemberMaxCreateRoomDaily") Integer planMemberMaxCreateRoomDaily,@RequestParam(value = "planMemberCreateRoomDailyGoldPrice")
-			Integer planMemberCreateRoomDailyGoldPrice,@RequestParam(value = "planMemberaddRoomDailyGoldPrice") Integer planMemberaddRoomDailyGoldPrice);
+	public CommonRemoteVO commonuser(@RequestParam(value = "planMemberRoomsCount") int planMemberRoomsCount,@RequestParam(value = "planMemberRoomsAliveHours") int planMemberRoomsAliveHours,
+			@RequestParam(value = "planMemberMaxCreateRoomDaily") int planMemberMaxCreateRoomDaily,@RequestParam(value = "planMemberCreateRoomDailyGoldPrice")
+	int planMemberCreateRoomDailyGoldPrice,@RequestParam(value = "planMemberaddRoomDailyGoldPrice") int planMemberaddRoomDailyGoldPrice);
 	
 	@RequestMapping(value = "/member/vip_rights_conf")
-	public CommonRemoteVO vipuser(@RequestParam(value = "memberRoomsCount") int memberRoomsCount,@RequestParam(value = "memberRoomsAliveHours") int memberRoomsAliveHours);
+	public CommonRemoteVO vipuser(@RequestParam(value = "vipMemberRoomsCount") int vipMemberRoomsCount,@RequestParam(value = "vipMemberRoomsAliveHours") int vipMemberRoomsAliveHours);
 
 }

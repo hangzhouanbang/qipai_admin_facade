@@ -17,6 +17,8 @@ public class SystemMail {
 	private Integer integral;//积分数量
 	
 	private Integer vipcard;//会员体验时间，按日来计算
+	
+	private Integer status;//发布状态，0-维护。1-恢复
 
 	public String getId() {
 		return id;
@@ -82,11 +84,14 @@ public class SystemMail {
 		this.adminname = adminname;
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
 
-	
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-	
-	
 	
 	
 

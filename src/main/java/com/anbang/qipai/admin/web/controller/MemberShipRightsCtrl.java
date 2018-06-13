@@ -44,9 +44,6 @@ public class MemberShipRightsCtrl {
 		CommonRemoteVO cos = qipaiGameRomoteService.commonuser(commonuser.getPlanMemberRoomsCount(),
 				commonuser.getPlanMemberRoomsAliveHours(),commonuser.getPlanMemberMaxCreateRoomDaily(),
 				commonuser.getPlanMemberCreateRoomDailyGoldPrice(),commonuser.getPlanMemberCreateRoomDailyGoldPrice());
-		System.out.println("----------:"+commonuser.getPlanMemberRoomsCount()+
-				commonuser.getPlanMemberRoomsAliveHours()+commonuser.getPlanMemberMaxCreateRoomDaily()+
-				commonuser.getPlanMemberCreateRoomDailyGoldPrice()+commonuser.getPlanMemberCreateRoomDailyGoldPrice());
 		if (co.isSuccess() && cos.isSuccess()) {
 			return "success";
 		} else {

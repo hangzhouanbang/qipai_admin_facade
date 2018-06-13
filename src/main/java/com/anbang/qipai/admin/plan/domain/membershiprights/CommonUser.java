@@ -4,100 +4,122 @@ public class CommonUser {
 	
 	private String id;
 	
-	private Integer signGoldNumber;//普通用户签到得金币数量
+	private int signGoldNumber;//普通用户签到得金币数量
 	
-	private Integer shareIntegralNumber;//分享得积分数量
+	private int shareIntegralNumber;//分享得积分数量
 	
-	private Integer goldForNewNember;//新用户注册赠送的金币数量
+	private int goldForNewNember;//新用户注册赠送的金币数量
 	
-	private Integer shareGoldNumber;//分享得金币数量
+	private int shareGoldNumber;//分享得金币数量
 	
-	private Integer inviteIntegralNumber;//邀请得积分数量
+	private int inviteIntegralNumber;//邀请得积分数量
 	
 	private float planGrowIntegralSpeed;//普通用户积分增长速度
 	
-	private Integer planMemberCreateRoomDailyGoldPrice;//创建房间的金币价格
-	private Integer planMemberaddRoomDailyGoldPrice;//加入房间的金币价格
+	private int planMemberCreateRoomDailyGoldPrice;//创建房间的金币价格
+	private int planMemberaddRoomDailyGoldPrice;//加入房间的金币价格
 	
-	private Integer planMemberRoomsCount;//普通保存房间数量
+	private int planMemberRoomsCount;//普通保存房间数量
 	
-	private Integer planMemberMaxCreateRoomDaily;//普通用户创建vip房间的上限
+	private int planMemberMaxCreateRoomDaily;//普通用户创建vip房间的上限
 	
-	private Integer planMemberRoomsAliveHours;//普通房间存活小时数
-	
-	public float getPlanGrowIntegralSpeed() {
-		return planGrowIntegralSpeed;
-	}
-	public void setPlanGrowIntegralSpeed(float planGrowIntegralSpeed) {
-		this.planGrowIntegralSpeed = planGrowIntegralSpeed;
-	}
+	private int planMemberRoomsAliveHours;//普通房间存活小时数
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Integer getSignGoldNumber() {
+
+	public int getSignGoldNumber() {
 		return signGoldNumber;
 	}
-	public void setSignGoldNumber(Integer signGoldNumber) {
+
+	public void setSignGoldNumber(int signGoldNumber) {
 		this.signGoldNumber = signGoldNumber;
 	}
-	public Integer getShareIntegralNumber() {
+
+	public int getShareIntegralNumber() {
 		return shareIntegralNumber;
 	}
-	public void setShareIntegralNumber(Integer shareIntegralNumber) {
+
+	public void setShareIntegralNumber(int shareIntegralNumber) {
 		this.shareIntegralNumber = shareIntegralNumber;
 	}
-	public Integer getGoldForNewNember() {
+
+	public int getGoldForNewNember() {
 		return goldForNewNember;
 	}
-	public void setGoldForNewNember(Integer goldForNewNember) {
+
+	public void setGoldForNewNember(int goldForNewNember) {
 		this.goldForNewNember = goldForNewNember;
 	}
-	public Integer getShareGoldNumber() {
+
+	public int getShareGoldNumber() {
 		return shareGoldNumber;
 	}
-	public void setShareGoldNumber(Integer shareGoldNumber) {
+
+	public void setShareGoldNumber(int shareGoldNumber) {
 		this.shareGoldNumber = shareGoldNumber;
 	}
-	public Integer getInviteIntegralNumber() {
+
+	public int getInviteIntegralNumber() {
 		return inviteIntegralNumber;
 	}
-	public void setInviteIntegralNumber(Integer inviteIntegralNumber) {
+
+	public void setInviteIntegralNumber(int inviteIntegralNumber) {
 		this.inviteIntegralNumber = inviteIntegralNumber;
 	}
-	public Integer getPlanMemberRoomsCount() {
-		return planMemberRoomsCount;
+
+	public float getPlanGrowIntegralSpeed() {
+		return planGrowIntegralSpeed;
 	}
-	public void setPlanMemberRoomsCount(Integer planMemberRoomsCount) {
-		this.planMemberRoomsCount = planMemberRoomsCount;
+
+	public void setPlanGrowIntegralSpeed(float planGrowIntegralSpeed) {
+		this.planGrowIntegralSpeed = planGrowIntegralSpeed;
 	}
-	public Integer getPlanMemberRoomsAliveHours() {
-		return planMemberRoomsAliveHours;
-	}
-	public void setPlanMemberRoomsAliveHours(Integer planMemberRoomsAliveHours) {
-		this.planMemberRoomsAliveHours = planMemberRoomsAliveHours;
-	}
-	public Integer getPlanMemberCreateRoomDailyGoldPrice() {
+
+	public int getPlanMemberCreateRoomDailyGoldPrice() {
 		return planMemberCreateRoomDailyGoldPrice;
 	}
-	public void setPlanMemberCreateRoomDailyGoldPrice(Integer planMemberCreateRoomDailyGoldPrice) {
+
+	public void setPlanMemberCreateRoomDailyGoldPrice(int planMemberCreateRoomDailyGoldPrice) {
 		this.planMemberCreateRoomDailyGoldPrice = planMemberCreateRoomDailyGoldPrice;
 	}
-	public Integer getPlanMemberaddRoomDailyGoldPrice() {
+
+	public int getPlanMemberaddRoomDailyGoldPrice() {
 		return planMemberaddRoomDailyGoldPrice;
 	}
-	public void setPlanMemberaddRoomDailyGoldPrice(Integer planMemberaddRoomDailyGoldPrice) {
+
+	public void setPlanMemberaddRoomDailyGoldPrice(int planMemberaddRoomDailyGoldPrice) {
 		this.planMemberaddRoomDailyGoldPrice = planMemberaddRoomDailyGoldPrice;
 	}
-	public Integer getPlanMemberMaxCreateRoomDaily() {
+
+	public int getPlanMemberRoomsCount() {
+		return planMemberRoomsCount;
+	}
+
+	public void setPlanMemberRoomsCount(int planMemberRoomsCount) {
+		this.planMemberRoomsCount = planMemberRoomsCount;
+	}
+
+	public int getPlanMemberMaxCreateRoomDaily() {
 		return planMemberMaxCreateRoomDaily;
 	}
-	public void setPlanMemberMaxCreateRoomDaily(Integer planMemberMaxCreateRoomDaily) {
+
+	public void setPlanMemberMaxCreateRoomDaily(int planMemberMaxCreateRoomDaily) {
 		this.planMemberMaxCreateRoomDaily = planMemberMaxCreateRoomDaily;
 	}
 
+	public int getPlanMemberRoomsAliveHours() {
+		return planMemberRoomsAliveHours;
+	}
+
+	public void setPlanMemberRoomsAliveHours(int planMemberRoomsAliveHours) {
+		this.planMemberRoomsAliveHours = planMemberRoomsAliveHours;
+	}
 	
 	
 }

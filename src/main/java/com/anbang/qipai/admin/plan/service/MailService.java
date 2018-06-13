@@ -20,7 +20,7 @@ public class MailService{
 	private MailDao maildao;
 	
 
-	public Map<String,Object> findall(Integer page,Integer size,String adminname) {
+	public Map<String,Object> findall(Integer page,Integer size,String adminname,Integer status) {
 		 if(page < 1) {
 			 page = 1;
 		 }
@@ -29,9 +29,11 @@ public class MailService{
 		 Pageable pageable= new PageRequest(page-1, size,sort);
 		 Query query = null;
 		 if(adminname == null || adminname.equals("")) {
-			 query = new Query();
+			 query = new Query(Criteria.where("status").gte(status));
 		 }else {
-			 query = new Query(Criteria.where("adminname").is(adminname));
+			 Criteria criteria = new Criteria();
+			 criteria.andOperator(Criteria.where("adminname").is(adminname),Criteria.where("status").is(status));//多条件查询
+			 query = new Query(criteria);
 		 }
 		return maildao.findall(query,pageable,size);
 	}
