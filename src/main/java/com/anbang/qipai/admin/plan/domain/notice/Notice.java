@@ -7,11 +7,12 @@ public class Notice {
 	@Id
 	private String id;//公告ID
 	private Integer state;//状态{1代表启用，0代表禁用}
+	private String adminname;//管理员名称
+	private String place;//发布位置:0-游戏大厅，1-游戏房间，2-游戏大厅加游戏房间同时显示 
 	private String notice;//公告信息
 	public Notice() {
 		
 	}
-	
 	public Notice(String id,Integer state,String notice) {
 		this.id=id;
 		this.state=state;
@@ -35,6 +36,20 @@ public class Notice {
 	}
 	public void setState(Integer state) {
 		this.state = state;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	public String getAdminname() {
+		return adminname;
+	}
+	public void setAdminname(String adminname) {
+		this.adminname = adminname;
 	}
 	
 	

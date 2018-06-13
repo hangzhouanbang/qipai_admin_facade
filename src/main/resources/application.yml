@@ -53,7 +53,7 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-            
+          
             
   application:
     name: qipai-admin-facade

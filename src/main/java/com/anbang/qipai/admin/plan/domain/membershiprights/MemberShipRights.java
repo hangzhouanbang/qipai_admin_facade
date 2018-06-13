@@ -4,7 +4,7 @@ public class MemberShipRights {
 	
 	private String id;
 	
-	private int signGoldNumber;//普通用户签到得金币数量
+	private int signGoldNumber;//用户签到得金币数量
 	
 	private int shareIntegralNumber;//分享得积分数量
 	

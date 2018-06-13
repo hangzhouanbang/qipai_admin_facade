@@ -37,6 +37,8 @@ public class MongdbNoticeDao implements NoticeDao{
 				Notice notice2 = new Notice();
 				notice2.setId(notice1.getId());
 				notice2.setNotice(notice1.getNotice());
+				notice2.setPlace(notice1.getPlace());
+				notice2.setAdminname(notice1.getAdminname());
 				notice2.setState(0);
 				noticeService.updateNotice(notice2);
 			}

@@ -24,7 +24,7 @@ public interface QipaiGameRomoteService {
 	public CommonRemoteVO game_gameServerOffline(@RequestParam("gameServerId") String gameServerId);
 	
 	@RequestMapping(value = "/notice/addnotice")
-	public CommonRemoteVO addNotice(@RequestParam(value = "notice") String notice);
+	public CommonRemoteVO addNotice(@RequestParam(value = "notice") String notice,@RequestParam(value = "place")String place,@RequestParam(value = "adminname") String adminname);
 	
 	@RequestMapping(value = "/mail/addmail")
 	public CommonRemoteVO addmail(@RequestParam(value = "mail") String mail);
