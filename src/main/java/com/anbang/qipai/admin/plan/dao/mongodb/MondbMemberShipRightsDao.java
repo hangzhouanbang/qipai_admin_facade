@@ -5,8 +5,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.membershiprightsdao.MemberShipRightsDao;
-import com.anbang.qipai.admin.plan.domain.membershiprights.CommonUser;
-import com.anbang.qipai.admin.plan.domain.membershiprights.VipUser;
+import com.anbang.qipai.admin.plan.domain.membershiprights.MemberShipRights;
 
 @Component
 public class MondbMemberShipRightsDao implements MemberShipRightsDao{
@@ -15,15 +14,14 @@ public class MondbMemberShipRightsDao implements MemberShipRightsDao{
 	private MongoTemplate mongoTemplate;
 	
 	@Override
-	public CommonUser commonsave(CommonUser commonuser) {
+	public MemberShipRights saveMemberShipRights(MemberShipRights commonuser) {
 		mongoTemplate.save(commonuser);
 		return commonuser;
 	}
 
 	@Override
-	public VipUser vipuser(VipUser vipuser) {
-		mongoTemplate.save(vipuser);
-		return vipuser;
+	public MemberShipRights findallCommonUser() {
+		return mongoTemplate.findById("1", MemberShipRights.class);
 	}
 	
 

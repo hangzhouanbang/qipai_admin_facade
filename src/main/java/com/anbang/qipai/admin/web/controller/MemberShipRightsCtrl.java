@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.membershiprights.CommonUser;
-import com.anbang.qipai.admin.plan.domain.membershiprights.VipUser;
+import com.anbang.qipai.admin.plan.domain.membershiprights.MemberShipRights;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
@@ -36,7 +35,7 @@ public class MemberShipRightsCtrl {
 	 **/
 	@RequestMapping("/commonuser")
 	@ResponseBody
-	public String commonuser(CommonUser commonuser) {
+	public String commonuser(MemberShipRights commonuser) {
 		logger.info("aaa"+commonuser);
 		CommonRemoteVO co = qipaMemberClient.commonuser(commonuser.getSignGoldNumber(),commonuser.getGoldForNewNember(),
 				commonuser.getShareIntegralNumber(),commonuser.getShareGoldNumber(),commonuser.getInviteIntegralNumber(),
@@ -57,7 +56,7 @@ public class MemberShipRightsCtrl {
 	 **/
 	@RequestMapping("/vipuser")
 	@ResponseBody
-	public String vipuser(VipUser vipUser) {
+	public String vipuser(MemberShipRights vipUser) {
 		CommonRemoteVO co = qipaMemberClient.vipuser(vipUser.getSignGoldNumber(),
 				vipUser.getShareIntegralNumber(),
 				vipUser.getShareGoldNumber(),vipUser.getInviteIntegralNumber(),

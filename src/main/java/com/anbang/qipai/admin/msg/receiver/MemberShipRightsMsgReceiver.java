@@ -5,7 +5,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.MemberShipRightsSink;
-import com.anbang.qipai.admin.plan.domain.membershiprights.CommonUser;
+import com.anbang.qipai.admin.plan.domain.membershiprights.MemberShipRights;
 import com.anbang.qipai.admin.plan.service.MemberShipRightsService;
 
 import net.sf.json.JSONObject;
@@ -26,10 +26,20 @@ public class MemberShipRightsMsgReceiver {
 	 * **/
 	@StreamListener(MemberShipRightsSink.membershiprights)
 	public void members(Object payload) {
+		System.out.println("payload:"+payload);
 		JSONObject json = JSONObject.fromObject(payload);
 		JSONObject obj = (JSONObject) json.get("data");
-		CommonUser commonuser = (CommonUser) JSONObject.toBean(obj, CommonUser.class);
-		createMemberService.commonsave(commonuser);
+		MemberShipRights commonuser = (MemberShipRights) JSONObject.toBean(obj, MemberShipRights.class);
+		MemberShipRights commonusers = createMemberService.findallCommonUser();
+		commonusers.setSignGoldNumber(commonuser.getSignGoldNumber());
+		commonusers.setGoldForNewNember(commonuser.getGoldForNewNember());
+		commonusers.setShareIntegralNumber(commonuser.getShareIntegralNumber());
+		commonusers.setShareGoldNumber(commonuser.getShareGoldNumber());
+		commonusers.setInviteIntegralNumber(commonuser.getInviteIntegralNumber());
+		commonusers.setVipGrowIntegralSpeed(commonuser.getVipGrowIntegralSpeed());
+		commonusers.setPlanGrowIntegralSpeed(commonuser.getPlanGrowIntegralSpeed());
+		commonusers.setVipGrowGradeSpeed(commonuser.getVipGrowGradeSpeed());
+		createMemberService.saveMemberShipRights(commonusers);
 	}
 	
 	

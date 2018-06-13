@@ -5,7 +5,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.GameMemberShipRightsSink;
-import com.anbang.qipai.admin.plan.domain.membershiprights.CommonUser;
+import com.anbang.qipai.admin.plan.domain.membershiprights.MemberShipRights;
 import com.anbang.qipai.admin.plan.service.MemberShipRightsService;
 
 import net.sf.json.JSONObject;
@@ -29,7 +29,15 @@ public class GameMemberShipRightsMsgReceiver {
 		System.out.println("payload:"+payload);
 		JSONObject json = JSONObject.fromObject(payload);
 		JSONObject obj = (JSONObject) json.get("data");
-		CommonUser commonuser = (CommonUser) JSONObject.toBean(obj, CommonUser.class);
-		createMemberService.commonsave(commonuser);
+		MemberShipRights commonuser = (MemberShipRights) JSONObject.toBean(obj, MemberShipRights.class);
+		MemberShipRights commonusers = createMemberService.findallCommonUser();
+		commonusers.setPlanMemberRoomsCount(commonuser.getPlanMemberRoomsCount());
+		commonusers.setVipMemberRoomsCount(commonuser.getVipMemberRoomsCount());
+		commonusers.setPlanMemberRoomsAliveHours(commonuser.getPlanMemberRoomsAliveHours());
+		commonusers.setVipMemberRoomsAliveHours(commonuser.getVipMemberRoomsAliveHours());
+		commonusers.setPlanMemberMaxCreateRoomDaily(commonuser.getPlanMemberMaxCreateRoomDaily());
+		commonusers.setPlanMemberCreateRoomDailyGoldPrice(commonuser.getPlanMemberCreateRoomDailyGoldPrice());
+		commonusers.setPlanMemberaddRoomDailyGoldPrice(commonuser.getPlanMemberaddRoomDailyGoldPrice());
+		createMemberService.saveMemberShipRights(commonusers);
 	}
 }
