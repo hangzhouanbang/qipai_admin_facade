@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 
-import com.anbang.qipai.admin.plan.domain.Member;
+import com.anbang.qipai.admin.plan.domain.MemberDbo;
 
 public interface MemberDao {
 
-	List<Member> queryByConditionsAndPage(int page, int size, Sort sort, String nickname);
+	List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, String nickname);
 
 	long getAmount();
 
-	void addMember(Member member);
+	void addMember(MemberDbo member);
 
 	Boolean deleteMember(String[] ids);
 
-	Boolean editMember(Member member);
+	Boolean editMember(MemberDbo member);
 }

@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.plan.domain;
 
-public class Member {
+public class MemberDbo {
 	private String id;// 会员id
 	private String nickname;// 会员昵称
 	private String gender;// 会员性别:男:male,女:female

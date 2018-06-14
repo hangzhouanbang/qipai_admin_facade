@@ -22,6 +22,14 @@ spring:
             partitioned: false
           contentType: application/json
             
+        golds:
+          destination: golds
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+          
         game:
           destination: notice
           group: qipai_admin_facade

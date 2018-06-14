@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.MemberDao;
-import com.anbang.qipai.admin.plan.domain.Member;
+import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.mongodb.WriteResult;
 
 @Component
@@ -19,7 +19,7 @@ public class MongodbMemberDao implements MemberDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<Member> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
+	public List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
 		Query query = new Query();
 		if (nickname != null) {
 			query.addCriteria(Criteria.where("nickname").regex(nickname));
@@ -27,11 +27,11 @@ public class MongodbMemberDao implements MemberDao {
 		query.skip((page - 1) * size);
 		query.limit(size);
 		query.with(sort);
-		return mongoTemplate.find(query, Member.class);
+		return mongoTemplate.find(query, MemberDbo.class);
 	}
 
 	@Override
-	public void addMember(Member member) {
+	public void addMember(MemberDbo member) {
 		mongoTemplate.insert(member);
 	}
 
@@ -39,21 +39,21 @@ public class MongodbMemberDao implements MemberDao {
 	public Boolean deleteMember(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
-		WriteResult result = mongoTemplate.remove(query, Member.class);
+		WriteResult result = mongoTemplate.remove(query, MemberDbo.class);
 		System.out.println("删除了" + result.getN() + "个玩家");
 		System.out.println("共要删除" + ids.length + "个玩家");
 		return result.getN() <= ids.length;
 	}
 
 	@Override
-	public Boolean editMember(Member member) {
+	public Boolean editMember(MemberDbo member) {
 		return true;
 	}
 
 	@Override
 	public long getAmount() {
 		Query query = new Query();
-		return mongoTemplate.count(query, Member.class);
+		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
 }

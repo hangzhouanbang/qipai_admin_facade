@@ -40,7 +40,7 @@ public class ClubCardController {
 		if (clubCard.getName() == null || clubCard.getPrice() == null || clubCard.getGold() == null
 				|| clubCard.getScore() == null || clubCard.getTime() == null) {
 			vo.setSuccess(false);
-			vo.setMsg("admin more than one param is null");
+			vo.setMsg("admin at least one param is null");
 			return vo;
 		}
 		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_add(clubCard);

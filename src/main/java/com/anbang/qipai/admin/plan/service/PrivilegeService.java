@@ -32,7 +32,6 @@ public class PrivilegeService {
 
 	public Boolean addPrivileges(List<Privilege> privilegeList) {
 		List<String> uriList = new ArrayList<String>();
-		;
 		List<RoleRelationPrivilege> refList = new ArrayList<RoleRelationPrivilege>();
 		for (Privilege privilege : privilegeList) {
 			if (privilege.getPrivilege() == null || privilege.getUri() == null) {
@@ -44,7 +43,7 @@ public class PrivilegeService {
 		List<Privilege> list = privilegeDao.getAllNewPrivilege(uriList);
 		for (Privilege privilege : list) {
 			RoleRelationPrivilege ref = new RoleRelationPrivilege();
-			ref.setRoleId("5b0d1f6035b436197c7a5b88");
+			ref.setRoleId("000000000000000000000001");
 			ref.setPrivilegeId(privilege.getId());
 			refList.add(ref);
 		}

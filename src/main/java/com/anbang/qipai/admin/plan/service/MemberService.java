@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.dao.MemberDao;
-import com.anbang.qipai.admin.plan.domain.Member;
+import com.anbang.qipai.admin.plan.domain.MemberDbo;
 
 @Service
 public class MemberService {
@@ -21,13 +21,13 @@ public class MemberService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		long amount = memberDao.getAmount();
 		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
-		List<Member> memberList = memberDao.queryByConditionsAndPage(page, size, sort, nickname);
+		List<MemberDbo> memberList = memberDao.queryByConditionsAndPage(page, size, sort, nickname);
 		map.put("pageNumber", pageNumber);
 		map.put("memberList", memberList);
 		return map;
 	}
 
-	public void addMember(Member member) {
+	public void addMember(MemberDbo member) {
 		memberDao.addMember(member);
 	}
 
@@ -35,7 +35,7 @@ public class MemberService {
 		return memberDao.deleteMember(ids);
 	}
 
-	public Boolean editMember(Member member) {
+	public Boolean editMember(MemberDbo member) {
 		return memberDao.editMember(member);
 	}
 

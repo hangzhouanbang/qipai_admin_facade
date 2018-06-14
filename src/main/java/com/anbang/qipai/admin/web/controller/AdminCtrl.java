@@ -48,7 +48,7 @@ public class AdminCtrl {
 	@RequestMapping("/deleteAdmin")
 	public String deleteAdmin(@RequestParam(name = "id") String[] ids) {
 		for (String id : ids) {
-			if (id.equals("5b0d1133ceac1229f892c9ab")) {// 超级管理员无法删除
+			if (id.equals("000000000000000000000001")) {// 超级管理员无法删除
 				return "fail";
 			}
 		}
@@ -68,7 +68,7 @@ public class AdminCtrl {
 
 	@RequestMapping("/editRole")
 	public String editRole(String adminId, @RequestParam(name = "roleId") String[] roleIds) {
-		if (adminId == "5b0d1133ceac1229f892c9ab") {
+		if (adminId == "000000000000000000000001") {
 			return "fail";
 		}
 		adminService.editRole(adminId, roleIds);
