@@ -30,7 +30,6 @@ public class MemberShipRightsMsgReceiver {
 		JSONObject obj = (JSONObject) json.get("data");
 		MemberShipRights commonuser = (MemberShipRights) JSONObject.toBean(obj, MemberShipRights.class);
 		MemberShipRights commonusers = createMemberService.findallCommonUser();
-		System.out.println("payload:"+payload+commonuser.getSignGoldNumber()+commonuser.getGoldForNewNember());
 		commonusers.setSignGoldNumber(commonuser.getSignGoldNumber());
 		commonusers.setGoldForNewNember(commonuser.getGoldForNewNember());
 		commonusers.setShareIntegralNumber(commonuser.getShareIntegralNumber());

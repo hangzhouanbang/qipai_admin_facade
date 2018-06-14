@@ -57,9 +57,9 @@ public class NoticeCtrl {
 	@ResponseBody
 	public String addNotice(String notice,String place,HttpSession session) {
 		UserVo uservo = (UserVo) session.getAttribute("user");
-		Admin admin = uservo.getAdmin();
-		logger.info("mail:"+admin.getNickname());
-		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice,place,admin.getNickname());
+//		Admin admin = uservo.getAdmin();
+//		logger.info("mail:"+admin.getNickname());
+		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice,place,"admin");
 		if (co.isSuccess()) {
 			return "success";
 		} else {
