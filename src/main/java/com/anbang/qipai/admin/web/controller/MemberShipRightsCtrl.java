@@ -84,6 +84,7 @@ public class MemberShipRightsCtrl {
 	public CommonUser commonrights() {
 		CommonUser comm = new CommonUser();
 		MemberShipRights memberShipRights = memberShipRightsService.findallCommonUser();
+		comm.setId("1");
 		comm.setSignGoldNumber(memberShipRights.getSignGoldNumber());
 		comm.setInviteIntegralNumber(memberShipRights.getInviteIntegralNumber());
 		comm.setPlanGrowIntegralSpeed(memberShipRights.getPlanGrowIntegralSpeed());
@@ -106,6 +107,7 @@ public class MemberShipRightsCtrl {
 	public VipUser viprights() {
 		VipUser vip = new VipUser();
 		MemberShipRights memberShipRights = memberShipRightsService.findallCommonUser();
+		vip.setId("1");
 		vip.setSignGoldNumber(memberShipRights.getSignGoldNumber());
 		vip.setInviteIntegralNumber(memberShipRights.getInviteIntegralNumber());
 		vip.setVipGrowIntegralSpeed(memberShipRights.getVipGrowIntegralSpeed());

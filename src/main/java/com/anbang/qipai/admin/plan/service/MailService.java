@@ -29,7 +29,7 @@ public class MailService{
 		 Pageable pageable= new PageRequest(page-1, size,sort);
 		 Query query = null;
 		 if(adminname == null || adminname.equals("")) {
-			 query = new Query(Criteria.where("status").gte(status));
+			 query = new Query(Criteria.where("status").is(status));
 		 }else {
 			 Criteria criteria = new Criteria();
 			 criteria.andOperator(Criteria.where("adminname").is(adminname),Criteria.where("status").is(status));//多条件查询

@@ -13,12 +13,6 @@ public class Notice {
 	public Notice() {
 		
 	}
-	public Notice(String id,Integer state,String notice) {
-		this.id=id;
-		this.state=state;
-		this.notice=notice;
-	}
-	
 	public String getId() {
 		return id;
 	}

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.Admin;
-import com.anbang.qipai.admin.plan.domain.notice.Notice;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
@@ -76,15 +75,12 @@ public class NoticeCtrl {
 	@RequestMapping("/updatenotice")
 	@ResponseBody
 	public String updateNotice() {
-		Integer state = 1;
-		Notice notice1 = noticeService.queryByState(state);
-		//CommonRemoteVO co = qipaiGameRomoteService.addNotice();
-//		if (co.isSuccess()) {
-//			return "success";
-//		} else {
-//			return "file";
-//		}
-		return "";
+		CommonRemoteVO co = qipaiGameRomoteService.updateNotice();
+		if (co.isSuccess()) {
+			return "success";
+		} else {
+			return "file";
+		}
 
 	}
 }
