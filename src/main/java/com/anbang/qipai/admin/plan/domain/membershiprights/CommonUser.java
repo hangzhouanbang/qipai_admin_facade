@@ -5,11 +5,7 @@ public class CommonUser {
  	
  	private int signGoldNumber;//用户签到得金币数量
  	
- 	private int shareIntegralNumber;//分享得积分数量
- 	
  	private int goldForNewNember;//新用户注册赠送的金币数量
- 	
- 	private int shareGoldNumber;//分享得金币数量
  	
  	private int inviteIntegralNumber;//邀请得积分数量
  	
@@ -40,28 +36,12 @@ public class CommonUser {
 		this.signGoldNumber = signGoldNumber;
 	}
 
-	public int getShareIntegralNumber() {
-		return shareIntegralNumber;
-	}
-
-	public void setShareIntegralNumber(int shareIntegralNumber) {
-		this.shareIntegralNumber = shareIntegralNumber;
-	}
-
 	public int getGoldForNewNember() {
 		return goldForNewNember;
 	}
 
 	public void setGoldForNewNember(int goldForNewNember) {
 		this.goldForNewNember = goldForNewNember;
-	}
-
-	public int getShareGoldNumber() {
-		return shareGoldNumber;
-	}
-
-	public void setShareGoldNumber(int shareGoldNumber) {
-		this.shareGoldNumber = shareGoldNumber;
 	}
 
 	public int getInviteIntegralNumber() {

@@ -32,8 +32,6 @@ public class MemberShipRightsMsgReceiver {
 		MemberShipRights commonusers = createMemberService.findallCommonUser();
 		commonusers.setSignGoldNumber(commonuser.getSignGoldNumber());
 		commonusers.setGoldForNewNember(commonuser.getGoldForNewNember());
-		commonusers.setShareIntegralNumber(commonuser.getShareIntegralNumber());
-		commonusers.setShareGoldNumber(commonuser.getShareGoldNumber());
 		commonusers.setInviteIntegralNumber(commonuser.getInviteIntegralNumber());
 		commonusers.setVipGrowIntegralSpeed(commonuser.getVipGrowIntegralSpeed());
 		commonusers.setPlanGrowIntegralSpeed(commonuser.getPlanGrowIntegralSpeed());

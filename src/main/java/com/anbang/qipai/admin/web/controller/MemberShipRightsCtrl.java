@@ -18,7 +18,7 @@ import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 /**
  * 会员权益Controller
  * 
- * @author 程佳 2018.5.31
+ * @author 程佳 2018.6.12
  **/
 @RestController
 @RequestMapping("/rights")
@@ -44,7 +44,7 @@ public class MemberShipRightsCtrl {
 	public String commonuser(MemberShipRights commonuser) {
 		logger.info("aaa"+commonuser);
 		CommonRemoteVO co = qipaMemberClient.commonuser(commonuser.getSignGoldNumber(),commonuser.getGoldForNewNember(),
-				commonuser.getShareIntegralNumber(),commonuser.getShareGoldNumber(),commonuser.getInviteIntegralNumber(),
+				commonuser.getInviteIntegralNumber(),
 				commonuser.getPlanGrowIntegralSpeed());
 		CommonRemoteVO cos = qipaiGameRomoteService.commonuser(commonuser.getPlanMemberRoomsCount(),
 				commonuser.getPlanMemberRoomsAliveHours(),commonuser.getPlanMemberMaxCreateRoomDaily(),
@@ -64,8 +64,7 @@ public class MemberShipRightsCtrl {
 	@ResponseBody
 	public String vipuser(MemberShipRights vipUser) {
 		CommonRemoteVO co = qipaMemberClient.vipuser(vipUser.getSignGoldNumber(),
-				vipUser.getShareIntegralNumber(),
-				vipUser.getShareGoldNumber(),vipUser.getInviteIntegralNumber(),
+			    vipUser.getInviteIntegralNumber(),
 				vipUser.getVipGrowIntegralSpeed(),
 				vipUser.getVipGrowGradeSpeed());
 		CommonRemoteVO cos = qipaiGameRomoteService.vipuser(vipUser.getVipMemberRoomsCount(),vipUser.getVipMemberRoomsAliveHours());
@@ -93,8 +92,6 @@ public class MemberShipRightsCtrl {
 		comm.setPlanMemberMaxCreateRoomDaily(memberShipRights.getPlanMemberMaxCreateRoomDaily());
 		comm.setPlanMemberRoomsAliveHours(memberShipRights.getPlanMemberRoomsAliveHours());
 		comm.setPlanMemberRoomsCount(memberShipRights.getPlanMemberRoomsCount());
-		comm.setShareGoldNumber(memberShipRights.getShareGoldNumber());
-		comm.setShareIntegralNumber(memberShipRights.getShareIntegralNumber());
 		comm.setGoldForNewNember(memberShipRights.getGoldForNewNember());
 		return comm;
 	}
@@ -113,8 +110,6 @@ public class MemberShipRightsCtrl {
 		vip.setVipGrowIntegralSpeed(memberShipRights.getVipGrowIntegralSpeed());
 		vip.setVipMemberRoomsAliveHours(memberShipRights.getVipMemberRoomsAliveHours());
 		vip.setVipMemberRoomsCount(memberShipRights.getVipMemberRoomsCount());
-		vip.setShareGoldNumber(memberShipRights.getShareGoldNumber());
-		vip.setShareIntegralNumber(memberShipRights.getShareIntegralNumber());
 		vip.setVipGrowGradeSpeed(memberShipRights.getVipGrowGradeSpeed());
 		return vip;
 		
