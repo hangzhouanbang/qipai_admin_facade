@@ -1,10 +1,10 @@
-package com.anbang.qipai.admin.plan.dao;
+package com.anbang.qipai.admin.plan.dao.recorddao;
 
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
 
-import com.anbang.qipai.admin.plan.domain.MemberGoldRecordDbo;
+import com.anbang.qipai.admin.plan.domain.record.MemberGoldRecordDbo;
 
 public interface MemberGoldRecordDao {
 

@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.dao.MemberGoldRecordDao;
-import com.anbang.qipai.admin.plan.domain.MemberGoldRecordDbo;
+import com.anbang.qipai.admin.plan.dao.recorddao.MemberGoldRecordDao;
+import com.anbang.qipai.admin.plan.domain.record.MemberGoldRecordDbo;
 import com.mongodb.WriteResult;
 
 @Component

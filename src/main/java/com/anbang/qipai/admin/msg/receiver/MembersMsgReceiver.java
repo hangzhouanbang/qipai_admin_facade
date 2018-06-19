@@ -19,11 +19,10 @@ public class MembersMsgReceiver {
 	@StreamListener(MembersSink.MEMBERS)
 	public void addMember(Object payload) {
 		JSONObject json = JSONObject.fromObject(payload);
-		JSONObject objmsg = (JSONObject) json.get("msg");
-		String msg = (String) JSONObject.toBean(objmsg);
+		String msg = (String) json.get("msg");
 		if ("newMember".equals(msg)) {
 			JSONObject obj = (JSONObject) json.get("data");
-			MemberDbo member = (MemberDbo) JSONObject.toBean(obj);
+			MemberDbo member = (MemberDbo) JSONObject.toBean(obj, MemberDbo.class);
 			memberService.addMember(member);
 		}
 	}

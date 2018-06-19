@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.anbang.qipai.admin.plan.dao.MemberGoldRecordDao;
-import com.anbang.qipai.admin.plan.domain.MemberGoldRecordDbo;
+import com.anbang.qipai.admin.plan.dao.recorddao.MemberGoldRecordDao;
+import com.anbang.qipai.admin.plan.domain.record.MemberGoldRecordDbo;
 import com.highto.framework.web.page.ListPage;
 
 @Service

@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.domain;
+package com.anbang.qipai.admin.plan.domain.record;
 
 import com.dml.accounting.AccountingSummary;
 

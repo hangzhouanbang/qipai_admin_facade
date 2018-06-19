@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.service.MemberGoldService;
+import com.anbang.qipai.admin.plan.service.MemberScoreService;
 import com.anbang.qipai.admin.plan.service.MemberService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
@@ -29,6 +30,9 @@ public class MemberCtrl {
 
 	@Autowired
 	private MemberGoldService memberGoldService;
+
+	@Autowired
+	private MemberScoreService memberScoreService;
 
 	@RequestMapping("/queryMember")
 	public Map<String, Object> queryMember(@RequestParam(name = "page", defaultValue = "1") Integer page,
@@ -55,4 +59,20 @@ public class MemberCtrl {
 		return vo;
 	}
 
+	@RequestMapping("/queryscorerecord")
+	public CommonVO queryScoreRecord(@RequestParam(name = "page", defaultValue = "1") Integer page,
+			@RequestParam(name = "size", defaultValue = "10") Integer size, String memberId) {
+		CommonVO vo = new CommonVO();
+		if (memberId == null) {
+			vo.setSuccess(false);
+			vo.setMsg("memberId is null");
+			return vo;
+		}
+		Sort sort = new Sort(new Order("id"));
+		ListPage listPage = memberScoreService.findScoreRecordById(page, size, sort, memberId);
+		vo.setSuccess(true);
+		vo.setMsg("goldrecordList");
+		vo.setData(listPage);
+		return vo;
+	}
 }
