@@ -16,5 +16,5 @@ public interface MemberDao {
 
 	Boolean deleteMember(String[] ids);
 
-	Boolean editMember(MemberDbo member);
+	void editMember(MemberDbo member);
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.MemberDao;
@@ -46,8 +47,40 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public Boolean editMember(MemberDbo member) {
-		return true;
+	public void editMember(MemberDbo dbo) {
+		Query query = new Query(Criteria.where("id").is(dbo.getId()));
+		Update update = new Update();
+		if (dbo.getVip() != null) {
+			update.set("vip", dbo.getVip());
+		}
+		if (dbo.getGender() != null) {
+			update.set("gender", dbo.getGender());
+		}
+		if (dbo.getGold() != null) {
+			update.set("gold", dbo.getGold());
+		}
+		if (dbo.getHeadimgurl() != null) {
+			update.set("headimgurl", dbo.getHeadimgurl());
+		}
+		if (dbo.getNickname() != null) {
+			update.set("nickname", dbo.getNickname());
+		}
+		if (dbo.getPhone() != null) {
+			update.set("phone", dbo.getPhone());
+		}
+		if (dbo.getScore() != null) {
+			update.set("score", dbo.getScore());
+		}
+		if (dbo.getVipEndTime() != null) {
+			update.set("vipEndTime", dbo.getVipEndTime());
+		}
+		if (dbo.getVipLevel() != null) {
+			update.set("vipLevel", dbo.getVipLevel());
+		}
+		if (dbo.getVipScore() != null) {
+			update.set("vipScore", dbo.getVipScore());
+		}
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override

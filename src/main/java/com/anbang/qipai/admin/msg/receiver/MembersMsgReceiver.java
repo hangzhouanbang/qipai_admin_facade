@@ -17,13 +17,18 @@ public class MembersMsgReceiver {
 	private MemberService memberService;
 
 	@StreamListener(MembersSink.MEMBERS)
-	public void addMember(Object payload) {
+	public void recordMember(Object payload) {
 		JSONObject json = JSONObject.fromObject(payload);
 		String msg = (String) json.get("msg");
 		if ("newMember".equals(msg)) {
 			JSONObject obj = (JSONObject) json.get("data");
 			MemberDbo member = (MemberDbo) JSONObject.toBean(obj, MemberDbo.class);
 			memberService.addMember(member);
+		}
+		if ("updateMember".equals(msg)) {
+			JSONObject obj = (JSONObject) json.get("data");
+			MemberDbo member = (MemberDbo) JSONObject.toBean(obj, MemberDbo.class);
+			memberService.editMember(member);
 		}
 	}
 
