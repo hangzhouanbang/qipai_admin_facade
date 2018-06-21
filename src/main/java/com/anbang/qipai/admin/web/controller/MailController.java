@@ -16,7 +16,9 @@ import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
 import com.anbang.qipai.admin.plan.service.MailService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
+import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.UserVo;
+import com.qiniu.util.Auth;
 
 import net.sf.json.JSONObject;
 
@@ -64,6 +66,24 @@ public class MailController {
 		Map<String,Object> map = mailService.findall(page, size,adminname,status);
 		logger.info("adminname:"+adminname);
 		return map;
+	}
+	
+	/**邮件图片上传，获取七牛云token
+	 * **/
+	@RequestMapping("/uptoken")
+	@ResponseBody
+	public CommonRemoteVO uptoken() {
+		CommonRemoteVO co = new CommonRemoteVO();
+		String accessKey = "qQj7mRKyvE7dOOjObMC8W58i6Yn3penfr7-_fg4d";
+		String secretKey = "9f70kmAddF1maP1U0jy0vRNAhwWNv_huR1xDSH_s";
+		String bucket = "anbang";
+		
+		Auth auth = Auth.create(accessKey, secretKey);
+		String uptoken = auth.uploadToken(bucket);
+		co.setSuccess(true);
+		co.setData(uptoken);
+		co.setMsg("Obtaintoken");
+		return co;
 	}
 
 }

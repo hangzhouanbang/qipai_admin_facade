@@ -35,8 +35,8 @@ public class MemberService {
 		return memberDao.deleteMember(ids);
 	}
 
-	public Boolean editMember(MemberDbo member) {
-		return memberDao.editMember(member);
+	public void editMember(MemberDbo member) {
+		memberDao.editMember(member);
 	}
 
 }
