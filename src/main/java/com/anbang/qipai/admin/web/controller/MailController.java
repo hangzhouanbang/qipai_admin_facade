@@ -77,6 +77,7 @@ public class MailController {
 //		String accessKey = "qQj7mRKyvE7dOOjObMC8W58i6Yn3penfr7-_fg4d";
 //		String secretKey = "9f70kmAddF1maP1U0jy0vRNAhwWNv_huR1xDSH_s";
 //		String bucket = "anbang";
+		logger.info("密钥:"+accessKey+secretKey+bucket);
 		Auth auth = Auth.create(accessKey, secretKey);
 		String uptoken = auth.uploadToken(bucket);
 		co.setSuccess(true);

@@ -32,7 +32,7 @@ public class MailService{
 			 query = new Query(Criteria.where("status").is(status));
 		 }else {
 			 Criteria criteria = new Criteria();
-			 criteria.andOperator(Criteria.where("adminname").is(adminname),Criteria.where("status").is(status));//多条件查询
+			 criteria.andOperator(Criteria.where("adminname").regex(adminname),Criteria.where("status").is(status));//多条件查询
 			 query = new Query(criteria);
 		 }
 		return maildao.findall(query,pageable,size);
