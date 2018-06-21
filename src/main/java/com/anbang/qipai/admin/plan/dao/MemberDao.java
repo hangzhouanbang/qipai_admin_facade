@@ -8,7 +8,7 @@ import com.anbang.qipai.admin.plan.domain.MemberDbo;
 
 public interface MemberDao {
 
-	List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, String nickname);
+	List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, String nickname,String vip);
 
 	long getAmount();
 

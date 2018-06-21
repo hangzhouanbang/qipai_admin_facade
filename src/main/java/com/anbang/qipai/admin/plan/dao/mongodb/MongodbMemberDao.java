@@ -20,10 +20,14 @@ public class MongodbMemberDao implements MemberDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
+	public List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, String nickname,String vip) {
 		Query query = new Query();
 		if (nickname != null) {
 			query.addCriteria(Criteria.where("nickname").regex(nickname));
+		}
+		if(vip != null && !vip.equals("")) {
+			boolean boo = Boolean.parseBoolean(vip);
+			query.addCriteria(Criteria.where("vip").is(boo));
 		}
 		query.skip((page - 1) * size);
 		query.limit(size);

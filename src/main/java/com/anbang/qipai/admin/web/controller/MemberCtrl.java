@@ -36,9 +36,9 @@ public class MemberCtrl {
 
 	@RequestMapping("/queryMember")
 	public Map<String, Object> queryMember(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, String nickname) {
+			@RequestParam(name = "size", defaultValue = "10") Integer size, String nickname,String vip) {
 		Sort sort = new Sort(new Order("id"));
-		Map<String, Object> map = memberService.queryByConditionsAndPage(page, size, sort, nickname);
+		Map<String, Object> map = memberService.queryByConditionsAndPage(page, size, sort, nickname,vip);
 		return map;
 	}
 

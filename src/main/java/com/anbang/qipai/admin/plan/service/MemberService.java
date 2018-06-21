@@ -17,11 +17,11 @@ public class MemberService {
 	@Autowired
 	private MemberDao memberDao;
 
-	public Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
+	public Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, String nickname,String vip) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		long amount = memberDao.getAmount();
 		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
-		List<MemberDbo> memberList = memberDao.queryByConditionsAndPage(page, size, sort, nickname);
+		List<MemberDbo> memberList = memberDao.queryByConditionsAndPage(page, size, sort, nickname,vip);
 		map.put("pageNumber", pageNumber);
 		map.put("memberList", memberList);
 		return map;
