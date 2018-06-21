@@ -30,6 +30,14 @@ spring:
             partitioned: false
           contentType: application/json
           
+        scores:
+          destination: scores
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+          
         game:
           destination: notice
           group: qipai_admin_facade

@@ -10,46 +10,45 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.dao.recorddao.MemberGoldRecordDao;
-import com.anbang.qipai.admin.plan.domain.record.MemberGoldRecordDbo;
+import com.anbang.qipai.admin.plan.dao.recorddao.MemberScoreRecordDao;
+import com.anbang.qipai.admin.plan.domain.record.MemberScoreRecordDbo;
 import com.mongodb.WriteResult;
 
 @Component
-public class MongodbMemberGoldRecordDao implements MemberGoldRecordDao {
-
+public class MongodbMemberScoreRecordDao implements MemberScoreRecordDao {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
 	@Override
 	public long getAmount() {
 		Query query = new Query();
-		return mongoTemplate.count(query, MemberGoldRecordDbo.class);
+		return mongoTemplate.count(query, MemberScoreRecordDbo.class);
 	}
 
 	@Override
-	public List<MemberGoldRecordDbo> findGoldRecordById(int page, int size, Sort sort, String memberId) {
+	public List<MemberScoreRecordDbo> findScoreRecordById(int page, int size, Sort sort, String memberId) {
 		Query query = new Query(Criteria.where("memberId").is(memberId));
 		query.skip((page - 1) * size);
 		query.limit(size);
 		query.with(sort);
-		return mongoTemplate.find(query, MemberGoldRecordDbo.class);
+		return mongoTemplate.find(query, MemberScoreRecordDbo.class);
 	}
 
 	@Override
-	public void addGoldRecord(MemberGoldRecordDbo dbo) {
+	public void addScoreRecord(MemberScoreRecordDbo dbo) {
 		mongoTemplate.insert(dbo);
 	}
 
 	@Override
-	public Boolean deleteGoldRecordById(String[] recordIds) {
+	public Boolean deleteScoreRecordById(String[] recordIds) {
 		Object[] ids = recordIds;
 		Query query = new Query(Criteria.where("id").in(ids));
-		WriteResult writeResult = mongoTemplate.remove(query, MemberGoldRecordDbo.class);
+		WriteResult writeResult = mongoTemplate.remove(query, MemberScoreRecordDbo.class);
 		return writeResult.getN() <= recordIds.length;
 	}
 
 	@Override
-	public Boolean updateGoldRecordById(MemberGoldRecordDbo dbo) {
+	public Boolean updateScoreRecordById(MemberScoreRecordDbo dbo) {
 		Query query = new Query(Criteria.where("id").is(dbo.getId()));
 		Update update = new Update();
 		if (dbo.getAccountId() != null) {
@@ -73,7 +72,7 @@ public class MongodbMemberGoldRecordDao implements MemberGoldRecordDao {
 		if (dbo.getAccountingTime() != null) {
 			update.set("accountingTime", dbo.getAccountingTime());
 		}
-		WriteResult writeResult = mongoTemplate.updateFirst(query, update, MemberGoldRecordDbo.class);
+		WriteResult writeResult = mongoTemplate.updateFirst(query, update, MemberScoreRecordDbo.class);
 		return writeResult.getN() > 0;
 	}
 
