@@ -61,6 +61,14 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+          
+        grade:
+          destination: grade
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
             
         mail:
           destination: mail
