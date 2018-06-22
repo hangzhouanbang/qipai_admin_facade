@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.anbang.qipai.admin.plan.service.MemberGoldService;
 import com.anbang.qipai.admin.plan.service.MemberScoreService;
 import com.anbang.qipai.admin.plan.service.MemberService;
@@ -36,9 +37,9 @@ public class MemberCtrl {
 
 	@RequestMapping("/queryMember")
 	public Map<String, Object> queryMember(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, String nickname,String vip) {
+			@RequestParam(name = "size", defaultValue = "10") Integer size, MemberDbo member) {
 		Sort sort = new Sort(new Order("id"));
-		Map<String, Object> map = memberService.queryByConditionsAndPage(page, size, sort, nickname,vip);
+		Map<String, Object> map = memberService.queryByConditionsAndPage(page, size, sort, member);
 		return map;
 	}
 

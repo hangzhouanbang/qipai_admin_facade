@@ -20,14 +20,13 @@ public class MongodbMemberDao implements MemberDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, String nickname,String vip) {
+	public List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, MemberDbo member) {
 		Query query = new Query();
-		if (nickname != null) {
-			query.addCriteria(Criteria.where("nickname").regex(nickname));
+		if (member.getNickname() != null) {
+			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
-		if(vip != null && !vip.equals("")) {
-			boolean boo = Boolean.parseBoolean(vip);
-			query.addCriteria(Criteria.where("vip").is(boo));
+		if (member.getVip() != null) {
+			query.addCriteria(Criteria.where("vip").is(member.getVip()));
 		}
 		query.skip((page - 1) * size);
 		query.limit(size);
@@ -84,12 +83,21 @@ public class MongodbMemberDao implements MemberDao {
 		if (dbo.getVipScore() != null) {
 			update.set("vipScore", dbo.getVipScore());
 		}
+		if (dbo.getRMB() != null) {
+			update.set("RMB", dbo.getRMB());
+		}
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override
-	public long getAmount() {
+	public long getAmount(MemberDbo member) {
 		Query query = new Query();
+		if (member.getNickname() != null) {
+			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
+		}
+		if (member.getVip() != null) {
+			query.addCriteria(Criteria.where("vip").is(member.getVip()));
+		}
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 

@@ -27,10 +27,18 @@ public class MongodbOrderDao implements OrderDao {
 	}
 
 	@Override
-	public Boolean updateOrderStatus(String out_trade_no, int status) {
+	public Boolean updateOrder(String out_trade_no, Order order) {
 		Query query = new Query(Criteria.where("out_trade_no").is(out_trade_no));
 		Update update = new Update();
-		update.set("status", status);
+		if (order.getStatus() != null) {
+			update.set("status", order.getStatus());
+		}
+		if (order.getDeliveTime() != null) {
+			update.set("deliveTime", order.getDeliveTime());
+		}
+		if (order.getTransaction_id() != null) {
+			update.set("transaction_id", order.getTransaction_id());
+		}
 		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Order.class);
 		return writeResult.getN() > 0;
 	}
@@ -53,25 +61,20 @@ public class MongodbOrderDao implements OrderDao {
 		if (order.getNickname() != null) {
 			query.addCriteria(Criteria.where("nickname").regex(order.getNickname()));
 		}
-		if (order.getStartTime() != null) {
-			query.addCriteria(Criteria.where("createTime").gte(order.getStartTime()));
-		}
-		if (order.getEndTime() != null) {
-			query.addCriteria(Criteria.where("createTime").lte(order.getEndTime()));
+		if (order.getStartTime() != null || order.getEndTime() != null) {
+			Criteria criteria = Criteria.where("createTime");
+			if (order.getStartTime() != null) {
+				criteria = criteria.gte(order.getStartTime());
+			}
+			if (order.getEndTime() != null) {
+				criteria = criteria.lte(order.getEndTime());
+			}
+			query.addCriteria(criteria);
 		}
 		query.skip((page - 1) * size);
 		query.limit(size);
 		query.with(sort);
 		return mongoTemplate.find(query, Order.class);
-	}
-
-	@Override
-	public Boolean updateTransaction_id(String out_trade_no, String transaction_id) {
-		Query query = new Query(Criteria.where("out_trade_no").is(out_trade_no));
-		Update update = new Update();
-		update.set("transaction_id", transaction_id);
-		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Order.class);
-		return writeResult.getN() > 0;
 	}
 
 	@Override
@@ -98,11 +101,15 @@ public class MongodbOrderDao implements OrderDao {
 		if (order.getNickname() != null) {
 			query.addCriteria(Criteria.where("nickname").regex(order.getNickname()));
 		}
-		if (order.getStartTime() != null) {
-			query.addCriteria(Criteria.where("createTime").gte(order.getStartTime()));
-		}
-		if (order.getEndTime() != null) {
-			query.addCriteria(Criteria.where("createTime").lte(order.getEndTime()));
+		if (order.getStartTime() != null || order.getEndTime() != null) {
+			Criteria criteria = Criteria.where("createTime");
+			if (order.getStartTime() != null) {
+				criteria = criteria.gte(order.getStartTime());
+			}
+			if (order.getEndTime() != null) {
+				criteria = criteria.lte(order.getEndTime());
+			}
+			query.addCriteria(criteria);
 		}
 		return mongoTemplate.count(query, Order.class);
 	}

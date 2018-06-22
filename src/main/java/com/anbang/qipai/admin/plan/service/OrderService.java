@@ -28,18 +28,10 @@ public class OrderService {
 		return listPage;
 	}
 
-	public Boolean updateOrderStatus(Order order) {
+	public Boolean updateOrder(Order order) {
 		Order rcd = orderDao.findOrderByOut_trade_no(order.getOut_trade_no());
 		if (order.getStatus() == 0) {
-			return orderDao.updateOrderStatus(rcd.getOut_trade_no(), order.getStatus());
-		}
-		return false;
-	}
-
-	public Boolean updateTransaction_id(Order order) {
-		Order rcd = orderDao.findOrderByOut_trade_no(order.getOut_trade_no());
-		if (order.getStatus() == 0) {
-			return orderDao.updateTransaction_id(rcd.getOut_trade_no(), order.getTransaction_id());
+			return orderDao.updateOrder(rcd.getOut_trade_no(), order);
 		}
 		return false;
 	}
