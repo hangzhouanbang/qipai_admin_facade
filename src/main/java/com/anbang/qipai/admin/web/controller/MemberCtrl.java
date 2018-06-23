@@ -1,7 +1,5 @@
 package com.anbang.qipai.admin.web.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -13,6 +11,8 @@ import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.anbang.qipai.admin.plan.service.MemberGoldService;
 import com.anbang.qipai.admin.plan.service.MemberScoreService;
 import com.anbang.qipai.admin.plan.service.MemberService;
+import com.anbang.qipai.admin.remote.service.QipaiMembersService;
+import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
 
@@ -23,11 +23,14 @@ import com.highto.framework.web.page.ListPage;
  *
  */
 @RestController
-@RequestMapping("/memberCtrl")
+@RequestMapping("/member")
 public class MemberCtrl {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private QipaiMembersService qipaiMembersService;
 
 	@Autowired
 	private MemberGoldService memberGoldService;
@@ -35,13 +38,36 @@ public class MemberCtrl {
 	@Autowired
 	private MemberScoreService memberScoreService;
 
-	@RequestMapping("/queryMember")
-	public Map<String, Object> queryMember(@RequestParam(name = "page", defaultValue = "1") Integer page,
+	@RequestMapping("/querymember")
+	public CommonVO queryMember(@RequestParam(name = "page", defaultValue = "1") Integer page,
 			@RequestParam(name = "size", defaultValue = "10") Integer size, MemberDbo member) {
+		CommonVO vo = new CommonVO();
 		Sort sort = new Sort(new Order("id"));
-		Map<String, Object> map = memberService.queryByConditionsAndPage(page, size, sort, member);
-		return map;
+		ListPage listPage = memberService.queryByConditionsAndPage(page, size, sort, member);
+		vo.setSuccess(true);
+		vo.setMsg("memberList");
+		vo.setData(listPage);
+		return vo;
 	}
+	
+	/**批量赠送金币或积分
+	 * **/
+	@RequestMapping("/give_reward")
+	public CommonRemoteVO give_reward(@RequestParam(value = "id")String[] id,Integer score,Integer gold) {
+		//kafka发消息
+		System.out.println("数组长度："+id.length);
+		System.out.println(score);
+		System.out.println(gold);
+		CommonRemoteVO vo = qipaiMembersService.update_score_gold(id, score, gold);
+		if(vo.isSuccess()) {
+			vo.setSuccess(true);
+			return vo;
+		}
+		vo.setSuccess(false);
+		return vo;
+	}
+	
+	
 
 	@RequestMapping("/querygoldrecord")
 	public CommonVO queryGoldRecord(@RequestParam(name = "page", defaultValue = "1") Integer page,

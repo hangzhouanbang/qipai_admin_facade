@@ -22,7 +22,10 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, MemberDbo member) {
 		Query query = new Query();
-		if (member.getNickname() != null) {
+		if (member.getId() != null && member.getId() != "") {
+			query.addCriteria(Criteria.where("id").is(member.getId()));
+		}
+		if (member.getNickname() != null && member.getNickname() != "") {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
 		if (member.getVip() != null) {
@@ -83,8 +86,8 @@ public class MongodbMemberDao implements MemberDao {
 		if (dbo.getVipScore() != null) {
 			update.set("vipScore", dbo.getVipScore());
 		}
-		if (dbo.getRMB() != null) {
-			update.set("RMB", dbo.getRMB());
+		if (dbo.getCost() != null) {
+			update.set("cost", dbo.getCost());
 		}
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
@@ -92,13 +95,21 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public long getAmount(MemberDbo member) {
 		Query query = new Query();
-		if (member.getNickname() != null) {
+		if (member.getId() != null && member.getId() != "") {
+			query.addCriteria(Criteria.where("id").is(member.getId()));
+		}
+		if (member.getNickname() != null && member.getNickname() != "") {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
 		if (member.getVip() != null) {
 			query.addCriteria(Criteria.where("vip").is(member.getVip()));
 		}
 		return mongoTemplate.count(query, MemberDbo.class);
+	}
+
+	@Override
+	public MemberDbo findMemberDbo(String id) {
+		return mongoTemplate.findById(id, MemberDbo.class);
 	}
 
 }
