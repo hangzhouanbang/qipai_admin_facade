@@ -40,8 +40,8 @@ public class MemberGradeCtrl {
 	@ResponseBody
 	public CommonVO find_grade() {
 		CommonVO co = new CommonVO();
-		MemberGrade memberGradeDbo = memberGradeService.find_grade();
-		co.setData(memberGradeDbo);
+		MemberGrade memberGrade = memberGradeService.find_grade();
+		co.setData(memberGrade);
 		return co;
 	}
 }

@@ -43,4 +43,8 @@ public interface QipaiMembersService {
 	
 	@RequestMapping(value = "/grade/insert_grade")
 	public CommonRemoteVO grade_insert_grade(@RequestBody MemberGrade memberGrade);
+	
+	@RequestMapping(value = "/member/update_score_gold")
+	public CommonRemoteVO update_score_gold(@RequestBody String[] ids,@RequestParam(value = "score")Integer score,@RequestParam(value = "gold")Integer gold);
+	
 }
