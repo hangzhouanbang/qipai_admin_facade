@@ -13,6 +13,8 @@ import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.anbang.qipai.admin.plan.service.MemberGoldService;
 import com.anbang.qipai.admin.plan.service.MemberScoreService;
 import com.anbang.qipai.admin.plan.service.MemberService;
+import com.anbang.qipai.admin.remote.service.QipaiMembersService;
+import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
 
@@ -28,6 +30,9 @@ public class MemberCtrl {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private QipaiMembersService qipaiMembersService;
 
 	@Autowired
 	private MemberGoldService memberGoldService;
@@ -42,6 +47,25 @@ public class MemberCtrl {
 		Map<String, Object> map = memberService.queryByConditionsAndPage(page, size, sort, member);
 		return map;
 	}
+	
+	/**批量赠送金币或积分
+	 * **/
+	@RequestMapping("/give_reward")
+	public CommonRemoteVO give_reward(@RequestParam(value = "id")String[] id,Integer score,Integer gold) {
+		//kafka发消息
+		System.out.println("数组长度："+id.length);
+		System.out.println(score);
+		System.out.println(gold);
+		CommonRemoteVO vo = qipaiMembersService.update_score_gold(id, score, gold);
+		if(vo.isSuccess()) {
+			vo.setSuccess(true);
+			return vo;
+		}
+		vo.setSuccess(false);
+		return vo;
+	}
+	
+	
 
 	@RequestMapping("/querygoldrecord")
 	public CommonVO queryGoldRecord(@RequestParam(name = "page", defaultValue = "1") Integer page,

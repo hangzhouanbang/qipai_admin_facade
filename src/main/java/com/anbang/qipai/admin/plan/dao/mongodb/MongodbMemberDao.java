@@ -101,4 +101,9 @@ public class MongodbMemberDao implements MemberDao {
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
+	@Override
+	public MemberDbo findMemberDbo(String id) {
+		return mongoTemplate.findById(id, MemberDbo.class);
+	}
+
 }
