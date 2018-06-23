@@ -27,8 +27,8 @@ public class MongodbOrderDao implements OrderDao {
 	}
 
 	@Override
-	public Boolean updateOrder(String out_trade_no, Order order) {
-		Query query = new Query(Criteria.where("out_trade_no").is(out_trade_no));
+	public Boolean updateOrder(Order order) {
+		Query query = new Query(Criteria.where("out_trade_no").is(order.getOut_trade_no()));
 		Update update = new Update();
 		if (order.getStatus() != null) {
 			update.set("status", order.getStatus());
@@ -56,7 +56,16 @@ public class MongodbOrderDao implements OrderDao {
 			query.addCriteria(Criteria.where("memberId").is(order.getMemberId()));
 		}
 		if (order.getStatus() != null) {
-			query.addCriteria(Criteria.where("status").is(order.getStatus()));
+			if ("0".equals(order.getStatus())) {
+				query.addCriteria(Criteria.where("status").in("WAIT_BUYER_PAY", "USERPAYING"));
+			}
+			if ("-1".equals(order.getStatus())) {
+				query.addCriteria(
+						Criteria.where("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR"));
+			}
+			if ("1".equals(order.getStatus())) {
+				query.addCriteria(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS"));
+			}
 		}
 		if (order.getNickname() != null) {
 			query.addCriteria(Criteria.where("nickname").regex(order.getNickname()));
@@ -96,7 +105,16 @@ public class MongodbOrderDao implements OrderDao {
 			query.addCriteria(Criteria.where("memberId").is(order.getMemberId()));
 		}
 		if (order.getStatus() != null) {
-			query.addCriteria(Criteria.where("status").is(order.getStatus()));
+			if ("0".equals(order.getStatus())) {
+				query.addCriteria(Criteria.where("status").in("WAIT_BUYER_PAY", "USERPAYING"));
+			}
+			if ("-1".equals(order.getStatus())) {
+				query.addCriteria(
+						Criteria.where("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR"));
+			}
+			if ("1".equals(order.getStatus())) {
+				query.addCriteria(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS"));
+			}
 		}
 		if (order.getNickname() != null) {
 			query.addCriteria(Criteria.where("nickname").regex(order.getNickname()));

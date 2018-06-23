@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.dao.MemberDao;
 import com.anbang.qipai.admin.plan.domain.MemberDbo;
+import com.highto.framework.web.page.ListPage;
 
 @Service
 public class MemberService {
@@ -17,14 +18,12 @@ public class MemberService {
 	@Autowired
 	private MemberDao memberDao;
 
-	public Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, MemberDbo member) {
+	public ListPage queryByConditionsAndPage(int page, int size, Sort sort, MemberDbo member) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		long amount = memberDao.getAmount(member);
-		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
 		List<MemberDbo> memberList = memberDao.queryByConditionsAndPage(page, size, sort, member);
-		map.put("pageNumber", pageNumber);
-		map.put("memberList", memberList);
-		return map;
+		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
+		return listPage;
 	}
 
 	public void addMember(MemberDbo member) {

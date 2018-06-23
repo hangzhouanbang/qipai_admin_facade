@@ -29,10 +29,6 @@ public class OrderService {
 	}
 
 	public Boolean updateOrder(Order order) {
-		Order rcd = orderDao.findOrderByOut_trade_no(order.getOut_trade_no());
-		if (order.getStatus() == 0) {
-			return orderDao.updateOrder(rcd.getOut_trade_no(), order);
-		}
-		return false;
+		return orderDao.updateOrder(order);
 	}
 }

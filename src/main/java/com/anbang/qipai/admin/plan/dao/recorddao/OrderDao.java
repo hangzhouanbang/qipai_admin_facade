@@ -17,5 +17,5 @@ public interface OrderDao {
 
 	void addOrder(Order order);
 
-	Boolean updateOrder(String out_trade_no, Order order);
+	Boolean updateOrder(Order order);
 }
