@@ -53,11 +53,8 @@ public class MemberCtrl {
 	/**批量赠送金币或积分
 	 * **/
 	@RequestMapping("/give_reward")
-	public CommonRemoteVO give_reward(@RequestParam(value = "id")String[] id,Integer score,Integer gold) {
+	public CommonRemoteVO give_reward(@RequestParam(value = "id")String[] id,String score,String gold) {
 		//kafka发消息
-		System.out.println("数组长度："+id.length);
-		System.out.println(score);
-		System.out.println(gold);
 		CommonRemoteVO vo = qipaiMembersService.update_score_gold(id, score, gold);
 		if(vo.isSuccess()) {
 			vo.setSuccess(true);
