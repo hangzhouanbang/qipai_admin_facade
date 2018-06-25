@@ -18,4 +18,6 @@ public interface OrderDao {
 	void addOrder(Order order);
 
 	Boolean updateOrder(Order order);
+
+	long findOrderByTime(long startTime, long endTime);
 }

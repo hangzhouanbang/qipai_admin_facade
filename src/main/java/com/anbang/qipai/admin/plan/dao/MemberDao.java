@@ -13,10 +13,12 @@ public interface MemberDao {
 	long getAmount(MemberDbo member);
 
 	void addMember(MemberDbo member);
-	
+
 	Boolean deleteMember(String[] ids);
 
 	void editMember(MemberDbo member);
-	
+
 	MemberDbo findMemberDbo(String id);
+
+	long findMemberByTime(long startTime, long endTime);
 }

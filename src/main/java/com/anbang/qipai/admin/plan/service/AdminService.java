@@ -31,7 +31,6 @@ public class AdminService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		long amount = adminDao.getAmount();
 		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
-
 		List<Admin> adminList = adminDao.queryByConditionsAndPage(page, size, sort, nickname);
 		for (Admin admin : adminList) {
 			admin.setRoleList(RolenDao.getAllRolesOfAdmin(admin));

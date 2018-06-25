@@ -132,4 +132,14 @@ public class MongodbOrderDao implements OrderDao {
 		return mongoTemplate.count(query, Order.class);
 	}
 
+	@Override
+	public long findOrderByTime(long startTime, long endTime) {
+		// Aggregation aggregation = Aggregation.newAggregation(
+		// Aggregation.match(Criteria.where("createTime").gte(startTime).lte(endTime)),
+		// Aggregation.group("createTime").count());
+		// AggregationResults result = mongoTemplate.aggregate(aggregation, "order",
+		// Order.class);
+		return 0;
+	}
+
 }

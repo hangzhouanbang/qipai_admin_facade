@@ -112,4 +112,10 @@ public class MongodbMemberDao implements MemberDao {
 		return mongoTemplate.findById(id, MemberDbo.class);
 	}
 
+	@Override
+	public long findMemberByTime(long startTime, long endTime) {
+		Query query = new Query(Criteria.where("createTime").gte(startTime).lte(endTime));
+		return mongoTemplate.count(query, MemberDbo.class);
+	}
+
 }
