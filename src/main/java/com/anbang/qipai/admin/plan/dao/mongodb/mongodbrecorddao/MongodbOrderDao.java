@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.plan.dao.recorddao.OrderDao;
 import com.anbang.qipai.admin.plan.domain.record.Order;
 import com.anbang.qipai.admin.web.vo.OrderVO;
+import com.mongodb.BasicDBObject;
 import com.mongodb.WriteResult;
 
 @Component
@@ -133,13 +136,14 @@ public class MongodbOrderDao implements OrderDao {
 	}
 
 	@Override
-	public long findOrderByTime(long startTime, long endTime) {
-		// Aggregation aggregation = Aggregation.newAggregation(
-		// Aggregation.match(Criteria.where("createTime").gte(startTime).lte(endTime)),
-		// Aggregation.group("createTime").count());
-		// AggregationResults result = mongoTemplate.aggregate(aggregation, "order",
-		// Order.class);
-		return 0;
+	public double countCostByTime(long startTime, long endTime) {
+		Aggregation aggregation = Aggregation.newAggregation(Order.class,
+				Aggregation.match(Criteria.where("createTime").gte(startTime).lte(endTime)),
+				Aggregation.group().sum("totalamount").as("cost"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, Order.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		return list.get(0).getDouble("cost");
 	}
 
 }

@@ -16,7 +16,7 @@ import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 import com.mongodb.WriteResult;
 
 @Component
-public class MongdbAdminDao implements AdminDao {
+public class MongodbAdminDao implements AdminDao {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;

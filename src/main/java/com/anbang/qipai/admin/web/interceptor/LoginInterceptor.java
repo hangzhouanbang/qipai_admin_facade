@@ -32,11 +32,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		if (request.getSession().getAttribute("user") != null) {
-			System.out.println("用户已登录");
 			return true;
 		}
 		request.getRequestDispatcher("/index.html").forward(request, response);
-		System.out.println("用户未登录，跳转登录页面");
 		return false;
 	}
 

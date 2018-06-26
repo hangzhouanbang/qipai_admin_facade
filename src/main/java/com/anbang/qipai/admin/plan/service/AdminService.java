@@ -13,6 +13,7 @@ import com.anbang.qipai.admin.plan.dao.AdminDao;
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
 import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
+import com.anbang.qipai.admin.util.MD5Util;
 
 @Service
 public class AdminService {
@@ -24,6 +25,7 @@ public class AdminService {
 	private RoleDao RolenDao;
 
 	public Admin verifyAdmin(String nickname, String pass) {
+		pass = MD5Util.getMD5(pass, "utf-8");
 		return adminDao.verifyAdmin(nickname, pass);
 	}
 
@@ -41,6 +43,7 @@ public class AdminService {
 	}
 
 	public void addAdmin(Admin admin) {
+		admin.setPass(MD5Util.getMD5(admin.getPass(), "utf-8"));
 		adminDao.addAdmin(admin);
 	}
 

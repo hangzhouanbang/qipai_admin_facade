@@ -113,7 +113,7 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public long findMemberByTime(long startTime, long endTime) {
+	public long countNewMemberByTime(long startTime, long endTime) {
 		Query query = new Query(Criteria.where("createTime").gte(startTime).lte(endTime));
 		return mongoTemplate.count(query, MemberDbo.class);
 	}

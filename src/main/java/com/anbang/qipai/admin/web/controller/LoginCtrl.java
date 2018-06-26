@@ -41,7 +41,6 @@ public class LoginCtrl {
 	@RequestMapping("/login")
 	public Map<String, Object> login(@RequestParam(name = "nickname", required = true) String nickname,
 			@RequestParam(name = "pass", required = true) String pass, HttpSession session) {
-		System.out.println("nickname:" + nickname + "pass:" + pass);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Admin admin = adminService.verifyAdmin(nickname, pass);
 		Map<String, PrivilegeVo> privilegeList = new HashMap<String, PrivilegeVo>();
@@ -76,10 +75,8 @@ public class LoginCtrl {
 	public String logout(HttpSession session) {
 		session.removeAttribute("user");
 		if (session.getAttribute("user") == null) {
-			System.out.println("用户登出成功");
 			return "success";
 		}
-		System.out.println("用户登出失败");
 		return "fail";
 	}
 }

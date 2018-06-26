@@ -22,9 +22,11 @@ public class PermissionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String uri = request.getRequestURI();
-		@SuppressWarnings("unchecked")
-		Map<String, PrivilegeVo> privilegevos = (Map<String, PrivilegeVo>) request.getSession()
-				.getAttribute("privilegeList");
+		Object obj = request.getSession().getAttribute("privilegeList");
+		Map<String, PrivilegeVo> privilegevos = (Map<String, PrivilegeVo>) obj;
+		if (privilegevos.get(uri) == null) {
+			return false;
+		}
 		return privilegevos.get(uri).getSelected();
 	}
 

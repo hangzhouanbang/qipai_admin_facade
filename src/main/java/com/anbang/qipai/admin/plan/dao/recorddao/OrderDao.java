@@ -19,5 +19,5 @@ public interface OrderDao {
 
 	Boolean updateOrder(Order order);
 
-	long findOrderByTime(long startTime, long endTime);
+	double countCostByTime(long startTime, long endTime);
 }

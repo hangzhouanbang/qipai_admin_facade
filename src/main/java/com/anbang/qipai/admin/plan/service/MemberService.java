@@ -1,8 +1,6 @@
 package com.anbang.qipai.admin.plan.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -19,7 +17,6 @@ public class MemberService {
 	private MemberDao memberDao;
 
 	public ListPage queryByConditionsAndPage(int page, int size, Sort sort, MemberDbo member) {
-		Map<String, Object> map = new HashMap<String, Object>();
 		long amount = memberDao.getAmount(member);
 		List<MemberDbo> memberList = memberDao.queryByConditionsAndPage(page, size, sort, member);
 		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
@@ -38,4 +35,7 @@ public class MemberService {
 		memberDao.editMember(member);
 	}
 
+	public long countNewMemberByTime(long startTime, long endTime) {
+		return memberDao.countNewMemberByTime(startTime, endTime);
+	}
 }

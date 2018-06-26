@@ -36,6 +36,10 @@ public class OrderService {
 		return orderDao.updateOrder(order);
 	}
 
+	public double countCostByTime(long startTime, long endTime) {
+		return orderDao.countCostByTime(startTime, endTime);
+	}
+
 	public String exportOrder(Sort sort, OrderVO order) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
