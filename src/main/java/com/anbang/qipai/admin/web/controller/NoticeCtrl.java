@@ -45,6 +45,7 @@ public class NoticeCtrl {
 	@RequestMapping("/querynotice")
 	@ResponseBody
 	public Map<String, Object> queryNotice(Integer page, Integer size) {
+		System.out.println("123");
 		Map<String, Object> map = noticeService.findAll(page, size);
 		return map;
 	}
@@ -74,8 +75,8 @@ public class NoticeCtrl {
 	 **/
 	@RequestMapping("/updatenotice")
 	@ResponseBody
-	public String updateNotice() {
-		CommonRemoteVO co = qipaiGameRomoteService.updateNotice();
+	public String updateNotice(String id) {
+		CommonRemoteVO co = qipaiGameRomoteService.updateNotice(id);
 		if (co.isSuccess()) {
 			return "success";
 		} else {

@@ -45,10 +45,8 @@ public class MailController {
 	@ResponseBody
 	public String addmail(SystemMail mail,HttpSession session) {
 		UserVo uservo = (UserVo) session.getAttribute("user");
-//		Admin admin = uservo.getAdmin();
-//		logger.info("mail:"+admin.getNickname());
-//		logger.info("mail:"+mail.getTitle());
-//		mail.setAdminname(admin.getNickname());
+		Admin admin = uservo.getAdmin();
+		mail.setAdminname(admin.getNickname());
 		JSONObject json = JSONObject.fromObject(mail);
 		String str = json.toString();
 		logger.info(str);

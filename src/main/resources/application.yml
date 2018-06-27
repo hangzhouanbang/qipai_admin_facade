@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/qipai_admin_facade
+      uri: mongodb://192.168.0.116:27017/qipai_admin_facade
       
   cloud:
     stream:
