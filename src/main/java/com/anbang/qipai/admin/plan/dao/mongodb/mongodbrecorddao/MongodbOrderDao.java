@@ -138,12 +138,17 @@ public class MongodbOrderDao implements OrderDao {
 	@Override
 	public double countCostByTime(long startTime, long endTime) {
 		Aggregation aggregation = Aggregation.newAggregation(Order.class,
-				Aggregation.match(Criteria.where("createTime").gte(startTime).lte(endTime)),
+				Aggregation.match(Criteria.where("createTime").gte(startTime).lte(endTime).and("status")
+						.in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS")),
 				Aggregation.group().sum("totalamount").as("cost"));
 		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, Order.class,
 				BasicDBObject.class);
 		List<BasicDBObject> list = result.getMappedResults();
-		return list.get(0).getDouble("cost");
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getDouble("cost");
 	}
 
 }

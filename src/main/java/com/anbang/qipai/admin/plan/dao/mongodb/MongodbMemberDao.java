@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.MemberDao;
 import com.anbang.qipai.admin.plan.domain.MemberDbo;
+import com.mongodb.BasicDBObject;
 import com.mongodb.WriteResult;
 
 @Component
@@ -89,6 +92,15 @@ public class MongodbMemberDao implements MemberDao {
 		if (dbo.getCost() != null) {
 			update.set("cost", dbo.getCost());
 		}
+		if (dbo.getLastLoginTime() != null) {
+			update.set("cost", dbo.getLastLoginTime());
+		}
+		if (dbo.getLoginIp() != null) {
+			update.set("cost", dbo.getLoginIp());
+		}
+		if (dbo.getOnlineTime() != null) {
+			update.set("cost", dbo.getOnlineTime());
+		}
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
@@ -114,8 +126,31 @@ public class MongodbMemberDao implements MemberDao {
 
 	@Override
 	public long countNewMemberByTime(long startTime, long endTime) {
-		Query query = new Query(Criteria.where("createTime").gte(startTime).lte(endTime));
+		Query query = new Query(Criteria.where("createTime").gte(startTime).lt(endTime));
 		return mongoTemplate.count(query, MemberDbo.class);
+	}
+
+	@Override
+	public long countVIP() {
+		Query query = new Query(Criteria.where("vip").is(true));
+		return mongoTemplate.count(query, MemberDbo.class);
+	}
+
+	@Override
+	public long countRemain(long deviation) {
+		Aggregation aggregation = Aggregation.newAggregation(MemberDbo.class,
+				Aggregation.project("createTime", "lastLoginTime").andExpression("lastLoginTime-createTime")
+						.as("deviation"),
+				Aggregation.match(Criteria.where("deviation").gte(deviation)),
+				Aggregation.group().count().as("remain"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberDbo.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getLong("remain");
 	}
 
 }

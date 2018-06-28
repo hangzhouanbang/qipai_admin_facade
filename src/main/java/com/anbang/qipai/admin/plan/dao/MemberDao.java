@@ -21,4 +21,8 @@ public interface MemberDao {
 	MemberDbo findMemberDbo(String id);
 
 	long countNewMemberByTime(long startTime, long endTime);
+
+	long countVIP();
+
+	long countRemain(long deviation);
 }

@@ -38,4 +38,12 @@ public class MemberService {
 	public long countNewMemberByTime(long startTime, long endTime) {
 		return memberDao.countNewMemberByTime(startTime, endTime);
 	}
+
+	public long countVIP() {
+		return memberDao.countVIP();
+	}
+
+	public long countRemain(long deviation) {
+		return memberDao.countRemain(deviation);
+	}
 }

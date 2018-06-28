@@ -19,8 +19,10 @@ public class MongodbPlatformReportDao implements PlatformReportDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<PlatformReport> findReportByTime(long startTime, long endTime) {
+	public List<PlatformReport> findReportByTime(int page, int size, long startTime, long endTime) {
 		Query query = new Query(Criteria.where("date").gte(startTime).lte(endTime));
+		query.skip((page - 1) * size);
+		query.limit(size);
 		return mongoTemplate.find(query, PlatformReport.class);
 	}
 
@@ -61,6 +63,12 @@ public class MongodbPlatformReportDao implements PlatformReportDao {
 			update.set("remainMonth", report.getRemainMonth());
 		}
 		mongoTemplate.updateFirst(query, update, PlatformReport.class);
+	}
+
+	@Override
+	public long getAmount(long startTime, long endTime) {
+		Query query = new Query(Criteria.where("date").gte(startTime).lte(endTime));
+		return mongoTemplate.count(query, PlatformReport.class);
 	}
 
 }
