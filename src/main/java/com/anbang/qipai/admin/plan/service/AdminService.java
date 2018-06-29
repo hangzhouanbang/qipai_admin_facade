@@ -22,7 +22,7 @@ public class AdminService {
 	private AdminDao adminDao;
 
 	@Autowired
-	private RoleDao RolenDao;
+	private RoleDao RoleDao;
 
 	public Admin verifyAdmin(String nickname, String pass) {
 		pass = MD5Util.getMD5(pass, "utf-8");
@@ -35,7 +35,7 @@ public class AdminService {
 		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
 		List<Admin> adminList = adminDao.queryByConditionsAndPage(page, size, sort, nickname);
 		for (Admin admin : adminList) {
-			admin.setRoleList(RolenDao.getAllRolesOfAdmin(admin));
+			admin.setRoleList(RoleDao.getAllRolesOfAdmin(admin));
 		}
 		map.put("pageNumber", pageNumber);
 		map.put("adminList", adminList);
