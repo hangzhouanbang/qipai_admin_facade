@@ -7,10 +7,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.systemmaildao.MailDao;
+import com.anbang.qipai.admin.plan.domain.mail.MailState;
 import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
 
 
@@ -39,8 +42,40 @@ public class MongodbMailDao implements MailDao{
 	}
 
 	@Override
-	public void deletemail(Integer id) {
-		
+	public void addMailById(MailState mailState) {
+		mongotemplate.insert(mailState);
+	}
+
+	@Override
+	public List<MailState> find_mail_record(Query query, Pageable pageable) {
+		return mongotemplate.find(query.with(pageable),MailState.class);
+	}
+
+	@Override
+	public Long count(Query query) {
+		Long total = mongotemplate.count(query,MailState.class);
+		return total;
+	}
+
+	@Override
+	public SystemMail findMailById(String id) {
+		return mongotemplate.findById(id, SystemMail.class);
+	}
+
+	@Override
+	public void updateMailState(MailState mailState) {
+		Query query = new Query(Criteria.where("id").is(mailState.getId()));
+		Update update = new Update();
+		update.set("statemail",mailState.getStatemail());
+		update.set("receive",mailState.getReceive());
+		update.set("deletestate",mailState.getDeletestate());
+		mongotemplate.updateFirst(query, update, MailState.class);
+	}
+
+	@Override
+	public List<MailState> findallmembermail(String memberid) {
+		Query query = new Query(Criteria.where("memberid").is(memberid));
+		return mongotemplate.find(query,MailState.class);
 	}
 
 	

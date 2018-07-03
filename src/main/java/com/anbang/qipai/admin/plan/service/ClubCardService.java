@@ -29,5 +29,9 @@ public class ClubCardService {
 	public Boolean updateClubCard(ClubCard clubCard) {
 		return clubCardDao.updateClubCard(clubCard);
 	}
+	
+	public ClubCard findClubCardById(String id) {
+		return clubCardDao.getClubCardById(id);
+	}
 
 }

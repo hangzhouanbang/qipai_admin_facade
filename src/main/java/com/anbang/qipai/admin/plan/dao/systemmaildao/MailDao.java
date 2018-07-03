@@ -1,10 +1,12 @@
 package com.anbang.qipai.admin.plan.dao.systemmaildao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
 
+import com.anbang.qipai.admin.plan.domain.mail.MailState;
 import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
 
 
@@ -18,15 +20,39 @@ public interface MailDao {
 	 * **/
 	Map<String,Object> findall(Query query,Pageable pageable,Integer size);
 	
+	/**查询所有会员的所有邮件状态
+	 * **/
+	List<MailState> find_mail_record(Query query,Pageable pageable);
+	
+	/**查询总会员条数
+	 * @param query 查询条件
+	 * @param return 总条数
+	 * **/
+	Long count(Query query);
+	
 	/**添加邮件
 	 * @param mail 要添加的邮件对象
 	 * **/
 	void addmail(SystemMail mail);
 	
-	/**删除邮件
-	 * @param id 要删除的邮件id
+	/**修改邮件状态*/
+	void updateMailState(MailState mailState);
+	
+	/**添加邮件状态
+	 * @param mailState 要添加的邮件状态对象
 	 * **/
-	void deletemail(Integer id);
+	void addMailById(MailState mailState);
+	
+	/**根据邮件id查询邮件*/
+	SystemMail findMailById(String id);
+	
+	/**查询一个会员的所有邮件
+	 * @param memberid 会员编号
+	 * **/
+	List<MailState> findallmembermail(String memberid);
+	
+	
+	
 	
 	
 

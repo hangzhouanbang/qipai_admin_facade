@@ -32,6 +32,9 @@ public interface QipaiGameRomoteService {
 	@RequestMapping(value = "/mail/addmail")
 	public CommonRemoteVO addmail(@RequestParam(value = "mail") String mail);
 	
+	@RequestMapping(value = "/mail/addmailbyid")
+	public CommonRemoteVO addMailById(@RequestParam(value = "mail") String mail,@RequestBody String[] ids);
+	
 	@RequestMapping(value = "/member/plan_rights_conf")
 	public CommonRemoteVO commonuser(@RequestParam(value = "planMemberRoomsCount") int planMemberRoomsCount,@RequestParam(value = "planMemberRoomsAliveHours") int planMemberRoomsAliveHours,
 			@RequestParam(value = "planMemberMaxCreateRoomDaily") int planMemberMaxCreateRoomDaily,@RequestParam(value = "planMemberCreateRoomDailyGoldPrice")

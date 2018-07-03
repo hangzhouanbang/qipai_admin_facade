@@ -26,6 +26,10 @@ public class MemberService {
 	public void addMember(MemberDbo member) {
 		memberDao.addMember(member);
 	}
+	
+	public MemberDbo findMemberDbo(String id) {
+		return memberDao.findMemberDbo(id);
+	}
 
 	public Boolean deleteMember(String[] ids) {
 		return memberDao.deleteMember(ids);

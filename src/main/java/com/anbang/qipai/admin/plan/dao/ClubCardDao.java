@@ -15,4 +15,5 @@ public interface ClubCardDao {
 	Boolean deleteClubCardByIds(String[] clubCardIds);
 
 	Boolean updateClubCard(ClubCard clubCard);
+	
 }
