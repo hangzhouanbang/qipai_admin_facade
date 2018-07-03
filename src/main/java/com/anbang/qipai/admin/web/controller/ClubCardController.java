@@ -37,12 +37,6 @@ public class ClubCardController {
 	@RequestMapping("/addclubcard")
 	public CommonVO addClubCard(ClubCard clubCard) {
 		CommonVO vo = new CommonVO();
-		if (clubCard.getName() == null || clubCard.getPrice() == null || clubCard.getGold() == null
-				|| clubCard.getScore() == null || clubCard.getTime() == null) {
-			vo.setSuccess(false);
-			vo.setMsg("admin at least one param is null");
-			return vo;
-		}
 		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_add(clubCard);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
@@ -54,12 +48,8 @@ public class ClubCardController {
 			card.setScore((Integer) map.get("score"));
 			card.setTime((long) ((Integer) map.get("time")));
 			clubCardService.addClubCard(card);
-			vo.setSuccess(true);
-			vo.setMsg("admin add success");
-			vo.setData(commonRemoteVO.getData());
-			return vo;
 		}
-		vo.setSuccess(false);
+		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}

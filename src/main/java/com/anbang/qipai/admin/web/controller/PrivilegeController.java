@@ -18,7 +18,7 @@ import net.sf.json.JSONArray;
 
 @RestController
 @RequestMapping("/privilegeCtrl")
-public class PrivilegeCtrl {
+public class PrivilegeController {
 
 	@Autowired
 	private PrivilegeService privilegeService;

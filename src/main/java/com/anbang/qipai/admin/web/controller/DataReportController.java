@@ -18,7 +18,7 @@ import com.highto.framework.web.page.ListPage;
 
 @RestController
 @RequestMapping("/datareport")
-public class DataReportCtrl {
+public class DataReportController {
 
 	@Autowired
 	private ReportService reportService;

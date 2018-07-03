@@ -14,7 +14,7 @@ import com.highto.framework.web.page.ListPage;
 
 @RestController
 @RequestMapping("/order")
-public class OrderCtrl {
+public class OrderController {
 	@Autowired
 	private OrderService orderService;
 

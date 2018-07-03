@@ -21,7 +21,7 @@ import com.anbang.qipai.admin.plan.service.RoleService;
  */
 @RestController
 @RequestMapping("/roleCtrl")
-public class RoleCtrl {
+public class RoleController {
 	@Autowired
 	private RoleService roleService;
 

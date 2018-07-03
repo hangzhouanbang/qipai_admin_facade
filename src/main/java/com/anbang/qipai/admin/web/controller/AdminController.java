@@ -20,7 +20,7 @@ import com.anbang.qipai.admin.plan.service.AdminService;
  */
 @RestController
 @RequestMapping("/adminCtrl")
-public class AdminCtrl {
+public class AdminController {
 
 	@Autowired
 	private AdminService adminService;

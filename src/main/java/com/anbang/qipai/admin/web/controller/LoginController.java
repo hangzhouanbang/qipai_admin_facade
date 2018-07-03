@@ -29,7 +29,7 @@ import com.anbang.qipai.admin.web.vo.UserVo;
  */
 @RestController
 @RequestMapping("/loginCtrl")
-public class LoginCtrl {
+public class LoginController {
 
 	@Autowired
 	private AdminService adminService;

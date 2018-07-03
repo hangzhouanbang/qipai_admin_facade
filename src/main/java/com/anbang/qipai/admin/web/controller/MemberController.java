@@ -24,7 +24,7 @@ import com.highto.framework.web.page.ListPage;
  */
 @RestController
 @RequestMapping("/member")
-public class MemberCtrl {
+public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
