@@ -1,14 +1,15 @@
 package com.anbang.qipai.admin.plan.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.anbang.qipai.admin.plan.dao.TaskDocumentDao;
-import com.anbang.qipai.admin.plan.dao.TaskDocumentHistoryDao;
-import com.anbang.qipai.admin.plan.domain.TaskDocument;
-import com.anbang.qipai.admin.plan.domain.TaskDocumentHistory;
+import com.anbang.qipai.admin.plan.dao.taskdao.TaskDocumentDao;
+import com.anbang.qipai.admin.plan.domain.task.TaskDocument;
 import com.highto.framework.web.page.ListPage;
 
 @Service
@@ -17,19 +18,20 @@ public class TaskDocumentService {
 	@Autowired
 	private TaskDocumentDao taskDocumentDao;
 
-	@Autowired
-	private TaskDocumentHistoryDao taskDocumentHistoryDao;
-
 	public void addTaskDocument(TaskDocument taskDoc) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		String id = format.format(date) + UUID.randomUUID().toString().substring(26, 32);
+		taskDoc.setId(id);
 		taskDocumentDao.addTaskDocument(taskDoc);
 	}
 
-	public void deleteTaskDocuments(String[] taskIds) {
-		taskDocumentDao.deleteTaskDocuments(taskIds);
+	public boolean deleteTaskDocuments(String[] taskDocIds) {
+		return taskDocumentDao.deleteTaskDocuments(taskDocIds);
 	}
 
-	public void updateTaskDocument(TaskDocument taskDoc) {
-		taskDocumentDao.updateTaskDocument(taskDoc);
+	public boolean updateTaskDocument(TaskDocument taskDoc) {
+		return taskDocumentDao.updateTaskDocument(taskDoc);
 	}
 
 	public ListPage findTaskDocuments(int page, int size, TaskDocument taskDoc) {
@@ -39,17 +41,7 @@ public class TaskDocumentService {
 		return listPage;
 	}
 
-	public void release(String taskId, String admin) {
-		TaskDocument taskDocument = taskDocumentDao.findDocumentById(taskId);
-		TaskDocumentHistory taskDocumentHistory = new TaskDocumentHistory();
-		taskDocumentHistory.setName(taskDocument.getName());
-		taskDocumentHistory.setDesc(taskDocument.getDesc());
-		taskDocumentHistory.setCriterions(taskDocument.getCriterions());
-		taskDocumentHistory.setReward(taskDocument.getReward());
-		taskDocumentHistory.setTaskType(taskDocument.getTaskType());
-		taskDocumentHistory.setState("RELEASE");
-		taskDocumentHistory.setPromulgator(admin);
-		taskDocumentHistory.setReleaseTime(System.currentTimeMillis());
-		taskDocumentHistoryDao.addTaskDocumentHistory(taskDocumentHistory);
+	public TaskDocument findTaskDocumentById(String taskDocId) {
+		return taskDocumentDao.findTaskDocumentById(taskDocId);
 	}
 }

@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao.mongodb;
+package com.anbang.qipai.admin.plan.dao.mongodb.mongotaskdao;
 
 import java.util.List;
 
@@ -9,8 +9,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.dao.TaskDocumentDao;
-import com.anbang.qipai.admin.plan.domain.TaskDocument;
+import com.anbang.qipai.admin.plan.dao.taskdao.TaskDocumentDao;
+import com.anbang.qipai.admin.plan.domain.task.TaskDocument;
+import com.mongodb.WriteResult;
 
 @Component
 public class MongodbTaskDocumentDao implements TaskDocumentDao {
@@ -24,8 +25,8 @@ public class MongodbTaskDocumentDao implements TaskDocumentDao {
 		if (taskDoc.getName() != null) {
 			query.addCriteria(Criteria.where("name").regex(taskDoc.getName()));
 		}
-		if (taskDoc.getTaskType() != null) {
-			query.addCriteria(Criteria.where("taskType").is(taskDoc.getTaskType()));
+		if (taskDoc.getType() != null) {
+			query.addCriteria(Criteria.where("type").is(taskDoc.getType()));
 		}
 		query.skip((page - 1) * size);
 		query.limit(size);
@@ -38,16 +39,10 @@ public class MongodbTaskDocumentDao implements TaskDocumentDao {
 		if (taskDoc.getName() != null) {
 			query.addCriteria(Criteria.where("name").regex(taskDoc.getName()));
 		}
-		if (taskDoc.getTaskType() != null) {
-			query.addCriteria(Criteria.where("taskType").is(taskDoc.getTaskType()));
+		if (taskDoc.getType() != null) {
+			query.addCriteria(Criteria.where("type").is(taskDoc.getType()));
 		}
 		return mongoTemplate.count(query, TaskDocument.class);
-	}
-
-	@Override
-	public TaskDocument findDocumentById(String documentId) {
-		Query query = new Query(Criteria.where("id").is(documentId));
-		return mongoTemplate.findOne(query, TaskDocument.class);
 	}
 
 	@Override
@@ -56,32 +51,40 @@ public class MongodbTaskDocumentDao implements TaskDocumentDao {
 	}
 
 	@Override
-	public void deleteTaskDocuments(String[] taskIds) {
-		Object[] ids = taskIds;
+	public boolean deleteTaskDocuments(String[] taskDocIds) {
+		Object[] ids = taskDocIds;
 		Query query = new Query(Criteria.where("id").in(ids));
-		mongoTemplate.remove(query, TaskDocument.class);
+		WriteResult result = mongoTemplate.remove(query, TaskDocument.class);
+		return result.getN() <= taskDocIds.length;
 	}
 
 	@Override
-	public void updateTaskDocument(TaskDocument taskDoc) {
+	public boolean updateTaskDocument(TaskDocument taskDoc) {
 		Query query = new Query(Criteria.where("id").is(taskDoc.getId()));
 		Update update = new Update();
-		if (taskDoc.getCriterions() != null) {
-			update.set("criterions", taskDoc.getCriterions());
-		}
 		if (taskDoc.getDesc() != null) {
 			update.set("desc", taskDoc.getDesc());
 		}
 		if (taskDoc.getName() != null) {
 			update.set("name", taskDoc.getName());
 		}
-		if (taskDoc.getReward() != null) {
-			update.set("reward", taskDoc.getReward());
+		if (taskDoc.getTaskName() != null) {
+			update.set("taskType", taskDoc.getTaskName());
 		}
-		if (taskDoc.getTaskType() != null) {
-			update.set("taskType", taskDoc.getTaskType());
+		if (taskDoc.getType() != null) {
+			update.set("type", taskDoc.getType());
 		}
-		mongoTemplate.updateFirst(query, update, TaskDocument.class);
+		if (taskDoc.getRewardType() != null) {
+			update.set("type", taskDoc.getRewardType());
+		}
+		WriteResult result = mongoTemplate.updateFirst(query, update, TaskDocument.class);
+		return result.getN() > 0;
+	}
+
+	@Override
+	public TaskDocument findTaskDocumentById(String taskDocId) {
+		Query query = new Query(Criteria.where("id").is(taskDocId));
+		return mongoTemplate.findOne(query, TaskDocument.class);
 	}
 
 }
