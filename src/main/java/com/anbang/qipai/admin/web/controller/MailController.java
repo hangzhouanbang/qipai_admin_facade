@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.vo.UserVo;
+import com.highto.framework.web.page.ListPage;
 import com.qiniu.util.Auth;
 
 import net.sf.json.JSONObject;
@@ -122,12 +124,11 @@ public class MailController {
 			}
 		}
 		if(validDay != null) {
-			long validTime = TimeUtil.creducedate(System.currentTimeMillis(), validDay);
+			long validTime = TimeUtil.getDate(System.currentTimeMillis(), validDay);
 			mail.setValidTime(validTime);	
 		}
 		ClubCard clubCard = clubCardService.findClubCardById(vipCardId);
-		
-		mail.setVipcard(TimeUtil.creduceDay(clubCard.getTime()));
+		mail.setVipcard(TimeUtil.getDay(clubCard.getTime()));
 		JSONObject json = JSONObject.fromObject(mail);
 		String str = json.toString();
 		vo = qipaiGameRomoteService.addMailById(str, ids);
@@ -140,11 +141,22 @@ public class MailController {
 	@RequestMapping("/find_mail_record")
 	@ResponseBody
 	public CommonRemoteVO find_mail_record(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10")Integer size,String memberId,String mailType,String adminName,long startTime,long endTime) {
+			@RequestParam(name = "size", defaultValue = "10")Integer size,String memberId,String mailType,
+			 Long startTime,Long endTime,String adminName) {
 		CommonRemoteVO co = new CommonRemoteVO();
-		logger.info("开始时间："+startTime+"结束时间："+endTime);
-		Map<String,Object> map = mailService.find_mail_record(page, size, memberId, mailType,adminName,startTime,endTime);
-		co.setData(map);
+		ListPage listPage = mailService.find_mail_record(page, size, memberId, mailType,adminName,startTime,endTime);
+		co.setData(listPage);
+		co.setSuccess(true);
+		return co;
+	}
+	
+	/**批量删除邮件
+	 * */
+	@RequestMapping("/deleteMailStateAll")
+	@ResponseBody
+	public CommonRemoteVO deleteMailStateAll(@RequestParam(value = "ids")String[] ids) {
+		CommonRemoteVO co = new CommonRemoteVO();
+		mailService.deleteAllMailState(ids);
 		co.setSuccess(true);
 		return co;
 	}

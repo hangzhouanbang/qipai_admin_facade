@@ -66,4 +66,10 @@ public class MongodbClubCardDao implements ClubCardDao {
 		return writeResult.getN() > 0;
 	}
 
+	@Override
+	public ClubCard findClubCardByTime(long time) {
+		Query query = new Query(Criteria.where("time").is(time));
+		return mongoTemplate.findOne(query,ClubCard.class);
+	}
+
 }

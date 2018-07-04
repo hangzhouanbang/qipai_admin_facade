@@ -27,10 +27,12 @@ public class MailMsgReceiver {
 	 * @param payload 接收的json数据
 	 * 这里的方法的注解做消息监听
 	 * **/
+	@SuppressWarnings("unchecked")
 	@StreamListener(MailSink.mail)
 	public void mail(Object payload) {
 		JSONObject json = JSONObject.fromObject(payload);
 		String msg = (String) json.get("msg");
+		if(json.get("data") != null) {
 		//添加返回邮件信息
 		if(msg.equals("newMail")) {
 			JSONObject obj = (JSONObject) json.get("data");
@@ -41,7 +43,6 @@ public class MailMsgReceiver {
 		if(msg.equals("newMailState")) {
 			JSONArray array = json.getJSONArray("data");
 			JSONArray jsonarray = JSONArray.fromObject(array);
-			@SuppressWarnings("unchecked")
 			List<MailState> lists = (List<MailState>) JSONArray.toCollection(jsonarray,MailState.class);
 			mailService.addMailById(lists);
 		}
@@ -63,6 +64,7 @@ public class MailMsgReceiver {
 		if(msg.equals("deleteMailStateAll")) {
 			String memberId = (String) json.get("data");
 			mailService.deleteallmail(memberId);
+		}
 		}
 	}
 

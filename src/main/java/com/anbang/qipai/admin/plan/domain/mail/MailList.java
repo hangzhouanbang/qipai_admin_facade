@@ -2,13 +2,33 @@ package com.anbang.qipai.admin.plan.domain.mail;
 
 public class MailList {
 	
+	private String id;//邮件状态id
+	
 	private String memberId;//会员编号
 	
 	private String receive;//是否领取
 	
 	private long rewardTime;//领取时间
 	
+	private String vipCardName;//会员卡名称
+	
 	private SystemMail systemMail;//邮件内容
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getVipCardName() {
+		return vipCardName;
+	}
+
+	public void setVipCardName(String vipCardName) {
+		this.vipCardName = vipCardName;
+	}
 
 	public String getMemberId() {
 		return memberId;

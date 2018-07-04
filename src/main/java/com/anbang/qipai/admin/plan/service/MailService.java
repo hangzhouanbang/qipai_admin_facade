@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,16 +14,23 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.dao.ClubCardDao;
 import com.anbang.qipai.admin.plan.dao.systemmaildao.MailDao;
+import com.anbang.qipai.admin.plan.domain.ClubCard;
 import com.anbang.qipai.admin.plan.domain.mail.MailList;
 import com.anbang.qipai.admin.plan.domain.mail.MailState;
 import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
+import com.anbang.qipai.admin.util.TimeUtil;
+import com.highto.framework.web.page.ListPage;
 
 @Service
 public class MailService{
 	
 	@Autowired
 	private MailDao maildao;
+	
+	@Autowired
+	private ClubCardDao clubCardDao;
 
 	public Map<String,Object> findall(Integer page,Integer size,String adminname,Integer status) {
 		 if(page < 1) {
@@ -42,42 +50,50 @@ public class MailService{
 		return maildao.findall(query,pageable,size);
 	}
 	
-	public Map<String,Object> find_mail_record(Integer page,Integer size,String memberId,String mailType,String adminName,long startTime,long endTime){
+	public ListPage find_mail_record(Integer page,Integer size,String memberId,String mailType,String adminName,Long startTime,Long endTime){
 		if(page < 1) {
 			 page = 1;
 		 }
 		Map<String,Object> map = new HashMap<String, Object>();
 		List<MailList> lists = new ArrayList<MailList>();
 		Query query = new Query();
-		Long count = maildao.count(query);//总条数
-		Long pageCount = count%size==0?count/size:count/size+1;//总页数
-		Pageable pageable = new PageRequest(page-1,size);
 		if(memberId != null && !memberId.equals("")) {
 			 query.addCriteria(Criteria.where("memberid").is(memberId));
 		}
-		if(mailType != null && !mailType.equals("")) {
-			query.addCriteria(Criteria.where("mailType").is(mailType));
+		if(startTime != null && endTime != null && startTime != 0 && endTime != 0) {
+			query.addCriteria(Criteria.where("createTime").gte(startTime).lte(endTime));
 		}
-		if(adminName != null && !"".equals(adminName)) {
-			query.addCriteria(Criteria.where("adminname").regex(adminName));
+		List<String> liststr = new ArrayList<String>();
+		if(mailType != null && !"".equals(mailType) || adminName != null && !"".equals(adminName)) {
+			List<SystemMail> listSystemMail = maildao.findSystemMail(mailType, adminName);
+			for(SystemMail systemMail : listSystemMail) {
+				liststr.add(systemMail.getId());
+			}
+		query.addCriteria(Criteria.where("mailid").in(liststr));
 		}
-		if(startTime != 0 && endTime != 0) {
-			query.addCriteria(Criteria.where("createtime").gte(startTime));
-			query.addCriteria(Criteria.where("createtime").lte(endTime));
-		}
+		query.addCriteria(Criteria.where("deletestate").is("1"));
+		int count = maildao.count(query);//总条数
+		Pageable pageable = new PageRequest(page-1,size);
 		List<MailState> list = maildao.find_mail_record(query,pageable);
-		for(MailState mailState:list) {
-			SystemMail systemMail = maildao.findMailById(mailState.getMailid());
-			MailList mailList = new MailList();
-			mailList.setReceive(mailState.getReceive());
-			//mailList.setRewardTime(mailState);
-			mailList.setMemberId(mailState.getMemberid());
-			mailList.setSystemMail(systemMail);
-			lists.add(mailList);
+		for(MailState mailState : list) {
+			SystemMail systemMail1 = maildao.findMailById(mailState.getMailid());
+			if(systemMail1 != null) {
+				long time = TimeUtil.getTimeOnDay(systemMail1.getVipcard());
+				ClubCard clubCard = clubCardDao.findClubCardByTime(time);
+				if(clubCard != null) {
+					MailList mailList = new MailList();
+					mailList.setId(mailState.getId());
+					mailList.setReceive(mailState.getReceive());
+					mailList.setRewardTime(mailState.getRewardTime());
+					mailList.setMemberId(mailState.getMemberid());
+					mailList.setSystemMail(systemMail1);
+					mailList.setVipCardName(clubCard.getName());
+					lists.add(mailList);
+				}
+			}
 		}
-		map.put("lists",lists);
-		map.put("pageCount",pageCount);
-		return map;
+		ListPage listPage = new ListPage(lists, page,size,count);
+		return listPage;
 	}
 
 	public void addmail(SystemMail mail) {
@@ -101,6 +117,16 @@ public class MailService{
 	public void addMailById(List<MailState> list) {
 		for(MailState mailState:list) {
 			maildao.addMailById(mailState);
+		}
+	}
+	
+	/**管理员批量删除邮件
+	 * **/
+	public void deleteAllMailState(String[] ids) {
+		for (String id : ids) {
+			MailState mailState = maildao.findMailStateById(id);
+			mailState.setDeletestate("0");
+			maildao.updateMailState(mailState);
 		}
 	}
 

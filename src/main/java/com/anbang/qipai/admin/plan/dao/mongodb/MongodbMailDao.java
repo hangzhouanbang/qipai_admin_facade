@@ -31,8 +31,6 @@ public class MongodbMailDao implements MailDao{
 		 List<SystemMail> list = mongotemplate.find(query.with(pageable),SystemMail.class);
 		 map.put("list", list);
 		 map.put("count",count);
-		 System.out.println("总页数："+count);
-		 System.out.println("list大小："+list.size());
 		return map;
 	}
 
@@ -52,8 +50,8 @@ public class MongodbMailDao implements MailDao{
 	}
 
 	@Override
-	public Long count(Query query) {
-		Long total = mongotemplate.count(query,MailState.class);
+	public int count(Query query) {
+		int total = (int) mongotemplate.count(query,MailState.class);
 		return total;
 	}
 
@@ -69,6 +67,7 @@ public class MongodbMailDao implements MailDao{
 		update.set("statemail",mailState.getStatemail());
 		update.set("receive",mailState.getReceive());
 		update.set("deletestate",mailState.getDeletestate());
+		update.set("rewardTime",mailState.getRewardTime());
 		mongotemplate.updateFirst(query, update, MailState.class);
 	}
 
@@ -76,6 +75,23 @@ public class MongodbMailDao implements MailDao{
 	public List<MailState> findallmembermail(String memberid) {
 		Query query = new Query(Criteria.where("memberid").is(memberid));
 		return mongotemplate.find(query,MailState.class);
+	}
+
+	@Override
+	public MailState findMailStateById(String id) {
+		return mongotemplate.findById(id, MailState.class);
+	}
+
+	@Override
+	public List<SystemMail> findSystemMail(String mailType, String adminName) {
+		Query query = new Query();
+		if(mailType != null && !"".equals(mailType)) {
+			query.addCriteria(Criteria.where("mailType").is(mailType));
+		}
+		if(adminName != null && !"".equals(adminName)) {
+			query.addCriteria(Criteria.where("adminname").is(adminName));
+		}
+		return mongotemplate.find(query, SystemMail.class);
 	}
 
 	

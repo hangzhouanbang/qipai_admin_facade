@@ -28,7 +28,7 @@ public interface MailDao {
 	 * @param query 查询条件
 	 * @param return 总条数
 	 * **/
-	Long count(Query query);
+	int count(Query query);
 	
 	/**添加邮件
 	 * @param mail 要添加的邮件对象
@@ -46,11 +46,17 @@ public interface MailDao {
 	/**根据邮件id查询邮件*/
 	SystemMail findMailById(String id);
 	
+	/**根据条件查询多个邮件信息**/
+	List<SystemMail> findSystemMail(String mailType,String adminName);
+	
 	/**查询一个会员的所有邮件
 	 * @param memberid 会员编号
 	 * **/
 	List<MailState> findallmembermail(String memberid);
 	
+	/**根据邮件状态id查询邮件状态表
+	 * **/
+	MailState findMailStateById(String id);
 	
 	
 	

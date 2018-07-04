@@ -16,4 +16,6 @@ public interface ClubCardDao {
 
 	Boolean updateClubCard(ClubCard clubCard);
 	
+	ClubCard findClubCardByTime(long time);
+	
 }

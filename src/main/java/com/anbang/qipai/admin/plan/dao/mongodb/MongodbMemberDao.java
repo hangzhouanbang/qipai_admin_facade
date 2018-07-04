@@ -93,13 +93,13 @@ public class MongodbMemberDao implements MemberDao {
 			update.set("cost", dbo.getCost());
 		}
 		if (dbo.getLastLoginTime() != null) {
-			update.set("cost", dbo.getLastLoginTime());
+			update.set("lastLoginTime", dbo.getLastLoginTime());
 		}
 		if (dbo.getLoginIp() != null) {
-			update.set("cost", dbo.getLoginIp());
+			update.set("loginIp", dbo.getLoginIp());
 		}
 		if (dbo.getOnlineTime() != null) {
-			update.set("cost", dbo.getOnlineTime());
+			update.set("onlineTime", dbo.getOnlineTime());
 		}
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
