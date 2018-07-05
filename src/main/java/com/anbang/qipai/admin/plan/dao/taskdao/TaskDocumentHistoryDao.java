@@ -14,5 +14,5 @@ public interface TaskDocumentHistoryDao {
 
 	void addTaskDocumentHistory(TaskDocumentHistory task);
 
-	boolean updateTaskState(String taskId, int state);
+	boolean updateTaskState(String[] taskIds, int state);
 }

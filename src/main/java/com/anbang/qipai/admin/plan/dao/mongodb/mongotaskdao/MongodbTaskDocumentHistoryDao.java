@@ -23,15 +23,19 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 	@Override
 	public List<TaskDocumentHistory> findTaskDocumentHistory(int page, int size, Sort sort, TaskDocumentHistory task) {
 		Query query = new Query();
-		if (task.getName() != null) {
+		if (task.getName() != null && !"".equals(task.getName())) {
 			query.addCriteria(Criteria.where("name").regex(task.getName()));
 		}
-		if (task.getTaskDocId() != null) {
+		if (task.getTaskDocId() != null && !"".equals(task.getTaskDocId())) {
 			query.addCriteria(Criteria.where("taskDocId").is(task.getTaskDocId()));
 		}
-		if (task.getType() != null) {
+		if (task.getType() != null && !"".equals(task.getType())) {
 			query.addCriteria(Criteria.where("type").is(task.getType()));
 		}
+		if ("true".equals(task.getVip()) || "false".equals(task.getVip())) {
+			query.addCriteria(Criteria.where("vip").is(task.getVip()));
+		}
+		query.addCriteria(Criteria.where("state").is(1));
 		query.skip((page - 1) * size);
 		query.limit(size);
 		query.with(sort);
@@ -41,15 +45,19 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 	@Override
 	public long getAmount(TaskDocumentHistory task) {
 		Query query = new Query();
-		if (task.getName() != null) {
+		if (task.getName() != null && !"".equals(task.getName())) {
 			query.addCriteria(Criteria.where("name").regex(task.getName()));
 		}
-		if (task.getTaskDocId() != null) {
+		if (task.getTaskDocId() != null && !"".equals(task.getTaskDocId())) {
 			query.addCriteria(Criteria.where("taskDocId").is(task.getTaskDocId()));
 		}
-		if (task.getType() != null) {
+		if (task.getType() != null && !"".equals(task.getType())) {
 			query.addCriteria(Criteria.where("type").is(task.getType()));
 		}
+		if ("true".equals(task.getVip()) || "false".equals(task.getVip())) {
+			query.addCriteria(Criteria.where("vip").is(task.getVip()));
+		}
+		query.addCriteria(Criteria.where("state").is(1));
 		return mongoTemplate.count(query, TaskDocumentHistory.class);
 	}
 
@@ -59,12 +67,13 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 	}
 
 	@Override
-	public boolean updateTaskState(String taskId, int state) {
-		Query query = new Query(Criteria.where("id").is(taskId));
+	public boolean updateTaskState(String[] taskIds, int state) {
+		Object[] ids = taskIds;
+		Query query = new Query(Criteria.where("id").in(ids));
 		Update update = new Update();
 		update.set("state", state);
-		WriteResult result = mongoTemplate.updateFirst(query, update, TaskDocumentHistory.class);
-		return result.getN() > 0;
+		WriteResult result = mongoTemplate.updateMulti(query, update, TaskDocumentHistory.class);
+		return result.getN() <= taskIds.length;
 	}
 
 }

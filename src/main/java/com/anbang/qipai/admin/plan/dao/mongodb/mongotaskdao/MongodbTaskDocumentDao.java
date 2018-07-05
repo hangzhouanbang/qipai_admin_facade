@@ -22,10 +22,10 @@ public class MongodbTaskDocumentDao implements TaskDocumentDao {
 	@Override
 	public List<TaskDocument> findTaskDocuments(int page, int size, TaskDocument taskDoc) {
 		Query query = new Query();
-		if (taskDoc.getName() != null) {
+		if (taskDoc.getName() != null && !"".equals(taskDoc.getName())) {
 			query.addCriteria(Criteria.where("name").regex(taskDoc.getName()));
 		}
-		if (taskDoc.getType() != null) {
+		if (taskDoc.getType() != null && !"".equals(taskDoc.getType())) {
 			query.addCriteria(Criteria.where("type").is(taskDoc.getType()));
 		}
 		query.skip((page - 1) * size);
@@ -36,10 +36,10 @@ public class MongodbTaskDocumentDao implements TaskDocumentDao {
 	@Override
 	public long getAmount(TaskDocument taskDoc) {
 		Query query = new Query();
-		if (taskDoc.getName() != null) {
+		if (taskDoc.getName() != null && !"".equals(taskDoc.getName())) {
 			query.addCriteria(Criteria.where("name").regex(taskDoc.getName()));
 		}
-		if (taskDoc.getType() != null) {
+		if (taskDoc.getType() != null && !"".equals(taskDoc.getType())) {
 			query.addCriteria(Criteria.where("type").is(taskDoc.getType()));
 		}
 		return mongoTemplate.count(query, TaskDocument.class);

@@ -3,7 +3,6 @@ package com.anbang.qipai.admin.plan.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,9 @@ public class TaskDocumentService {
 	private TaskDocumentDao taskDocumentDao;
 
 	public void addTaskDocument(TaskDocument taskDoc) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat format = new SimpleDateFormat("ssMMdd");
 		Date date = new Date();
-		String id = format.format(date) + UUID.randomUUID().toString().substring(26, 32);
+		String id = format.format(date);
 		taskDoc.setId(id);
 		taskDocumentDao.addTaskDocument(taskDoc);
 	}

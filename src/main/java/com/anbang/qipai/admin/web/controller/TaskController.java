@@ -41,18 +41,13 @@ public class TaskController {
 		return vo;
 	}
 
-	@RequestMapping("/querytaskcriterions")
-	public CommonVO queryTaskCriterions(String taskDocId) {
+	@RequestMapping("/querytasktype")
+	public CommonVO queryTaskCriterions() {
 		CommonVO vo = new CommonVO();
-		vo.setSuccess(false);
-		vo.setMsg("Not Found TaskDocument");
-		TaskDocument taskDoc = taskDocumentService.findTaskDocumentById(taskDocId);
-		if (taskDoc != null) {
-			CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.task_querytaskcriterions(taskDoc.getTaskName());
-			vo.setSuccess(commonRemoteVO.isSuccess());
-			vo.setMsg(commonRemoteVO.getMsg());
-			vo.setData(commonRemoteVO.getData());
-		}
+		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.task_querytasktype();
+		vo.setSuccess(commonRemoteVO.isSuccess());
+		vo.setMsg(commonRemoteVO.getMsg());
+		vo.setData(commonRemoteVO.getData());
 		return vo;
 	}
 
@@ -122,19 +117,23 @@ public class TaskController {
 	}
 
 	@RequestMapping("/release")
-	public CommonVO releaseTask(@RequestParam Map<String, String> params) {
+	public CommonVO releaseTask(TaskDocumentHistory task) {
 		CommonVO vo = new CommonVO();
-		TaskDocument taskDoc = taskDocumentService.findTaskDocumentById(params.get("taskDocId"));
-		params.remove("taskDocId");
+		if (task.getTaskDocId() == null) {
+			vo.setSuccess(false);
+			vo.setMsg("taskDocId is null");
+			return vo;
+		}
+		TaskDocument taskDoc = taskDocumentService.findTaskDocumentById(task.getTaskDocId());
 		if (taskDoc == null) {
 			vo.setSuccess(false);
 			vo.setMsg("Not Found TaskDocument");
 			return vo;
 		}
-		TaskDocumentHistory task = taskDocumentHistoryService.releaseTaskDocumentHistory(taskDoc, params);
+		TaskDocumentHistory taskHistory = taskDocumentHistoryService.releaseTaskDocumentHistory(taskDoc, task);
 		if (task == null) {
 			vo.setSuccess(false);
-			vo.setMsg("at least one param is null");
+			vo.setMsg("promulgator is null");
 			return vo;
 		}
 		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.taskdocument_release(task);
@@ -151,12 +150,15 @@ public class TaskController {
 	}
 
 	@RequestMapping("/withdraw")
-	public CommonVO withdrawTask(@RequestParam(required = true) String taskId) {
+	public CommonVO withdrawTask(@RequestParam(value = "taskId", required = true) String[] taskIds) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.taskdocument_withdraw(taskId);
+		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.taskdocument_withdraw(taskIds);
 		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			taskDocumentHistoryService.updateTaskState((String) map.get("id"), (int) map.get("state"));
+			if (!taskDocumentHistoryService.updateTaskState(taskIds, 0)) {
+				vo.setSuccess(false);
+				vo.setMsg("Admin WithDraw Fail");
+				return vo;
+			}
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());

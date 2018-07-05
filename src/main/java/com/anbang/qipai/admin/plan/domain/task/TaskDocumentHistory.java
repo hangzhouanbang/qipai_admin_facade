@@ -1,9 +1,5 @@
 package com.anbang.qipai.admin.plan.domain.task;
 
-import java.util.Map;
-
-import com.anbang.qipai.admin.plan.domain.ClubCard;
-
 public class TaskDocumentHistory {
 	private String id;
 	private String taskDocId;
@@ -12,10 +8,9 @@ public class TaskDocumentHistory {
 	private String type;// 任务类型
 	private String taskName;// 任务种类
 	private String rewardType;// 奖励类型
-	private Integer gold;
-	private Integer score;
-	private ClubCard clubCard;
-	private Map<String, String> criterions;// 完成条件
+	private Integer rewardNum;// 奖励数量
+	private String vip;
+	private Integer targetNum;// 完成次数
 	private Integer state;// 状态:0,未发布,1,已发布
 	private Long releaseTime;
 	private String promulgator;// 发布者
@@ -76,36 +71,28 @@ public class TaskDocumentHistory {
 		this.rewardType = rewardType;
 	}
 
-	public Integer getGold() {
-		return gold;
+	public Integer getRewardNum() {
+		return rewardNum;
 	}
 
-	public void setGold(Integer gold) {
-		this.gold = gold;
+	public void setRewardNum(Integer rewardNum) {
+		this.rewardNum = rewardNum;
 	}
 
-	public Integer getScore() {
-		return score;
+	public String getVip() {
+		return vip;
 	}
 
-	public void setScore(Integer score) {
-		this.score = score;
+	public void setVip(String vip) {
+		this.vip = vip;
 	}
 
-	public ClubCard getClubCard() {
-		return clubCard;
+	public Integer getTargetNum() {
+		return targetNum;
 	}
 
-	public void setClubCard(ClubCard clubCard) {
-		this.clubCard = clubCard;
-	}
-
-	public Map<String, String> getCriterions() {
-		return criterions;
-	}
-
-	public void setCriterions(Map<String, String> criterions) {
-		this.criterions = criterions;
+	public void setTargetNum(Integer targetNum) {
+		this.targetNum = targetNum;
 	}
 
 	public Integer getState() {

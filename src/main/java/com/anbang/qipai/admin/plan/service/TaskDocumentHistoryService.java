@@ -1,13 +1,11 @@
 package com.anbang.qipai.admin.plan.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.anbang.qipai.admin.plan.dao.ClubCardDao;
 import com.anbang.qipai.admin.plan.dao.taskdao.TaskDocumentHistoryDao;
 import com.anbang.qipai.admin.plan.domain.task.TaskDocument;
 import com.anbang.qipai.admin.plan.domain.task.TaskDocumentHistory;
@@ -18,9 +16,6 @@ public class TaskDocumentHistoryService {
 
 	@Autowired
 	private TaskDocumentHistoryDao taskDocumentHistoryDao;
-
-	@Autowired
-	private ClubCardDao clubCardDao;
 
 	public ListPage queryTaskDocumentHistory(int page, int size, Sort sort, TaskDocumentHistory task) {
 		long amount = taskDocumentHistoryDao.getAmount(task);
@@ -33,45 +28,19 @@ public class TaskDocumentHistoryService {
 		taskDocumentHistoryDao.addTaskDocumentHistory(task);
 	}
 
-	public boolean updateTaskState(String taskId, int state) {
-		return taskDocumentHistoryDao.updateTaskState(taskId, state);
+	public boolean updateTaskState(String[] taskIds, int state) {
+		return taskDocumentHistoryDao.updateTaskState(taskIds, state);
 	}
 
-	public TaskDocumentHistory releaseTaskDocumentHistory(TaskDocument taskDoc, Map<String, String> params) {
-		if (params.get("promulgator") == null) {
+	public TaskDocumentHistory releaseTaskDocumentHistory(TaskDocument taskDoc, TaskDocumentHistory task) {
+		if (task.getPromulgator() == null) {
 			return null;
 		}
-		TaskDocumentHistory task = new TaskDocumentHistory();
-		task.setPromulgator(params.get("promulgator"));
-		params.remove("promulgator");
-		task.setTaskDocId(taskDoc.getId());
 		task.setName(taskDoc.getName());
 		task.setDesc(taskDoc.getDesc());
 		task.setType(taskDoc.getType());
 		task.setTaskName(taskDoc.getTaskName());
 		task.setRewardType(taskDoc.getRewardType());
-		if (taskDoc.getRewardType().equals("金币奖励")) {
-			if (params.get("rewardNum") == null) {
-				return null;
-			}
-			task.setGold(Integer.valueOf(params.get("rewardNum")));
-			params.remove("rewardNum");
-		}
-		if (taskDoc.getRewardType().equals("积分奖励")) {
-			if (params.get("rewardNum") == null) {
-				return null;
-			}
-			task.setScore(Integer.valueOf(params.get("rewardNum")));
-			params.remove("rewardNum");
-		}
-		if (taskDoc.getRewardType().equals("会员卡奖励")) {
-			if (params.get("clubCardId") == null) {
-				return null;
-			}
-			task.setClubCard(clubCardDao.getClubCardById(params.get("clubCardId")));
-			params.remove("clubCardId");
-		}
-		task.setCriterions(params);
 		return task;
 	}
 }
