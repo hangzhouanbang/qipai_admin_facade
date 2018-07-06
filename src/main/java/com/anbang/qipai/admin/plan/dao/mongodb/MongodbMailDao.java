@@ -83,7 +83,7 @@ public class MongodbMailDao implements MailDao{
 	}
 
 	@Override
-	public List<SystemMail> findSystemMail(String mailType, String adminName) {
+	public List<SystemMail> findSystemMail(String mailType,String adminName) {
 		Query query = new Query();
 		if(mailType != null && !"".equals(mailType)) {
 			query.addCriteria(Criteria.where("mailType").is(mailType));

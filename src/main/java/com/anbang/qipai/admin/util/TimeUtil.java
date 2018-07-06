@@ -16,7 +16,7 @@ public class TimeUtil {
 		
 		//根据天数获得毫秒数
 		public static long getTimeOnDay(int day) {
-			long time = (long)(day*24L*60L*60L*1000L);
+			long time = day*24*60*60*1000;
 			return time;
 		}
 }
