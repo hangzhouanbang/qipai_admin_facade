@@ -78,7 +78,7 @@ public class TaskController {
 	public CommonVO addTaskDocument(TaskDocument taskDoc) {
 		CommonVO vo = new CommonVO();
 		if (taskDoc.getName() == null || taskDoc.getDesc() == null || taskDoc.getTaskName() == null
-				|| taskDoc.getType() == null || taskDoc.getRewardType() == null) {
+				|| taskDoc.getType() == null) {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 			return vo;

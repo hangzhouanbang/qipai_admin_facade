@@ -40,7 +40,6 @@ public class TaskDocumentHistoryService {
 		task.setDesc(taskDoc.getDesc());
 		task.setType(taskDoc.getType());
 		task.setTaskName(taskDoc.getTaskName());
-		task.setRewardType(taskDoc.getRewardType());
 		return task;
 	}
 }

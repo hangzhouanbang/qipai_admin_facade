@@ -74,9 +74,6 @@ public class MongodbTaskDocumentDao implements TaskDocumentDao {
 		if (taskDoc.getType() != null) {
 			update.set("type", taskDoc.getType());
 		}
-		if (taskDoc.getRewardType() != null) {
-			update.set("type", taskDoc.getRewardType());
-		}
 		WriteResult result = mongoTemplate.updateFirst(query, update, TaskDocument.class);
 		return result.getN() > 0;
 	}

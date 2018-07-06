@@ -6,7 +6,6 @@ public class TaskDocument {
 	private String desc;
 	private String type;// 任务类型
 	private String taskName;// 任务种类
-	private String rewardType;// 奖励类型
 
 	public String getId() {
 		return id;
@@ -46,14 +45,6 @@ public class TaskDocument {
 
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
-	}
-
-	public String getRewardType() {
-		return rewardType;
-	}
-
-	public void setRewardType(String rewardType) {
-		this.rewardType = rewardType;
 	}
 
 }
