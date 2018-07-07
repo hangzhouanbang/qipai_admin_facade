@@ -119,9 +119,9 @@ public class TaskController {
 	@RequestMapping("/release")
 	public CommonVO releaseTask(TaskDocumentHistory task) {
 		CommonVO vo = new CommonVO();
-		if (task.getTaskDocId() == null) {
+		if (task.getTaskDocId() == null || task.getPromulgator() == null || task.getVip() == null) {
 			vo.setSuccess(false);
-			vo.setMsg("taskDocId is null");
+			vo.setMsg("at least one param is null");
 			return vo;
 		}
 		TaskDocument taskDoc = taskDocumentService.findTaskDocumentById(task.getTaskDocId());
@@ -131,18 +131,13 @@ public class TaskController {
 			return vo;
 		}
 		TaskDocumentHistory taskHistory = taskDocumentHistoryService.releaseTaskDocumentHistory(taskDoc, task);
-		if (task == null) {
-			vo.setSuccess(false);
-			vo.setMsg("promulgator is null");
-			return vo;
-		}
-		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.taskdocument_release(task);
+		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.taskdocument_release(taskHistory);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
 			task.setId((String) map.get("id"));
 			task.setReleaseTime((long) map.get("releaseTime"));
 			task.setState((int) map.get("state"));
-			taskDocumentHistoryService.addTaskDocumentHistory(task);
+			taskDocumentHistoryService.addTaskDocumentHistory(taskHistory);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());

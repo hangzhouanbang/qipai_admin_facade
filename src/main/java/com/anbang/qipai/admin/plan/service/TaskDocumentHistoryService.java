@@ -33,9 +33,6 @@ public class TaskDocumentHistoryService {
 	}
 
 	public TaskDocumentHistory releaseTaskDocumentHistory(TaskDocument taskDoc, TaskDocumentHistory task) {
-		if (task.getPromulgator() == null) {
-			return null;
-		}
 		task.setName(taskDoc.getName());
 		task.setDesc(taskDoc.getDesc());
 		task.setType(taskDoc.getType());
