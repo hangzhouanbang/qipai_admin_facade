@@ -3,7 +3,6 @@ package com.anbang.qipai.admin.plan.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.dao.MemberDao;
@@ -16,9 +15,9 @@ public class MemberService {
 	@Autowired
 	private MemberDao memberDao;
 
-	public ListPage queryByConditionsAndPage(int page, int size, Sort sort, MemberDbo member) {
-		long amount = memberDao.getAmount(member);
-		List<MemberDbo> memberList = memberDao.queryByConditionsAndPage(page, size, sort, member);
+	public ListPage findMemberDboByConditions(int page, int size, MemberDbo member) {
+		long amount = memberDao.getAmountByConditions(member);
+		List<MemberDbo> memberList = memberDao.findMemberDboByConditions(page, size, member);
 		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
 		return listPage;
 	}
@@ -26,17 +25,25 @@ public class MemberService {
 	public void addMember(MemberDbo member) {
 		memberDao.addMember(member);
 	}
-	
-	public MemberDbo findMemberDbo(String id) {
-		return memberDao.findMemberDbo(id);
-	}
 
-	public Boolean deleteMember(String[] ids) {
-		return memberDao.deleteMember(ids);
+	public MemberDbo findMemberById(String memberId) {
+		return memberDao.findMemberById(memberId);
 	}
 
 	public void editMember(MemberDbo member) {
 		memberDao.editMember(member);
+	}
+	
+	public boolean updateMemberPhone(MemberDbo member) {
+		return memberDao.updateMemberPhone(member);
+	}
+	
+	public boolean resetMemberVip(MemberDbo member) {
+		return memberDao.resetMemberVip(member);
+	}
+	
+	public boolean updateMemberVip(MemberDbo member) {
+		return memberDao.updateMemberVip(member);
 	}
 
 	public long countNewMemberByTime(long startTime, long endTime) {

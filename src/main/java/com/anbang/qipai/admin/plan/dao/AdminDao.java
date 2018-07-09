@@ -2,32 +2,24 @@ package com.anbang.qipai.admin.plan.dao;
 
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
-
 import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 
-/**
- * 管理员Dao
- * 
- * @author 林少聪 2018.5.31
- *
- */
 public interface AdminDao {
 
 	Admin verifyAdmin(String nickname, String pass);
 
-	long getAmount();
+	long getAmountByNickname(String nickname);
 
-	List<Admin> queryByConditionsAndPage(int page, int size, Sort sort, String nickname);
+	List<Admin> findAdminByNickname(int page, int size, String nickname);
 
 	void addAdmin(Admin admin);
 
-	Boolean deleteAdmins(String[] ids);
+	boolean deleteAdmins(String[] ids);
 
-	Boolean editAdmin(Admin admin);
+	boolean updateAdminPass(Admin admin);
 
-	void deleteRolesById(String adminId);
+	boolean deleteAdminRelationRolesById(String adminId);
 
 	void addRoles(List<AdminRelationRole> refList);
 }

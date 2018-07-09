@@ -16,6 +16,12 @@ import com.anbang.qipai.admin.plan.service.ReportService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
 
+/**
+ * 数据报表controller
+ * 
+ * @author 林少聪 2018.7.9
+ *
+ */
 @RestController
 @RequestMapping("/datareport")
 public class DataReportController {

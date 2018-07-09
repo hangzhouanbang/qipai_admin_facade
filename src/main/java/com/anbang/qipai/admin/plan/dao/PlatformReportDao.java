@@ -8,9 +8,8 @@ public interface PlatformReportDao {
 
 	List<PlatformReport> findReportByTime(int page, int size, long startTime, long endTime);
 
-	long getAmount(long startTime, long endTime);
+	long getAmountByTime(long startTime, long endTime);
 
 	void addReport(PlatformReport report);
 
-	void updateReport(PlatformReport report);
 }

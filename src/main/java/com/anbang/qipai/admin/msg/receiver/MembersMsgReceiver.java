@@ -5,10 +5,10 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.MembersSink;
+import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.anbang.qipai.admin.plan.service.MemberService;
-
-import net.sf.json.JSONObject;
+import com.google.gson.Gson;
 
 @EnableBinding(MembersSink.class)
 public class MembersMsgReceiver {
@@ -16,19 +16,24 @@ public class MembersMsgReceiver {
 	@Autowired
 	private MemberService memberService;
 
+	private Gson gson = new Gson();
+
 	@StreamListener(MembersSink.MEMBERS)
-	public void recordMember(Object payload) {
-		JSONObject json = JSONObject.fromObject(payload);
-		String msg = (String) json.get("msg");
+	public void recordMember(CommonMO mo) {
+		String msg = mo.getMsg();
+		String json = gson.toJson(mo.getData());
+		MemberDbo member = gson.fromJson(json, MemberDbo.class);
 		if ("newMember".equals(msg)) {
-			JSONObject obj = (JSONObject) json.get("data");
-			MemberDbo member = (MemberDbo) JSONObject.toBean(obj, MemberDbo.class);
 			memberService.addMember(member);
 		}
-		if ("updateMember".equals(msg)) {
-			JSONObject obj = (JSONObject) json.get("data");
-			MemberDbo member = (MemberDbo) JSONObject.toBean(obj, MemberDbo.class);
-			memberService.editMember(member);
+		if ("update member phone".equals(msg)) {
+			memberService.updateMemberPhone(member);
+		}
+		if ("reset member vip".equals(msg)) {
+			memberService.resetMemberVip(member);
+		}
+		if ("update member vip".equals(msg)) {
+			memberService.updateMemberVip(member);
 		}
 	}
 

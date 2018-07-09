@@ -22,9 +22,4 @@ public class OrderVO extends Order {
 		this.endTime = endTime;
 	}
 
-	@Override
-	public String toString() {
-		return "OrderVO [startTime=" + startTime + ", endTime=" + endTime + "]";
-	}
-
 }

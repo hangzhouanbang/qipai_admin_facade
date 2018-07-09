@@ -3,7 +3,6 @@ package com.anbang.qipai.admin.plan.dao.mongodb;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -23,12 +22,12 @@ public class MongodbMemberDao implements MemberDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, MemberDbo member) {
+	public List<MemberDbo> findMemberDboByConditions(int page, int size, MemberDbo member) {
 		Query query = new Query();
-		if (member.getId() != null && member.getId() != "") {
+		if (member.getId() != null && !"".equals(member.getId())) {
 			query.addCriteria(Criteria.where("id").is(member.getId()));
 		}
-		if (member.getNickname() != null && member.getNickname() != "") {
+		if (member.getNickname() != null && !"".equals(member.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
 		if (member.getVip() != null) {
@@ -36,23 +35,12 @@ public class MongodbMemberDao implements MemberDao {
 		}
 		query.skip((page - 1) * size);
 		query.limit(size);
-		query.with(sort);
 		return mongoTemplate.find(query, MemberDbo.class);
 	}
 
 	@Override
 	public void addMember(MemberDbo member) {
 		mongoTemplate.insert(member);
-	}
-
-	@Override
-	public Boolean deleteMember(String[] ids) {
-		Object[] idsTemp = ids;
-		Query query = new Query(Criteria.where("id").in(idsTemp));
-		WriteResult result = mongoTemplate.remove(query, MemberDbo.class);
-		System.out.println("删除了" + result.getN() + "个玩家");
-		System.out.println("共要删除" + ids.length + "个玩家");
-		return result.getN() <= ids.length;
 	}
 
 	@Override
@@ -65,9 +53,6 @@ public class MongodbMemberDao implements MemberDao {
 		if (dbo.getGender() != null) {
 			update.set("gender", dbo.getGender());
 		}
-		if (dbo.getGold() != null) {
-			update.set("gold", dbo.getGold());
-		}
 		if (dbo.getHeadimgurl() != null) {
 			update.set("headimgurl", dbo.getHeadimgurl());
 		}
@@ -76,9 +61,6 @@ public class MongodbMemberDao implements MemberDao {
 		}
 		if (dbo.getPhone() != null) {
 			update.set("phone", dbo.getPhone());
-		}
-		if (dbo.getScore() != null) {
-			update.set("score", dbo.getScore());
 		}
 		if (dbo.getVipEndTime() != null) {
 			update.set("vipEndTime", dbo.getVipEndTime());
@@ -105,12 +87,12 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public long getAmount(MemberDbo member) {
+	public long getAmountByConditions(MemberDbo member) {
 		Query query = new Query();
-		if (member.getId() != null && member.getId() != "") {
+		if (member.getId() != null && !"".equals(member.getId())) {
 			query.addCriteria(Criteria.where("id").is(member.getId()));
 		}
-		if (member.getNickname() != null && member.getNickname() != "") {
+		if (member.getNickname() != null && !"".equals(member.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
 		if (member.getVip() != null) {
@@ -120,8 +102,8 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public MemberDbo findMemberDbo(String id) {
-		return mongoTemplate.findById(id, MemberDbo.class);
+	public MemberDbo findMemberById(String memberId) {
+		return mongoTemplate.findById(memberId, MemberDbo.class);
 	}
 
 	@Override
@@ -151,6 +133,37 @@ public class MongodbMemberDao implements MemberDao {
 		}
 		BasicDBObject basicObj = list.get(0);
 		return basicObj.getLong("remain");
+	}
+
+	@Override
+	public boolean updateMemberPhone(MemberDbo member) {
+		Query query = new Query(Criteria.where("id").is(member.getId()));
+		Update update = new Update();
+		update.set("phone", member.getPhone());
+		WriteResult result = mongoTemplate.updateFirst(query, update, MemberDbo.class);
+		return result.getN() > 0;
+	}
+
+	@Override
+	public boolean resetMemberVip(MemberDbo member) {
+		Query query = new Query(Criteria.where("id").is(member.getId()));
+		Update update = new Update();
+		update.set("vip", member.getVip());
+		WriteResult result = mongoTemplate.updateFirst(query, update, MemberDbo.class);
+		return result.getN() > 0;
+	}
+
+	@Override
+	public boolean updateMemberVip(MemberDbo member) {
+		Query query = new Query(Criteria.where("id").is(member.getId()));
+		Update update = new Update();
+		update.set("vipEndTime", member.getVipEndTime());
+		update.set("vip", member.getVip());
+		update.set("vipLevel", member.getVipLevel());
+		update.set("vipScore", member.getVipScore());
+		update.set("cost", member.getCost());
+		WriteResult result = mongoTemplate.updateFirst(query, update, MemberDbo.class);
+		return result.getN() > 0;
 	}
 
 }

@@ -21,7 +21,7 @@ public class ReportService {
 	private GameReportDao gameReportDao;
 
 	public ListPage platformReport(int page, int size, long startTime, long endTime) {
-		long amount = platformReportDao.getAmount(startTime, endTime);
+		long amount = platformReportDao.getAmountByTime(startTime, endTime);
 		List<PlatformReport> reportList = platformReportDao.findReportByTime(page, size, startTime, endTime);
 		ListPage listPage = new ListPage(reportList, page, size, (int) amount);
 		return listPage;
@@ -38,14 +38,6 @@ public class ReportService {
 
 	public void addGameReport(GameDataReport report) {
 		gameReportDao.addReport(report);
-	}
-
-	public void updatePlatformReport(PlatformReport report) {
-		platformReportDao.updateReport(report);
-	}
-
-	public void updateGameReport(GameDataReport report) {
-		gameReportDao.updateReport(report);
 	}
 
 	public long countGameNumByTime(long date) {

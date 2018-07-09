@@ -9,8 +9,6 @@ public interface GameReportDao {
 
 	void addReport(GameDataReport report);
 
-	void updateReport(GameDataReport report);
-
 	long countGameNumByTime(long date);
 
 	long countLoginMemberByTime(long date);

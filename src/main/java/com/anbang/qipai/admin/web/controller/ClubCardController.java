@@ -14,6 +14,12 @@ import com.anbang.qipai.admin.remote.service.QipaiMembersService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 
+/**
+ * 会员卡controller
+ * 
+ * @author 林少聪 2018.7.9
+ *
+ */
 @RestController
 @RequestMapping("/clubcard")
 public class ClubCardController {
@@ -59,19 +65,9 @@ public class ClubCardController {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_delete(clubCardIds);
 		if (commonRemoteVO.isSuccess()) {
-			if (clubCardService.deleteClubCards(clubCardIds)) {
-				vo.setSuccess(true);
-				vo.setMsg("admin delete success");
-				vo.setData(commonRemoteVO.getData());
-				return vo;
-			} else {
-				vo.setSuccess(false);
-				vo.setMsg("admin delete fail");
-				vo.setData(commonRemoteVO.getData());
-				return vo;
-			}
+			clubCardService.deleteClubCards(clubCardIds);
 		}
-		vo.setSuccess(false);
+		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
@@ -81,24 +77,14 @@ public class ClubCardController {
 		CommonVO vo = new CommonVO();
 		if (clubCard.getId() == null) {
 			vo.setSuccess(false);
-			vo.setMsg("admin clubCardId is null");
+			vo.setMsg("clubCardId is null");
 			return vo;
 		}
 		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_update(clubCard);
 		if (commonRemoteVO.isSuccess()) {
-			if (clubCardService.updateClubCard(clubCard)) {
-				vo.setSuccess(true);
-				vo.setMsg("admin update success");
-				vo.setData(commonRemoteVO.getData());
-				return vo;
-			} else {
-				vo.setSuccess(false);
-				vo.setMsg("admin update fail");
-				vo.setData(commonRemoteVO.getData());
-				return vo;
-			}
+			clubCardService.updateClubCard(clubCard);
 		}
-		vo.setSuccess(false);
+		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}

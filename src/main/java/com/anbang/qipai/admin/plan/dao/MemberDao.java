@@ -2,23 +2,25 @@ package com.anbang.qipai.admin.plan.dao;
 
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
-
 import com.anbang.qipai.admin.plan.domain.MemberDbo;
 
 public interface MemberDao {
 
-	List<MemberDbo> queryByConditionsAndPage(int page, int size, Sort sort, MemberDbo member);
+	List<MemberDbo> findMemberDboByConditions(int page, int size, MemberDbo member);
 
-	long getAmount(MemberDbo member);
+	long getAmountByConditions(MemberDbo member);
 
 	void addMember(MemberDbo member);
 
-	Boolean deleteMember(String[] ids);
-
 	void editMember(MemberDbo member);
 
-	MemberDbo findMemberDbo(String id);
+	boolean updateMemberPhone(MemberDbo member);
+
+	boolean resetMemberVip(MemberDbo member);
+	
+	boolean updateMemberVip(MemberDbo member);
+
+	MemberDbo findMemberById(String memberId);
 
 	long countNewMemberByTime(long startTime, long endTime);
 

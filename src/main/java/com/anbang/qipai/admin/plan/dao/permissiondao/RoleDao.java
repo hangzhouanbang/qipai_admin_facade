@@ -2,10 +2,6 @@ package com.anbang.qipai.admin.plan.dao.permissiondao;
 
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Query;
-
-import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.Role;
 import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 
@@ -17,21 +13,23 @@ import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
  */
 public interface RoleDao {
 
-	List<Role> getAllRoles();
+	List<Role> findAllRoles();
 
-	List<Role> getAllRolesOfAdmin(Admin admin);
+	List<Role> findAllRolesOfAdmin(String adminId);
 
-	List<Role> queryByConditionsAndPage(int page, int size, Sort sort, String role);
+	List<Role> findRoleByName(int page, int size, String role);
 
 	void addRole(Role role);
 
-	<T> void deleteRoles(Query query, Class<T> entityClass);
+	boolean deleteRoles(String[] ids);
 
-	Boolean editRole(Role role);
+	boolean deleteAdminRelationRoles(String[] ids);
 
-	void deleteRolesById(String roleId);
+	boolean editRole(Role role);
+
+	boolean deleteRoleRelationPrivilegesById(String roleId);
 
 	void addPrivileges(List<RoleRelationPrivilege> refList);
 
-	long getAmount();
+	long getAmountByName(String role);
 }

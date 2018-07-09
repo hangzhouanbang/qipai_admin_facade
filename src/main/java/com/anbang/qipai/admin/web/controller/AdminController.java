@@ -3,8 +3,6 @@ package com.anbang.qipai.admin.web.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +11,7 @@ import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.service.AdminService;
 
 /**
- * 管理员Controller
+ * 管理员controller
  * 
  * @author 林少聪 2018.5.31
  *
@@ -28,9 +26,7 @@ public class AdminController {
 	@RequestMapping("/queryAdmin")
 	public Map<String, Object> queryAdmin(@RequestParam(name = "page", defaultValue = "1") Integer page,
 			@RequestParam(name = "size", defaultValue = "10") Integer size, String nickname) {
-		Sort sort = new Sort(new Order("id"));
-		Map<String, Object> map = adminService.queryByConditionsAndPage(page.intValue(), size.intValue(), sort,
-				nickname);
+		Map<String, Object> map = adminService.findAdminByNickname(page, size, nickname);
 		return map;
 	}
 
@@ -60,7 +56,7 @@ public class AdminController {
 
 	@RequestMapping("/editAdmin")
 	public String editAdmin(Admin admin) {
-		if (admin.getId() != null && adminService.editAdmin(admin)) {
+		if (admin.getId() != null && adminService.updateAdminPass(admin)) {
 			return "success";
 		}
 		return "fail";

@@ -22,7 +22,7 @@ import com.anbang.qipai.admin.web.vo.PrivilegeVo;
 import com.anbang.qipai.admin.web.vo.UserVo;
 
 /**
- * 登录Controller
+ * 登录controller
  * 
  * @author 林少聪 2018.5.31
  *
@@ -39,15 +39,15 @@ public class LoginController {
 	private PrivilegeService privilegeService;
 
 	@RequestMapping("/login")
-	public Map<String, Object> login(@RequestParam(name = "nickname", required = true) String nickname,
-			@RequestParam(name = "pass", required = true) String pass, HttpSession session) {
+	public Map<String, Object> login(@RequestParam(value = "nickname", required = true) String nickname,
+			@RequestParam(value = "pass", required = true) String pass, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Admin admin = adminService.verifyAdmin(nickname, pass);
 		Map<String, PrivilegeVo> privilegeList = new HashMap<String, PrivilegeVo>();
 		UserVo user = null;
 		if (admin != null) {
-			List<Role> selectedRoleList = roleService.getAllRolesOfAdmin(admin);
-			List<Privilege> allPrivileges = privilegeService.getAllPrivileges();
+			List<Role> selectedRoleList = roleService.findAllRolesOfAdmin(admin.getId());
+			List<Privilege> allPrivileges = privilegeService.findAllPrivileges();
 			for (Privilege privilege : allPrivileges) {
 				PrivilegeVo privilegevo = new PrivilegeVo();
 				privilegevo.setPrivilege(privilege);
@@ -55,7 +55,7 @@ public class LoginController {
 				privilegeList.put(privilege.getUri(), privilegevo);
 			}
 			for (Role role : selectedRoleList) {
-				List<Privilege> selectedPrivilegeList = privilegeService.getAllPrivilegesOfRole(role);
+				List<Privilege> selectedPrivilegeList = privilegeService.findAllPrivilegesOfRole(role.getId());
 				for (Privilege privilege : selectedPrivilegeList) {
 					privilegeList.get(privilege.getUri()).setSelected(true);
 				}

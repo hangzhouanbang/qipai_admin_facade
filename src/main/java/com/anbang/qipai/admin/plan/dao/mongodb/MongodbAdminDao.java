@@ -3,7 +3,6 @@ package com.anbang.qipai.admin.plan.dao.mongodb;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -32,14 +31,13 @@ public class MongodbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public List<Admin> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
+	public List<Admin> findAdminByNickname(int page, int size, String nickname) {
 		Query query = new Query();
-		if (nickname != null) {
+		if (nickname != null && !"".equals(nickname)) {
 			query.addCriteria(Criteria.where("nickname").regex(nickname));
 		}
 		query.skip((page - 1) * size);
 		query.limit(size);
-		query.with(sort);
 		return mongoTemplate.find(query, Admin.class);
 	}
 
@@ -49,7 +47,7 @@ public class MongodbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public Boolean deleteAdmins(String[] ids) {
+	public boolean deleteAdmins(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
 		WriteResult result = mongoTemplate.remove(query, Admin.class);
@@ -57,27 +55,30 @@ public class MongodbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public Boolean editAdmin(Admin admin) {
+	public boolean updateAdminPass(Admin admin) {
 		Query query = new Query(Criteria.where("id").is(admin.getId()));
 		Update update = new Update();
-		if (admin.getPass() != null) {
+		if (admin.getPass() != null && !"".equals(admin.getPass())) {
 			update.set("pass", admin.getPass());
-			WriteResult writeResult = mongoTemplate.updateFirst(query, update, Admin.class);
-			return writeResult.getN() > 0;
 		}
-		return false;
+		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Admin.class);
+		return writeResult.getN() > 0;
 	}
 
 	@Override
-	public long getAmount() {
+	public long getAmountByNickname(String nickname) {
 		Query query = new Query();
+		if (nickname != null && !"".equals(nickname)) {
+			query.addCriteria(Criteria.where("nickname").regex(nickname));
+		}
 		return mongoTemplate.count(query, Admin.class);
 	}
 
 	@Override
-	public void deleteRolesById(String adminId) {
+	public boolean deleteAdminRelationRolesById(String adminId) {
 		Query query = new Query(Criteria.where("adminId").is(adminId));
-		mongoTemplate.remove(query, AdminRelationRole.class);
+		WriteResult writeResult = mongoTemplate.remove(query, AdminRelationRole.class);
+		return writeResult.getN() > 0;
 	}
 
 	@Override

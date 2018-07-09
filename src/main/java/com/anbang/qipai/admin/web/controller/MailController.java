@@ -117,7 +117,7 @@ public class MailController {
 //		Admin admin = uservo.getAdmin();
 //		mail.setAdminname(admin.getNickname());
 		for(String id:ids) {
-			MemberDbo memberDbo = memberService.findMemberDbo(id);
+			MemberDbo memberDbo = memberService.findMemberById(id);
 			if(memberDbo == null) {
 				vo.setMsg("memberId:"+id);
 				return vo;

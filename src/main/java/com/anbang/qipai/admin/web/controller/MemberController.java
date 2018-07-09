@@ -1,8 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +26,7 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
-	
+
 	@Autowired
 	private QipaiMembersService qipaiMembersService;
 
@@ -39,44 +37,41 @@ public class MemberController {
 	private MemberScoreService memberScoreService;
 
 	@RequestMapping("/querymember")
-	public CommonVO queryMember(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, MemberDbo member) {
+	public CommonVO queryMember(@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "size", defaultValue = "10") Integer size, MemberDbo member) {
 		CommonVO vo = new CommonVO();
-		Sort sort = new Sort(new Order("id"));
-		ListPage listPage = memberService.queryByConditionsAndPage(page, size, sort, member);
+		ListPage listPage = memberService.findMemberDboByConditions(page, size, member);
 		vo.setSuccess(true);
 		vo.setMsg("memberList");
 		vo.setData(listPage);
 		return vo;
 	}
-	
-	/**批量赠送金币或积分
-	 * **/
+
+	/**
+	 * 批量赠送金币或积分
+	 **/
 	@RequestMapping("/give_reward")
-	public CommonRemoteVO give_reward(@RequestParam(value = "id")String[] id,String score,String gold) {
-		//kafka发消息
+	public CommonRemoteVO give_reward(@RequestParam(value = "id") String[] id, String score, String gold) {
+		// kafka发消息
 		CommonRemoteVO vo = qipaiMembersService.update_score_gold(id, score, gold);
-		if(vo.isSuccess()) {
+		if (vo.isSuccess()) {
 			vo.setSuccess(true);
 			return vo;
 		}
 		vo.setSuccess(false);
 		return vo;
 	}
-	
-	
 
 	@RequestMapping("/querygoldrecord")
-	public CommonVO queryGoldRecord(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, String memberId) {
+	public CommonVO queryGoldRecord(@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "size", defaultValue = "10") Integer size, String memberId) {
 		CommonVO vo = new CommonVO();
 		if (memberId == null) {
 			vo.setSuccess(false);
 			vo.setMsg("memberId is null");
 			return vo;
 		}
-		Sort sort = new Sort(new Order("id"));
-		ListPage listPage = memberGoldService.findGoldRecordById(page, size, sort, memberId);
+		ListPage listPage = memberGoldService.findGoldRecordByMemberId(page, size, memberId);
 		vo.setSuccess(true);
 		vo.setMsg("goldrecordList");
 		vo.setData(listPage);
@@ -92,8 +87,7 @@ public class MemberController {
 			vo.setMsg("memberId is null");
 			return vo;
 		}
-		Sort sort = new Sort(new Order("id"));
-		ListPage listPage = memberScoreService.findScoreRecordById(page, size, sort, memberId);
+		ListPage listPage = memberScoreService.findScoreRecordByMemberId(page, size, memberId);
 		vo.setSuccess(true);
 		vo.setMsg("goldrecordList");
 		vo.setData(listPage);

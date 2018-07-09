@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +26,7 @@ public class RoleController {
 	@RequestMapping("/queryRole")
 	public Map<String, Object> queryRole(@RequestParam(name = "page", defaultValue = "1") Integer page,
 			@RequestParam(name = "size", defaultValue = "10") Integer size, String role) {
-		Sort sort = new Sort(new Order("id"));
-		Map<String, Object> map = roleService.queryByConditionsAndPage(page.intValue(), size.intValue(), sort, role);
+		Map<String, Object> map = roleService.findRoleByName(page, size, role);
 		return map;
 	}
 
@@ -72,6 +69,6 @@ public class RoleController {
 
 	@RequestMapping("/queryAllRole")
 	public List<Role> queryAllRole() {
-		return roleService.getAllRoles();
+		return roleService.findAllRoles();
 	}
 }

@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.GameReportDao;
@@ -32,22 +31,6 @@ public class MongodbGameReportDao implements GameReportDao {
 	@Override
 	public void addReport(GameDataReport report) {
 		mongoTemplate.insert(report);
-	}
-
-	@Override
-	public void updateReport(GameDataReport report) {
-		Query query = new Query(Criteria.where("date").is(report.getDate()));
-		Update update = new Update();
-		if (report.getCurrentMember() != null) {
-			update.set("currentMember", report.getCurrentMember());
-		}
-		if (report.getGameNum() != null) {
-			update.set("gameNum", report.getGameNum());
-		}
-		if (report.getLoginMember() != null) {
-			update.set("loginMember", report.getLoginMember());
-		}
-		mongoTemplate.updateFirst(query, update, GameDataReport.class);
 	}
 
 	@Override

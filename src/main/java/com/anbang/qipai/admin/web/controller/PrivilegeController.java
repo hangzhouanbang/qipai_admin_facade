@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +14,12 @@ import com.anbang.qipai.admin.plan.service.PrivilegeService;
 
 import net.sf.json.JSONArray;
 
+/**
+ * 管理员权限controller
+ * 
+ * @author 林少聪 2018.7.9
+ *
+ */
 @RestController
 @RequestMapping("/privilegeCtrl")
 public class PrivilegeController {
@@ -26,9 +30,7 @@ public class PrivilegeController {
 	@RequestMapping("/queryPrivilege")
 	public Map<String, Object> queryPrivilege(@RequestParam(name = "page", defaultValue = "1") Integer page,
 			@RequestParam(name = "size", defaultValue = "10") Integer size, String privilege) {
-		Sort sort = new Sort(new Order("id"));
-		Map<String, Object> map = privilegeService.queryByConditionsAndPage(page.intValue(), size.intValue(), sort,
-				privilege);
+		Map<String, Object> map = privilegeService.findByPrivilege(page, size, privilege);
 		return map;
 	}
 
@@ -56,7 +58,7 @@ public class PrivilegeController {
 
 	@RequestMapping("/editPrivilege")
 	public String editPrivilege(Privilege privilege) {
-		if (privilege.getId() != null && privilegeService.editPrivilege(privilege)) {
+		if (privilege.getId() != null && privilegeService.updatePrivilege(privilege)) {
 			return "success";
 		}
 		return "fail";
@@ -64,6 +66,6 @@ public class PrivilegeController {
 
 	@RequestMapping("/queryAllPrivilege")
 	public List<Privilege> queryAllPrivilege() {
-		return privilegeService.getAllPrivileges();
+		return privilegeService.findAllPrivileges();
 	}
 }

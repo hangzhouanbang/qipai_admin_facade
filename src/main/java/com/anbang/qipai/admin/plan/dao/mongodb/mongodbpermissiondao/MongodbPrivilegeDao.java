@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.permissiondao.PrivilegeDao;
 import com.anbang.qipai.admin.plan.domain.permission.Privilege;
-import com.anbang.qipai.admin.plan.domain.permission.Role;
 import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 import com.mongodb.WriteResult;
 
@@ -24,13 +22,13 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<Privilege> getAllPrivileges() {
+	public List<Privilege> findAllPrivileges() {
 		return mongoTemplate.findAll(Privilege.class);
 	}
 
 	@Override
-	public List<Privilege> getAllPrivilegesOfRole(Role role) {
-		Query refQuery = new Query(Criteria.where("roleId").is(role.getId()));
+	public List<Privilege> findAllPrivilegesOfRole(String roleId) {
+		Query refQuery = new Query(Criteria.where("roleId").is(roleId));
 		List<RoleRelationPrivilege> refList = mongoTemplate.find(refQuery, RoleRelationPrivilege.class);
 		List<String> privilegeIdList = new ArrayList<String>();
 		for (RoleRelationPrivilege ref : refList) {
@@ -52,45 +50,55 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public <T> void deletePrivileges(Query query, Class<T> entityClass) {
-		mongoTemplate.remove(query, entityClass);
+	public boolean deletePrivileges(String[] ids) {
+		Object[] idsTemp = ids;
+		Query query = new Query(Criteria.where("id").in(idsTemp));
+		WriteResult writeResult = mongoTemplate.remove(query, Privilege.class);
+		return writeResult.getN() <= ids.length;
 	}
 
 	@Override
-	public Boolean editPrivilege(Privilege privilege) {
+	public boolean updatePrivilege(Privilege privilege) {
 		Query query = new Query(Criteria.where("id").is(privilege.getId()));
 		Update update = new Update();
-		if (privilege.getPrivilege() != null && privilege.getUri() != null) {
-			update.set("privilege", privilege.getPrivilege());
-			update.set("uri", privilege.getUri());
-			WriteResult writeResult = mongoTemplate.updateFirst(query, update, Privilege.class);
-			return writeResult.getN() > 0;
-		}
-		return false;
+		update.set("privilege", privilege.getPrivilege());
+		update.set("uri", privilege.getUri());
+		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Privilege.class);
+		return writeResult.getN() > 0;
 	}
 
 	@Override
-	public List<Privilege> queryByConditionsAndPage(int page, int size, Sort sort, String privilege) {
+	public List<Privilege> findByPrivilege(int page, int size, String privilege) {
 		Query query = new Query();
-		if (privilege != null) {
+		if (privilege != null && !"".equals(privilege)) {
 			query.addCriteria(Criteria.where("privilege").regex(privilege));
 		}
 		query.skip((page - 1) * size);
 		query.limit(size);
-		query.with(sort);
 		return mongoTemplate.find(query, Privilege.class);
 	}
 
 	@Override
-	public long getAmount() {
+	public long getAmountByPrivilege(String privilege) {
 		Query query = new Query();
+		if (privilege != null && !"".equals(privilege)) {
+			query.addCriteria(Criteria.where("privilege").regex(privilege));
+		}
 		return mongoTemplate.count(query, Privilege.class);
 	}
 
 	@Override
-	public List<Privilege> getAllNewPrivilege(List<String> uriList) {
+	public List<Privilege> findPrivilegeByUri(List<String> uriList) {
 		Query query = new Query(Criteria.where("uri").in(uriList));
 		return mongoTemplate.find(query, Privilege.class);
+	}
+
+	@Override
+	public boolean deleteRoleRelationPrivileges(String[] ids) {
+		Object[] idsTemp = ids;
+		Query query = new Query(Criteria.where("privilegeId").in(idsTemp));
+		WriteResult writeResult = mongoTemplate.remove(query, RoleRelationPrivilege.class);
+		return writeResult.getN() <= ids.length;
 	}
 
 }

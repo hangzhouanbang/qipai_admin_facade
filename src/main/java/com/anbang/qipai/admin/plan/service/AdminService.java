@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anbang.qipai.admin.plan.dao.AdminDao;
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
@@ -29,13 +29,14 @@ public class AdminService {
 		return adminDao.verifyAdmin(nickname, pass);
 	}
 
-	public Map<String, Object> queryByConditionsAndPage(int page, int size, Sort sort, String nickname) {
+	public Map<String, Object> findAdminByNickname(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, String nickname) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		long amount = adminDao.getAmount();
-		long pageNumber = (amount == 0) ? 1 : ((amount % size == 0) ? (amount / size) : (amount / size + 1));
-		List<Admin> adminList = adminDao.queryByConditionsAndPage(page, size, sort, nickname);
+		long amount = adminDao.getAmountByNickname(nickname);
+		long pageNumber = (amount % size > 0) ? (amount / size + 1) : (amount / size);
+		List<Admin> adminList = adminDao.findAdminByNickname(page, size, nickname);
 		for (Admin admin : adminList) {
-			admin.setRoleList(RoleDao.getAllRolesOfAdmin(admin));
+			admin.setRoleList(RoleDao.findAllRolesOfAdmin(admin.getId()));
 		}
 		map.put("pageNumber", pageNumber);
 		map.put("adminList", adminList);
@@ -51,12 +52,12 @@ public class AdminService {
 		return adminDao.deleteAdmins(ids);
 	}
 
-	public Boolean editAdmin(Admin admin) {
-		return adminDao.editAdmin(admin);
+	public Boolean updateAdminPass(Admin admin) {
+		return adminDao.updateAdminPass(admin);
 	}
 
 	public void editRole(String adminId, String[] roleIds) {
-		adminDao.deleteRolesById(adminId);
+		adminDao.deleteAdminRelationRolesById(adminId);
 		List<AdminRelationRole> refList = new ArrayList<AdminRelationRole>();
 		if (roleIds != null) {
 			for (String roleId : roleIds) {

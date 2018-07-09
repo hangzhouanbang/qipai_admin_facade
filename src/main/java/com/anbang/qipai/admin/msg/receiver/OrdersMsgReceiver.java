@@ -24,10 +24,10 @@ public class OrdersMsgReceiver {
 			Order order = (Order) JSONObject.toBean(obj, Order.class);
 			orderService.addOrder(order);
 		}
-		if ("updateOrder".equals(msg)) {
+		if ("trade over".equals(msg)) {
 			JSONObject obj = (JSONObject) json.get("data");
 			Order order = (Order) JSONObject.toBean(obj, Order.class);
-			orderService.updateOrder(order);
+			orderService.updateOrderStatusAndDeliveTime(order);
 		}
 	}
 }
