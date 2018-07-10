@@ -1,23 +1,23 @@
 package com.anbang.qipai.admin.plan.domain.mail;
 
 public class MailState {
-	
+
 	private String id;
-	
-	private String memberid;//会员id
-	
-	private String mailid;//邮件id
-	
-	private String statemail;//邮件状态0-已读，1-未读
-	
-	private String receive;//奖励状态0-已领，1-未领,2-没有附件奖励
-	
-	private long rewardTime;//领取时间
-	
-	private String deletestate;//删除状态0-已删除，1-代表未删除
-	
-	private long createTime;//创建时间
-	
+
+	private String memberid;// 会员id
+
+	private String mailid;// 邮件id
+
+	private String statemail;// 邮件状态0-已读，1-未读
+
+	private String receive;// 奖励状态0-已领，1-未领,2-没有附件奖励
+
+	private Long rewardTime;// 领取时间
+
+	private String deletestate;// 删除状态0-已删除，1-代表未删除
+
+	private Long createTime;// 创建时间
+
 	public String getId() {
 		return id;
 	}
@@ -66,23 +66,20 @@ public class MailState {
 		this.deletestate = deletestate;
 	}
 
-	public long getRewardTime() {
+	public Long getRewardTime() {
 		return rewardTime;
 	}
 
-	public void setRewardTime(long rewardTime) {
+	public void setRewardTime(Long rewardTime) {
 		this.rewardTime = rewardTime;
 	}
 
-	public long getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
-
-	
-	
 
 }

@@ -19,17 +19,17 @@ public interface PrivilegeDao {
 
 	List<Privilege> findAllPrivilegesOfRole(String roleId);
 
-	List<Privilege> findByPrivilege(int page, int size, String privilege);
+	List<Privilege> findPrivilegeByName(int page, int size, String privilege);
 
-	long getAmountByPrivilege(String privilege);
+	long getAmountByName(String privilege);
 
 	void addPrivileges(List<Privilege> privilegeList);
 
 	void addRoleRefPrivilege(List<RoleRelationPrivilege> refList);
 
-	boolean deletePrivileges(String[] ids);
+	boolean deletePrivilegeByIds(String[] ids);
 
-	boolean deleteRoleRelationPrivileges(String[] ids);
+	boolean deleteRoleRelationPrivilegeByPrivilegeIds(String[] ids);
 
 	boolean updatePrivilege(Privilege privilege);
 }

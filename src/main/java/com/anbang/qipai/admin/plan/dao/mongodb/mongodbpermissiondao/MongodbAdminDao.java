@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao.mongodb;
+package com.anbang.qipai.admin.plan.dao.mongodb.mongodbpermissiondao;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.dao.AdminDao;
+import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
 import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 import com.mongodb.WriteResult;
@@ -47,7 +47,7 @@ public class MongodbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public boolean deleteAdmins(String[] ids) {
+	public boolean deleteAdminByIds(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
 		WriteResult result = mongoTemplate.remove(query, Admin.class);

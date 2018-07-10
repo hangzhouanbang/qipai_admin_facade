@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao;
+package com.anbang.qipai.admin.plan.dao.permissiondao;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface AdminDao {
 
 	void addAdmin(Admin admin);
 
-	boolean deleteAdmins(String[] ids);
+	boolean deleteAdminByIds(String[] ids);
 
 	boolean updateAdminPass(Admin admin);
 

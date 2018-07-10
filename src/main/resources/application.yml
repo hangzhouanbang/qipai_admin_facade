@@ -75,18 +75,10 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-
   application:
     name: qipai-admin-facade
 server:
   port: 99
-logging:
-  path: D:/data/log
-  level:
-    xatu.zsl: debug
-    org.springfromework.web: info
-    org.hibernate: error
-  file: log\myspringboot.log
 eureka:
   client:
     serviceUrl:

@@ -31,7 +31,7 @@ public class ClubCardController {
 	private QipaiMembersService qipaiMembersService;
 
 	@RequestMapping("/showclubcard")
-	public CommonVO showClubCards() {
+	public CommonVO showClubCard() {
 		CommonVO vo = new CommonVO();
 		List<ClubCard> cardList = clubCardService.showClubCard();
 		vo.setSuccess(true);
@@ -61,11 +61,11 @@ public class ClubCardController {
 	}
 
 	@RequestMapping("/deleteclubcard")
-	public CommonVO deleteClubCards(@RequestParam(value = "id") String[] clubCardIds) {
+	public CommonVO deleteClubCard(@RequestParam(value = "id") String[] clubCardIds) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_delete(clubCardIds);
 		if (commonRemoteVO.isSuccess()) {
-			clubCardService.deleteClubCards(clubCardIds);
+			clubCardService.deleteClubCardByIds(clubCardIds);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
@@ -73,7 +73,7 @@ public class ClubCardController {
 	}
 
 	@RequestMapping("/updateclubcard")
-	public CommonVO updateClubCards(ClubCard clubCard) {
+	public CommonVO updateClubCard(ClubCard clubCard) {
 		CommonVO vo = new CommonVO();
 		if (clubCard.getId() == null) {
 			vo.setSuccess(false);

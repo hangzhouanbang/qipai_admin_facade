@@ -50,7 +50,7 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public boolean deletePrivileges(String[] ids) {
+	public boolean deletePrivilegeByIds(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
 		WriteResult writeResult = mongoTemplate.remove(query, Privilege.class);
@@ -68,7 +68,7 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public List<Privilege> findByPrivilege(int page, int size, String privilege) {
+	public List<Privilege> findPrivilegeByName(int page, int size, String privilege) {
 		Query query = new Query();
 		if (privilege != null && !"".equals(privilege)) {
 			query.addCriteria(Criteria.where("privilege").regex(privilege));
@@ -79,7 +79,7 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public long getAmountByPrivilege(String privilege) {
+	public long getAmountByName(String privilege) {
 		Query query = new Query();
 		if (privilege != null && !"".equals(privilege)) {
 			query.addCriteria(Criteria.where("privilege").regex(privilege));
@@ -94,7 +94,7 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public boolean deleteRoleRelationPrivileges(String[] ids) {
+	public boolean deleteRoleRelationPrivilegeByPrivilegeIds(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("privilegeId").in(idsTemp));
 		WriteResult writeResult = mongoTemplate.remove(query, RoleRelationPrivilege.class);

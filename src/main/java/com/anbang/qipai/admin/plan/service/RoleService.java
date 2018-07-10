@@ -1,9 +1,7 @@
 package com.anbang.qipai.admin.plan.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
 import com.anbang.qipai.admin.plan.domain.permission.Role;
 import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
+import com.highto.framework.web.page.ListPage;
 
 @Service
 public class RoleService {
@@ -30,27 +29,26 @@ public class RoleService {
 		roleDao.addRole(role);
 	}
 
-	public void deleteRoles(String[] ids) {
-		roleDao.deleteAdminRelationRoles(ids);
-		roleDao.deleteRoles(ids);
+	public void deleteRoleByIds(String[] ids) {
+		roleDao.deleteAdminRelationRoleByRoleIds(ids);
+		roleDao.deleteRoleRelationPrivilegesByRoleIds(ids);
+		roleDao.deleteRoleByIds(ids);
 	}
 
-	public Boolean editRole(Role role) {
-		return roleDao.editRole(role);
+	public boolean updateRole(Role role) {
+		return roleDao.updateRole(role);
 	}
 
-	public Map<String, Object> findRoleByName(int page, int size, String role) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public ListPage findRoleByName(int page, int size, String role) {
 		long amount = roleDao.getAmountByName(role);
-		long pageNumber = (amount % size > 0) ? (amount / size + 1) : (amount / size);
 		List<Role> roleList = roleDao.findRoleByName(page, size, role);
-		map.put("pageNumber", pageNumber);
-		map.put("roleList", roleList);
-		return map;
+		ListPage listPage = new ListPage(roleList, page, size, (int) amount);
+		return listPage;
 	}
 
 	public void editPrivilege(String roleId, String[] privilegeIds) {
-		roleDao.deleteRoleRelationPrivilegesById(roleId);
+		String[] ids = { roleId };
+		roleDao.deleteRoleRelationPrivilegesByRoleIds(ids);
 		List<RoleRelationPrivilege> refList = new ArrayList<RoleRelationPrivilege>();
 		for (String privilegeId : privilegeIds) {
 			RoleRelationPrivilege ref = new RoleRelationPrivilege();

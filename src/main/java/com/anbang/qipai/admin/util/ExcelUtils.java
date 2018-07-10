@@ -141,6 +141,7 @@ public class ExcelUtils {
 			rowid++;
 		}
 		workbook.write(out);
+		workbook.close();
 		out.close();
 	}
 }

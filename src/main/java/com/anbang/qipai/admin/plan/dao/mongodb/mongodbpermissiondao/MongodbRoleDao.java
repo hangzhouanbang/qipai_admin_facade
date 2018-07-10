@@ -46,7 +46,7 @@ public class MongodbRoleDao implements RoleDao {
 	}
 
 	@Override
-	public boolean deleteRoles(String[] ids) {
+	public boolean deleteRoleByIds(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
 		WriteResult writeResult = mongoTemplate.remove(query, Role.class);
@@ -54,7 +54,7 @@ public class MongodbRoleDao implements RoleDao {
 	}
 
 	@Override
-	public boolean editRole(Role role) {
+	public boolean updateRole(Role role) {
 		Query query = new Query(Criteria.where("id").is(role.getId()));
 		Update update = new Update();
 		update.set("role", role.getRole());
@@ -79,10 +79,11 @@ public class MongodbRoleDao implements RoleDao {
 	}
 
 	@Override
-	public boolean deleteRoleRelationPrivilegesById(String roleId) {
-		Query query = new Query(Criteria.where("roleId").is(roleId));
+	public boolean deleteRoleRelationPrivilegesByRoleIds(String[] ids) {
+		Object[] idsTemp = ids;
+		Query query = new Query(Criteria.where("roleId").in(idsTemp));
 		WriteResult writeResult = mongoTemplate.remove(query, RoleRelationPrivilege.class);
-		return writeResult.getN() > 0;
+		return writeResult.getN() <= ids.length;
 	}
 
 	@Override
@@ -95,7 +96,7 @@ public class MongodbRoleDao implements RoleDao {
 	}
 
 	@Override
-	public boolean deleteAdminRelationRoles(String[] ids) {
+	public boolean deleteAdminRelationRoleByRoleIds(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("roleId").in(idsTemp));
 		WriteResult writeResult = mongoTemplate.remove(query, AdminRelationRole.class);

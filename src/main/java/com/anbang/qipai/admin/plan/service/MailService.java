@@ -1,11 +1,9 @@
 package com.anbang.qipai.admin.plan.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,63 +22,63 @@ import com.anbang.qipai.admin.util.TimeUtil;
 import com.highto.framework.web.page.ListPage;
 
 @Service
-public class MailService{
-	
+public class MailService {
+
 	@Autowired
 	private MailDao maildao;
-	
+
 	@Autowired
 	private ClubCardDao clubCardDao;
 
-	public Map<String,Object> findall(Integer page,Integer size,String adminname,Integer status) {
-		 if(page < 1) {
-			 page = 1;
-		 }
-		 Sort sort = new Sort(Sort.Direction.DESC, "createtime");
-		 
-		 Pageable pageable= new PageRequest(page-1, size,sort);
-		 Query query = null;
-		 if(adminname == null || adminname.equals("")) {
-			 query = new Query(Criteria.where("status").is(status));
-		 }else {
-			 Criteria criteria = new Criteria();
-			 criteria.andOperator(Criteria.where("adminname").regex(adminname),Criteria.where("status").is(status));//多条件查询
-			 query = new Query(criteria);
-		 }
-		return maildao.findall(query,pageable,size);
+	public Map<String, Object> findall(Integer page, Integer size, String adminname, Integer status) {
+		if (page < 1) {
+			page = 1;
+		}
+		Sort sort = new Sort(Sort.Direction.DESC, "createtime");
+
+		Pageable pageable = new PageRequest(page - 1, size, sort);
+		Query query = null;
+		if (adminname == null || adminname.equals("")) {
+			query = new Query(Criteria.where("status").is(status));
+		} else {
+			Criteria criteria = new Criteria();
+			criteria.andOperator(Criteria.where("adminname").regex(adminname), Criteria.where("status").is(status));// 多条件查询
+			query = new Query(criteria);
+		}
+		return maildao.findall(query, pageable, size);
 	}
-	
-	public ListPage find_mail_record(Integer page,Integer size,String memberId,String mailType,String adminName,Long startTime,Long endTime){
-		if(page < 1) {
-			 page = 1;
-		 }
-		Map<String,Object> map = new HashMap<String, Object>();
+
+	public ListPage find_mail_record(Integer page, Integer size, String memberId, String mailType, String adminName,
+			Long startTime, Long endTime) {
+		if (page < 1) {
+			page = 1;
+		}
 		List<MailList> lists = new ArrayList<MailList>();
 		Query query = new Query();
-		if(memberId != null && !memberId.equals("")) {
-			 query.addCriteria(Criteria.where("memberid").is(memberId));
+		if (memberId != null && !memberId.equals("")) {
+			query.addCriteria(Criteria.where("memberid").is(memberId));
 		}
-		if(startTime != null && endTime != null && startTime != 0 && endTime != 0) {
+		if (startTime != null && endTime != null && startTime != 0 && endTime != 0) {
 			query.addCriteria(Criteria.where("createTime").gte(startTime).lte(endTime));
 		}
 		List<String> liststr = new ArrayList<String>();
-		if(mailType != null && !"".equals(mailType) || adminName != null && !"".equals(adminName)) {
+		if (mailType != null && !"".equals(mailType) || adminName != null && !"".equals(adminName)) {
 			List<SystemMail> listSystemMail = maildao.findSystemMail(mailType, adminName);
-			for(SystemMail systemMail : listSystemMail) {
+			for (SystemMail systemMail : listSystemMail) {
 				liststr.add(systemMail.getId());
 			}
-		query.addCriteria(Criteria.where("mailid").in(liststr));
+			query.addCriteria(Criteria.where("mailid").in(liststr));
 		}
 		query.addCriteria(Criteria.where("deletestate").is("1"));
-		int count = maildao.count(query);//总条数
-		Pageable pageable = new PageRequest(page-1,size);
-		List<MailState> list = maildao.find_mail_record(query,pageable);
-		for(MailState mailState : list) {
+		int count = maildao.count(query);// 总条数
+		Pageable pageable = new PageRequest(page - 1, size);
+		List<MailState> list = maildao.find_mail_record(query, pageable);
+		for (MailState mailState : list) {
 			SystemMail systemMail1 = maildao.findMailById(mailState.getMailid());
-			if(systemMail1 != null) {
+			if (systemMail1 != null) {
 				long time = TimeUtil.getTimeOnDay(systemMail1.getVipcard());
 				ClubCard clubCard = clubCardDao.findClubCardByTime(time);
-				if(clubCard != null) {
+				if (clubCard != null) {
 					MailList mailList = new MailList();
 					mailList.setId(mailState.getId());
 					mailList.setReceive(mailState.getReceive());
@@ -92,36 +90,38 @@ public class MailService{
 				}
 			}
 		}
-		ListPage listPage = new ListPage(lists, page,size,count);
+		ListPage listPage = new ListPage(lists, page, size, count);
 		return listPage;
 	}
 
 	public void addmail(SystemMail mail) {
 		maildao.addmail(mail);
 	}
-	
+
 	public void updateMailState(MailState mailState) {
 		maildao.updateMailState(mailState);
 	}
-	
-	/**把一个用户的所有邮件设为已读
-	 * **/
+
+	/**
+	 * 把一个用户的所有邮件设为已读
+	 **/
 	public void findallmembermail(String memberid) {
 		List<MailState> list = maildao.findallmembermail(memberid);
-		for (MailState mailState : list) {//循环把这个会员的所有邮件设为已读
+		for (MailState mailState : list) {// 循环把这个会员的所有邮件设为已读
 			mailState.setStatemail("0");
 			maildao.updateMailState(mailState);
 		}
 	}
-	
+
 	public void addMailById(List<MailState> list) {
-		for(MailState mailState:list) {
+		for (MailState mailState : list) {
 			maildao.addMailById(mailState);
 		}
 	}
-	
-	/**管理员批量删除邮件
-	 * **/
+
+	/**
+	 * 管理员批量删除邮件
+	 **/
 	public void deleteAllMailState(String[] ids) {
 		for (String id : ids) {
 			MailState mailState = maildao.findMailStateById(id);
@@ -130,13 +130,17 @@ public class MailService{
 		}
 	}
 
-	/**删除所有已读
-	 * @param memberid 会员id
-	 * **/
+	/**
+	 * 删除所有已读
+	 * 
+	 * @param memberid
+	 *            会员id
+	 **/
 	public void deleteallmail(String memberid) {
 		List<MailState> list = maildao.findallmembermail(memberid);
 		for (MailState mailState : list) {
-			if(mailState.getStatemail().equals("0") && mailState.getReceive().equals("0") || mailState.getReceive().equals("2")) {
+			if (mailState.getStatemail().equals("0") && mailState.getReceive().equals("0")
+					|| mailState.getReceive().equals("2")) {
 				mailState.setDeletestate("0");
 			}
 			maildao.updateMailState(mailState);

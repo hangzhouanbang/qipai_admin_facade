@@ -21,13 +21,13 @@ public interface RoleDao {
 
 	void addRole(Role role);
 
-	boolean deleteRoles(String[] ids);
+	boolean deleteRoleByIds(String[] ids);
 
-	boolean deleteAdminRelationRoles(String[] ids);
+	boolean deleteAdminRelationRoleByRoleIds(String[] ids);
 
-	boolean editRole(Role role);
+	boolean updateRole(Role role);
 
-	boolean deleteRoleRelationPrivilegesById(String roleId);
+	boolean deleteRoleRelationPrivilegesByRoleIds(String[] ids);
 
 	void addPrivileges(List<RoleRelationPrivilege> refList);
 

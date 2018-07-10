@@ -1,7 +1,5 @@
 package com.anbang.qipai.admin.web.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.service.AdminService;
+import com.anbang.qipai.admin.web.vo.CommonVO;
+import com.highto.framework.web.page.ListPage;
 
 /**
  * 管理员controller
@@ -17,57 +17,79 @@ import com.anbang.qipai.admin.plan.service.AdminService;
  *
  */
 @RestController
-@RequestMapping("/adminCtrl")
+@RequestMapping("/admin")
 public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
 
-	@RequestMapping("/queryAdmin")
-	public Map<String, Object> queryAdmin(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, String nickname) {
-		Map<String, Object> map = adminService.findAdminByNickname(page, size, nickname);
-		return map;
+	@RequestMapping("/queryadmin")
+	public CommonVO queryAdmin(@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "size", defaultValue = "10") Integer size, String nickname) {
+		CommonVO vo = new CommonVO();
+		ListPage listPage = adminService.findAdminByNickname(page, size, nickname);
+		vo.setSuccess(true);
+		vo.setMsg("adminList");
+		vo.setData(listPage);
+		return vo;
 	}
 
-	@RequestMapping("/addAdmin")
-	public String addAdmin(Admin admin) {
+	@RequestMapping("/addadmin")
+	public CommonVO addAdmin(Admin admin) {
+		CommonVO vo = new CommonVO();
 		if (admin.getNickname() == null || admin.getPass() == null || admin.getUser() == null
 				|| admin.getIdCard() == null) {
-			return "fail";
+			vo.setSuccess(false);
+			vo.setMsg("at least one param is null");
+			return vo;
 		}
-		admin.setCreateTime(System.currentTimeMillis());
 		adminService.addAdmin(admin);
-		return "success";
+		vo.setSuccess(true);
+		vo.setMsg("add admin success");
+		return vo;
 	}
 
-	@RequestMapping("/deleteAdmin")
-	public String deleteAdmin(@RequestParam(name = "id") String[] ids) {
+	@RequestMapping("/deleteadmin")
+	public CommonVO deleteAdmin(@RequestParam(value = "id") String[] ids) {
+		CommonVO vo = new CommonVO();
 		for (String id : ids) {
-			if (id.equals("000000000000000000000001")) {// 超级管理员无法删除
-				return "fail";
+			if ("000000000000000000000001".equals(id)) {// 超级管理员无法删除
+				vo.setSuccess(false);
+				vo.setMsg("can not delete super admin");
 			}
 		}
-		if (adminService.deleteAdmins(ids)) {
-			return "success";
-		}
-		return "fail";
+		adminService.deleteAdminByIds(ids);
+		vo.setSuccess(true);
+		vo.setMsg("delete admins success");
+		return vo;
 	}
 
-	@RequestMapping("/editAdmin")
-	public String editAdmin(Admin admin) {
-		if (admin.getId() != null && adminService.updateAdminPass(admin)) {
-			return "success";
+	@RequestMapping("/repass")
+	public CommonVO repass(Admin admin) {
+		CommonVO vo = new CommonVO();
+		if (admin.getId() == null) {
+			vo.setSuccess(false);
+			vo.setMsg("adminId is null");
+			return vo;
 		}
-		return "fail";
+		adminService.updateAdminPass(admin);
+		vo.setSuccess(true);
+		vo.setMsg("update admin success");
+		return vo;
 	}
 
-	@RequestMapping("/editRole")
-	public String editRole(String adminId, @RequestParam(name = "roleId") String[] roleIds) {
-		if (adminId == "000000000000000000000001") {
-			return "fail";
+	@RequestMapping("/editrole")
+	public CommonVO editRole(@RequestParam(required = true) String adminId,
+			@RequestParam(value = "roleId") String[] roleIds) {
+		CommonVO vo = new CommonVO();
+		if ("000000000000000000000001".equals(adminId)) {
+			vo.setSuccess(false);
+			vo.setMsg("can not edit super admin");
+			return vo;
 		}
-		adminService.editRole(adminId, roleIds);
-		return "success";
+		adminService.updateRole(adminId, roleIds);
+		vo.setSuccess(true);
+		vo.setMsg("edit role success");
+		return vo;
 	}
 }

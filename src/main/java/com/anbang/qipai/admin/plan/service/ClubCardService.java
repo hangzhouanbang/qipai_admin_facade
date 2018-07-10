@@ -22,7 +22,7 @@ public class ClubCardService {
 		clubCardDao.addClubCard(clubCard);
 	}
 
-	public boolean deleteClubCards(String[] clubCardIds) {
+	public boolean deleteClubCardByIds(String[] clubCardIds) {
 		return clubCardDao.deleteClubCardByIds(clubCardIds);
 	}
 

@@ -5,25 +5,28 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.MemberGradeSink;
+import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.domain.Grade.MemberGrade;
 import com.anbang.qipai.admin.plan.service.MemberGradeService;
+import com.google.gson.Gson;
 
-import net.sf.json.JSONObject;
-
-/**接收会员等级
+/**
+ * 接收会员等级
+ * 
  * @author 程佳 2018.6.22
- * **/
+ **/
 @EnableBinding(MemberGradeSink.class)
 public class MemberGradeMsgReceiver {
-	
+
 	@Autowired
 	private MemberGradeService memberGradeService;
 
+	private Gson gson = new Gson();
+
 	@StreamListener(MemberGradeSink.grade)
-	public void insert_grade(Object payload) {
-		JSONObject json = JSONObject.fromObject(payload);
-		JSONObject obj = (JSONObject) json.get("data");
-		MemberGrade memberGrade = (MemberGrade) JSONObject.toBean(obj,MemberGrade.class);
+	public void insert_grade(CommonMO mo) {
+		String json = gson.toJson(mo.getData());
+		MemberGrade memberGrade = gson.fromJson(json, MemberGrade.class);
 		memberGradeService.insert_grade(memberGrade);
 	}
 }

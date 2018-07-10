@@ -5,10 +5,10 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.GameServerSink;
+import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.domain.games.GameServer;
 import com.anbang.qipai.admin.plan.service.GameService;
-
-import net.sf.json.JSONObject;
+import com.google.gson.Gson;
 
 @EnableBinding(GameServerSink.class)
 public class GameServerMsgReceiver {
@@ -16,16 +16,18 @@ public class GameServerMsgReceiver {
 	@Autowired
 	private GameService gameService;
 
+	private Gson gson = new Gson();
+
 	@StreamListener(GameServerSink.GAMESERVER)
-	public void gameServer(Object payload) {
-		JSONObject json = JSONObject.fromObject(payload);
-		String msg = json.getString("msg");
-		if (msg.equals("online")) {
-			JSONObject obj = (JSONObject) json.get("data");
-			GameServer gameServer = (GameServer) JSONObject.toBean(obj, GameServer.class);
+	public void gameServer(CommonMO mo) {
+		if ("online".equals(mo.getMsg())) {
+			String json = gson.toJson(mo.getData());
+			GameServer gameServer = gson.fromJson(json, GameServer.class);
 			gameService.onlineGameServer(gameServer);
-		} else if (msg.equals("offline")) {
-			String gameServerId = json.getString("data");
+		}
+		if ("offline".equals(mo.getMsg())) {
+			String json = gson.toJson(mo.getData());
+			String gameServerId = gson.fromJson(json, String.class);
 			gameService.offlineGameServer(gameServerId);
 		}
 	}
