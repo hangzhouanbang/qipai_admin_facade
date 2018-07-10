@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.ClubCard;
 import com.anbang.qipai.admin.plan.service.ClubCardService;
-import com.anbang.qipai.admin.remote.service.QipaiMembersService;
+import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 
@@ -28,7 +28,7 @@ public class ClubCardController {
 	private ClubCardService clubCardService;
 
 	@Autowired
-	private QipaiMembersService qipaiMembersService;
+	private QipaiMembersRemoteService qipaiMembersService;
 
 	@RequestMapping("/showclubcard")
 	public CommonVO showClubCard() {

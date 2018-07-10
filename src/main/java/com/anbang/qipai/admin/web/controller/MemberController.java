@@ -9,7 +9,7 @@ import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.anbang.qipai.admin.plan.service.MemberGoldService;
 import com.anbang.qipai.admin.plan.service.MemberScoreService;
 import com.anbang.qipai.admin.plan.service.MemberService;
-import com.anbang.qipai.admin.remote.service.QipaiMembersService;
+import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
@@ -28,7 +28,7 @@ public class MemberController {
 	private MemberService memberService;
 
 	@Autowired
-	private QipaiMembersService qipaiMembersService;
+	private QipaiMembersRemoteService qipaiMembersRemoteService;
 
 	@Autowired
 	private MemberGoldService memberGoldService;
@@ -51,9 +51,9 @@ public class MemberController {
 	 * 批量赠送金币或积分
 	 **/
 	@RequestMapping("/give_reward")
-	public CommonRemoteVO give_reward(@RequestParam(value = "id") String[] id, String score, String gold) {
+	public CommonRemoteVO give_reward(@RequestParam(value = "id") String[] ids, Integer score, Integer gold) {
 		// kafka发消息
-		CommonRemoteVO vo = qipaiMembersService.update_score_gold(id, score, gold);
+		CommonRemoteVO vo = qipaiMembersRemoteService.give_score_gold(ids, score, gold);
 		if (vo.isSuccess()) {
 			vo.setSuccess(true);
 			return vo;

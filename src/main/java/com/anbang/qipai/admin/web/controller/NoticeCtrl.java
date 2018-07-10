@@ -4,14 +4,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.Admin;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
@@ -28,8 +25,6 @@ public class NoticeCtrl {
 
 	@Autowired
 	private NoticeService noticeService;
-	
-	private static Logger logger = LoggerFactory.getLogger(NoticeCtrl.class);
 
 	@Autowired
 	private QipaiGameRomoteService qipaiGameRomoteService;
@@ -45,22 +40,23 @@ public class NoticeCtrl {
 	@RequestMapping("/querynotice")
 	@ResponseBody
 	public Map<String, Object> queryNotice(Integer page, Integer size) {
-		System.out.println("123");
 		Map<String, Object> map = noticeService.findAll(page, size);
 		return map;
 	}
 
 	/**
 	 * 添加系统公告
-	 * @param notice 公告内容
+	 * 
+	 * @param notice
+	 *            公告内容
 	 **/
 	@RequestMapping("/addnotice")
 	@ResponseBody
-	public String addNotice(String notice,String place,HttpSession session) {
+	public String addNotice(String notice, String place, HttpSession session) {
 		UserVo uservo = (UserVo) session.getAttribute("user");
-//		Admin admin = uservo.getAdmin();
-//		logger.info("mail:"+admin.getNickname());
-		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice,place,"admin");
+		// Admin admin = uservo.getAdmin();
+		// logger.info("mail:"+admin.getNickname());
+		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice, place, "admin");
 		if (co.isSuccess()) {
 			return "success";
 		} else {
@@ -68,7 +64,6 @@ public class NoticeCtrl {
 		}
 
 	}
-	
 
 	/**
 	 * 修改系统公告状态

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +33,6 @@ import com.qiniu.util.Auth;
 @RestController
 @RequestMapping("/mailctrl")
 public class MailController {
-
-	private static Logger logger = LoggerFactory.getLogger(MailController.class);
 
 	@Autowired
 	private QipaiGameRomoteService qipaiGameRomoteService;
@@ -77,8 +73,8 @@ public class MailController {
 	 **/
 	@RequestMapping("/querymail")
 	@ResponseBody
-	public Map<String, Object> querymail(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, String adminname, Integer status) {
+	public Map<String, Object> querymail(@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "size", defaultValue = "10") Integer size, String adminname, Integer status) {
 		Map<String, Object> map = mailService.findall(page, size, adminname, status);
 		return map;
 	}
@@ -151,8 +147,8 @@ public class MailController {
 	 */
 	@RequestMapping("/find_mail_record")
 	@ResponseBody
-	public CommonRemoteVO find_mail_record(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, String memberId, String mailType,
+	public CommonRemoteVO find_mail_record(@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "size", defaultValue = "10") Integer size, String memberId, String mailType,
 			Long startTime, Long endTime, String adminName) {
 		CommonRemoteVO co = new CommonRemoteVO();
 		ListPage listPage = mailService.find_mail_record(page, size, memberId, mailType, adminName, startTime, endTime);

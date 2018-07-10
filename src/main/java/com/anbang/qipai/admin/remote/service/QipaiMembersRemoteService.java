@@ -15,7 +15,7 @@ import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
  * @author 程佳 2018.5.31 声明这是一个Feign客户端，并且指明服务ID
  **/
 @FeignClient("qipai-members")
-public interface QipaiMembersService {
+public interface QipaiMembersRemoteService {
 
 	/**
 	 * 这里定义了类似于SpringMVC用法的方法，就可以进行RESTful的调用了
@@ -40,11 +40,12 @@ public interface QipaiMembersService {
 
 	@RequestMapping(value = "/clubcard/updateclubcard")
 	public CommonRemoteVO clubcard_update(@RequestBody ClubCard clubCard);
-	
+
 	@RequestMapping(value = "/grade/insert_grade")
 	public CommonRemoteVO grade_insert_grade(@RequestBody MemberGrade memberGrade);
-	
+
 	@RequestMapping(value = "/member/update_score_gold")
-	public CommonRemoteVO update_score_gold(@RequestBody String[] ids,@RequestParam(value = "score")String score,@RequestParam(value = "gold")String gold);
-	
+	public CommonRemoteVO give_score_gold(@RequestBody String[] ids, @RequestParam(value = "score") Integer score,
+			@RequestParam(value = "gold") Integer gold);
+
 }
