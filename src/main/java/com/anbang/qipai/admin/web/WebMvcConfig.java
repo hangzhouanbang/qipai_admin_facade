@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.anbang.qipai.admin.web.interceptor.LoginInterceptor;
 import com.anbang.qipai.admin.web.interceptor.PermissionInterceptor;
 
-//@Configuration
+@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
@@ -47,9 +47,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/loginCtrl/**");
-		registry.addInterceptor(new PermissionInterceptor()).addPathPatterns("/**")
-				.excludePathPatterns("/loginCtrl/**");
+		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
+		registry.addInterceptor(new PermissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
 	}
 
 	@Override
