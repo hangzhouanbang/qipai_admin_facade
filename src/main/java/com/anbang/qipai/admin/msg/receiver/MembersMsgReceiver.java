@@ -7,14 +7,14 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import com.anbang.qipai.admin.msg.channel.MembersSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.domain.MemberDbo;
-import com.anbang.qipai.admin.plan.service.MemberService;
+import com.anbang.qipai.admin.plan.service.MemberDboService;
 import com.google.gson.Gson;
 
 @EnableBinding(MembersSink.class)
 public class MembersMsgReceiver {
 
 	@Autowired
-	private MemberService memberService;
+	private MemberDboService memberService;
 
 	private Gson gson = new Gson();
 

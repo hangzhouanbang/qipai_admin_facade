@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.service;
+package com.anbang.qipai.admin.plan.service.permissionservice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
-import com.anbang.qipai.admin.plan.domain.Admin;
+import com.anbang.qipai.admin.plan.domain.permission.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 import com.anbang.qipai.admin.util.MD5Util;
 import com.highto.framework.web.page.ListPage;
@@ -25,7 +25,7 @@ public class AdminService {
 
 	public Admin verifyAdmin(String nickname, String pass) {
 		pass = MD5Util.getMD5(pass, "utf-8");
-		return adminDao.verifyAdmin(nickname, pass);
+		return adminDao.findAdminByNicknameAndPass(nickname, pass);
 	}
 
 	public ListPage findAdminByNickname(@RequestParam(value = "page", defaultValue = "1") int page,

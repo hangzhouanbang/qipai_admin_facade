@@ -1,8 +1,6 @@
-package com.anbang.qipai.admin.plan.domain;
+package com.anbang.qipai.admin.plan.domain.permission;
 
 import java.util.List;
-
-import com.anbang.qipai.admin.plan.domain.permission.Role;
 
 public class Admin {
 	private String id;// 管理员id

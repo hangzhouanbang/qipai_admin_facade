@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.task.TaskDocument;
 import com.anbang.qipai.admin.plan.domain.task.TaskDocumentHistory;
-import com.anbang.qipai.admin.plan.service.TaskDocumentHistoryService;
-import com.anbang.qipai.admin.plan.service.TaskDocumentService;
+import com.anbang.qipai.admin.plan.service.task.TaskDocumentHistoryService;
+import com.anbang.qipai.admin.plan.service.task.TaskDocumentService;
 import com.anbang.qipai.admin.remote.service.QipaiTasksRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;

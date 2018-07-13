@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.permission.Role;
-import com.anbang.qipai.admin.plan.service.RoleService;
+import com.anbang.qipai.admin.plan.service.permissionservice.RoleService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
 

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
-import com.anbang.qipai.admin.plan.domain.Admin;
+import com.anbang.qipai.admin.plan.domain.permission.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 import com.mongodb.WriteResult;
 
@@ -21,7 +21,7 @@ public class MongodbAdminDao implements AdminDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public Admin verifyAdmin(String nickname, String pass) {
+	public Admin findAdminByNicknameAndPass(String nickname, String pass) {
 		Query query = new Query();
 		Criteria criteria = new Criteria();
 		criteria.and("nickname").is(nickname);

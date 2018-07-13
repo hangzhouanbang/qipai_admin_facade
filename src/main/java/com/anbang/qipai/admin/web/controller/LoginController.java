@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.Admin;
+import com.anbang.qipai.admin.plan.domain.permission.Admin;
 import com.anbang.qipai.admin.plan.domain.permission.Privilege;
 import com.anbang.qipai.admin.plan.domain.permission.Role;
-import com.anbang.qipai.admin.plan.service.AdminService;
-import com.anbang.qipai.admin.plan.service.PrivilegeService;
-import com.anbang.qipai.admin.plan.service.RoleService;
+import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
+import com.anbang.qipai.admin.plan.service.permissionservice.PrivilegeService;
+import com.anbang.qipai.admin.plan.service.permissionservice.RoleService;
 import com.anbang.qipai.admin.web.vo.PrivilegeVo;
 import com.anbang.qipai.admin.web.vo.UserVo;
 

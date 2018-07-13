@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.anbang.qipai.admin.plan.service.MemberGoldService;
 import com.anbang.qipai.admin.plan.service.MemberScoreService;
-import com.anbang.qipai.admin.plan.service.MemberService;
+import com.anbang.qipai.admin.plan.service.MemberDboService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
@@ -25,7 +25,7 @@ import com.highto.framework.web.page.ListPage;
 public class MemberController {
 
 	@Autowired
-	private MemberService memberService;
+	private MemberDboService memberService;
 
 	@Autowired
 	private QipaiMembersRemoteService qipaiMembersRemoteService;

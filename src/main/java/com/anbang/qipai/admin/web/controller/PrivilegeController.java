@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.permission.Privilege;
-import com.anbang.qipai.admin.plan.service.PrivilegeService;
+import com.anbang.qipai.admin.plan.service.permissionservice.PrivilegeService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

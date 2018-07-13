@@ -10,7 +10,7 @@ import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.highto.framework.web.page.ListPage;
 
 @Service
-public class MemberService {
+public class MemberDboService {
 
 	@Autowired
 	private MemberDao memberDao;

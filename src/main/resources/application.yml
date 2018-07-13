@@ -75,6 +75,13 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        agentApplyRecords:
+          destination: agentApplyRecords
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
   application:
     name: qipai-admin-facade
 server:

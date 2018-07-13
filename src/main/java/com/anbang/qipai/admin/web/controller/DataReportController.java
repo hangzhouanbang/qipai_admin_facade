@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.GameDataReport;
 import com.anbang.qipai.admin.plan.domain.PlatformReport;
-import com.anbang.qipai.admin.plan.service.MemberService;
+import com.anbang.qipai.admin.plan.service.MemberDboService;
 import com.anbang.qipai.admin.plan.service.OrderService;
 import com.anbang.qipai.admin.plan.service.ReportService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
@@ -30,7 +30,7 @@ public class DataReportController {
 	private ReportService reportService;
 
 	@Autowired
-	private MemberService memberService;
+	private MemberDboService memberService;
 
 	@Autowired
 	private OrderService orderService;

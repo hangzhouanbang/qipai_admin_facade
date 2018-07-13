@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.service;
+package com.anbang.qipai.admin.plan.service.permissionservice;
 
 import java.util.ArrayList;
 import java.util.List;

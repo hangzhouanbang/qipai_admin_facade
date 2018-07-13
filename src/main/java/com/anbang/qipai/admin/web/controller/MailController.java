@@ -16,7 +16,7 @@ import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
 import com.anbang.qipai.admin.plan.service.ClubCardService;
 import com.anbang.qipai.admin.plan.service.MailService;
-import com.anbang.qipai.admin.plan.service.MemberService;
+import com.anbang.qipai.admin.plan.service.MemberDboService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.util.TimeUtil;
@@ -41,7 +41,7 @@ public class MailController {
 	private ClubCardService clubCardService;
 
 	@Autowired
-	private MemberService memberService;
+	private MemberDboService memberService;
 
 	@Autowired
 	private MailService mailService;
