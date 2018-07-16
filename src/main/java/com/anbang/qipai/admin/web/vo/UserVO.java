@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.anbang.qipai.admin.plan.domain.permission.Admin;
 
-public class UserVo {
+public class UserVO {
 	private Admin admin;
 	private Date loginTime;
 

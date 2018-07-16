@@ -20,7 +20,7 @@ import com.anbang.qipai.admin.plan.service.MemberDboService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.util.TimeUtil;
-import com.anbang.qipai.admin.web.vo.UserVo;
+import com.anbang.qipai.admin.web.vo.UserVO;
 import com.google.gson.Gson;
 import com.highto.framework.web.page.ListPage;
 import com.qiniu.util.Auth;
@@ -57,7 +57,7 @@ public class MailController {
 	@RequestMapping("/addmail")
 	@ResponseBody
 	public String addmail(SystemMail mail, HttpSession session) {
-		UserVo uservo = (UserVo) session.getAttribute("user");
+		UserVO uservo = (UserVO) session.getAttribute("user");
 		// Admin admin = uservo.getAdmin();
 		// mail.setAdminname(admin.getNickname());
 		String str = gson.toJson(mail);
@@ -117,7 +117,7 @@ public class MailController {
 	@ResponseBody
 	public CommonRemoteVO addMailById(SystemMail mail, @RequestParam(value = "ids") String[] ids, Integer validDay,
 			String vipCardId, HttpSession session) {
-		UserVo uservo = (UserVo) session.getAttribute("user");
+		UserVO uservo = (UserVO) session.getAttribute("user");
 		CommonRemoteVO vo = new CommonRemoteVO();
 		// Admin admin = uservo.getAdmin();
 		// mail.setAdminname(admin.getNickname());

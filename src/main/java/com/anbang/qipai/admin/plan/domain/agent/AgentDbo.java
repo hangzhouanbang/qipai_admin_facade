@@ -13,6 +13,7 @@ public class AgentDbo {
 	private String bossName;// 上级昵称
 	private Integer level;// 推广等级
 	private Long createTime;
+	private Boolean agentAuth;// 是否通过推广员申请
 
 	public String getId() {
 		return id;
@@ -62,14 +63,6 @@ public class AgentDbo {
 		this.idCard = idCard;
 	}
 
-	public Long getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Long createTime) {
-		this.createTime = createTime;
-	}
-
 	public String getFrontUrl() {
 		return frontUrl;
 	}
@@ -108,6 +101,22 @@ public class AgentDbo {
 
 	public void setLevel(Integer level) {
 		this.level = level;
+	}
+
+	public Long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
+	}
+
+	public Boolean getAgentAuth() {
+		return agentAuth;
+	}
+
+	public void setAgentAuth(Boolean agentAuth) {
+		this.agentAuth = agentAuth;
 	}
 
 }

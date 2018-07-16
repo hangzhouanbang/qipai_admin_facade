@@ -3,7 +3,9 @@ package com.anbang.qipai.admin.remote.service;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.anbang.qipai.admin.plan.domain.task.Activity;
 import com.anbang.qipai.admin.plan.domain.task.TaskDocumentHistory;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
@@ -21,4 +23,13 @@ public interface QipaiTasksRemoteService {
 
 	@RequestMapping("/task/withdraw")
 	public CommonRemoteVO taskdocument_withdraw(@RequestBody String[] taskIds);
+
+	@RequestMapping("/activity/addactivity")
+	public CommonRemoteVO activity_add(@RequestBody Activity activity);
+
+	@RequestMapping("/activity/startactivity")
+	public CommonRemoteVO activity_start(@RequestParam(value = "activityId") String activityId);
+
+	@RequestMapping("/activity/stopactivity")
+	public CommonRemoteVO activity_stop(@RequestParam(value = "activityId") String activityId);
 }

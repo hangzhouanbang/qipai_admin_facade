@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.anbang.qipai.admin.web.vo.PrivilegeVo;
+import com.anbang.qipai.admin.web.vo.PrivilegeVO;
 
 /**
  * 管理员操作拦截器
@@ -23,7 +23,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			throws Exception {
 		String uri = request.getRequestURI();
 		Object obj = request.getSession().getAttribute("privilegeList");
-		Map<String, PrivilegeVo> privilegevos = (Map<String, PrivilegeVo>) obj;
+		Map<String, PrivilegeVO> privilegevos = (Map<String, PrivilegeVO>) obj;
 		if (privilegevos.get(uri) == null) {
 			return false;
 		}

@@ -19,15 +19,15 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-        golds:
-          destination: golds
+        memberGolds:
+          destination: memberGolds
           group: qipai_admin_facade
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
-        scores:
-          destination: scores
+        memberScores:
+          destination: memberScores
           group: qipai_admin_facade
           consumer:
             concurrency: 1
@@ -70,6 +70,13 @@ spring:
           contentType: application/json
         gameServer:
           destination: gameServer
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        agents:
+          destination: agents
           group: qipai_admin_facade
           consumer:
             concurrency: 1

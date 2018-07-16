@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
-import com.anbang.qipai.admin.web.vo.UserVo;
+import com.anbang.qipai.admin.web.vo.UserVO;
 
 /**
  * 系统通告controller
@@ -53,7 +53,7 @@ public class NoticeCtrl {
 	@RequestMapping("/addnotice")
 	@ResponseBody
 	public String addNotice(String notice, String place, HttpSession session) {
-		UserVo uservo = (UserVo) session.getAttribute("user");
+		UserVO uservo = (UserVO) session.getAttribute("user");
 		// Admin admin = uservo.getAdmin();
 		// logger.info("mail:"+admin.getNickname());
 		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice, place, "admin");

@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.web.vo;
 
 import com.anbang.qipai.admin.plan.domain.permission.Privilege;
 
-public class PrivilegeVo {
+public class PrivilegeVO {
 	private Privilege privilege;
 	private Boolean selected;
 

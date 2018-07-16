@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.web.vo;
 
 import com.anbang.qipai.admin.plan.domain.permission.Role;
 
-public class RoleVo {
+public class RoleVO {
 	private Role role;
 	private Boolean selected;
 

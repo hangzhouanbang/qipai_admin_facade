@@ -134,9 +134,9 @@ public class TaskController {
 		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.taskdocument_release(taskHistory);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			task.setId((String) map.get("id"));
-			task.setReleaseTime((long) map.get("releaseTime"));
-			task.setState((int) map.get("state"));
+			taskHistory.setId((String) map.get("id"));
+			taskHistory.setReleaseTime((long) map.get("releaseTime"));
+			taskHistory.setState((int) map.get("state"));
 			taskDocumentHistoryService.addTaskDocumentHistory(taskHistory);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());

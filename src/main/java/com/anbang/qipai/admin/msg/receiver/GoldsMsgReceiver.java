@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
-import com.anbang.qipai.admin.msg.channel.GoldsSink;
+import com.anbang.qipai.admin.msg.channel.MemberGoldsSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.domain.record.MemberGoldRecordDbo;
 import com.anbang.qipai.admin.plan.service.MemberGoldService;
@@ -14,7 +14,7 @@ import com.dml.accounting.AccountingSummary;
 import com.dml.accounting.TextAccountingSummary;
 import com.google.gson.Gson;
 
-@EnableBinding(GoldsSink.class)
+@EnableBinding(MemberGoldsSink.class)
 public class GoldsMsgReceiver {
 
 	@Autowired
@@ -22,7 +22,7 @@ public class GoldsMsgReceiver {
 
 	private Gson gson = new Gson();
 
-	@StreamListener(GoldsSink.golds)
+	@StreamListener(MemberGoldsSink.MEMBERGOLDS)
 	public void recordMemberGoldRecordDbo(CommonMO mo) {
 		Map<String, Object> map = (Map<String, Object>) mo.getData();
 		if ("accounting".equals(mo.getMsg())) {

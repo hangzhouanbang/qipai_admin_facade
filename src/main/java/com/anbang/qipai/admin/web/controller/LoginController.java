@@ -18,8 +18,8 @@ import com.anbang.qipai.admin.plan.domain.permission.Role;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 import com.anbang.qipai.admin.plan.service.permissionservice.PrivilegeService;
 import com.anbang.qipai.admin.plan.service.permissionservice.RoleService;
-import com.anbang.qipai.admin.web.vo.PrivilegeVo;
-import com.anbang.qipai.admin.web.vo.UserVo;
+import com.anbang.qipai.admin.web.vo.PrivilegeVO;
+import com.anbang.qipai.admin.web.vo.UserVO;
 
 /**
  * 登录controller
@@ -43,13 +43,13 @@ public class LoginController {
 			@RequestParam(value = "pass", required = true) String pass, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Admin admin = adminService.verifyAdmin(nickname, pass);
-		Map<String, PrivilegeVo> privilegeList = new HashMap<String, PrivilegeVo>();
-		UserVo user = null;
+		Map<String, PrivilegeVO> privilegeList = new HashMap<String, PrivilegeVO>();
+		UserVO user = null;
 		if (admin != null) {
 			List<Role> selectedRoleList = roleService.findAllRolesOfAdmin(admin.getId());
 			List<Privilege> allPrivileges = privilegeService.findAllPrivileges();
 			for (Privilege privilege : allPrivileges) {
-				PrivilegeVo privilegevo = new PrivilegeVo();
+				PrivilegeVO privilegevo = new PrivilegeVO();
 				privilegevo.setPrivilege(privilege);
 				privilegevo.setSelected(false);
 				privilegeList.put(privilege.getUri(), privilegevo);
@@ -60,7 +60,7 @@ public class LoginController {
 					privilegeList.get(privilege.getUri()).setSelected(true);
 				}
 			}
-			user = new UserVo();
+			user = new UserVO();
 			user.setAdmin(admin);
 			user.setLoginTime(new Date(System.currentTimeMillis()));
 			session.setAttribute("user", user);
