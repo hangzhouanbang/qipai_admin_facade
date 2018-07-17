@@ -12,12 +12,14 @@ public interface AgentDboDao {
 
 	List<AgentDbo> findAgentDboByConditions(int page, int size, AgentDbo agent);
 
-	boolean updateAgentDboBossId(String agentId, String bossId);
+	boolean updateAgentDboBoss(String agentId, String bossId, String bossName);
 
 	boolean updateAgentDboLevel(String agentId, int level);
 
+	boolean updateAgentDboState(String agentId, String state);
+
 	boolean updateAgnetInfo(String agentId, String phone, String userName, String idCard, String frontUrl,
 			String reverseUrl);
-	
+
 	boolean updateAgentAuth(String agentId, boolean agentAuth);
 }

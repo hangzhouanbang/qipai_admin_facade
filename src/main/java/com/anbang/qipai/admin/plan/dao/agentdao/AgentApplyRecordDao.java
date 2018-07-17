@@ -10,9 +10,9 @@ public interface AgentApplyRecordDao {
 
 	boolean updateAgentApplyRecordSate(String recordId, String state);
 
-	long getAmountByTime(long startTime, long endTime);
+	long getAmountByTime(Long startTime, Long endTime);
 
-	List<AgentApplyRecord> findAgentApplyRecordByTime(long startTime, long endTime);
+	List<AgentApplyRecord> findAgentApplyRecordByTime(Long startTime, Long endTime);
 
 	AgentApplyRecord findAgentApplyRecordById(String recordId);
 }

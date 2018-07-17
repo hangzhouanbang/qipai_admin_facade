@@ -14,6 +14,7 @@ public class AgentDbo {
 	private Integer level;// 推广等级
 	private Long createTime;
 	private Boolean agentAuth;// 是否通过推广员申请
+	private String state;//正常,封停
 
 	public String getId() {
 		return id;
@@ -117,6 +118,14 @@ public class AgentDbo {
 
 	public void setAgentAuth(Boolean agentAuth) {
 		this.agentAuth = agentAuth;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 }

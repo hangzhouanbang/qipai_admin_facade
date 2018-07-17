@@ -89,6 +89,20 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        agentScores:
+          destination: agentScores
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        agentClubCards:
+          destination: agentClubCards
+          group: qipai_admin_facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
   application:
     name: qipai-admin-facade
 server:

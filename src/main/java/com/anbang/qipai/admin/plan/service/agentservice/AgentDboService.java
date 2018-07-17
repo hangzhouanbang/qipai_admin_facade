@@ -32,8 +32,16 @@ public class AgentDboService {
 		agentDboDao.addAgentDbo(agent);
 	}
 
-	public boolean updateAgentDboBossId(String agentId, String bossId) {
-		return agentDboDao.updateAgentDboBossId(agentId, bossId);
+	public boolean updateAgentDboBossId(String agentId, String bossId, String bossName) {
+		return agentDboDao.updateAgentDboBoss(agentId, bossId, bossName);
+	}
+
+	public boolean banAgentDboState(String agentId) {
+		return agentDboDao.updateAgentDboState(agentId, "baning");
+	}
+
+	public boolean liberateAgentDboState(String agentId) {
+		return agentDboDao.updateAgentDboState(agentId, "liberate");
 	}
 
 	public boolean updateAgentDboLevel(String agentId, int level) {

@@ -25,7 +25,7 @@ public class MongodbActivityDao implements ActivityDao {
 	}
 
 	@Override
-	public boolean updateActivityStateById(String activityId, int state) {
+	public boolean updateActivityStateById(String activityId, String state) {
 		Query query = new Query(Criteria.where("id").is(activityId));
 		Update update = new Update();
 		update.set("state", state);

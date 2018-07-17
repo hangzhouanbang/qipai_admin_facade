@@ -19,7 +19,7 @@ public class ActivityService {
 		activityDao.addActivity(activity);
 	}
 
-	public boolean updateActivityState(String activityId, int state) {
+	public boolean updateActivityState(String activityId, String state) {
 		return activityDao.updateActivityStateById(activityId, state);
 	}
 

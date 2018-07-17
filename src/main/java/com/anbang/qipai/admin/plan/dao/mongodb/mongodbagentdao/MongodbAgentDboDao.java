@@ -34,10 +34,11 @@ public class MongodbAgentDboDao implements AgentDboDao {
 	}
 
 	@Override
-	public boolean updateAgentDboBossId(String agentId, String bossId) {
+	public boolean updateAgentDboBoss(String agentId, String bossId, String bossName) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("bossId", bossId);
+		update.set("bossName", bossName);
 		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
 		return result.getN() > 0;
 	}
@@ -77,6 +78,15 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("agentAuth", agentAuth);
+		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
+		return result.getN() > 0;
+	}
+
+	@Override
+	public boolean updateAgentDboState(String agentId, String state) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		Update update = new Update();
+		update.set("state", state);
 		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
 		return result.getN() > 0;
 	}
