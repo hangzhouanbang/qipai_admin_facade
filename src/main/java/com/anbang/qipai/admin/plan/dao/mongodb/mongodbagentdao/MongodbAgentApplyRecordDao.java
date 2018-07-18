@@ -37,13 +37,15 @@ public class MongodbAgentApplyRecordDao implements AgentApplyRecordDao {
 	public List<AgentApplyRecord> findAgentApplyRecordByTime(Long startTime, Long endTime) {
 		Query query = new Query();
 		Criteria criteria = Criteria.where("createTime");
-		if (startTime != null) {
-			criteria.gte(startTime);
+		if (startTime != null || endTime != null) {
+			if (startTime != null) {
+				criteria = criteria.gte(startTime);
+			}
+			if (endTime != null) {
+				criteria = criteria.lte(endTime);
+			}
+			query.addCriteria(criteria);
 		}
-		if (endTime != null) {
-			criteria.lte(endTime);
-		}
-		query.addCriteria(criteria);
 		return mongoTempalte.find(query, AgentApplyRecord.class);
 	}
 
@@ -51,13 +53,15 @@ public class MongodbAgentApplyRecordDao implements AgentApplyRecordDao {
 	public long getAmountByTime(Long startTime, Long endTime) {
 		Query query = new Query();
 		Criteria criteria = Criteria.where("createTime");
-		if (startTime != null) {
-			criteria.gte(startTime);
+		if (startTime != null || endTime != null) {
+			if (startTime != null) {
+				criteria = criteria.gte(startTime);
+			}
+			if (endTime != null) {
+				criteria = criteria.lte(endTime);
+			}
+			query.addCriteria(criteria);
 		}
-		if (endTime != null) {
-			criteria.lte(endTime);
-		}
-		query.addCriteria(criteria);
 		return mongoTempalte.count(query, AgentApplyRecord.class);
 	}
 

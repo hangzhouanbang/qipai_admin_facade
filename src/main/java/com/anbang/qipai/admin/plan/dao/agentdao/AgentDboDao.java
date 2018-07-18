@@ -12,6 +12,8 @@ public interface AgentDboDao {
 
 	List<AgentDbo> findAgentDboByConditions(int page, int size, AgentDbo agent);
 
+	AgentDbo findAgentDboById(String agentId);
+
 	boolean updateAgentDboBoss(String agentId, String bossId, String bossName);
 
 	boolean updateAgentDboLevel(String agentId, int level);
@@ -22,4 +24,6 @@ public interface AgentDboDao {
 			String reverseUrl);
 
 	boolean updateAgentAuth(String agentId, boolean agentAuth);
+	
+	boolean removeAgentDboBoss(String agentId);
 }

@@ -6,26 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
-import com.anbang.qipai.admin.msg.channel.MemberScoresSink;
+import com.anbang.qipai.admin.msg.channel.MemberGoldsSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.domain.record.MemberScoreRecordDbo;
-import com.anbang.qipai.admin.plan.service.MemberScoreService;
+import com.anbang.qipai.admin.plan.domain.record.MemberGoldRecordDbo;
+import com.anbang.qipai.admin.plan.service.MemberGoldService;
 import com.dml.accounting.AccountingSummary;
 import com.dml.accounting.TextAccountingSummary;
 import com.google.gson.Gson;
 
-@EnableBinding(MemberScoresSink.class)
-public class ScoresMsgReceiver {
+@EnableBinding(MemberGoldsSink.class)
+public class MemberGoldsMsgReceiver {
+
 	@Autowired
-	private MemberScoreService memberScoreService;
+	private MemberGoldService memberGoldService;
 
 	private Gson gson = new Gson();
 
-	@StreamListener(MemberScoresSink.MEMBERSCORES)
-	public void recordMemberScoreRecordDbo(CommonMO mo) {
+	@StreamListener(MemberGoldsSink.MEMBERGOLDS)
+	public void recordMemberGoldRecordDbo(CommonMO mo) {
 		Map<String, Object> map = (Map<String, Object>) mo.getData();
 		if ("accounting".equals(mo.getMsg())) {
-			MemberScoreRecordDbo dbo = new MemberScoreRecordDbo();
+			MemberGoldRecordDbo dbo = new MemberGoldRecordDbo();
 			dbo.setId((String) map.get("id"));
 			dbo.setAccountId((String) map.get("accountId"));
 			dbo.setMemberId((String) map.get("memberId"));
@@ -36,7 +37,7 @@ public class ScoresMsgReceiver {
 			dbo.setSummary(summary);
 			dbo.setAccountingTime((long) map.get("accountingTime"));
 			dbo.setAccountingAmount((int) map.get("accountingAmount"));
-			memberScoreService.addScoreRecord(dbo);
+			memberGoldService.addGoldRecord(dbo);
 		}
 	}
 }

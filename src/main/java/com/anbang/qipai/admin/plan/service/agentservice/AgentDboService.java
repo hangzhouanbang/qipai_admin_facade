@@ -28,12 +28,20 @@ public class AgentDboService {
 		return listPage;
 	}
 
+	public AgentDbo findAgentDboById(String agentId) {
+		return agentDboDao.findAgentDboById(agentId);
+	}
+
 	public void addAgentDbo(AgentDbo agent) {
 		agentDboDao.addAgentDbo(agent);
 	}
 
-	public boolean updateAgentDboBossId(String agentId, String bossId, String bossName) {
+	public boolean updateAgentDboBoss(String agentId, String bossId, String bossName) {
 		return agentDboDao.updateAgentDboBoss(agentId, bossId, bossName);
+	}
+
+	public boolean removeAgentDboBoss(String agentId) {
+		return agentDboDao.removeAgentDboBoss(agentId);
 	}
 
 	public boolean banAgentDboState(String agentId) {

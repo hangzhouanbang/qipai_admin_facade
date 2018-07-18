@@ -25,6 +25,9 @@ public interface QipaiAgentsRemoteService {
 	public CommonRemoteVO agent_setboss(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "bossId") String bossId, @RequestParam(value = "bossName") String bossName);
 
+	@RequestMapping("/agent/removeboss")
+	public CommonRemoteVO agent_removeboss(@RequestParam(value = "agentId") String agentId);
+
 	@RequestMapping("/agent/ban")
 	public CommonRemoteVO agent_ban(@RequestParam(value = "agentId") String agentId);
 

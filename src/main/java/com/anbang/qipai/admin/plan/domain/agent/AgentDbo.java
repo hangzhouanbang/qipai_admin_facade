@@ -6,6 +6,7 @@ public class AgentDbo {
 	private String gender;// 推广员性别:男:male,女:female
 	private String headimgurl;// 头像url
 	private String phone;// 推广员手机
+	private String userName;// 姓名
 	private String idCard;// 推广员身份证号
 	private String frontUrl;// 身份证正面照片
 	private String reverseUrl;// 身份证反面照片
@@ -14,7 +15,8 @@ public class AgentDbo {
 	private Integer level;// 推广等级
 	private Long createTime;
 	private Boolean agentAuth;// 是否通过推广员申请
-	private String state;//正常,封停
+	private String state;// 正常,封停
+	private String invitationCode;// 邀请码
 
 	public String getId() {
 		return id;
@@ -126,6 +128,22 @@ public class AgentDbo {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getInvitationCode() {
+		return invitationCode;
+	}
+
+	public void setInvitationCode(String invitationCode) {
+		this.invitationCode = invitationCode;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

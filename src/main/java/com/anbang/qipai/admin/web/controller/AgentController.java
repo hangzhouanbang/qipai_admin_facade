@@ -158,12 +158,30 @@ public class AgentController {
 	}
 
 	@RequestMapping("/setboss")
-	public CommonVO setBoss(@RequestParam(required = true) String agentId, @RequestParam(required = true) String bossId,
-			@RequestParam(required = true) String bossName) {
+	public CommonVO setBoss(@RequestParam(required = true) String agentId,
+			@RequestParam(required = true) String bossId) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_setboss(agentId, bossId, bossName);
+		AgentDbo boss = agentDboService.findAgentDboById(bossId);
+		if (boss == null) {
+			vo.setSuccess(false);
+			vo.setMsg("boss not found");
+			return vo;
+		}
+		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_setboss(agentId, bossId, boss.getBossName());
 		if (commonRemoteVO.isSuccess()) {
-			agentDboService.updateAgentDboBossId(agentId, bossId, bossName);
+			agentDboService.updateAgentDboBoss(agentId, bossId, boss.getBossName());
+		}
+		vo.setSuccess(commonRemoteVO.isSuccess());
+		vo.setMsg(commonRemoteVO.getMsg());
+		return vo;
+	}
+	
+	@RequestMapping("/removeboss")
+	public CommonVO removeBoss(@RequestParam(required = true) String agentId) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_removeboss(agentId);
+		if (commonRemoteVO.isSuccess()) {
+			agentDboService.removeAgentDboBoss(agentId);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());

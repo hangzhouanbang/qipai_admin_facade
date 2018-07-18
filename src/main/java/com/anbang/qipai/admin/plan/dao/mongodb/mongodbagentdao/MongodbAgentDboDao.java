@@ -26,7 +26,10 @@ public class MongodbAgentDboDao implements AgentDboDao {
 
 	@Override
 	public List<AgentDbo> findAgentDboByConditions(int page, int size, AgentDbo agent) {
-		Query query = new Query(Criteria.where("level").is(agent.getLevel()));
+		Query query = new Query();
+		if (agent.getLevel() != null) {
+			query.addCriteria(Criteria.where("level").is(agent.getLevel()));
+		}
 		query.addCriteria(Criteria.where("agentAuth").is(true));
 		query.skip((page - 1) * size);
 		query.limit(size);
@@ -54,7 +57,10 @@ public class MongodbAgentDboDao implements AgentDboDao {
 
 	@Override
 	public long getAmountByConditions(AgentDbo agent) {
-		Query query = new Query(Criteria.where("level").is(agent.getLevel()));
+		Query query = new Query();
+		if (agent.getLevel() != null) {
+			query.addCriteria(Criteria.where("level").is(agent.getLevel()));
+		}
 		query.addCriteria(Criteria.where("agentAuth").is(true));
 		return mongoTemplate.count(query, AgentDbo.class);
 	}
@@ -87,6 +93,22 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("state", state);
+		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
+		return result.getN() > 0;
+	}
+
+	@Override
+	public AgentDbo findAgentDboById(String agentId) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		return mongoTemplate.findOne(query, AgentDbo.class);
+	}
+
+	@Override
+	public boolean removeAgentDboBoss(String agentId) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		Update update = new Update();
+		update.unset("bossId");
+		update.unset("bossName");
 		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
 		return result.getN() > 0;
 	}
