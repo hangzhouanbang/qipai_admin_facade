@@ -18,8 +18,8 @@ import com.anbang.qipai.admin.plan.domain.permission.Role;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 import com.anbang.qipai.admin.plan.service.permissionservice.PrivilegeService;
 import com.anbang.qipai.admin.plan.service.permissionservice.RoleService;
-import com.anbang.qipai.admin.web.vo.PrivilegeVO;
-import com.anbang.qipai.admin.web.vo.UserVO;
+import com.anbang.qipai.admin.web.vo.permissionvo.PrivilegeVO;
+import com.anbang.qipai.admin.web.vo.permissionvo.UserVO;
 
 /**
  * 登录controller

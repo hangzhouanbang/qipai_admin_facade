@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.anbang.qipai.admin.plan.domain.ClubCard;
 import com.anbang.qipai.admin.plan.domain.Grade.MemberGrade;
+import com.anbang.qipai.admin.plan.domain.members.MemberClubCard;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**
@@ -33,13 +33,13 @@ public interface QipaiMembersRemoteService {
 			@RequestParam(value = "vipGrowGradeSpeed") float vipGrowGradeSpeed);
 
 	@RequestMapping(value = "/clubcard/addclubcard")
-	public CommonRemoteVO clubcard_add(@RequestBody ClubCard clubCard);
+	public CommonRemoteVO clubcard_add(@RequestBody MemberClubCard clubCard);
 
 	@RequestMapping(value = "/clubcard/deleteclubcards")
 	public CommonRemoteVO clubcard_delete(@RequestBody String[] clubCardIds);
 
 	@RequestMapping(value = "/clubcard/updateclubcard")
-	public CommonRemoteVO clubcard_update(@RequestBody ClubCard clubCard);
+	public CommonRemoteVO clubcard_update(@RequestBody MemberClubCard clubCard);
 
 	@RequestMapping(value = "/grade/insert_grade")
 	public CommonRemoteVO grade_insert_grade(@RequestBody MemberGrade memberGrade);

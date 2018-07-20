@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.domain.GameDataReport;
 import com.anbang.qipai.admin.plan.domain.PlatformReport;
-import com.anbang.qipai.admin.plan.service.MemberDboService;
-import com.anbang.qipai.admin.plan.service.OrderService;
 import com.anbang.qipai.admin.plan.service.ReportService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberOrderService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
 
@@ -33,7 +33,7 @@ public class DataReportController {
 	private MemberDboService memberService;
 
 	@Autowired
-	private OrderService orderService;
+	private MemberOrderService orderService;
 
 	@RequestMapping("/platformreport")
 	public CommonVO platformOperateReport(@RequestParam(required = true) Long startTime,

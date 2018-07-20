@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.anbang.qipai.admin.web.vo.PrivilegeVO;
+import com.anbang.qipai.admin.web.vo.permissionvo.PrivilegeVO;
 
 /**
  * 管理员操作拦截器

@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.anbang.qipai.admin.plan.domain.agent.AgentCostClubCard;
-import com.anbang.qipai.admin.plan.domain.agent.AgentScoreClubCard;
+import com.anbang.qipai.admin.plan.domain.agents.AgentClubCard;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 @FeignClient("qipai-agents")
@@ -34,15 +33,13 @@ public interface QipaiAgentsRemoteService {
 	@RequestMapping("/agent/liberate")
 	public CommonRemoteVO agent_liberate(@RequestParam(value = "agentId") String agentId);
 
-	@RequestMapping("/clubcard/addscoreclubcard")
-	public CommonRemoteVO clubcard_addscoreclubcard(@RequestBody AgentScoreClubCard card);
+	@RequestMapping("/clubcard/addagentclubcard")
+	public CommonRemoteVO clubcard_addagentclubcard(@RequestBody AgentClubCard card);
 
-	@RequestMapping("/clubcard/addcostclubcard")
-	public CommonRemoteVO clubcard_addcostclubcard(@RequestBody AgentCostClubCard card);
+	@RequestMapping("/clubcard/updateagentclubcard")
+	public CommonRemoteVO clubcard_updateagentclubcard(@RequestBody AgentClubCard card);
 
-	@RequestMapping("/clubcard/deletescoreclubcard")
-	public CommonRemoteVO clubcard_deletescoreclubcard(@RequestBody String[] cardIds);
+	@RequestMapping("/clubcard/deleteagentclubcard")
+	public CommonRemoteVO clubcard_deleteagentclubcard(@RequestBody String[] cardIds);
 
-	@RequestMapping("/clubcard/deletecostclubcard")
-	public CommonRemoteVO clubcard_deletecostclubcard(@RequestBody String[] cardIds);
 }

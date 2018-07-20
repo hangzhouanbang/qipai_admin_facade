@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.dao.GameReportDao;
 import com.anbang.qipai.admin.plan.domain.GameDataReport;
-import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.mongodb.BasicDBObject;
 
 @Component
@@ -35,7 +34,7 @@ public class MongodbGameReportDao implements GameReportDao {
 
 	@Override
 	public long countGameNumByTime(long date) {
-		Aggregation aggregation = Aggregation.newAggregation(MemberDbo.class,
+		Aggregation aggregation = Aggregation.newAggregation(GameDataReport.class,
 				Aggregation.match(Criteria.where("date").is(date)), Aggregation.group().sum("gameNum").as("gameNum"));
 		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, GameDataReport.class,
 				BasicDBObject.class);
@@ -49,7 +48,7 @@ public class MongodbGameReportDao implements GameReportDao {
 
 	@Override
 	public long countLoginMemberByTime(long date) {
-		Aggregation aggregation = Aggregation.newAggregation(MemberDbo.class,
+		Aggregation aggregation = Aggregation.newAggregation(GameDataReport.class,
 				Aggregation.match(Criteria.where("date").is(date)),
 				Aggregation.group().sum("loginMember").as("loginMember"));
 		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, GameDataReport.class,

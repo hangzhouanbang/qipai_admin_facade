@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.anbang.qipai.admin.plan.domain.task.Activity;
-import com.anbang.qipai.admin.plan.domain.task.TaskDocumentHistory;
+import com.anbang.qipai.admin.plan.domain.tasks.Activity;
+import com.anbang.qipai.admin.plan.domain.tasks.TaskDocumentHistory;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 @FeignClient("qipai-tasks")

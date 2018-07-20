@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.task.TaskDocument;
-import com.anbang.qipai.admin.plan.domain.task.TaskDocumentHistory;
-import com.anbang.qipai.admin.plan.service.task.TaskDocumentHistoryService;
-import com.anbang.qipai.admin.plan.service.task.TaskDocumentService;
+import com.anbang.qipai.admin.plan.domain.tasks.TaskDocument;
+import com.anbang.qipai.admin.plan.domain.tasks.TaskDocumentHistory;
+import com.anbang.qipai.admin.plan.service.tasksservice.TaskDocumentHistoryService;
+import com.anbang.qipai.admin.plan.service.tasksservice.TaskDocumentService;
 import com.anbang.qipai.admin.remote.service.QipaiTasksRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;

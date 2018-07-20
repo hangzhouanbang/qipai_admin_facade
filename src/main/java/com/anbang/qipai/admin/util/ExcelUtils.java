@@ -11,14 +11,14 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.anbang.qipai.admin.plan.domain.record.Order;
+import com.anbang.qipai.admin.plan.domain.members.MemberOrder;
 
 public class ExcelUtils {
 
 	public static int rowid = 0;
 	public static int sheetNum = 1;
 
-	public static void generateOrderExcel(List<Order> list, String fileName) throws IOException {
+	public static void generateOrderExcel(List<MemberOrder> list, String fileName) throws IOException {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		File file = new File("src/main/webapp/excel");
 		if (!file.exists()) {
@@ -60,7 +60,7 @@ public class ExcelUtils {
 			row.createCell(16).setCellValue("发货时间");
 			rowid++;
 		}
-		for (Order order : list) {
+		for (MemberOrder order : list) {
 			XSSFRow row = spreadsheet.createRow(rowid);
 			// Class<?> c = order.getClass();
 			// Field[] fields = c.getDeclaredFields();

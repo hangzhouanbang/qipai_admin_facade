@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.config.ActivityState;
-import com.anbang.qipai.admin.plan.domain.task.Activity;
-import com.anbang.qipai.admin.plan.service.task.ActivityService;
+import com.anbang.qipai.admin.plan.domain.tasks.Activity;
+import com.anbang.qipai.admin.plan.service.tasksservice.ActivityService;
 import com.anbang.qipai.admin.remote.service.QipaiTasksRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
@@ -34,12 +33,13 @@ public class ActivityController {
 			vo.setMsg("at least one param is null");
 			return vo;
 		}
-		activity.setState(ActivityState.START);
 		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.activity_add(activity);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
 			String id = (String) map.get("id");
+			String state = (String) map.get("state");
 			activity.setId(id);
+			activity.setState(state);
 			activityService.addActivity(activity);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());

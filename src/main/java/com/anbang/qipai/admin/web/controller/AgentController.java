@@ -7,23 +7,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.config.AgentApplyState;
-import com.anbang.qipai.admin.plan.domain.agent.AgentApplyRecord;
-import com.anbang.qipai.admin.plan.domain.agent.AgentClubCardRecordDbo;
-import com.anbang.qipai.admin.plan.domain.agent.AgentCostClubCard;
-import com.anbang.qipai.admin.plan.domain.agent.AgentDbo;
-import com.anbang.qipai.admin.plan.domain.agent.AgentScoreClubCard;
-import com.anbang.qipai.admin.plan.domain.agent.AgentScoreRecordDbo;
-import com.anbang.qipai.admin.plan.service.agentservice.AgentApplyRecordService;
-import com.anbang.qipai.admin.plan.service.agentservice.AgentClubCardRecordDboService;
-import com.anbang.qipai.admin.plan.service.agentservice.AgentCostClubCardService;
-import com.anbang.qipai.admin.plan.service.agentservice.AgentDboService;
-import com.anbang.qipai.admin.plan.service.agentservice.AgentScoreClubCardService;
-import com.anbang.qipai.admin.plan.service.agentservice.AgentScoreRecordDboService;
+import com.anbang.qipai.admin.plan.domain.agents.AgentApplyRecord;
+import com.anbang.qipai.admin.plan.domain.agents.AgentClubCard;
+import com.anbang.qipai.admin.plan.domain.agents.AgentDbo;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentApplyRecordService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardRecordDboService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentInvitationRecordService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentScoreRecordDboService;
 import com.anbang.qipai.admin.remote.service.QipaiAgentsRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
-import com.anbang.qipai.admin.web.vo.AgentApplyRecordVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentApplyRecordVO;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentClubCardRecordDboVO;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentInvitationRecordVO;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentScoreRecordDboVO;
 import com.highto.framework.web.page.ListPage;
 
 /**
@@ -43,10 +43,7 @@ public class AgentController {
 	private AgentDboService agentDboService;
 
 	@Autowired
-	private AgentCostClubCardService agentCostClubCardService;
-
-	@Autowired
-	private AgentScoreClubCardService agentScoreClubCardService;
+	private AgentClubCardService agentClubCardService;
 
 	@Autowired
 	private AgentClubCardRecordDboService agentClubCardRecordDboService;
@@ -57,9 +54,12 @@ public class AgentController {
 	@Autowired
 	private QipaiAgentsRemoteService qipaiAgentsRemoteService;
 
+	@Autowired
+	private AgentInvitationRecordService agentInvitationRecordService;
+
 	@RequestMapping("/queryagent")
 	public CommonVO queryAgent(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentDbo agent) {
+			@RequestParam(defaultValue = "10") Integer size, AgentDboVO agent) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentDboService.findAgentDboByConditions(page, size, agent);
 		vo.setSuccess(true);
@@ -72,18 +72,29 @@ public class AgentController {
 	public CommonVO queryApplyRecord(@RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size, AgentApplyRecordVO recordVo) {
 		CommonVO vo = new CommonVO();
-		ListPage listPage = agentApplyRecordService.findAgentApplyRecordByTime(page, size, recordVo);
+		ListPage listPage = agentApplyRecordService.findAgentApplyRecordByByConditions(page, size, recordVo);
 		vo.setSuccess(true);
 		vo.setMsg("recordList");
 		vo.setData(listPage);
 		return vo;
 	}
 
+	@RequestMapping("/queryagentclubcard")
+	public CommonVO queryAgentClubCard(@RequestParam(defaultValue = "1") Integer page,
+			@RequestParam(defaultValue = "10") Integer size, AgentClubCard card) {
+		CommonVO vo = new CommonVO();
+		ListPage listPage = agentClubCardService.findAgentClubCardByConditions(page, size, card);
+		vo.setSuccess(true);
+		vo.setMsg("cardList");
+		vo.setData(listPage);
+		return vo;
+	}
+
 	@RequestMapping("/queryclubcardrecord")
 	public CommonVO queryClubCardRecord(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentClubCardRecordDbo dbo) {
+			@RequestParam(defaultValue = "10") Integer size, AgentClubCardRecordDboVO record) {
 		CommonVO vo = new CommonVO();
-		ListPage listPage = agentClubCardRecordDboService.findAgentClubCardRecordDboByConditions(page, size, dbo);
+		ListPage listPage = agentClubCardRecordDboService.findAgentClubCardRecordDboByConditions(page, size, record);
 		vo.setSuccess(true);
 		vo.setMsg("recordList");
 		vo.setData(listPage);
@@ -92,9 +103,20 @@ public class AgentController {
 
 	@RequestMapping("/queryscorerecord")
 	public CommonVO queryScoreRecord(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentScoreRecordDbo dbo) {
+			@RequestParam(defaultValue = "10") Integer size, AgentScoreRecordDboVO record) {
 		CommonVO vo = new CommonVO();
-		ListPage listPage = agentScoreRecordDboService.findAgentScoreRecordDboByConditions(page, size, dbo);
+		ListPage listPage = agentScoreRecordDboService.findAgentScoreRecordDboByConditions(page, size, record);
+		vo.setSuccess(true);
+		vo.setMsg("recordList");
+		vo.setData(listPage);
+		return vo;
+	}
+
+	@RequestMapping("/queryagentinvitationrecord")
+	public CommonVO queryAgentInvitationRecord(@RequestParam(defaultValue = "1") Integer page,
+			@RequestParam(defaultValue = "10") Integer size, AgentInvitationRecordVO record) {
+		CommonVO vo = new CommonVO();
+		ListPage listPage = agentInvitationRecordService.findInvitationRecordByConditions(page, size, record);
 		vo.setSuccess(true);
 		vo.setMsg("recordList");
 		vo.setData(listPage);
@@ -105,21 +127,15 @@ public class AgentController {
 	public CommonVO applyPass(String recordId) {
 		CommonVO vo = new CommonVO();
 		AgentApplyRecord record = agentApplyRecordService.findAgentApplyRecordById(recordId);
-		if (!AgentApplyState.APPLYING.equals(record.getState())) {
+		if (record == null) {
 			vo.setSuccess(false);
-			vo.setMsg("this apply has already disposed");
+			vo.setMsg("not found apply record");
 			return vo;
 		}
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.apply_pass(recordId);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			record.setAgentId((String) map.get("agentId"));
-			record.setPhone((String) map.get("phone"));
-			record.setUserName((String) map.get("userName"));
-			record.setIdCard((String) map.get("idCard"));
-			record.setFrontUrl((String) map.get("frontUrl"));
-			record.setReverseUrl((String) map.get("reverseUrl"));
-			agentDboService.updateAgnetInfo(record);
+			agentApplyRecordService.updateAgentApplyRecordSate(recordId, (String) map.get("state"));
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
@@ -130,14 +146,15 @@ public class AgentController {
 	public CommonVO applyRefuse(String recordId) {
 		CommonVO vo = new CommonVO();
 		AgentApplyRecord record = agentApplyRecordService.findAgentApplyRecordById(recordId);
-		if (!AgentApplyState.APPLYING.equals(record.getState())) {
+		if (record == null) {
 			vo.setSuccess(false);
-			vo.setMsg("this apply has already disposed");
+			vo.setMsg("not found apply record");
 			return vo;
 		}
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.apply_refuse(recordId);
 		if (commonRemoteVO.isSuccess()) {
-			agentApplyRecordService.updateAgentApplyRecordSate(recordId, AgentApplyState.APPLYFAIL);
+			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
+			agentApplyRecordService.updateAgentApplyRecordSate(recordId, (String) map.get("state"));
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
@@ -145,8 +162,7 @@ public class AgentController {
 	}
 
 	@RequestMapping("/setlevel")
-	public CommonVO setLevel(@RequestParam(required = true) String agentId,
-			@RequestParam(required = true) Integer level) {
+	public CommonVO setLevel(String agentId, Integer level) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_setlevel(agentId, level);
 		if (commonRemoteVO.isSuccess()) {
@@ -158,8 +174,7 @@ public class AgentController {
 	}
 
 	@RequestMapping("/setboss")
-	public CommonVO setBoss(@RequestParam(required = true) String agentId,
-			@RequestParam(required = true) String bossId) {
+	public CommonVO setBoss(String agentId, String bossId) {
 		CommonVO vo = new CommonVO();
 		AgentDbo boss = agentDboService.findAgentDboById(bossId);
 		if (boss == null) {
@@ -167,17 +182,17 @@ public class AgentController {
 			vo.setMsg("boss not found");
 			return vo;
 		}
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_setboss(agentId, bossId, boss.getBossName());
+		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_setboss(agentId, bossId, boss.getNickname());
 		if (commonRemoteVO.isSuccess()) {
-			agentDboService.updateAgentDboBoss(agentId, bossId, boss.getBossName());
+			agentDboService.updateAgentDboBoss(agentId, bossId, boss.getNickname());
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
-	
+
 	@RequestMapping("/removeboss")
-	public CommonVO removeBoss(@RequestParam(required = true) String agentId) {
+	public CommonVO removeBoss(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_removeboss(agentId);
 		if (commonRemoteVO.isSuccess()) {
@@ -189,7 +204,7 @@ public class AgentController {
 	}
 
 	@RequestMapping("/ban")
-	public CommonVO ban(@RequestParam(required = true) String agentId) {
+	public CommonVO ban(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_ban(agentId);
 		if (commonRemoteVO.isSuccess()) {
@@ -201,7 +216,7 @@ public class AgentController {
 	}
 
 	@RequestMapping("/liberate")
-	public CommonVO liberate(@RequestParam(required = true) String agentId) {
+	public CommonVO liberate(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_liberate(agentId);
 		if (commonRemoteVO.isSuccess()) {
@@ -212,55 +227,50 @@ public class AgentController {
 		return vo;
 	}
 
-	@RequestMapping("/addscoreclubcard")
-	public CommonVO addScoreClubCard(AgentScoreClubCard card) {
+	@RequestMapping("/addagentclubcard")
+	public CommonVO addAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_addscoreclubcard(card);
+		if (card.getProduct() == null || card.getProductPic() == null || card.getNumber() == null
+				|| card.getRepertory() == null || card.getPayType() == null || card.getPrice() == null
+				|| card.getWeight() == null) {
+			vo.setSuccess(false);
+			vo.setMsg("at least one param is null");
+		}
+		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
 			card.setId((String) map.get("id"));
-			agentScoreClubCardService.addScoreClubCard(card);
+			agentClubCardService.addAgentClubCard(card);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
-	@RequestMapping("/addcostclubcard")
-	public CommonVO addCostClubCard(AgentCostClubCard card) {
+	@RequestMapping("/updateagentclubcard")
+	public CommonVO updateAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_addcostclubcard(card);
+		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
 			card.setId((String) map.get("id"));
-			agentCostClubCardService.addCostClubCard(card);
+			agentClubCardService.addAgentClubCard(card);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
-	@RequestMapping("/deletescoreclubcard")
-	public CommonVO deleteScoreClubCard(String[] cardIds) {
+	@RequestMapping("/deleteagentclubcard")
+	public CommonVO deleteAgentClubCard(@RequestParam(value = "cardId") String[] cardIds) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_deletescoreclubcard(cardIds);
+		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_deleteagentclubcard(cardIds);
 		if (commonRemoteVO.isSuccess()) {
-			agentCostClubCardService.deleteCostClubCard(cardIds);
+			agentClubCardService.deleteAgentClubCard(cardIds);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
-	@RequestMapping("/deletecostclubcard")
-	public CommonVO deleteCostClubCard(String[] cardIds) {
-		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_deletecostclubcard(cardIds);
-		if (commonRemoteVO.isSuccess()) {
-			agentCostClubCardService.deleteCostClubCard(cardIds);
-		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
-		return vo;
-	}
 }

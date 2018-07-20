@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.ClubCard;
-import com.anbang.qipai.admin.plan.service.ClubCardService;
+import com.anbang.qipai.admin.plan.domain.members.MemberClubCard;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberClubCardService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
@@ -25,7 +25,7 @@ import com.anbang.qipai.admin.web.vo.CommonVO;
 public class ClubCardController {
 
 	@Autowired
-	private ClubCardService clubCardService;
+	private MemberClubCardService clubCardService;
 
 	@Autowired
 	private QipaiMembersRemoteService qipaiMembersService;
@@ -33,7 +33,7 @@ public class ClubCardController {
 	@RequestMapping("/showclubcard")
 	public CommonVO showClubCard() {
 		CommonVO vo = new CommonVO();
-		List<ClubCard> cardList = clubCardService.showClubCard();
+		List<MemberClubCard> cardList = clubCardService.showClubCard();
 		vo.setSuccess(true);
 		vo.setMsg("clubCardList");
 		vo.setData(cardList);
@@ -41,12 +41,12 @@ public class ClubCardController {
 	}
 
 	@RequestMapping("/addclubcard")
-	public CommonVO addClubCard(ClubCard clubCard) {
+	public CommonVO addClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_add(clubCard);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			ClubCard card = new ClubCard();
+			MemberClubCard card = new MemberClubCard();
 			card.setId((String) map.get("id"));
 			card.setName((String) map.get("name"));
 			card.setPrice((Double) map.get("price"));
@@ -73,7 +73,7 @@ public class ClubCardController {
 	}
 
 	@RequestMapping("/updateclubcard")
-	public CommonVO updateClubCard(ClubCard clubCard) {
+	public CommonVO updateClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
 		if (clubCard.getId() == null) {
 			vo.setSuccess(false);

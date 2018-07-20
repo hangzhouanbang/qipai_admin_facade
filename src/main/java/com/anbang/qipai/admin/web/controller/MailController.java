@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.ClubCard;
-import com.anbang.qipai.admin.plan.domain.MemberDbo;
 import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
-import com.anbang.qipai.admin.plan.service.ClubCardService;
+import com.anbang.qipai.admin.plan.domain.members.MemberClubCard;
+import com.anbang.qipai.admin.plan.domain.members.MemberDbo;
 import com.anbang.qipai.admin.plan.service.MailService;
-import com.anbang.qipai.admin.plan.service.MemberDboService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberClubCardService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.util.TimeUtil;
-import com.anbang.qipai.admin.web.vo.UserVO;
+import com.anbang.qipai.admin.web.vo.permissionvo.UserVO;
 import com.google.gson.Gson;
 import com.highto.framework.web.page.ListPage;
 import com.qiniu.util.Auth;
@@ -38,7 +38,7 @@ public class MailController {
 	private QipaiGameRomoteService qipaiGameRomoteService;
 
 	@Autowired
-	private ClubCardService clubCardService;
+	private MemberClubCardService clubCardService;
 
 	@Autowired
 	private MemberDboService memberService;
@@ -104,7 +104,7 @@ public class MailController {
 	@ResponseBody
 	public CommonRemoteVO find_vipcard() {
 		CommonRemoteVO co = new CommonRemoteVO();
-		List<ClubCard> list = clubCardService.showClubCard();
+		List<MemberClubCard> list = clubCardService.showClubCard();
 		co.setSuccess(true);
 		co.setData(list);
 		return co;
@@ -132,7 +132,7 @@ public class MailController {
 			long validTime = TimeUtil.getDate(System.currentTimeMillis(), validDay);
 			mail.setValidTime(validTime);
 		}
-		ClubCard clubCard = clubCardService.findClubCardById(vipCardId);
+		MemberClubCard clubCard = clubCardService.findClubCardById(vipCardId);
 		mail.setVipcard(TimeUtil.getDay(clubCard.getTime()));
 		String str = gson.toJson(mail);
 		vo = qipaiGameRomoteService.addMailById(str, ids);

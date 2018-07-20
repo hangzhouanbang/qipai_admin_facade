@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
-import com.anbang.qipai.admin.web.vo.UserVO;
+import com.anbang.qipai.admin.web.vo.permissionvo.UserVO;
 
 /**
  * 系统通告controller

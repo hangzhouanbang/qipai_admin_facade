@@ -77,35 +77,42 @@ spring:
           contentType: application/json
         agents:
           destination: agents
-          group: qipai_admin_facade
+          group: qipai_agents
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         agentApplyRecords:
           destination: agentApplyRecords
-          group: qipai_admin_facade
+          group: qipai_agents
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         agentScores:
           destination: agentScores
-          group: qipai_admin_facade
+          group: qipai_agents
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         agentClubCards:
           destination: agentClubCards
-          group: qipai_admin_facade
+          group: qipai_agents
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         agentOrders:
           destination: agentOrders
-          group: qipai_admin_facade
+          group: qipai_agents
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        agentInvitationRecords:
+          destination: agentInvitationRecords
+          group: qipai_agents
           consumer:
             concurrency: 1
             partitioned: false

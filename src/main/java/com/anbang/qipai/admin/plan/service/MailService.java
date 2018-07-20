@@ -12,12 +12,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.anbang.qipai.admin.plan.dao.ClubCardDao;
+import com.anbang.qipai.admin.plan.dao.membersdao.MemberClubCardDao;
 import com.anbang.qipai.admin.plan.dao.systemmaildao.MailDao;
-import com.anbang.qipai.admin.plan.domain.ClubCard;
 import com.anbang.qipai.admin.plan.domain.mail.MailList;
 import com.anbang.qipai.admin.plan.domain.mail.MailState;
 import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
+import com.anbang.qipai.admin.plan.domain.members.MemberClubCard;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.highto.framework.web.page.ListPage;
 
@@ -28,7 +28,7 @@ public class MailService {
 	private MailDao maildao;
 
 	@Autowired
-	private ClubCardDao clubCardDao;
+	private MemberClubCardDao clubCardDao;
 
 	public Map<String, Object> findall(Integer page, Integer size, String adminname, Integer status) {
 		if (page < 1) {
@@ -77,7 +77,7 @@ public class MailService {
 			SystemMail systemMail1 = maildao.findMailById(mailState.getMailid());
 			if (systemMail1 != null) {
 				long time = TimeUtil.getTimeOnDay(systemMail1.getVipcard());
-				ClubCard clubCard = clubCardDao.findClubCardByTime(time);
+				MemberClubCard clubCard = clubCardDao.findClubCardByTime(time);
 				if (clubCard != null) {
 					MailList mailList = new MailList();
 					mailList.setId(mailState.getId());
