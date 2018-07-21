@@ -236,6 +236,8 @@ public class AgentController {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 		}
+		card.setRemain(card.getRepertory());
+		card.setSale(true);
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
 		if (commonRemoteVO.isSuccess()) {
 			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
@@ -252,9 +254,7 @@ public class AgentController {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
 		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			card.setId((String) map.get("id"));
-			agentClubCardService.addAgentClubCard(card);
+			agentClubCardService.updateAgentClubCard(card);
 		}
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());

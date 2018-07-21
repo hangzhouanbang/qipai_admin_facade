@@ -23,7 +23,6 @@ public class AgentClubCardService {
 	}
 
 	public void addAgentClubCard(AgentClubCard card) {
-		card.setSale(true);
 		clubCardDao.addAgentClubCard(card);
 	}
 	

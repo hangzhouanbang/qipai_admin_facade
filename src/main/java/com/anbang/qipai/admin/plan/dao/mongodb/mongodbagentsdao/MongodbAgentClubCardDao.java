@@ -31,7 +31,7 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 	public boolean deleteAgentClubCard(String[] cardIds) {
 		Object[] ids = cardIds;
 		Query query = new Query(Criteria.where("id").in(ids));
-		WriteResult result = mongoTemplate.remove(query);
+		WriteResult result = mongoTemplate.remove(query, AgentClubCard.class);
 		return result.getN() <= cardIds.length;
 	}
 
