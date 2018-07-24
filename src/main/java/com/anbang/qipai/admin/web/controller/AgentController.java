@@ -236,7 +236,6 @@ public class AgentController {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 		}
-		card.setRemain(card.getRepertory());
 		card.setSale(true);
 		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
 		if (commonRemoteVO.isSuccess()) {
@@ -273,4 +272,65 @@ public class AgentController {
 		return vo;
 	}
 
+	@RequestMapping("/clubcardmanager")
+	public CommonVO clubCardManager(String agentId, String card, int cardAmount) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO commonRemoteVO = new CommonRemoteVO();
+		if (cardAmount < 0) {
+			commonRemoteVO = qipaiAgentsRemoteService.score_withdraw(agentId, -cardAmount, "管理员调整");
+		}
+		if (cardAmount > 0) {
+			commonRemoteVO = qipaiAgentsRemoteService.score_withdraw(agentId, cardAmount, "管理员调整");
+		}
+		vo.setSuccess(commonRemoteVO.isSuccess());
+		vo.setMsg(commonRemoteVO.getMsg());
+		return vo;
+	}
+
+	@RequestMapping("/scoremanager")
+	public CommonVO scoreManager(String agentId, String card, int cardAmount, int scoreAmount) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO cardVO = new CommonRemoteVO();
+		if ("周卡".equals(card)) {
+			if (cardAmount < 0) {
+				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "管理员调整");
+			}
+			if (cardAmount > 0) {
+				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "管理员调整");
+			}
+		}
+		if ("月卡".equals(card)) {
+			if (cardAmount < 0) {
+				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "管理员调整");
+			}
+			if (cardAmount > 0) {
+				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "管理员调整");
+			}
+		}
+		if ("季卡".equals(card)) {
+			if (cardAmount < 0) {
+				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "管理员调整");
+			}
+			if (cardAmount > 0) {
+				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "管理员调整");
+			}
+		}
+		CommonRemoteVO scoreVO = new CommonRemoteVO();
+		if (scoreAmount < 0) {
+			scoreVO = qipaiAgentsRemoteService.score_withdraw(agentId, -scoreAmount, "管理员调整");
+		}
+		if (scoreAmount > 0) {
+			scoreVO = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "管理员调整");
+		}
+		if (!cardVO.isSuccess() || !scoreVO.isSuccess()) {
+			vo.setSuccess(false);
+		}
+		if (cardVO.getMsg() != null) {
+			vo.setMsg(cardVO.getMsg());
+		}
+		if (scoreVO.getMsg() != null) {
+			vo.setMsg(scoreVO.getMsg());
+		}
+		return vo;
+	}
 }

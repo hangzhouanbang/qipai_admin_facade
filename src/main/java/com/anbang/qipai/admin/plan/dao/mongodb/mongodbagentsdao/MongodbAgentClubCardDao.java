@@ -43,7 +43,6 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		update.set("productPic", card.getProductPic());
 		update.set("number", card.getNumber());
 		update.set("repertory", card.getRepertory());
-		update.set("remain", card.getRemain());
 		update.set("payType", card.getPayType());
 		update.set("price", card.getPrice());
 		update.set("weight", card.getWeight());

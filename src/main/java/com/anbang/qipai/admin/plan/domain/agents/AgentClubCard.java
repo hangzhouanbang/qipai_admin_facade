@@ -6,7 +6,6 @@ public class AgentClubCard {
 	private String productPic;// ICON图
 	private Integer number;
 	private Integer repertory;// 库存数量
-	private Integer remain;// 剩余数量
 	private String payType;// 支付方式
 	private Double price;// 价格
 	private Integer weight;// 权重
@@ -50,14 +49,6 @@ public class AgentClubCard {
 
 	public void setRepertory(Integer repertory) {
 		this.repertory = repertory;
-	}
-
-	public Integer getRemain() {
-		return remain;
-	}
-
-	public void setRemain(Integer remain) {
-		this.remain = remain;
 	}
 
 	public String getPayType() {
