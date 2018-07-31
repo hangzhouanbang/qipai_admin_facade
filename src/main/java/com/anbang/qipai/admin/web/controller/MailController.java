@@ -20,6 +20,7 @@ import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.util.TimeUtil;
+import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.anbang.qipai.admin.web.vo.permissionvo.UserVO;
 import com.google.gson.Gson;
 import com.highto.framework.web.page.ListPage;
@@ -84,17 +85,17 @@ public class MailController {
 	 **/
 	@RequestMapping("/uptoken")
 	@ResponseBody
-	public CommonRemoteVO uptoken(String accessKey, String secretKey, String bucket) {
-		CommonRemoteVO co = new CommonRemoteVO();
-		// String accessKey = "qQj7mRKyvE7dOOjObMC8W58i6Yn3penfr7-_fg4d";
-		// String secretKey = "9f70kmAddF1maP1U0jy0vRNAhwWNv_huR1xDSH_s";
-		// String bucket = "anbang";
+	public CommonVO uptoken() {
+		CommonVO vo = new CommonVO();
+		String accessKey = "qQj7mRKyvE7dOOjObMC8W58i6Yn3penfr7-_fg4d";
+		String secretKey = "9f70kmAddF1maP1U0jy0vRNAhwWNv_huR1xDSH_s";
+		String bucket = "anbang";
 		Auth auth = Auth.create(accessKey, secretKey);
 		String uptoken = auth.uploadToken(bucket);
-		co.setSuccess(true);
-		co.setData(uptoken);
-		co.setMsg("Obtaintoken");
-		return co;
+		vo.setSuccess(true);
+		vo.setMsg("Obtaintoken");
+		vo.setData(uptoken);
+		return vo;
 	}
 
 	/**
