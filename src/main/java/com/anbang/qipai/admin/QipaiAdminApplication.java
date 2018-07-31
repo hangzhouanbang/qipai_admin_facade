@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableEurekaClient
 @EnableFeignClients
 @EnableScheduling
-public class QipaAdminApplication {
+public class QipaiAdminApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(QipaAdminApplication.class, args);
+		SpringApplication.run(QipaiAdminApplication.class, args);
 	}
 }
