@@ -27,4 +27,6 @@ public interface AgentDboDao {
 	boolean updateAgentAuth(String agentId, boolean agentAuth);
 
 	boolean removeAgentDboBoss(String agentId);
+	
+	boolean updateAgentCost(String agentId, double cost);
 }

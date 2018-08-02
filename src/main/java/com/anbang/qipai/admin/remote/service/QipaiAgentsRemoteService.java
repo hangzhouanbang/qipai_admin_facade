@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anbang.qipai.admin.plan.domain.agents.AgentClubCard;
+import com.anbang.qipai.admin.remote.vo.AccountRemoteVO;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 @FeignClient("qipai-agents")
@@ -15,6 +16,9 @@ public interface QipaiAgentsRemoteService {
 
 	@RequestMapping("/apply/applyrefuse")
 	public CommonRemoteVO apply_refuse(@RequestParam(value = "recordId") String recordId);
+
+	@RequestMapping("/agent/agentaccount")
+	public AccountRemoteVO agent_account(@RequestParam(value = "agentId") String agentId);
 
 	@RequestMapping("/agent/setlevel")
 	public CommonRemoteVO agent_setlevel(@RequestParam(value = "agentId") String agentId,

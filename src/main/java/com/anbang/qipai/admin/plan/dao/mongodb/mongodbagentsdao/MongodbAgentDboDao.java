@@ -157,4 +157,13 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
 		return result.getN() > 0;
 	}
+
+	@Override
+	public boolean updateAgentCost(String agentId, double cost) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		Update update = new Update();
+		update.set("cost", cost);
+		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
+		return result.getN() > 0;
+	}
 }

@@ -27,6 +27,10 @@ public class AgentDboService {
 		return agentDboDao.findAgentDboById(agentId);
 	}
 
+	public boolean updateAgentCost(String agentId, double cost) {
+		return agentDboDao.updateAgentCost(agentId, cost);
+	}
+	
 	public void addAgentDbo(AgentDbo agent) {
 		agentDboDao.addAgentDbo(agent);
 	}

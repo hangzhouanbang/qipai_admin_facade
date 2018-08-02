@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentInvitationRecordService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentScoreRecordDboService;
 import com.anbang.qipai.admin.remote.service.QipaiAgentsRemoteService;
+import com.anbang.qipai.admin.remote.vo.AccountRemoteVO;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentApplyRecordVO;
@@ -65,6 +67,26 @@ public class AgentController {
 		vo.setSuccess(true);
 		vo.setMsg("agentList");
 		vo.setData(listPage);
+		return vo;
+	}
+
+	@RequestMapping("/agentdetail")
+	public CommonVO queryAgentDetail(String agentId) {
+		CommonVO vo = new CommonVO();
+		vo.setSuccess(false);
+		Map<String, Object> map = new HashMap<String, Object>();
+		AgentDbo agent = agentDboService.findAgentDboById(agentId);
+		AccountRemoteVO accountRemoteVo = qipaiAgentsRemoteService.agent_account(agentId);
+		map.put("agent", agent);
+		if (accountRemoteVo.isSuccess()) {
+			map.put("score", accountRemoteVo.getScore());
+			map.put("clubCardZhou", accountRemoteVo.getClubCardZhou());
+			map.put("clubCardYue", accountRemoteVo.getClubCardYue());
+			map.put("clubCardJi", accountRemoteVo.getClubCardJi());
+			vo.setSuccess(true);
+			vo.setMsg("agent detail");
+			vo.setData(map);
+		}
 		return vo;
 	}
 
@@ -177,7 +199,7 @@ public class AgentController {
 	public CommonVO setBoss(String agentId, String bossId) {
 		CommonVO vo = new CommonVO();
 		AgentDbo boss = agentDboService.findAgentDboById(bossId);
-		if (boss == null) {
+		if (boss == null || boss.getLevel() != 1) {
 			vo.setSuccess(false);
 			vo.setMsg("boss not found");
 			return vo;
@@ -210,8 +232,10 @@ public class AgentController {
 		if (commonRemoteVO.isSuccess()) {
 			agentDboService.banAgentDboState(agentId);
 		}
+		AgentDbo agent = agentDboService.findAgentDboById(agentId);
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
+		vo.setData(agent.getState());
 		return vo;
 	}
 
@@ -222,8 +246,10 @@ public class AgentController {
 		if (commonRemoteVO.isSuccess()) {
 			agentDboService.liberateAgentDboState(agentId);
 		}
+		AgentDbo agent = agentDboService.findAgentDboById(agentId);
 		vo.setSuccess(commonRemoteVO.isSuccess());
 		vo.setMsg(commonRemoteVO.getMsg());
+		vo.setData(agent.getState());
 		return vo;
 	}
 

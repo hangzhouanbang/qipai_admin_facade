@@ -29,5 +29,8 @@ public class AgentsMsgReceiver {
 		if ("apply pass".equals(msg)) {
 			agentDboService.updateAgnetInfoAndAgentAuth(agent);
 		}
+		if ("update cost".equals(msg)) {
+			agentDboService.updateAgentCost(agent.getId(), agent.getCost());
+		}
 	}
 }
