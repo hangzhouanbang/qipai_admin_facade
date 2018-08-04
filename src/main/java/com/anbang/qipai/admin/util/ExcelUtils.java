@@ -11,7 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.anbang.qipai.admin.plan.domain.members.MemberOrder;
+import com.anbang.qipai.admin.plan.bean.members.MemberOrder;
 
 public class ExcelUtils {
 

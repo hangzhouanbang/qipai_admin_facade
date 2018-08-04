@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.plan.dao.agentsdao;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentOrder;
+import com.anbang.qipai.admin.plan.bean.agents.AgentOrder;
 
 public interface AgentOrderDao {
 

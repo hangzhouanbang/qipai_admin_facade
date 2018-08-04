@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentClubCardDao;
-import com.anbang.qipai.admin.plan.domain.agents.AgentClubCard;
 import com.highto.framework.web.page.ListPage;
 
 @Service

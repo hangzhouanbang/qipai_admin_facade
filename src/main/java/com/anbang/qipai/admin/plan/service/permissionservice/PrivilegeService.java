@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.permission.Privilege;
+import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
 import com.anbang.qipai.admin.plan.dao.permissiondao.PrivilegeDao;
-import com.anbang.qipai.admin.plan.domain.permission.Privilege;
-import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
 import com.highto.framework.web.page.ListPage;
 
 @Service

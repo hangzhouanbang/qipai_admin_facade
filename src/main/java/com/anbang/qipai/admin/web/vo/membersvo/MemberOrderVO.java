@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo.membersvo;
 
-import com.anbang.qipai.admin.plan.domain.members.MemberOrder;
+import com.anbang.qipai.admin.plan.bean.members.MemberOrder;
 
 public class MemberOrderVO extends MemberOrder {
 	private Long startTime;

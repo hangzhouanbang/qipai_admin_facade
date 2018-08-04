@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.web.vo.permissionvo;
 
 import java.util.Date;
 
-import com.anbang.qipai.admin.plan.domain.permission.Admin;
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
 
 public class UserVO {
 	private Admin admin;

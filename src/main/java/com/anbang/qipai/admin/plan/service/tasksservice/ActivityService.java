@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.tasks.Activity;
 import com.anbang.qipai.admin.plan.dao.tasksdao.ActivityDao;
-import com.anbang.qipai.admin.plan.domain.tasks.Activity;
 import com.highto.framework.web.page.ListPage;
 
 @Service

@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao.agentsdao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentClubCard;
+import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 
 public interface AgentClubCardDao {
 	void addAgentClubCard(AgentClubCard card);

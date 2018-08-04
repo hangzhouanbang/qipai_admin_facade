@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.GameDataReport;
+import com.anbang.qipai.admin.plan.bean.GameDataReport;
 
 public interface GameReportDao {
 	List<GameDataReport> findReportByTime(long startTime, long endTime, String game);

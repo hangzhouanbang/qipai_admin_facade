@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
+import com.anbang.qipai.admin.plan.bean.permission.AdminRelationRole;
 import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
-import com.anbang.qipai.admin.plan.domain.permission.Admin;
-import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 import com.anbang.qipai.admin.util.MD5Util;
 import com.highto.framework.web.page.ListPage;
 

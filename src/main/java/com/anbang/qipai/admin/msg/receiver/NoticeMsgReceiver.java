@@ -6,7 +6,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.NoticeSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.domain.notice.Notice;
+import com.anbang.qipai.admin.plan.bean.notice.Notice;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 import com.google.gson.Gson;
 

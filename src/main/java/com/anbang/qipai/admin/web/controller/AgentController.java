@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentApplyRecord;
-import com.anbang.qipai.admin.plan.domain.agents.AgentClubCard;
-import com.anbang.qipai.admin.plan.domain.agents.AgentDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentApplyRecord;
+import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
+import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentApplyRecordService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardRecordDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardService;

@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentDboDao;
-import com.anbang.qipai.admin.plan.domain.agents.AgentDbo;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
 import com.mongodb.WriteResult;
 

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.Grade.MemberGrade;
+import com.anbang.qipai.admin.plan.bean.grade.MemberGrade;
 import com.anbang.qipai.admin.plan.service.MemberGradeService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.web.vo.CommonVO;

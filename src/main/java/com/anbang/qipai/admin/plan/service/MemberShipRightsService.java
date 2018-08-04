@@ -3,8 +3,8 @@ package com.anbang.qipai.admin.plan.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.membershiprights.MemberShipRights;
 import com.anbang.qipai.admin.plan.dao.membershiprightsdao.MemberShipRightsDao;
-import com.anbang.qipai.admin.plan.domain.membershiprights.MemberShipRights;
 
 @Service
 public class MemberShipRightsService {

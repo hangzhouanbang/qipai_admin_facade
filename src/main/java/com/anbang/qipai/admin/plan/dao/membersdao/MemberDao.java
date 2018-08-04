@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao.membersdao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 
 public interface MemberDao {
 

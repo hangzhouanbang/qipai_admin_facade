@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao.tasksdao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.tasks.Activity;
+import com.anbang.qipai.admin.plan.bean.tasks.Activity;
 
 public interface ActivityDao {
 	void addActivity(Activity activity);

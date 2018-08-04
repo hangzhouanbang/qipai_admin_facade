@@ -6,7 +6,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.memberchannel.MemberOrdersSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.domain.members.MemberOrder;
+import com.anbang.qipai.admin.plan.bean.members.MemberOrder;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberOrderService;
 import com.google.gson.Gson;
 

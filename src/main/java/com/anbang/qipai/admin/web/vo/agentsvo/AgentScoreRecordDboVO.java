@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo.agentsvo;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentScoreRecordDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentScoreRecordDbo;
 
 public class AgentScoreRecordDboVO extends AgentScoreRecordDbo {
 	private Long startTime;

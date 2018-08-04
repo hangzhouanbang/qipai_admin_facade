@@ -8,8 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.members.MemberOrder;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberOrderDao;
-import com.anbang.qipai.admin.plan.domain.members.MemberOrder;
 import com.anbang.qipai.admin.util.ExcelUtils;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderVO;
 import com.highto.framework.web.page.ListPage;

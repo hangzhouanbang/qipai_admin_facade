@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.anbang.qipai.admin.plan.domain.games.GameServer;
+import com.anbang.qipai.admin.plan.bean.games.GameServer;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**

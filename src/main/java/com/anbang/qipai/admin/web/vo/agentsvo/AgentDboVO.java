@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo.agentsvo;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 
 public class AgentDboVO extends AgentDbo {
 

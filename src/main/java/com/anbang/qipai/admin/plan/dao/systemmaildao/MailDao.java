@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.anbang.qipai.admin.plan.domain.mail.MailState;
-import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
+import com.anbang.qipai.admin.plan.bean.mail.MailState;
+import com.anbang.qipai.admin.plan.bean.mail.SystemMail;
 
 
 /**设置邮件service

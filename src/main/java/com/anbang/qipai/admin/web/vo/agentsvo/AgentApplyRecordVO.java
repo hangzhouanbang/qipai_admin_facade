@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo.agentsvo;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentApplyRecord;
+import com.anbang.qipai.admin.plan.bean.agents.AgentApplyRecord;
 
 public class AgentApplyRecordVO extends AgentApplyRecord {
 	private Long startTime;

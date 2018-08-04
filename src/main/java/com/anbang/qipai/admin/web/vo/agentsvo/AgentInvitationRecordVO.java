@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo.agentsvo;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentInvitationRecord;
+import com.anbang.qipai.admin.plan.bean.agents.AgentInvitationRecord;
 
 public class AgentInvitationRecordVO extends AgentInvitationRecord {
 	private Long startTime;

@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentScoreRecordDbo;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentScoreRecordDboDao;
-import com.anbang.qipai.admin.plan.domain.agents.AgentScoreRecordDbo;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentScoreRecordDboVO;
 
 @Component

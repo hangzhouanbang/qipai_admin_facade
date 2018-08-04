@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
+import com.anbang.qipai.admin.plan.bean.permission.AdminRelationRole;
 import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
-import com.anbang.qipai.admin.plan.domain.permission.Admin;
-import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
 import com.mongodb.WriteResult;
 
 @Component

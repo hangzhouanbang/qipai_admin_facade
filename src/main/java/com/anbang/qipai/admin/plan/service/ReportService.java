@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.GameDataReport;
+import com.anbang.qipai.admin.plan.bean.PlatformReport;
 import com.anbang.qipai.admin.plan.dao.GameReportDao;
 import com.anbang.qipai.admin.plan.dao.PlatformReportDao;
-import com.anbang.qipai.admin.plan.domain.GameDataReport;
-import com.anbang.qipai.admin.plan.domain.PlatformReport;
 import com.highto.framework.web.page.ListPage;
 
 @Service

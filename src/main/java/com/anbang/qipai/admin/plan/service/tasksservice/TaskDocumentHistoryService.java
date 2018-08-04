@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.tasks.TaskDocument;
+import com.anbang.qipai.admin.plan.bean.tasks.TaskDocumentHistory;
 import com.anbang.qipai.admin.plan.dao.tasksdao.TaskDocumentHistoryDao;
-import com.anbang.qipai.admin.plan.domain.tasks.TaskDocument;
-import com.anbang.qipai.admin.plan.domain.tasks.TaskDocumentHistory;
 import com.highto.framework.web.page.ListPage;
 
 @Service

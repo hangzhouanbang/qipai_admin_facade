@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.plan.dao.membershiprightsdao;
 
-import com.anbang.qipai.admin.plan.domain.membershiprights.MemberShipRights;
+import com.anbang.qipai.admin.plan.bean.membershiprights.MemberShipRights;
 /**会员权益service
  * @author 程佳 2018.5.31
  * **/

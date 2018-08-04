@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao.noticedao;
 
 import java.util.Map;
 
-import com.anbang.qipai.admin.plan.domain.notice.Notice;
+import com.anbang.qipai.admin.plan.bean.notice.Notice;
 /**系统公告service
  * @author 程佳 2018.5.31
  * **/

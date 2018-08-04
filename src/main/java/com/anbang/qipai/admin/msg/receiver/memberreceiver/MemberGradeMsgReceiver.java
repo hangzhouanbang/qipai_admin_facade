@@ -6,7 +6,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.memberchannel.MemberGradeSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.domain.Grade.MemberGrade;
+import com.anbang.qipai.admin.plan.bean.grade.MemberGrade;
 import com.anbang.qipai.admin.plan.service.MemberGradeService;
 import com.google.gson.Gson;
 

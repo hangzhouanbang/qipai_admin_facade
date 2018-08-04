@@ -2,8 +2,8 @@ package com.anbang.qipai.admin.plan.dao.permissiondao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.permission.Role;
-import com.anbang.qipai.admin.plan.domain.permission.RoleRelationPrivilege;
+import com.anbang.qipai.admin.plan.bean.permission.Role;
+import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
 
 /**
  * 角色Dao

@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo.permissionvo;
 
-import com.anbang.qipai.admin.plan.domain.permission.Privilege;
+import com.anbang.qipai.admin.plan.bean.permission.Privilege;
 
 public class PrivilegeVO {
 	private Privilege privilege;

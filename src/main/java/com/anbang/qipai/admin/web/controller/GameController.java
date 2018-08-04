@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.games.Game;
-import com.anbang.qipai.admin.plan.domain.games.GameServer;
+import com.anbang.qipai.admin.plan.bean.games.Game;
+import com.anbang.qipai.admin.plan.bean.games.GameServer;
 import com.anbang.qipai.admin.plan.service.GameService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentDboDao;
-import com.anbang.qipai.admin.plan.domain.agents.AgentDbo;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
 import com.highto.framework.web.page.ListPage;
 

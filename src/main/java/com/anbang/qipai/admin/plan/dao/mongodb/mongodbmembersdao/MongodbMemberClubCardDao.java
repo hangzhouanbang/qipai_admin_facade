@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberClubCardDao;
-import com.anbang.qipai.admin.plan.domain.members.MemberClubCard;
 import com.mongodb.WriteResult;
 
 @Component

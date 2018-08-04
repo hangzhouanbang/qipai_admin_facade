@@ -3,8 +3,8 @@ package com.anbang.qipai.admin.plan.service.agentsservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentOrder;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentOrderDao;
-import com.anbang.qipai.admin.plan.domain.agents.AgentOrder;
 
 @Service
 public class AgentOrderService {

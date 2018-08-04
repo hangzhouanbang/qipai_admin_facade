@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.members.MemberGoldRecordDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberGoldRecordDao;
-import com.anbang.qipai.admin.plan.domain.members.MemberGoldRecordDbo;
 
 @Component
 public class MongodbMemberGoldRecordDao implements MemberGoldRecordDao {

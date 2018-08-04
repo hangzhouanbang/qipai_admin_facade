@@ -8,7 +8,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.agentschannel.AgentClubCardsSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.domain.agents.AgentClubCardRecordDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentClubCardRecordDbo;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardRecordDboService;
 import com.dml.accounting.AccountingSummary;
 import com.dml.accounting.TextAccountingSummary;

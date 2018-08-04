@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 
-import com.anbang.qipai.admin.plan.domain.tasks.TaskDocumentHistory;
+import com.anbang.qipai.admin.plan.bean.tasks.TaskDocumentHistory;
 
 public interface TaskDocumentHistoryDao {
 

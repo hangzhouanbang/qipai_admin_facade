@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao.agentsdao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentScoreRecordDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentScoreRecordDbo;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentScoreRecordDboVO;
 
 public interface AgentScoreRecordDboDao {

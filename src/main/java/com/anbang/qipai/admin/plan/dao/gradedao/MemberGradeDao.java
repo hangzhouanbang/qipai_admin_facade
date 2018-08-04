@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.plan.dao.gradedao;
 
-import com.anbang.qipai.admin.plan.domain.Grade.MemberGrade;
+import com.anbang.qipai.admin.plan.bean.grade.MemberGrade;
 
 public interface MemberGradeDao {
 

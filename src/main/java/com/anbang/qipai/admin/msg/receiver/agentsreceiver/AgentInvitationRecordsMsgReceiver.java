@@ -6,7 +6,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.agentschannel.AgentInvitationRecordsSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.domain.agents.AgentInvitationRecord;
+import com.anbang.qipai.admin.plan.bean.agents.AgentInvitationRecord;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentInvitationRecordService;
 import com.google.gson.Gson;
 

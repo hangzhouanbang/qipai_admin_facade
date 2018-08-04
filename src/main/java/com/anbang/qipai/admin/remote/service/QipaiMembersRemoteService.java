@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.anbang.qipai.admin.plan.domain.Grade.MemberGrade;
-import com.anbang.qipai.admin.plan.domain.members.MemberClubCard;
+import com.anbang.qipai.admin.plan.bean.grade.MemberGrade;
+import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**

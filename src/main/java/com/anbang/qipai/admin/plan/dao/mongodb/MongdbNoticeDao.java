@@ -12,9 +12,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.notice.Notice;
 import com.anbang.qipai.admin.plan.dao.mongodb.repository.NoticeRepository;
 import com.anbang.qipai.admin.plan.dao.noticedao.NoticeDao;
-import com.anbang.qipai.admin.plan.domain.notice.Notice;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 
 @Component

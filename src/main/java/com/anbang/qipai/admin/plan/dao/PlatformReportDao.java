@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.PlatformReport;
+import com.anbang.qipai.admin.plan.bean.PlatformReport;
 
 public interface PlatformReportDao {
 

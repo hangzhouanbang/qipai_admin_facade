@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.tasks.Activity;
+import com.anbang.qipai.admin.plan.bean.tasks.Activity;
 import com.anbang.qipai.admin.plan.service.tasksservice.ActivityService;
 import com.anbang.qipai.admin.remote.service.QipaiTasksRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;

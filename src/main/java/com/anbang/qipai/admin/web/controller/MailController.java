@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
-import com.anbang.qipai.admin.plan.domain.members.MemberClubCard;
-import com.anbang.qipai.admin.plan.domain.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.mail.SystemMail;
+import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
+import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.service.MailService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberClubCardService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;

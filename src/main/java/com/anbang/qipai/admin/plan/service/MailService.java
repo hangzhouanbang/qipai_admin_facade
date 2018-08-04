@@ -12,12 +12,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.mail.MailList;
+import com.anbang.qipai.admin.plan.bean.mail.MailState;
+import com.anbang.qipai.admin.plan.bean.mail.SystemMail;
+import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberClubCardDao;
 import com.anbang.qipai.admin.plan.dao.systemmaildao.MailDao;
-import com.anbang.qipai.admin.plan.domain.mail.MailList;
-import com.anbang.qipai.admin.plan.domain.mail.MailState;
-import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
-import com.anbang.qipai.admin.plan.domain.members.MemberClubCard;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.highto.framework.web.page.ListPage;
 

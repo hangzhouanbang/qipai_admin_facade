@@ -14,28 +14,28 @@ spring:
       bindings:
         members:
           destination: members
-          group: qipai_admin_facade
+          group: qipai_members
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         memberGolds:
           destination: memberGolds
-          group: qipai_admin_facade
+          group: qipai_members
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         memberScores:
           destination: memberScores
-          group: qipai_admin_facade
+          group: qipai_members
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         orders:
           destination: orders
-          group: qipai_admin_facade
+          group: qipai_members
           consumer:
             concurrency: 1
             partitioned: false

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.grade.MemberGrade;
 import com.anbang.qipai.admin.plan.dao.gradedao.MemberGradeDao;
-import com.anbang.qipai.admin.plan.domain.Grade.MemberGrade;
 
 @Component
 public class MongodbMemberGradeDao implements MemberGradeDao{

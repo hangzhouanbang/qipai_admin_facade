@@ -9,8 +9,8 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.MailSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.domain.mail.MailState;
-import com.anbang.qipai.admin.plan.domain.mail.SystemMail;
+import com.anbang.qipai.admin.plan.bean.mail.MailState;
+import com.anbang.qipai.admin.plan.bean.mail.SystemMail;
 import com.anbang.qipai.admin.plan.service.MailService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

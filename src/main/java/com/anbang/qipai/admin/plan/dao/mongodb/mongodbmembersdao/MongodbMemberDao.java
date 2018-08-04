@@ -11,8 +11,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberDao;
-import com.anbang.qipai.admin.plan.domain.members.MemberDbo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.WriteResult;
 

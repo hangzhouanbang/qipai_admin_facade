@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo.agentsvo;
 
-import com.anbang.qipai.admin.plan.domain.agents.AgentClubCardRecordDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentClubCardRecordDbo;
 
 public class AgentClubCardRecordDboVO extends AgentClubCardRecordDbo {
 	private Long startTime;

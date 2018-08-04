@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.PlatformReport;
 import com.anbang.qipai.admin.plan.dao.PlatformReportDao;
-import com.anbang.qipai.admin.plan.domain.PlatformReport;
 
 @Component
 public class MongodbPlatformReportDao implements PlatformReportDao {

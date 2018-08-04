@@ -6,7 +6,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.GameServerSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.domain.games.GameServer;
+import com.anbang.qipai.admin.plan.bean.games.GameServer;
 import com.anbang.qipai.admin.plan.service.GameService;
 import com.google.gson.Gson;
 

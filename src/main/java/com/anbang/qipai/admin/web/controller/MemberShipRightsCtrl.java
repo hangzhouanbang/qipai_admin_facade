@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.domain.membershiprights.CommonUser;
-import com.anbang.qipai.admin.plan.domain.membershiprights.MemberShipRights;
-import com.anbang.qipai.admin.plan.domain.membershiprights.VipUser;
+import com.anbang.qipai.admin.plan.bean.membershiprights.CommonUser;
+import com.anbang.qipai.admin.plan.bean.membershiprights.MemberShipRights;
+import com.anbang.qipai.admin.plan.bean.membershiprights.VipUser;
 import com.anbang.qipai.admin.plan.service.MemberShipRightsService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentScoreRecordDbo;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentScoreRecordDboDao;
-import com.anbang.qipai.admin.plan.domain.agents.AgentScoreRecordDbo;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentScoreRecordDboVO;
 import com.highto.framework.web.page.ListPage;
 

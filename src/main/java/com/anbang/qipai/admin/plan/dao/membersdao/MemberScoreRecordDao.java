@@ -2,7 +2,7 @@ package com.anbang.qipai.admin.plan.dao.membersdao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.members.MemberScoreRecordDbo;
+import com.anbang.qipai.admin.plan.bean.members.MemberScoreRecordDbo;
 
 public interface MemberScoreRecordDao {
 	long getAmountByMemberId(String memberId);

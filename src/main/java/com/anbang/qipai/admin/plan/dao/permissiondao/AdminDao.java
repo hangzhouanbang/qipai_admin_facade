@@ -2,8 +2,8 @@ package com.anbang.qipai.admin.plan.dao.permissiondao;
 
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.domain.permission.Admin;
-import com.anbang.qipai.admin.plan.domain.permission.AdminRelationRole;
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
+import com.anbang.qipai.admin.plan.bean.permission.AdminRelationRole;
 
 public interface AdminDao {
 

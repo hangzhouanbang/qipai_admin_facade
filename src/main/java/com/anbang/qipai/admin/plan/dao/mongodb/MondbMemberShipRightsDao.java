@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.membershiprights.MemberShipRights;
 import com.anbang.qipai.admin.plan.dao.membershiprightsdao.MemberShipRightsDao;
-import com.anbang.qipai.admin.plan.domain.membershiprights.MemberShipRights;
 
 @Component
 public class MondbMemberShipRightsDao implements MemberShipRightsDao{
