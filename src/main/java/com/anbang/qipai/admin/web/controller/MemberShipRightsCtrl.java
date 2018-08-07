@@ -1,6 +1,7 @@
 package com.anbang.qipai.admin.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
  * 
  * @author 程佳 2018.6.12
  **/
+@CrossOrigin
 @RestController
 @RequestMapping("/rights")
 public class MemberShipRightsCtrl {

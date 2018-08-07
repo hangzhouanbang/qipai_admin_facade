@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +19,21 @@ import com.highto.framework.web.page.ListPage;
  * @author 林少聪 2018.6.4
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/role")
 public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
+	/**
+	 * 查询角色
+	 * 
+	 * @param page
+	 * @param size
+	 * @param role
+	 * @return
+	 */
 	@RequestMapping("/queryrole")
 	public CommonVO queryRole(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, String role) {
@@ -35,6 +45,12 @@ public class RoleController {
 		return vo;
 	}
 
+	/**
+	 * 添加角色
+	 * 
+	 * @param role
+	 * @return
+	 */
 	@RequestMapping("/addrole")
 	public CommonVO addRole(Role role) {
 		CommonVO vo = new CommonVO();
@@ -49,6 +65,12 @@ public class RoleController {
 		return vo;
 	}
 
+	/**
+	 * 删除角色
+	 * 
+	 * @param ids
+	 * @return
+	 */
 	@RequestMapping("/deleterole")
 	public CommonVO deleteRole(@RequestParam(value = "id") String[] ids) {
 		CommonVO vo = new CommonVO();
@@ -65,6 +87,12 @@ public class RoleController {
 		return vo;
 	}
 
+	/**
+	 * 修改角色
+	 * 
+	 * @param role
+	 * @return
+	 */
 	@RequestMapping("/updaterole")
 	public CommonVO updateRole(Role role) {
 		CommonVO vo = new CommonVO();
@@ -79,6 +107,13 @@ public class RoleController {
 		return vo;
 	}
 
+	/**
+	 * 编辑角色的权限
+	 * 
+	 * @param roleId
+	 * @param privilegeIds
+	 * @return
+	 */
 	@RequestMapping("/editprivilege")
 	public CommonVO editPrivilege(@RequestParam(required = true) String roleId,
 			@RequestParam(value = "privilegeId") String[] privilegeIds) {
@@ -94,6 +129,11 @@ public class RoleController {
 		return vo;
 	}
 
+	/**
+	 * 查询所有角色
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/queryallrole")
 	public CommonVO queryAllRole() {
 		CommonVO vo = new CommonVO();

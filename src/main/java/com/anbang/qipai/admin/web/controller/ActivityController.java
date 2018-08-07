@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.web.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,13 @@ import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
 
+/**
+ * 游戏活动
+ * 
+ * @author 林少聪 2018.8.6
+ *
+ */
+@CrossOrigin
 @RestController
 @RequestMapping("/activity")
 public class ActivityController {
@@ -24,6 +32,12 @@ public class ActivityController {
 	@Autowired
 	private QipaiTasksRemoteService qipaiTasksRemoteService;
 
+	/**
+	 * 添加活动，同时启用
+	 * 
+	 * @param activity
+	 * @return
+	 */
 	@RequestMapping("/addactivity")
 	public CommonVO addActivity(Activity activity) {
 		CommonVO vo = new CommonVO();
@@ -47,6 +61,12 @@ public class ActivityController {
 		return vo;
 	}
 
+	/**
+	 * 启用活动
+	 * 
+	 * @param activityId
+	 * @return
+	 */
 	@RequestMapping("/startactivity")
 	public CommonVO startActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
@@ -62,6 +82,12 @@ public class ActivityController {
 		return vo;
 	}
 
+	/**
+	 * 终止活动
+	 * 
+	 * @param activityId
+	 * @return
+	 */
 	@RequestMapping("/stopactivity")
 	public CommonVO stopActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
@@ -77,6 +103,14 @@ public class ActivityController {
 		return vo;
 	}
 
+	/**
+	 * 查询活动
+	 * 
+	 * @param page
+	 * @param size
+	 * @param activity
+	 * @return
+	 */
 	@RequestMapping("/queryactivity")
 	public CommonVO queryActivity(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, Activity activity) {

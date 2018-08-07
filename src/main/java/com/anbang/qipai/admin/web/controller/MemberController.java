@@ -1,6 +1,7 @@
 package com.anbang.qipai.admin.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import com.highto.framework.web.page.ListPage;
  * @author 林少聪 2018.6.4
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/member")
 public class MemberController {
@@ -36,6 +38,14 @@ public class MemberController {
 	@Autowired
 	private MemberScoreService memberScoreService;
 
+	/**
+	 * 查询会员
+	 * 
+	 * @param page
+	 * @param size
+	 * @param member
+	 * @return
+	 */
 	@RequestMapping("/querymember")
 	public CommonVO queryMember(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, MemberDbo member) {
@@ -62,6 +72,14 @@ public class MemberController {
 		return vo;
 	}
 
+	/**
+	 * 查询会员金币流水
+	 * 
+	 * @param page
+	 * @param size
+	 * @param memberId
+	 * @return
+	 */
 	@RequestMapping("/querygoldrecord")
 	public CommonVO queryGoldRecord(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, String memberId) {
@@ -78,6 +96,14 @@ public class MemberController {
 		return vo;
 	}
 
+	/**
+	 * 查询会员积分流水
+	 * 
+	 * @param page
+	 * @param size
+	 * @param memberId
+	 * @return
+	 */
 	@RequestMapping("/queryscorerecord")
 	public CommonVO queryScoreRecord(@RequestParam(name = "page", defaultValue = "1") Integer page,
 			@RequestParam(name = "size", defaultValue = "10") Integer size, String memberId) {

@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import com.anbang.qipai.admin.web.vo.permissionvo.UserVO;
  * 
  * @author 程佳 2018.5.31
  **/
+@CrossOrigin
 @RestController
 @RequestMapping("noticectrl")
 public class NoticeCtrl {

@@ -1,6 +1,7 @@
 package com.anbang.qipai.admin.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import com.anbang.qipai.admin.web.vo.CommonVO;
 /**
  * 会员等级controller
  **/
+@CrossOrigin
 @RestController
 @RequestMapping("/grade")
 public class MemberGradeCtrl {

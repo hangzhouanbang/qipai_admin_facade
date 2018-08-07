@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import com.highto.framework.web.page.ListPage;
  * @author 林少聪 2018.7.9
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/datareport")
 public class DataReportController {
@@ -35,6 +37,15 @@ public class DataReportController {
 	@Autowired
 	private MemberOrderService orderService;
 
+	/**
+	 * 平台运营数据
+	 * 
+	 * @param startTime
+	 * @param endTime
+	 * @param page
+	 * @param size
+	 * @return
+	 */
 	@RequestMapping("/platformreport")
 	public CommonVO platformOperateReport(@RequestParam(required = true) Long startTime,
 			@RequestParam(required = true) Long endTime, @RequestParam(defaultValue = "1") Integer page,
@@ -47,8 +58,16 @@ public class DataReportController {
 		return vo;
 	}
 
+	/**
+	 * 游戏日报
+	 * 
+	 * @param startTime
+	 * @param endTime
+	 * @param game
+	 * @return
+	 */
 	@RequestMapping("/gamereport")
-	public CommonVO platformOperateReport(@RequestParam(required = true) Long startTime,
+	public CommonVO gameReport(@RequestParam(required = true) Long startTime,
 			@RequestParam(required = true) Long endTime, @RequestParam(required = true) String game) {
 		CommonVO vo = new CommonVO();
 		List<GameDataReport> reportList = reportService.gameReport(startTime, endTime, game);

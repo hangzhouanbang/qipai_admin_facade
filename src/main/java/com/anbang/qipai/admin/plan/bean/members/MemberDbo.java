@@ -1,7 +1,5 @@
 package com.anbang.qipai.admin.plan.bean.members;
 
-import com.anbang.qipai.admin.plan.bean.MemberRights;
-
 public class MemberDbo {
 	private String id;// 会员id
 	private String nickname;// 会员昵称
@@ -17,7 +15,6 @@ public class MemberDbo {
 	private Long lastLoginTime;// 最后登录时间
 	private Long createTime;// 注册时间
 	private Long vipEndTime;// VIP时间
-	private MemberRights rights;
 
 	public String getId() {
 		return id;
@@ -129,14 +126,6 @@ public class MemberDbo {
 
 	public void setLastLoginTime(Long lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
-	}
-
-	public MemberRights getRights() {
-		return rights;
-	}
-
-	public void setRights(MemberRights rights) {
-		this.rights = rights;
 	}
 
 }

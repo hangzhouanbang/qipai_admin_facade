@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,7 @@ import com.highto.framework.web.page.ListPage;
  * @author 林少聪 2018.7.13
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/agent")
 public class AgentController {
@@ -59,6 +61,14 @@ public class AgentController {
 	@Autowired
 	private AgentInvitationRecordService agentInvitationRecordService;
 
+	/**
+	 * 查询推广员，不包括未通过申请的
+	 * 
+	 * @param page
+	 * @param size
+	 * @param agent
+	 * @return
+	 */
 	@RequestMapping("/queryagent")
 	public CommonVO queryAgent(@RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size, AgentDboVO agent) {
@@ -70,6 +80,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查看推广员详情
+	 * 
+	 * @param agentId
+	 * @return
+	 */
 	@RequestMapping("/agentdetail")
 	public CommonVO queryAgentDetail(String agentId) {
 		CommonVO vo = new CommonVO();
@@ -90,6 +106,14 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查看申请记录，包括已经处理过的
+	 * 
+	 * @param page
+	 * @param size
+	 * @param recordVo
+	 * @return
+	 */
 	@RequestMapping("/queryapplyrecord")
 	public CommonVO queryApplyRecord(@RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size, AgentApplyRecordVO recordVo) {
@@ -101,6 +125,14 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查询推广员商城会员卡
+	 * 
+	 * @param page
+	 * @param size
+	 * @param card
+	 * @return
+	 */
 	@RequestMapping("/queryagentclubcard")
 	public CommonVO queryAgentClubCard(@RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size, AgentClubCard card) {
@@ -112,6 +144,14 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查询推广员的会员卡流水
+	 * 
+	 * @param page
+	 * @param size
+	 * @param record
+	 * @return
+	 */
 	@RequestMapping("/queryclubcardrecord")
 	public CommonVO queryClubCardRecord(@RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size, AgentClubCardRecordDboVO record) {
@@ -123,6 +163,14 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查询推广员的积分流水
+	 * 
+	 * @param page
+	 * @param size
+	 * @param record
+	 * @return
+	 */
 	@RequestMapping("/queryscorerecord")
 	public CommonVO queryScoreRecord(@RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size, AgentScoreRecordDboVO record) {
@@ -134,6 +182,14 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查询推广员的邀请记录
+	 * 
+	 * @param page
+	 * @param size
+	 * @param record
+	 * @return
+	 */
 	@RequestMapping("/queryagentinvitationrecord")
 	public CommonVO queryAgentInvitationRecord(@RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size, AgentInvitationRecordVO record) {
@@ -145,6 +201,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 推广员申请通过
+	 * 
+	 * @param recordId
+	 * @return
+	 */
 	@RequestMapping("/applypass")
 	public CommonVO applyPass(String recordId) {
 		CommonVO vo = new CommonVO();
@@ -164,6 +226,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 推广员申请拒绝
+	 * 
+	 * @param recordId
+	 * @return
+	 */
 	@RequestMapping("/applyrefuse")
 	public CommonVO applyRefuse(String recordId) {
 		CommonVO vo = new CommonVO();
@@ -183,6 +251,13 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 设置推广员等级
+	 * 
+	 * @param agentId
+	 * @param level
+	 * @return
+	 */
 	@RequestMapping("/setlevel")
 	public CommonVO setLevel(String agentId, Integer level) {
 		CommonVO vo = new CommonVO();
@@ -195,6 +270,13 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 绑定推广员，设置上下级
+	 * 
+	 * @param agentId
+	 * @param bossId
+	 * @return
+	 */
 	@RequestMapping("/setboss")
 	public CommonVO setBoss(String agentId, String bossId) {
 		CommonVO vo = new CommonVO();
@@ -213,6 +295,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 解除绑定
+	 * 
+	 * @param agentId
+	 * @return
+	 */
 	@RequestMapping("/removeboss")
 	public CommonVO removeBoss(String agentId) {
 		CommonVO vo = new CommonVO();
@@ -225,6 +313,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 封禁推广员
+	 * 
+	 * @param agentId
+	 * @return
+	 */
 	@RequestMapping("/ban")
 	public CommonVO ban(String agentId) {
 		CommonVO vo = new CommonVO();
@@ -239,6 +333,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 解封推广员
+	 * 
+	 * @param agentId
+	 * @return
+	 */
 	@RequestMapping("/liberate")
 	public CommonVO liberate(String agentId) {
 		CommonVO vo = new CommonVO();
@@ -253,6 +353,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 添加推广员商城会员卡，包括积分会员卡和人民币会员卡
+	 * 
+	 * @param card
+	 * @return
+	 */
 	@RequestMapping("/addagentclubcard")
 	public CommonVO addAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
@@ -274,6 +380,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 修改推广员商城会员卡
+	 * 
+	 * @param card
+	 * @return
+	 */
 	@RequestMapping("/updateagentclubcard")
 	public CommonVO updateAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
@@ -286,6 +398,12 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 删除推广员会员卡，只从商品列表中删除，未删除库存
+	 * 
+	 * @param cardIds
+	 * @return
+	 */
 	@RequestMapping("/deleteagentclubcard")
 	public CommonVO deleteAgentClubCard(@RequestParam(value = "cardId") String[] cardIds) {
 		CommonVO vo = new CommonVO();
@@ -298,6 +416,14 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 调整推广员会员卡
+	 * 
+	 * @param agentId
+	 * @param card
+	 * @param cardAmount
+	 * @return
+	 */
 	@RequestMapping("/clubcardmanager")
 	public CommonVO clubCardManager(String agentId, String card, int cardAmount) {
 		CommonVO vo = new CommonVO();
@@ -313,6 +439,15 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 调整推广员积分
+	 * 
+	 * @param agentId
+	 * @param card
+	 * @param cardAmount
+	 * @param scoreAmount
+	 * @return
+	 */
 	@RequestMapping("/scoremanager")
 	public CommonVO scoreManager(String agentId, String card, int cardAmount, int scoreAmount) {
 		CommonVO vo = new CommonVO();

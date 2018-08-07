@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import com.anbang.qipai.admin.web.vo.permissionvo.UserVO;
  * @author 林少聪 2018.5.31
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/login")
 public class LoginController {
@@ -38,6 +40,14 @@ public class LoginController {
 	@Autowired
 	private PrivilegeService privilegeService;
 
+	/**
+	 * 管理员登录
+	 * 
+	 * @param nickname
+	 * @param pass
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/login")
 	public Map<String, Object> login(@RequestParam(value = "nickname", required = true) String nickname,
 			@RequestParam(value = "pass", required = true) String pass, HttpSession session) {
@@ -71,6 +81,12 @@ public class LoginController {
 		return map;
 	}
 
+	/**
+	 * 管理员登出
+	 * 
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("user");

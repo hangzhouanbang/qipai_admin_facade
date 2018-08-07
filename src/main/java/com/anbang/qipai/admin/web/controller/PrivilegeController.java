@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import com.highto.framework.web.page.ListPage;
  * @author 林少聪 2018.7.9
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/privilege")
 public class PrivilegeController {
@@ -29,6 +31,14 @@ public class PrivilegeController {
 	@Autowired
 	private PrivilegeService privilegeService;
 
+	/**
+	 * 查询权限
+	 * 
+	 * @param page
+	 * @param size
+	 * @param privilege
+	 * @return
+	 */
 	@RequestMapping("/queryprivilege")
 	public CommonVO queryPrivilege(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, String privilege) {
@@ -40,6 +50,12 @@ public class PrivilegeController {
 		return vo;
 	}
 
+	/**
+	 * 录入权限
+	 * 
+	 * @param privileges
+	 * @return
+	 */
 	@RequestMapping("/deployprivilege")
 	public CommonVO deployPrivilege(@RequestParam(value = "privileges") String privileges) {
 		CommonVO vo = new CommonVO();
@@ -53,6 +69,12 @@ public class PrivilegeController {
 		return vo;
 	}
 
+	/**
+	 * 删除权限
+	 * 
+	 * @param ids
+	 * @return
+	 */
 	@RequestMapping("/deleteprivilege")
 	public CommonVO deletePrivilege(@RequestParam(value = "id") String[] ids) {
 		CommonVO vo = new CommonVO();
@@ -62,6 +84,12 @@ public class PrivilegeController {
 		return vo;
 	}
 
+	/**
+	 * 修改权限
+	 * 
+	 * @param privilege
+	 * @return
+	 */
 	@RequestMapping("/updateprivilege")
 	public CommonVO updatePrivilege(Privilege privilege) {
 		CommonVO vo = new CommonVO();
@@ -76,6 +104,11 @@ public class PrivilegeController {
 		return vo;
 	}
 
+	/**
+	 * 查询所有权限
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/queryallprivilege")
 	public CommonVO queryAllPrivilege() {
 		CommonVO vo = new CommonVO();

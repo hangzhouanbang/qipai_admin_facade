@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import com.anbang.qipai.admin.web.vo.CommonVO;
  * @author 林少聪 2018.7.9
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/clubcard")
 public class ClubCardController {
@@ -30,6 +32,11 @@ public class ClubCardController {
 	@Autowired
 	private QipaiMembersRemoteService qipaiMembersService;
 
+	/**
+	 * 查询游戏商城会员卡列表
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/showclubcard")
 	public CommonVO showClubCard() {
 		CommonVO vo = new CommonVO();
@@ -40,6 +47,12 @@ public class ClubCardController {
 		return vo;
 	}
 
+	/**
+	 * 添加游戏商城会员卡
+	 * 
+	 * @param clubCard
+	 * @return
+	 */
 	@RequestMapping("/addclubcard")
 	public CommonVO addClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
@@ -60,6 +73,12 @@ public class ClubCardController {
 		return vo;
 	}
 
+	/**
+	 * 删除游戏商城会员卡
+	 * 
+	 * @param clubCardIds
+	 * @return
+	 */
 	@RequestMapping("/deleteclubcard")
 	public CommonVO deleteClubCard(@RequestParam(value = "id") String[] clubCardIds) {
 		CommonVO vo = new CommonVO();
@@ -72,6 +91,12 @@ public class ClubCardController {
 		return vo;
 	}
 
+	/**
+	 * 修改游戏商城会员卡
+	 * 
+	 * @param clubCard
+	 * @return
+	 */
 	@RequestMapping("/updateclubcard")
 	public CommonVO updateClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
