@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao.mongodb;
+package com.anbang.qipai.admin.plan.dao.mongodb.mongodbgamedao;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.games.Game;
 import com.anbang.qipai.admin.plan.bean.games.GameServer;
-import com.anbang.qipai.admin.plan.dao.GameServerDao;
+import com.anbang.qipai.admin.plan.dao.gamedao.GameServerDao;
 import com.anbang.qipai.admin.plan.dao.mongodb.repository.GameServerRepository;
 
 @Component

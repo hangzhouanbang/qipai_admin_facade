@@ -1,7 +1,5 @@
 package com.anbang.qipai.admin.web.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -189,16 +187,12 @@ public class TaskController {
 			return vo;
 		}
 		TaskDocumentHistory taskHistory = taskDocumentHistoryService.releaseTaskDocumentHistory(taskDoc, task);
-		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.taskdocument_release(taskHistory);
-		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			taskHistory.setId((String) map.get("id"));
-			taskHistory.setReleaseTime((long) map.get("releaseTime"));
-			taskHistory.setState((int) map.get("state"));
-			taskDocumentHistoryService.addTaskDocumentHistory(taskHistory);
+		CommonRemoteVO rvo = qipaiTasksRemoteService.taskdocument_release(taskHistory);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -211,16 +205,12 @@ public class TaskController {
 	@RequestMapping("/withdraw")
 	public CommonVO withdrawTask(@RequestParam(value = "taskId", required = true) String[] taskIds) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.taskdocument_withdraw(taskIds);
-		if (commonRemoteVO.isSuccess()) {
-			if (!taskDocumentHistoryService.updateTaskState(taskIds, 0)) {
-				vo.setSuccess(false);
-				vo.setMsg("Admin WithDraw Fail");
-				return vo;
-			}
+		CommonRemoteVO rvo = qipaiTasksRemoteService.taskdocument_withdraw(taskIds);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 }

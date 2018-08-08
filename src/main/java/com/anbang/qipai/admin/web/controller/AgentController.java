@@ -216,13 +216,12 @@ public class AgentController {
 			vo.setMsg("not found apply record");
 			return vo;
 		}
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.apply_pass(recordId);
-		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			agentApplyRecordService.updateAgentApplyRecordSate(recordId, (String) map.get("state"));
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_pass(recordId);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -241,13 +240,12 @@ public class AgentController {
 			vo.setMsg("not found apply record");
 			return vo;
 		}
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.apply_refuse(recordId);
-		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			agentApplyRecordService.updateAgentApplyRecordSate(recordId, (String) map.get("state"));
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_refuse(recordId);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -261,12 +259,12 @@ public class AgentController {
 	@RequestMapping("/setlevel")
 	public CommonVO setLevel(String agentId, Integer level) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_setlevel(agentId, level);
-		if (commonRemoteVO.isSuccess()) {
-			agentDboService.updateAgentDboLevel(agentId, level);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_setlevel(agentId, level);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -286,12 +284,12 @@ public class AgentController {
 			vo.setMsg("boss not found");
 			return vo;
 		}
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_setboss(agentId, bossId, boss.getNickname());
-		if (commonRemoteVO.isSuccess()) {
-			agentDboService.updateAgentDboBoss(agentId, bossId, boss.getNickname());
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_setboss(agentId, bossId, boss.getNickname());
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -304,12 +302,12 @@ public class AgentController {
 	@RequestMapping("/removeboss")
 	public CommonVO removeBoss(String agentId) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_removeboss(agentId);
-		if (commonRemoteVO.isSuccess()) {
-			agentDboService.removeAgentDboBoss(agentId);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_removeboss(agentId);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -322,13 +320,13 @@ public class AgentController {
 	@RequestMapping("/ban")
 	public CommonVO ban(String agentId) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_ban(agentId);
-		if (commonRemoteVO.isSuccess()) {
-			agentDboService.banAgentDboState(agentId);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_ban(agentId);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
 		AgentDbo agent = agentDboService.findAgentDboById(agentId);
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		vo.setData(agent.getState());
 		return vo;
 	}
@@ -342,13 +340,13 @@ public class AgentController {
 	@RequestMapping("/liberate")
 	public CommonVO liberate(String agentId) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.agent_liberate(agentId);
-		if (commonRemoteVO.isSuccess()) {
-			agentDboService.liberateAgentDboState(agentId);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_liberate(agentId);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
 		AgentDbo agent = agentDboService.findAgentDboById(agentId);
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		vo.setData(agent.getState());
 		return vo;
 	}
@@ -369,14 +367,12 @@ public class AgentController {
 			vo.setMsg("at least one param is null");
 		}
 		card.setSale(true);
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
-		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			card.setId((String) map.get("id"));
-			agentClubCardService.addAgentClubCard(card);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -389,12 +385,12 @@ public class AgentController {
 	@RequestMapping("/updateagentclubcard")
 	public CommonVO updateAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
-		if (commonRemoteVO.isSuccess()) {
-			agentClubCardService.updateAgentClubCard(card);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -407,12 +403,12 @@ public class AgentController {
 	@RequestMapping("/deleteagentclubcard")
 	public CommonVO deleteAgentClubCard(@RequestParam(value = "cardId") String[] cardIds) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiAgentsRemoteService.clubcard_deleteagentclubcard(cardIds);
-		if (commonRemoteVO.isSuccess()) {
-			agentClubCardService.deleteAgentClubCard(cardIds);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_deleteagentclubcard(cardIds);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -427,15 +423,15 @@ public class AgentController {
 	@RequestMapping("/clubcardmanager")
 	public CommonVO clubCardManager(String agentId, String card, int cardAmount) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = new CommonRemoteVO();
+		CommonRemoteVO rvo = new CommonRemoteVO();
 		if (cardAmount < 0) {
-			commonRemoteVO = qipaiAgentsRemoteService.score_withdraw(agentId, -cardAmount, "管理员调整");
+			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, -cardAmount, "管理员调整");
 		}
 		if (cardAmount > 0) {
-			commonRemoteVO = qipaiAgentsRemoteService.score_withdraw(agentId, cardAmount, "管理员调整");
+			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, cardAmount, "管理员调整");
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
 		return vo;
 	}
 

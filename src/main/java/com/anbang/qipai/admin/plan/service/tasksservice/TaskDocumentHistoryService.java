@@ -28,8 +28,8 @@ public class TaskDocumentHistoryService {
 		taskDocumentHistoryDao.addTaskDocumentHistory(task);
 	}
 
-	public boolean updateTaskState(String[] taskIds, int state) {
-		return taskDocumentHistoryDao.updateTaskState(taskIds, state);
+	public boolean withdrawTaskDocumentHistory(String[] taskIds) {
+		return taskDocumentHistoryDao.updateTaskState(taskIds, 0);
 	}
 
 	public TaskDocumentHistory releaseTaskDocumentHistory(TaskDocument taskDoc, TaskDocumentHistory task) {

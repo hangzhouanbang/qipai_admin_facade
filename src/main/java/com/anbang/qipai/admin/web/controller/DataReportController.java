@@ -77,6 +77,9 @@ public class DataReportController {
 		return vo;
 	}
 
+	/**
+	 * 每日运营数据生成
+	 */
 	@Scheduled(cron = "0 0 2 * * ?") // 每天凌晨2点
 	public void createPlatformReport() {
 		long now = System.currentTimeMillis();

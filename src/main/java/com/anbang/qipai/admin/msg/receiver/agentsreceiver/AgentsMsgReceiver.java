@@ -22,15 +22,37 @@ public class AgentsMsgReceiver {
 	public void recordAgent(CommonMO mo) {
 		String msg = mo.getMsg();
 		String json = gson.toJson(mo.getData());
-		AgentDbo agent = gson.fromJson(json, AgentDbo.class);
 		if ("new agent".equals(msg)) {
+			AgentDbo agent = gson.fromJson(json, AgentDbo.class);
 			agentDboService.addAgentDbo(agent);
 		}
 		if ("apply pass".equals(msg)) {
+			AgentDbo agent = gson.fromJson(json, AgentDbo.class);
 			agentDboService.updateAgnetInfoAndAgentAuth(agent);
 		}
 		if ("update cost".equals(msg)) {
+			AgentDbo agent = gson.fromJson(json, AgentDbo.class);
 			agentDboService.updateAgentCost(agent.getId(), agent.getCost());
+		}
+		if ("update level".equals(msg)) {
+			AgentDbo agent = gson.fromJson(json, AgentDbo.class);
+			agentDboService.updateAgentDboLevel(agent.getId(), agent.getLevel());
+		}
+		if ("update boss".equals(msg)) {
+			AgentDbo agent = gson.fromJson(json, AgentDbo.class);
+			agentDboService.updateAgentDboBoss(agent.getId(), agent.getBossId(), agent.getBossName());
+		}
+		if ("remove boss".equals(msg)) {
+			AgentDbo agent = gson.fromJson(json, AgentDbo.class);
+			agentDboService.removeAgentDboBoss(agent.getId());
+		}
+		if ("ban agent".equals(msg)) {
+			AgentDbo agent = gson.fromJson(json, AgentDbo.class);
+			agentDboService.banAgentDboState(agent.getId());
+		}
+		if ("liberate agent".equals(msg)) {
+			AgentDbo agent = gson.fromJson(json, AgentDbo.class);
+			agentDboService.liberateAgentDboState(agent.getId());
 		}
 	}
 }

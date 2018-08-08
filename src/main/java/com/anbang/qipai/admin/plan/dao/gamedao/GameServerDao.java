@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.dao;
+package com.anbang.qipai.admin.plan.dao.gamedao;
 
 import java.util.List;
 

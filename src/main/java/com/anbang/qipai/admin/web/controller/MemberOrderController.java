@@ -44,7 +44,7 @@ public class MemberOrderController {
 	}
 
 	/**
-	 * 充值记录导出
+	 * 充值记录导出、未及时删除文件 存在线程安全问题
 	 * 
 	 * @param order
 	 * @return

@@ -1,7 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -56,20 +55,18 @@ public class ClubCardController {
 	@RequestMapping("/addclubcard")
 	public CommonVO addClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_add(clubCard);
-		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			MemberClubCard card = new MemberClubCard();
-			card.setId((String) map.get("id"));
-			card.setName((String) map.get("name"));
-			card.setPrice((Double) map.get("price"));
-			card.setGold((Integer) map.get("gold"));
-			card.setScore((Integer) map.get("score"));
-			card.setTime((long) ((Integer) map.get("time")));
-			clubCardService.addClubCard(card);
+		if (clubCard.getName() == null || clubCard.getGold() == null || clubCard.getScore() == null
+				|| clubCard.getPrice() == null || clubCard.getTime() == null) {
+			vo.setSuccess(false);
+			vo.setMsg("at least one param is null");
+			return vo;
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
+		CommonRemoteVO rvo = qipaiMembersService.clubcard_add(clubCard);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
+		}
 		return vo;
 	}
 
@@ -82,12 +79,12 @@ public class ClubCardController {
 	@RequestMapping("/deleteclubcard")
 	public CommonVO deleteClubCard(@RequestParam(value = "id") String[] clubCardIds) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_delete(clubCardIds);
-		if (commonRemoteVO.isSuccess()) {
-			clubCardService.deleteClubCardByIds(clubCardIds);
+		CommonRemoteVO rvo = qipaiMembersService.clubcard_delete(clubCardIds);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -105,12 +102,12 @@ public class ClubCardController {
 			vo.setMsg("clubCardId is null");
 			return vo;
 		}
-		CommonRemoteVO commonRemoteVO = qipaiMembersService.clubcard_update(clubCard);
-		if (commonRemoteVO.isSuccess()) {
-			clubCardService.updateClubCard(clubCard);
+		CommonRemoteVO rvo = qipaiMembersService.clubcard_update(clubCard);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 

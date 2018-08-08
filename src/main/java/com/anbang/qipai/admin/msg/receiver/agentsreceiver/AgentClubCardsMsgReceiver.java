@@ -8,19 +8,28 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.agentschannel.AgentClubCardsSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
+import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCardRecordDbo;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardRecordDboService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardService;
 import com.dml.accounting.AccountingSummary;
 import com.dml.accounting.TextAccountingSummary;
+import com.google.gson.Gson;
 
 @EnableBinding(AgentClubCardsSink.class)
 public class AgentClubCardsMsgReceiver {
 	@Autowired
 	private AgentClubCardRecordDboService agentClubCardRecordDboService;
 
+	@Autowired
+	private AgentClubCardService agentClubCardService;
+
+	private Gson gson = new Gson();
+
 	@StreamListener(AgentClubCardsSink.AGENTCLUBCARDS)
 	public void recordAgentClubCardRecordDbo(CommonMO mo) {
 		String msg = mo.getMsg();
+		String json = gson.toJson(mo.getData());
 		Map<String, Object> map = (Map<String, Object>) mo.getData();
 		if ("accounting".equals(msg)) {
 			AgentClubCardRecordDbo dbo = new AgentClubCardRecordDbo();
@@ -42,6 +51,18 @@ public class AgentClubCardsMsgReceiver {
 			dbo.setReceiverId((String) map.get("receiverId"));
 			dbo.setReceiver((String) map.get("receiver"));
 			agentClubCardRecordDboService.addAgentClubCardRecordDbo(dbo);
+		}
+		if ("add agentclubcard".equals(msg)) {
+			AgentClubCard card = gson.fromJson(json, AgentClubCard.class);
+			agentClubCardService.addAgentClubCard(card);
+		}
+		if ("update agentclubcard".equals(msg)) {
+			AgentClubCard card = gson.fromJson(json, AgentClubCard.class);
+			agentClubCardService.updateAgentClubCard(card);
+		}
+		if ("delete agentclubcard".equals(msg)) {
+			String[] cardIds = gson.fromJson(json, String[].class);
+			agentClubCardService.deleteAgentClubCard(cardIds);
 		}
 	}
 }

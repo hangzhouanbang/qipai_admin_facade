@@ -1,7 +1,5 @@
 package com.anbang.qipai.admin.web.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,17 +45,12 @@ public class ActivityController {
 			vo.setMsg("at least one param is null");
 			return vo;
 		}
-		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.activity_add(activity);
-		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			String id = (String) map.get("id");
-			String state = (String) map.get("state");
-			activity.setId(id);
-			activity.setState(state);
-			activityService.addActivity(activity);
+		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_add(activity);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -70,15 +63,12 @@ public class ActivityController {
 	@RequestMapping("/startactivity")
 	public CommonVO startActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.activity_start(activityId);
-		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			String id = (String) map.get("id");
-			String state = (String) map.get("state");
-			activityService.updateActivityState(id, state);
+		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_start(activityId);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 
@@ -91,15 +81,12 @@ public class ActivityController {
 	@RequestMapping("/stopactivity")
 	public CommonVO stopActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.activity_stop(activityId);
-		if (commonRemoteVO.isSuccess()) {
-			Map<String, Object> map = (Map<String, Object>) commonRemoteVO.getData();
-			String id = (String) map.get("id");
-			String state = (String) map.get("state");
-			activityService.updateActivityState(id, state);
+		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_stop(activityId);
+		if (rvo != null) {
+			vo.setSuccess(rvo.isSuccess());
+		} else {
+			vo.setSuccess(false);
 		}
-		vo.setSuccess(commonRemoteVO.isSuccess());
-		vo.setMsg(commonRemoteVO.getMsg());
 		return vo;
 	}
 

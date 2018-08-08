@@ -22,9 +22,17 @@ public class AgentApplyRecordsMsgReceiver {
 	public void recordMember(CommonMO mo) {
 		String msg = mo.getMsg();
 		String json = gson.toJson(mo.getData());
-		AgentApplyRecord record = gson.fromJson(json, AgentApplyRecord.class);
 		if ("new applyrecord".equals(msg)) {
+			AgentApplyRecord record = gson.fromJson(json, AgentApplyRecord.class);
 			agentApplyRecordService.addAgentApplyRecord(record);
+		}
+		if ("applyrecord pass".equals(msg)) {
+			AgentApplyRecord record = gson.fromJson(json, AgentApplyRecord.class);
+			agentApplyRecordService.updateAgentApplyRecordSate(record.getId(), record.getState());
+		}
+		if ("applyrecord refuse".equals(msg)) {
+			AgentApplyRecord record = gson.fromJson(json, AgentApplyRecord.class);
+			agentApplyRecordService.updateAgentApplyRecordSate(record.getId(), record.getState());
 		}
 	}
 }
