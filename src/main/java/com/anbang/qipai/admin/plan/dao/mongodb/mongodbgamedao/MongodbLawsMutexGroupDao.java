@@ -32,7 +32,7 @@ public class MongodbLawsMutexGroupDao implements LawsMutexGroupDao {
 	@Override
 	public List<LawsMutexGroup> findLawsMutexGroupByConditions(int page, int size, LawsMutexGroup lawsMutexGroup) {
 		Query query = new Query();
-		if (lawsMutexGroup.getName() != null && "".equals(lawsMutexGroup.getName())) {
+		if (lawsMutexGroup.getName() != null && !"".equals(lawsMutexGroup.getName())) {
 			query.addCriteria(Criteria.where("name").regex(lawsMutexGroup.getName()));
 		}
 		if (lawsMutexGroup.getGame() != null) {
@@ -46,7 +46,7 @@ public class MongodbLawsMutexGroupDao implements LawsMutexGroupDao {
 	@Override
 	public long getAmountByConditions(LawsMutexGroup lawsMutexGroup) {
 		Query query = new Query();
-		if (lawsMutexGroup.getName() != null && "".equals(lawsMutexGroup.getName())) {
+		if (lawsMutexGroup.getName() != null && !"".equals(lawsMutexGroup.getName())) {
 			query.addCriteria(Criteria.where("name").regex(lawsMutexGroup.getName()));
 		}
 		if (lawsMutexGroup.getGame() != null) {

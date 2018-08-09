@@ -31,7 +31,7 @@ public class MongodbGameLawDao implements GameLawDao {
 	@Override
 	public List<GameLaw> findGameLawByConditions(int page, int size, GameLaw law) {
 		Query query = new Query();
-		if (law.getName() != null && "".equals(law.getName())) {
+		if (law.getName() != null && !"".equals(law.getName())) {
 			query.addCriteria(Criteria.where("name").regex(law.getName()));
 		}
 		if (law.getGame() != null) {
@@ -45,7 +45,7 @@ public class MongodbGameLawDao implements GameLawDao {
 	@Override
 	public long getAmountByConditions(GameLaw law) {
 		Query query = new Query();
-		if (law.getName() != null && "".equals(law.getName())) {
+		if (law.getName() != null && !"".equals(law.getName())) {
 			query.addCriteria(Criteria.where("name").regex(law.getName()));
 		}
 		if (law.getGame() != null) {

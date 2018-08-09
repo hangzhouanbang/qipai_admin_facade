@@ -1,5 +1,7 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +46,7 @@ public class MemberOrderController {
 	}
 
 	/**
-	 * 充值记录导出、未及时删除文件 存在线程安全问题
+	 * 充值记录导出、未及时删除文件
 	 * 
 	 * @param order
 	 * @return
@@ -52,10 +54,39 @@ public class MemberOrderController {
 	@RequestMapping("/download")
 	public CommonVO downLoad(MemberOrderVO order) {
 		CommonVO vo = new CommonVO();
-		String fileName = orderService.exportOrder(order);
+		String fileName = "";
+		try {
+			fileName = orderService.exportOrder(order);
+		} catch (IOException e) {
+			vo.setSuccess(false);
+			vo.setMsg("IOException");
+		}
 		vo.setSuccess(true);
 		vo.setMsg("orderList");
 		vo.setData("/excel/" + fileName);
 		return vo;
 	}
+
+	// 备选方案,因为ajax无法下载文件
+	// @RequestMapping("/download")
+	// public CommonVO downLoad(MemberOrderVO order, HttpServletResponse response) {
+	// CommonVO vo = new CommonVO();
+	// SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+	// Date date = new Date();
+	// String fileName = format.format(date) + "order.xls";
+	// response.reset();
+	// response.setHeader("Content-disposition", "attachment; filename=" +
+	// fileName);
+	// response.setContentType("application/msexcel");
+	// try {
+	// OutputStream output = response.getOutputStream();
+	// orderService.exportOrder(order, output);
+	// } catch (IOException e) {
+	// vo.setSuccess(false);
+	// vo.setMsg("IOException");
+	// }
+	// vo.setSuccess(true);
+	// vo.setMsg("orderList");
+	// return vo;
+	// }
 }
