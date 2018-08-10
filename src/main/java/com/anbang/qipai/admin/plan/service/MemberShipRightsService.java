@@ -20,4 +20,11 @@ public class MemberShipRightsService {
 		return memberDao.saveMemberShipRights(commonuser);
 	}
 
+	public void updateGameMemberShipRights(MemberShipRights commonuser) {
+		memberDao.updateGameMemberShipRights(commonuser);
+	}
+
+	public void updateMembersMemberShipRights(MemberShipRights commonuser) {
+		memberDao.updateMembersMemberShipRights(commonuser);
+	}
 }

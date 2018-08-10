@@ -1,33 +1,33 @@
 package com.anbang.qipai.admin.plan.bean.membershiprights;
 
 public class MemberShipRights {
-	
+
 	private String id;
-	
-	private int signGoldNumber;//用户签到得金币数量
-	
-	private int goldForNewNember;//新用户注册赠送的金币数量
-	
-	private int inviteIntegralNumber;//邀请得积分数量
-	
-	private float planGrowIntegralSpeed;//普通用户积分增长速度
-	
-	private int planMemberCreateRoomDailyGoldPrice;//创建房间的金币价格
-	private int planMemberaddRoomDailyGoldPrice;//加入房间的金币价格
-	
-	private int planMemberRoomsCount;//普通保存房间数量
-	
-	private int planMemberMaxCreateRoomDaily;//普通用户创建vip房间的上限
-	
-	private int planMemberRoomsAliveHours;//普通房间存活小时数
-	
-	private float vipGrowIntegralSpeed;//会员积分增长速度
-	
-	private float vipGrowGradeSpeed;//会员等级增长速度
-	
-	private int vipMemberRoomsCount;//vip保存房间数量
-	
-	private int vipMemberRoomsAliveHours;//会员房间存活小时数
+
+	private int signGoldNumber;// 用户签到得金币数量
+
+	private int goldForNewNember;// 新用户注册赠送的金币数量
+
+	private int inviteIntegralNumber;// 邀请得积分数量
+
+	private float planGrowIntegralSpeed;// 普通用户积分增长速度
+
+	private int planMemberCreateRoomDailyGoldPrice;// 创建房间的金币价格
+	private int planMemberJoinRoomGoldPrice;// 加入房间的金币价格
+
+	private int planMemberRoomsCount;// 普通保存房间数量
+
+	private int planMemberMaxCreateRoomDaily;// 普通用户创建vip房间的上限
+
+	private int planMemberRoomsAliveHours;// 普通房间存活小时数
+
+	private float vipGrowIntegralSpeed;// 会员积分增长速度
+
+	private float vipGrowGradeSpeed;// 会员等级增长速度
+
+	private int vipMemberRoomsCount;// vip保存房间数量
+
+	private int vipMemberRoomsAliveHours;// 会员房间存活小时数
 
 	public String getId() {
 		return id;
@@ -44,6 +44,7 @@ public class MemberShipRights {
 	public void setSignGoldNumber(int signGoldNumber) {
 		this.signGoldNumber = signGoldNumber;
 	}
+
 	public int getGoldForNewNember() {
 		return goldForNewNember;
 	}
@@ -74,14 +75,6 @@ public class MemberShipRights {
 
 	public void setPlanMemberCreateRoomDailyGoldPrice(int planMemberCreateRoomDailyGoldPrice) {
 		this.planMemberCreateRoomDailyGoldPrice = planMemberCreateRoomDailyGoldPrice;
-	}
-
-	public int getPlanMemberaddRoomDailyGoldPrice() {
-		return planMemberaddRoomDailyGoldPrice;
-	}
-
-	public void setPlanMemberaddRoomDailyGoldPrice(int planMemberaddRoomDailyGoldPrice) {
-		this.planMemberaddRoomDailyGoldPrice = planMemberaddRoomDailyGoldPrice;
 	}
 
 	public int getPlanMemberRoomsCount() {
@@ -139,6 +132,13 @@ public class MemberShipRights {
 	public void setVipMemberRoomsAliveHours(int vipMemberRoomsAliveHours) {
 		this.vipMemberRoomsAliveHours = vipMemberRoomsAliveHours;
 	}
-	
-	
+
+	public int getPlanMemberJoinRoomGoldPrice() {
+		return planMemberJoinRoomGoldPrice;
+	}
+
+	public void setPlanMemberJoinRoomGoldPrice(int planMemberJoinRoomGoldPrice) {
+		this.planMemberJoinRoomGoldPrice = planMemberJoinRoomGoldPrice;
+	}
+
 }

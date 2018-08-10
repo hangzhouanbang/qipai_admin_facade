@@ -31,16 +31,18 @@ public class GameMemberShipRightsMsgReceiver {
 	 **/
 	@StreamListener(GameMemberShipRightsSink.memberrightsconfiguration)
 	public void members(CommonMO mo) {
+		String msg = mo.getMsg();
 		String json = gson.toJson(mo.getData());
 		MemberShipRights commonuser = gson.fromJson(json, MemberShipRights.class);
 		MemberShipRights commonusers = createMemberService.findallCommonUser();
-		commonusers.setPlanMemberRoomsCount(commonuser.getPlanMemberRoomsCount());
-		commonusers.setVipMemberRoomsCount(commonuser.getVipMemberRoomsCount());
-		commonusers.setPlanMemberRoomsAliveHours(commonuser.getPlanMemberRoomsAliveHours());
-		commonusers.setVipMemberRoomsAliveHours(commonuser.getVipMemberRoomsAliveHours());
-		commonusers.setPlanMemberMaxCreateRoomDaily(commonuser.getPlanMemberMaxCreateRoomDaily());
-		commonusers.setPlanMemberCreateRoomDailyGoldPrice(commonuser.getPlanMemberCreateRoomDailyGoldPrice());
-		commonusers.setPlanMemberaddRoomDailyGoldPrice(commonuser.getPlanMemberaddRoomDailyGoldPrice());
-		createMemberService.saveMemberShipRights(commonusers);
+		if (commonusers == null) {
+			createMemberService.saveMemberShipRights(commonuser);
+		}
+		if ("qipai_game_conf".equals(msg)) {
+			createMemberService.updateGameMemberShipRights(commonuser);
+		}
+		if ("qipai_members_conf".equals(msg)) {
+			createMemberService.updateMembersMemberShipRights(commonuser);
+		}
 	}
 }

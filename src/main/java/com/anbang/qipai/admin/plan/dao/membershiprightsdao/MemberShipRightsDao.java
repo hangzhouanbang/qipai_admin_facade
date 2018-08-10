@@ -12,5 +12,9 @@ public interface MemberShipRightsDao {
 	MemberShipRights saveMemberShipRights(MemberShipRights commonuser);
 	
 	MemberShipRights findallCommonUser();
+	
+	void updateGameMemberShipRights(MemberShipRights commonuser);
+	
+	void updateMembersMemberShipRights(MemberShipRights commonuser);
 
 }

@@ -50,6 +50,8 @@ public class AdminService {
 	}
 
 	public boolean updateAdminPass(Admin admin) {
+		String pass = MD5Util.getMD5(admin.getPass(), "utf-8");
+		admin.setPass(pass);
 		return adminDao.updateAdminPass(admin);
 	}
 

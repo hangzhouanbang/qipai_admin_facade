@@ -45,7 +45,7 @@ public class MemberShipRightsCtrl {
 				commonuser.getPlanGrowIntegralSpeed());
 		CommonRemoteVO cos = qipaiGameRomoteService.commonuser(commonuser.getPlanMemberRoomsCount(),
 				commonuser.getPlanMemberRoomsAliveHours(), commonuser.getPlanMemberMaxCreateRoomDaily(),
-				commonuser.getPlanMemberCreateRoomDailyGoldPrice(), commonuser.getPlanMemberaddRoomDailyGoldPrice());
+				commonuser.getPlanMemberCreateRoomDailyGoldPrice(), commonuser.getPlanMemberJoinRoomGoldPrice());
 		if (co.isSuccess() && cos.isSuccess()) {
 			return "success";
 		} else {
@@ -81,16 +81,18 @@ public class MemberShipRightsCtrl {
 	public CommonUser commonrights() {
 		CommonUser comm = new CommonUser();
 		MemberShipRights memberShipRights = memberShipRightsService.findallCommonUser();
-		comm.setId("1");
-		comm.setSignGoldNumber(memberShipRights.getSignGoldNumber());
-		comm.setInviteIntegralNumber(memberShipRights.getInviteIntegralNumber());
-		comm.setPlanGrowIntegralSpeed(memberShipRights.getPlanGrowIntegralSpeed());
-		comm.setPlanMemberaddRoomDailyGoldPrice(memberShipRights.getPlanMemberaddRoomDailyGoldPrice());
-		comm.setPlanMemberCreateRoomDailyGoldPrice(memberShipRights.getPlanMemberCreateRoomDailyGoldPrice());
-		comm.setPlanMemberMaxCreateRoomDaily(memberShipRights.getPlanMemberMaxCreateRoomDaily());
-		comm.setPlanMemberRoomsAliveHours(memberShipRights.getPlanMemberRoomsAliveHours());
-		comm.setPlanMemberRoomsCount(memberShipRights.getPlanMemberRoomsCount());
-		comm.setGoldForNewNember(memberShipRights.getGoldForNewNember());
+		if (memberShipRights != null) {
+			comm.setId("1");
+			comm.setSignGoldNumber(memberShipRights.getSignGoldNumber());
+			comm.setInviteIntegralNumber(memberShipRights.getInviteIntegralNumber());
+			comm.setPlanGrowIntegralSpeed(memberShipRights.getPlanGrowIntegralSpeed());
+			comm.setPlanMemberaddRoomDailyGoldPrice(memberShipRights.getPlanMemberJoinRoomGoldPrice());
+			comm.setPlanMemberCreateRoomDailyGoldPrice(memberShipRights.getPlanMemberCreateRoomDailyGoldPrice());
+			comm.setPlanMemberMaxCreateRoomDaily(memberShipRights.getPlanMemberMaxCreateRoomDaily());
+			comm.setPlanMemberRoomsAliveHours(memberShipRights.getPlanMemberRoomsAliveHours());
+			comm.setPlanMemberRoomsCount(memberShipRights.getPlanMemberRoomsCount());
+			comm.setGoldForNewNember(memberShipRights.getGoldForNewNember());
+		}
 		return comm;
 	}
 
@@ -104,13 +106,15 @@ public class MemberShipRightsCtrl {
 	public VipUser viprights() {
 		VipUser vip = new VipUser();
 		MemberShipRights memberShipRights = memberShipRightsService.findallCommonUser();
-		vip.setId("1");
-		vip.setSignGoldNumber(memberShipRights.getSignGoldNumber());
-		vip.setInviteIntegralNumber(memberShipRights.getInviteIntegralNumber());
-		vip.setVipGrowIntegralSpeed(memberShipRights.getVipGrowIntegralSpeed());
-		vip.setVipMemberRoomsAliveHours(memberShipRights.getVipMemberRoomsAliveHours());
-		vip.setVipMemberRoomsCount(memberShipRights.getVipMemberRoomsCount());
-		vip.setVipGrowGradeSpeed(memberShipRights.getVipGrowGradeSpeed());
+		if (memberShipRights != null) {
+			vip.setId("1");
+			vip.setSignGoldNumber(memberShipRights.getSignGoldNumber());
+			vip.setInviteIntegralNumber(memberShipRights.getInviteIntegralNumber());
+			vip.setVipGrowIntegralSpeed(memberShipRights.getVipGrowIntegralSpeed());
+			vip.setVipMemberRoomsAliveHours(memberShipRights.getVipMemberRoomsAliveHours());
+			vip.setVipMemberRoomsCount(memberShipRights.getVipMemberRoomsCount());
+			vip.setVipGrowGradeSpeed(memberShipRights.getVipGrowGradeSpeed());
+		}
 		return vip;
 
 	}
