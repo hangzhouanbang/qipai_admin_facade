@@ -29,8 +29,8 @@ public class GameServerMsgReceiver {
 			gameService.onlineGameServer(gameServer);
 		}
 		if ("offline".equals(msg)) {
-			String gameServerId = gson.fromJson(json, String.class);
-			gameService.offlineGameServer(gameServerId);
+			String[] gameServerIds = gson.fromJson(json, String[].class);
+			gameService.offlineGameServer(gameServerIds);
 		}
 		if ("create gamelaw".equals(msg)) {
 			GameLaw law = gson.fromJson(json, GameLaw.class);

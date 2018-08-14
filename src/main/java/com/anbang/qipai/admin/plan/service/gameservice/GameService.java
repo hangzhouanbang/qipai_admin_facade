@@ -30,8 +30,8 @@ public class GameService {
 		gameServerDao.save(gameServer);
 	}
 
-	public void offlineGameServer(String gameServerId) {
-		gameServerDao.remove(gameServerId);
+	public void offlineGameServer(String[] ids) {
+		gameServerDao.remove(ids);
 	}
 
 	public List<GameServer> findAllServersForGame(Game game) {

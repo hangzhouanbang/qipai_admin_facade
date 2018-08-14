@@ -23,7 +23,7 @@ public interface QipaiGameRomoteService {
 	public CommonRemoteVO game_gameServerOnline(@RequestBody GameServer gameServer);
 
 	@RequestMapping(value = "/game/game_server_offline")
-	public CommonRemoteVO game_gameServerOffline(@RequestParam("gameServerId") String gameServerId);
+	public CommonRemoteVO game_gameServerOffline(@RequestBody String[] gameServerIds);
 
 	@RequestMapping(value = "/game/add_law")
 	public CommonRemoteVO game_addLaw(@RequestBody GameLaw law);

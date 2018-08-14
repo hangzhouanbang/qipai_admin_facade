@@ -54,9 +54,9 @@ public class GameController {
 	}
 
 	@RequestMapping("/game_server_offline")
-	public CommonVO gameserveroffline(String gameServerId) {
+	public CommonVO gameserveroffline(@RequestParam(value = "gameServerId") String[] gameServerIds) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO rvo = qipaiGameRomoteService.game_gameServerOffline(gameServerId);
+		CommonRemoteVO rvo = qipaiGameRomoteService.game_gameServerOffline(gameServerIds);
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {

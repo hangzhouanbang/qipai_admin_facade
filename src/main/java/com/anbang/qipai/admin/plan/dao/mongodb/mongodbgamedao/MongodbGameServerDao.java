@@ -3,32 +3,40 @@ package com.anbang.qipai.admin.plan.dao.mongodb.mongodbgamedao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.games.Game;
 import com.anbang.qipai.admin.plan.bean.games.GameServer;
 import com.anbang.qipai.admin.plan.dao.gamedao.GameServerDao;
-import com.anbang.qipai.admin.plan.dao.mongodb.repository.GameServerRepository;
 
 @Component
 public class MongodbGameServerDao implements GameServerDao {
 
 	@Autowired
-	private GameServerRepository repository;
+	private MongoTemplate mongoTemplate;
 
 	@Override
 	public void save(GameServer gameServer) {
-		repository.save(gameServer);
+		mongoTemplate.insert(gameServer);
 	}
 
 	@Override
-	public void remove(String id) {
-		repository.delete(id);
+	public void remove(String[] ids) {
+		Object[] serverIds = ids;
+		Query query = new Query(Criteria.where("id").in(serverIds));
+		mongoTemplate.remove(query, GameServer.class);
 	}
 
 	@Override
 	public List<GameServer> findAllByGame(Game game) {
-		return repository.findByGame(game);
+		Query query = new Query();
+		if (game != null) {
+			query.addCriteria(Criteria.where("game").is(game));
+		}
+		return mongoTemplate.find(query, GameServer.class);
 	}
 
 }
