@@ -15,7 +15,6 @@ import com.anbang.qipai.admin.plan.bean.members.MemberOrder;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberOrderDao;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderVO;
 import com.mongodb.BasicDBObject;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbMemberOrderDao implements MemberOrderDao {
@@ -31,14 +30,14 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 	@Override
 	public List<MemberOrder> findOrderByConditions(int page, int size, MemberOrderVO order) {
 		Query query = new Query();
-		if (order.getOut_trade_no() != null && !"".equals(order.getOut_trade_no())) {
-			query.addCriteria(Criteria.where("out_trade_no").is(order.getOut_trade_no()));
+		if (order.getId() != null && !"".equals(order.getId())) {
+			query.addCriteria(Criteria.where("id").is(order.getId()));
 		}
 		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
 			query.addCriteria(Criteria.where("pay_type").is(order.getPay_type()));
 		}
-		if (order.getMemberId() != null && !"".equals(order.getMemberId())) {
-			query.addCriteria(Criteria.where("memberId").is(order.getMemberId()));
+		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
+			query.addCriteria(Criteria.where("payerId").is(order.getPayerId()));
 		}
 		if (order.getStatus() != null && !"".equals(order.getStatus())) {
 			if ("0".equals(order.getStatus())) {
@@ -52,8 +51,8 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 				query.addCriteria(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS"));
 			}
 		}
-		if (order.getNickname() != null && !"".equals(order.getNickname())) {
-			query.addCriteria(Criteria.where("nickname").regex(order.getNickname()));
+		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
+			query.addCriteria(Criteria.where("payerName").regex(order.getPayerName()));
 		}
 		if (order.getStartTime() != null || order.getEndTime() != null) {
 			Criteria criteria = Criteria.where("createTime");
@@ -73,14 +72,14 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 	@Override
 	public long getAmountByConditions(MemberOrderVO order) {
 		Query query = new Query();
-		if (order.getOut_trade_no() != null && !"".equals(order.getOut_trade_no())) {
-			query.addCriteria(Criteria.where("out_trade_no").is(order.getOut_trade_no()));
+		if (order.getId() != null && !"".equals(order.getId())) {
+			query.addCriteria(Criteria.where("id").is(order.getId()));
 		}
 		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
 			query.addCriteria(Criteria.where("pay_type").is(order.getPay_type()));
 		}
-		if (order.getMemberId() != null && !"".equals(order.getMemberId())) {
-			query.addCriteria(Criteria.where("memberId").is(order.getMemberId()));
+		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
+			query.addCriteria(Criteria.where("payerId").is(order.getPayerId()));
 		}
 		if (order.getStatus() != null && !"".equals(order.getStatus())) {
 			if ("0".equals(order.getStatus())) {
@@ -94,8 +93,8 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 				query.addCriteria(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS"));
 			}
 		}
-		if (order.getNickname() != null && !"".equals(order.getNickname())) {
-			query.addCriteria(Criteria.where("nickname").regex(order.getNickname()));
+		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
+			query.addCriteria(Criteria.where("payerName").regex(order.getPayerName()));
 		}
 		if (order.getStartTime() != null || order.getEndTime() != null) {
 			Criteria criteria = Criteria.where("createTime");
@@ -127,13 +126,13 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 	}
 
 	@Override
-	public boolean updateOrderStatusAndDeliveTime(MemberOrder order) {
-		Query query = new Query(Criteria.where("id").is(order.getId()));
+	public void orderFinished(String id, String transaction_id, String status, long deliveTime) {
+		Query query = new Query(Criteria.where("id").is(id));
 		Update update = new Update();
-		update.set("status", order.getStatus());
-		update.set("deliveTime", order.getDeliveTime());
-		WriteResult result = mongoTemplate.updateFirst(query, update, MemberOrder.class);
-		return result.getN() > 0;
+		update.set("transaction_id", transaction_id);
+		update.set("status", status);
+		update.set("deliveTime", deliveTime);
+		mongoTemplate.updateFirst(query, update, MemberOrder.class);
 	}
 
 }

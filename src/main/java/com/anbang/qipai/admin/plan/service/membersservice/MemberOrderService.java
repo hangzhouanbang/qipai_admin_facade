@@ -27,15 +27,15 @@ public class MemberOrderService {
 		orderDao.addOrder(order);
 	}
 
+	public void orderFinished(String id, String transaction_id, String status, long deliveTime) {
+		orderDao.orderFinished(id, transaction_id, status, deliveTime);
+	}
+
 	public ListPage findOrderByConditions(int page, int size, MemberOrderVO order) {
 		long amount = orderDao.getAmountByConditions(order);
 		List<MemberOrder> orderList = orderDao.findOrderByConditions(page, size, order);
 		ListPage listPage = new ListPage(orderList, page, size, (int) amount);
 		return listPage;
-	}
-
-	public boolean updateOrderStatusAndDeliveTime(MemberOrder order) {
-		return orderDao.updateOrderStatusAndDeliveTime(order);
 	}
 
 	public double countCostByTime(long startTime, long endTime) {

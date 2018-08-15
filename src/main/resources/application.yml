@@ -40,8 +40,8 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-        orders:
-          destination: orders
+        memberOrders:
+          destination: memberOrders
           group: qipai_members
           consumer:
             concurrency: 1

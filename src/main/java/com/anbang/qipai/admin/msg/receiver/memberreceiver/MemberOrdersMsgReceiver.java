@@ -17,15 +17,16 @@ public class MemberOrdersMsgReceiver {
 
 	private Gson gson = new Gson();
 
-	@StreamListener(MemberOrdersSink.orders)
+	@StreamListener(MemberOrdersSink.ORDERS)
 	public void recordOrder(CommonMO mo) {
 		String json = gson.toJson(mo.getData());
 		MemberOrder order = gson.fromJson(json, MemberOrder.class);
 		if ("newOrder".equals(mo.getMsg())) {
 			orderService.addOrder(order);
 		}
-		if ("trade over".equals(mo.getMsg())) {
-			orderService.updateOrderStatusAndDeliveTime(order);
+		if ("order finished".equals(mo.getMsg())) {
+			orderService.orderFinished(order.getId(), order.getTransaction_id(), order.getStatus(),
+					order.getDeliveTime());
 		}
 	}
 }

@@ -91,11 +91,13 @@ public class ExcelUtils {
 			row.createCell(1).setCellValue("支付方式");
 			row.createCell(2).setCellValue("第三方订单号");
 			row.createCell(3).setCellValue("支付状态");
-			row.createCell(4).setCellValue("会员编号");
-			row.createCell(5).setCellValue("会员昵称");
-			row.createCell(6).setCellValue("会员卡id");
-			row.createCell(7).setCellValue("会员卡名字");
-			row.createCell(8).setCellValue("会员卡价格");
+			row.createCell(4).setCellValue("支付人编号");
+			row.createCell(5).setCellValue("支付人昵称");
+			row.createCell(4).setCellValue("收货人编号");
+			row.createCell(5).setCellValue("收货人昵称");
+			row.createCell(6).setCellValue("商品编号");
+			row.createCell(7).setCellValue("商品名称");
+			row.createCell(8).setCellValue("商品价格");
 			row.createCell(9).setCellValue("购买数量");
 			row.createCell(10).setCellValue("赠送金币/张");
 			row.createCell(11).setCellValue("赠送积分/张");
@@ -108,16 +110,18 @@ public class ExcelUtils {
 		}
 		for (MemberOrder order : list) {
 			XSSFRow row = spreadsheet.createRow(rowid);
-			row.createCell(0).setCellValue(order.getOut_trade_no());
+			row.createCell(0).setCellValue(order.getId());
 			row.createCell(1).setCellValue(order.getPay_type());
 			row.createCell(2).setCellValue(order.getTransaction_id());
 			row.createCell(3).setCellValue(order.getStatus());
-			row.createCell(4).setCellValue(order.getMemberId());
-			row.createCell(5).setCellValue(order.getNickname());
-			row.createCell(6).setCellValue(order.getClubCardId());
-			row.createCell(7).setCellValue(order.getClubCardName());
-			row.createCell(8).setCellValue(order.getClubCardPrice());
-			row.createCell(9).setCellValue(order.getNumber());
+			row.createCell(4).setCellValue(order.getPayerId());
+			row.createCell(5).setCellValue(order.getPayerName());
+			row.createCell(4).setCellValue(order.getReceiverId());
+			row.createCell(5).setCellValue(order.getReceiverName());
+			row.createCell(6).setCellValue(order.getProductId());
+			row.createCell(7).setCellValue(order.getProductName());
+			row.createCell(8).setCellValue(order.getProductPrice());
+			row.createCell(8).setCellValue(order.getNumber());
 			row.createCell(10).setCellValue(order.getGold());
 			row.createCell(11).setCellValue(order.getScore());
 			if (order.getVipTime() != null) {

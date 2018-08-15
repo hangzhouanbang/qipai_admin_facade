@@ -4,8 +4,8 @@ import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface MemberOrdersSink {
-	String orders = "orders";
+	String ORDERS = "memberOrders";
 
 	@Input
-	SubscribableChannel orders();
+	SubscribableChannel memberOrders();
 }
