@@ -22,8 +22,8 @@ public class MongodbGameReportDao implements GameReportDao {
 
 	@Override
 	public List<GameDataReport> findReportByTime(long startTime, long endTime, String game) {
-		Query query = new Query(Criteria.where("date").gte(startTime).lte(endTime));
-		query.addCriteria(Criteria.where("game").is(game));
+		Query query = new Query(Criteria.where("game").is(game));
+		query.addCriteria(Criteria.where("date").gte(startTime).lte(endTime));
 		return mongoTemplate.find(query, GameDataReport.class);
 	}
 
