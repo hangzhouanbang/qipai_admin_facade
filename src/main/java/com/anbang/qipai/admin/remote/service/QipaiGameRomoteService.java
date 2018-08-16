@@ -55,7 +55,7 @@ public interface QipaiGameRomoteService {
 			@RequestParam(value = "planMemberRoomsAliveHours") int planMemberRoomsAliveHours,
 			@RequestParam(value = "planMemberMaxCreateRoomDaily") int planMemberMaxCreateRoomDaily,
 			@RequestParam(value = "planMemberCreateRoomDailyGoldPrice") int planMemberCreateRoomDailyGoldPrice,
-			@RequestParam(value = "planMemberaddRoomDailyGoldPrice") int planMemberaddRoomDailyGoldPrice);
+			@RequestParam(value = "planMemberJoinRoomGoldPrice") int planMemberJoinRoomGoldPrice);
 
 	@RequestMapping(value = "/member/vip_rights_conf")
 	public CommonRemoteVO vipuser(@RequestParam(value = "vipMemberRoomsCount") int vipMemberRoomsCount,

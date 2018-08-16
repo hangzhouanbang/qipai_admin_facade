@@ -20,11 +20,12 @@ public class MemberOrdersMsgReceiver {
 	@StreamListener(MemberOrdersSink.ORDERS)
 	public void recordOrder(CommonMO mo) {
 		String json = gson.toJson(mo.getData());
+		String msg = mo.getMsg();
 		MemberOrder order = gson.fromJson(json, MemberOrder.class);
-		if ("newOrder".equals(mo.getMsg())) {
+		if ("newOrder".equals(msg)) {
 			orderService.addOrder(order);
 		}
-		if ("order finished".equals(mo.getMsg())) {
+		if ("order finished".equals(msg)) {
 			orderService.orderFinished(order.getId(), order.getTransaction_id(), order.getStatus(),
 					order.getDeliveTime());
 		}
