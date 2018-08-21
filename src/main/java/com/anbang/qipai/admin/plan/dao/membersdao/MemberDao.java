@@ -19,6 +19,8 @@ public interface MemberDao {
 	boolean resetMemberVip(MemberDbo member);
 	
 	boolean updateMemberVip(MemberDbo member);
+	
+	void updateMemberLogin(MemberDbo member);
 
 	MemberDbo findMemberById(String memberId);
 

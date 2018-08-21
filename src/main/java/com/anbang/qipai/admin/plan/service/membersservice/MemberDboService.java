@@ -45,6 +45,10 @@ public class MemberDboService {
 	public boolean updateMemberVip(MemberDbo member) {
 		return memberDao.updateMemberVip(member);
 	}
+	
+	public boolean updateMemberLogin(MemberDbo member) {
+		return memberDao.updateMemberVip(member);
+	}
 
 	public long countNewMemberByTime(long startTime, long endTime) {
 		return memberDao.countNewMemberByTime(startTime, endTime);

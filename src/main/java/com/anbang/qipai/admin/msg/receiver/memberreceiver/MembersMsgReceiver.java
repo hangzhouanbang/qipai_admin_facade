@@ -35,6 +35,9 @@ public class MembersMsgReceiver {
 		if ("update member vip".equals(msg)) {
 			memberService.updateMemberVip(member);
 		}
+		if ("member login".equals(msg)) {
+			memberService.updateMemberVip(member);
+		}
 	}
 
 }

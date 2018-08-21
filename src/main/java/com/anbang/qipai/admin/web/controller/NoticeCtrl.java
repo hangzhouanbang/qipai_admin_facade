@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
 import com.anbang.qipai.admin.plan.service.NoticeService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
@@ -56,8 +57,7 @@ public class NoticeCtrl {
 	@ResponseBody
 	public String addNotice(String notice, String place, HttpSession session) {
 		UserVO uservo = (UserVO) session.getAttribute("user");
-		// Admin admin = uservo.getAdmin();
-		// logger.info("mail:"+admin.getNickname());
+		 Admin admin = uservo.getAdmin();
 		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice, place, "admin");
 		if (co.isSuccess()) {
 			return "success";

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anbang.qipai.admin.plan.bean.mail.SystemMail;
 import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
 import com.anbang.qipai.admin.plan.service.MailService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberClubCardService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
@@ -61,8 +62,8 @@ public class MailController {
 	@ResponseBody
 	public String addmail(SystemMail mail, HttpSession session) {
 		UserVO uservo = (UserVO) session.getAttribute("user");
-		// Admin admin = uservo.getAdmin();
-		// mail.setAdminname(admin.getNickname());
+		Admin admin = uservo.getAdmin();
+		mail.setAdminname(admin.getNickname());
 		String str = gson.toJson(mail);
 		qipaiGameRomoteService.addmail(str);
 		return "success";
@@ -122,8 +123,8 @@ public class MailController {
 			String vipCardId, HttpSession session) {
 		UserVO uservo = (UserVO) session.getAttribute("user");
 		CommonRemoteVO vo = new CommonRemoteVO();
-		// Admin admin = uservo.getAdmin();
-		// mail.setAdminname(admin.getNickname());
+		Admin admin = uservo.getAdmin();
+		mail.setAdminname(admin.getNickname());
 		for (String id : ids) {
 			MemberDbo memberDbo = memberService.findMemberById(id);
 			if (memberDbo == null) {

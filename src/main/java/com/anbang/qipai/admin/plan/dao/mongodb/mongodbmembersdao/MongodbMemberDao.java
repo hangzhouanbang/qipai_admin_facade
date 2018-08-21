@@ -166,4 +166,13 @@ public class MongodbMemberDao implements MemberDao {
 		return result.getN() > 0;
 	}
 
+	@Override
+	public void updateMemberLogin(MemberDbo member) {
+		Query query = new Query(Criteria.where("id").is(member.getId()));
+		Update update = new Update();
+		update.set("vip", member.getVip());
+		update.set("lastLoginTime", member.getLastLoginTime());
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
 }
