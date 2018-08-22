@@ -45,6 +45,12 @@
 			<artifactId>accounting.dml</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- dml依赖 -->
+		<dependency>
+			<groupId>users.dml</groupId>
+			<artifactId>users.dml</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>flemish</groupId>
 			<artifactId>flemish</artifactId>

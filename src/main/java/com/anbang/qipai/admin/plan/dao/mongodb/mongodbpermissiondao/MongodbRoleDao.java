@@ -1,6 +1,5 @@
 package com.anbang.qipai.admin.plan.dao.mongodb.mongodbpermissiondao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +9,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.bean.permission.AdminRelationRole;
+import com.anbang.qipai.admin.plan.bean.permission.Privilege;
 import com.anbang.qipai.admin.plan.bean.permission.Role;
-import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbRoleDao implements RoleDao {
@@ -28,38 +25,23 @@ public class MongodbRoleDao implements RoleDao {
 	}
 
 	@Override
-	public List<Role> findAllRolesOfAdmin(String adminId) {
-		Query refQuery = new Query(Criteria.where("adminId").is(adminId));
-		List<AdminRelationRole> refList = mongoTemplate.find(refQuery, AdminRelationRole.class);
-		List<String> roleIdList = new ArrayList<String>();
-		for (AdminRelationRole ref : refList) {
-			roleIdList.add(ref.getRoleId());
-		}
-		Query query = new Query(Criteria.where("id").in(roleIdList));
-		List<Role> roleList = mongoTemplate.find(query, Role.class);
-		return roleList;
-	}
-
-	@Override
 	public void addRole(Role role) {
 		mongoTemplate.insert(role);
 	}
 
 	@Override
-	public boolean deleteRoleByIds(String[] ids) {
+	public void deleteRoleByIds(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
-		WriteResult writeResult = mongoTemplate.remove(query, Role.class);
-		return writeResult.getN() <= ids.length;
+		mongoTemplate.remove(query, Role.class);
 	}
 
 	@Override
-	public boolean updateRole(Role role) {
+	public void updateRole(Role role) {
 		Query query = new Query(Criteria.where("id").is(role.getId()));
 		Update update = new Update();
 		update.set("role", role.getRole());
-		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Role.class);
-		return writeResult.getN() > 0;
+		mongoTemplate.updateFirst(query, update, Role.class);
 	}
 
 	@Override
@@ -74,19 +56,6 @@ public class MongodbRoleDao implements RoleDao {
 	}
 
 	@Override
-	public void addPrivileges(List<RoleRelationPrivilege> refList) {
-		mongoTemplate.insert(refList, AdminRelationRole.class);
-	}
-
-	@Override
-	public boolean deleteRoleRelationPrivilegesByRoleIds(String[] ids) {
-		Object[] idsTemp = ids;
-		Query query = new Query(Criteria.where("roleId").in(idsTemp));
-		WriteResult writeResult = mongoTemplate.remove(query, RoleRelationPrivilege.class);
-		return writeResult.getN() <= ids.length;
-	}
-
-	@Override
 	public long getAmountByName(String role) {
 		Query query = new Query();
 		if (role != null && !"".equals(role)) {
@@ -96,11 +65,34 @@ public class MongodbRoleDao implements RoleDao {
 	}
 
 	@Override
-	public boolean deleteAdminRelationRoleByRoleIds(String[] ids) {
-		Object[] idsTemp = ids;
-		Query query = new Query(Criteria.where("roleId").in(idsTemp));
-		WriteResult writeResult = mongoTemplate.remove(query, AdminRelationRole.class);
-		return writeResult.getN() <= ids.length;
+	public Role findRoleById(String roleId) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("id").is(roleId));
+		return mongoTemplate.findOne(query, Role.class);
+	}
+
+	@Override
+	public void updatePrivilegeList(String roleId, List<Privilege> privilegeList) {
+		Query query = new Query(Criteria.where("id").is(roleId));
+		Update update = new Update();
+		update.set("privilegeList", privilegeList);
+		mongoTemplate.updateFirst(query, update, Role.class);
+	}
+
+	@Override
+	public void deletePrivilegeByPrivilegeId(String[] privilegeIds) {
+		Object[] ids = privilegeIds;
+		Query query = new Query(Criteria.where("privilegeList.id").in(ids));
+		Update update = new Update();
+		update.pullAll("privilegeList", ids);
+		mongoTemplate.updateMulti(query, update, Role.class);
+	}
+
+	@Override
+	public List<Role> findRoleById(String[] roleIds) {
+		Object[] ids = roleIds;
+		Query query = new Query(Criteria.where("id").in(ids));
+		return mongoTemplate.find(query, Role.class);
 	}
 
 }

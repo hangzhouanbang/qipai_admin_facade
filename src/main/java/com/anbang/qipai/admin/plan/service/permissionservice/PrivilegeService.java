@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.bean.permission.Privilege;
-import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
+import com.anbang.qipai.admin.plan.bean.permission.Role;
 import com.anbang.qipai.admin.plan.dao.permissiondao.PrivilegeDao;
+import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
 import com.highto.framework.web.page.ListPage;
 
 @Service
@@ -17,38 +18,39 @@ public class PrivilegeService {
 	@Autowired
 	private PrivilegeDao privilegeDao;
 
+	@Autowired
+	private RoleDao roleDao;
+
 	public List<Privilege> findAllPrivileges() {
 		return privilegeDao.findAllPrivileges();
 	}
 
-	public List<Privilege> findAllPrivilegesOfRole(String roleId) {
-		return privilegeDao.findAllPrivilegesOfRole(roleId);
-	}
-
 	public void addPrivileges(List<Privilege> privilegeList) {
 		List<String> uriList = new ArrayList<String>();
-		List<RoleRelationPrivilege> refList = new ArrayList<RoleRelationPrivilege>();
 		for (Privilege privilege : privilegeList) {
 			uriList.add(privilege.getUri());
 		}
 		privilegeDao.addPrivileges(privilegeList);
 		List<Privilege> list = privilegeDao.findPrivilegeByUri(uriList);
+		Role role = roleDao.findRoleById("000000000000000000000001");
+		List<Privilege> rplist = role.getPrivilegeList();
 		for (Privilege privilege : list) {
-			RoleRelationPrivilege ref = new RoleRelationPrivilege();
-			ref.setRoleId("000000000000000000000001");
-			ref.setPrivilegeId(privilege.getId());
-			refList.add(ref);
+			rplist.forEach((p) -> {
+				if (!p.getId().equals(privilege.getId())) {
+					rplist.add(privilege);
+				}
+			});
 		}
-		privilegeDao.addRoleRefPrivilege(refList);
+		roleDao.updatePrivilegeList("000000000000000000000001", rplist);
 	}
 
 	public void deletePrivilegeByIds(String[] ids) {
-		privilegeDao.deleteRoleRelationPrivilegeByPrivilegeIds(ids);
+		roleDao.deletePrivilegeByPrivilegeId(ids);
 		privilegeDao.deletePrivilegeByIds(ids);
 	}
 
-	public boolean updatePrivilege(Privilege privilege) {
-		return privilegeDao.updatePrivilege(privilege);
+	public void updatePrivilege(Privilege privilege) {
+		privilegeDao.updatePrivilege(privilege);
 	}
 
 	public ListPage findPrivilegeByName(int page, int size, String privilege) {

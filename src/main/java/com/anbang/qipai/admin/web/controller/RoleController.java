@@ -56,7 +56,7 @@ public class RoleController {
 		CommonVO vo = new CommonVO();
 		if (role.getRole() == null) {
 			vo.setSuccess(false);
-			vo.setMsg("at least one param is null");
+			vo.setMsg("role name is null");
 			return vo;
 		}
 		roleService.addRole(role);

@@ -61,4 +61,8 @@ public class MemberDboService {
 	public long countRemain(long deviation) {
 		return memberDao.countRemain(deviation);
 	}
+	
+	public void verifyUser(String memberId, String realName, String IDcard, boolean verify) {
+		memberDao.verifyUser(memberId, realName, IDcard, verify);
+	}
 }

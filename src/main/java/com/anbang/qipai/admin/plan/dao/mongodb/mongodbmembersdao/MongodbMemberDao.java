@@ -167,11 +167,21 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public void updateMemberLogin(MemberDbo member) {
-		Query query = new Query(Criteria.where("id").is(member.getId()));
+	public void updateMemberLogin(String memberId, boolean vip, long lastLoginTime) {
+		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
-		update.set("vip", member.getVip());
-		update.set("lastLoginTime", member.getLastLoginTime());
+		update.set("vip", vip);
+		update.set("lastLoginTime", lastLoginTime);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public void verifyUser(String memberId, String realName, String IDcard, boolean verify) {
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("realName", realName);
+		update.set("IDcard", IDcard);
+		update.set("verifyUser", verify);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 

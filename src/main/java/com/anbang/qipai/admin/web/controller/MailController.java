@@ -3,8 +3,6 @@ package com.anbang.qipai.admin.web.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
 import com.anbang.qipai.admin.plan.bean.mail.SystemMail;
 import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
@@ -19,11 +18,11 @@ import com.anbang.qipai.admin.plan.bean.permission.Admin;
 import com.anbang.qipai.admin.plan.service.MailService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberClubCardService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
+import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.vo.CommonVO;
-import com.anbang.qipai.admin.web.vo.permissionvo.UserVO;
 import com.google.gson.Gson;
 import com.highto.framework.web.page.ListPage;
 import com.qiniu.util.Auth;
@@ -50,6 +49,12 @@ public class MailController {
 	@Autowired
 	private MailService mailService;
 
+	@Autowired
+	private AdminAuthService adminAuthService;
+
+	@Autowired
+	private AdminService adminService;
+
 	private Gson gson = new Gson();
 
 	/**
@@ -60,9 +65,12 @@ public class MailController {
 	 **/
 	@RequestMapping("/addmail")
 	@ResponseBody
-	public String addmail(SystemMail mail, HttpSession session) {
-		UserVO uservo = (UserVO) session.getAttribute("user");
-		Admin admin = uservo.getAdmin();
+	public String addmail(SystemMail mail, String token) {
+		String adminId = adminAuthService.getAdminIdBySessionId(token);
+		if (adminId == null) {
+			return "fail";
+		}
+		Admin admin = adminService.findAdminById(adminId);
 		mail.setAdminname(admin.getNickname());
 		String str = gson.toJson(mail);
 		qipaiGameRomoteService.addmail(str);
@@ -120,10 +128,14 @@ public class MailController {
 	@RequestMapping("/addmailbyid")
 	@ResponseBody
 	public CommonRemoteVO addMailById(SystemMail mail, @RequestParam(value = "ids") String[] ids, Integer validDay,
-			String vipCardId, HttpSession session) {
-		UserVO uservo = (UserVO) session.getAttribute("user");
+			String vipCardId, String token) {
 		CommonRemoteVO vo = new CommonRemoteVO();
-		Admin admin = uservo.getAdmin();
+		String adminId = adminAuthService.getAdminIdBySessionId(token);
+		if (adminId == null) {
+			vo.setSuccess(false);
+			return vo;
+		}
+		Admin admin = adminService.findAdminById(adminId);
 		mail.setAdminname(admin.getNickname());
 		for (String id : ids) {
 			MemberDbo memberDbo = memberService.findMemberById(id);

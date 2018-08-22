@@ -10,9 +10,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.permission.Admin;
-import com.anbang.qipai.admin.plan.bean.permission.AdminRelationRole;
+import com.anbang.qipai.admin.plan.bean.permission.Role;
 import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbAdminDao implements AdminDao {
@@ -47,22 +46,20 @@ public class MongodbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public boolean deleteAdminByIds(String[] ids) {
+	public void deleteAdminByIds(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
-		WriteResult result = mongoTemplate.remove(query, Admin.class);
-		return result.getN() <= ids.length;
+		mongoTemplate.remove(query, Admin.class);
 	}
 
 	@Override
-	public boolean updateAdminPass(Admin admin) {
+	public void updateAdminPass(Admin admin) {
 		Query query = new Query(Criteria.where("id").is(admin.getId()));
 		Update update = new Update();
 		if (admin.getPass() != null && !"".equals(admin.getPass())) {
 			update.set("pass", admin.getPass());
 		}
-		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Admin.class);
-		return writeResult.getN() > 0;
+		mongoTemplate.updateFirst(query, update, Admin.class);
 	}
 
 	@Override
@@ -75,15 +72,29 @@ public class MongodbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public boolean deleteAdminRelationRolesById(String adminId) {
-		Query query = new Query(Criteria.where("adminId").is(adminId));
-		WriteResult writeResult = mongoTemplate.remove(query, AdminRelationRole.class);
-		return writeResult.getN() > 0;
+	public void deleteRoleByRoleId(String[] roleIds) {
+		Object[] ids = roleIds;
+		Query query = new Query(Criteria.where("roleList.id").in(ids));
+		Update update = new Update();
+		update.pullAll("roleList", ids);
+		mongoTemplate.updateMulti(query, update, Role.class);
 	}
 
 	@Override
-	public void addRoles(List<AdminRelationRole> refList) {
-		mongoTemplate.insert(refList, AdminRelationRole.class);
+	public void updateRoleList(String adminId, List<Role> roleList) {
+		Query query = new Query(Criteria.where("id").in(adminId));
+		Update update = new Update();
+		update.set("roleList", roleList);
+		mongoTemplate.updateFirst(query, update, Role.class);
+	}
+
+	@Override
+	public Admin findAdminById(String adminId) {
+		Query query = new Query();
+		Criteria criteria = new Criteria();
+		criteria.and("id").is(adminId);
+		query.addCriteria(criteria);
+		return mongoTemplate.findOne(query, Admin.class);
 	}
 
 }

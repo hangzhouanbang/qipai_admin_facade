@@ -1,13 +1,14 @@
 package com.anbang.qipai.admin.plan.service.permissionservice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.permission.Privilege;
 import com.anbang.qipai.admin.plan.bean.permission.Role;
-import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
+import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
+import com.anbang.qipai.admin.plan.dao.permissiondao.PrivilegeDao;
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
 import com.highto.framework.web.page.ListPage;
 
@@ -17,12 +18,14 @@ public class RoleService {
 	@Autowired
 	private RoleDao roleDao;
 
+	@Autowired
+	private AdminDao adminDao;
+
+	@Autowired
+	private PrivilegeDao privilegeDao;
+
 	public List<Role> findAllRoles() {
 		return roleDao.findAllRoles();
-	}
-
-	public List<Role> findAllRolesOfAdmin(String adminId) {
-		return roleDao.findAllRolesOfAdmin(adminId);
 	}
 
 	public void addRole(Role role) {
@@ -30,13 +33,12 @@ public class RoleService {
 	}
 
 	public void deleteRoleByIds(String[] ids) {
-		roleDao.deleteAdminRelationRoleByRoleIds(ids);
-		roleDao.deleteRoleRelationPrivilegesByRoleIds(ids);
+		adminDao.deleteRoleByRoleId(ids);
 		roleDao.deleteRoleByIds(ids);
 	}
 
-	public boolean updateRole(Role role) {
-		return roleDao.updateRole(role);
+	public void updateRole(Role role) {
+		roleDao.updateRole(role);
 	}
 
 	public ListPage findRoleByName(int page, int size, String role) {
@@ -47,16 +49,8 @@ public class RoleService {
 	}
 
 	public void editPrivilege(String roleId, String[] privilegeIds) {
-		String[] ids = { roleId };
-		roleDao.deleteRoleRelationPrivilegesByRoleIds(ids);
-		List<RoleRelationPrivilege> refList = new ArrayList<RoleRelationPrivilege>();
-		for (String privilegeId : privilegeIds) {
-			RoleRelationPrivilege ref = new RoleRelationPrivilege();
-			ref.setRoleId(roleId);
-			ref.setPrivilegeId(privilegeId);
-			refList.add(ref);
-		}
-		roleDao.addPrivileges(refList);
+		List<Privilege> privilegeList = privilegeDao.findPrivilegeById(privilegeIds);
+		roleDao.updatePrivilegeList(roleId, privilegeList);
 	}
 
 }

@@ -17,10 +17,10 @@ public interface MemberDao {
 	boolean updateMemberPhone(MemberDbo member);
 
 	boolean resetMemberVip(MemberDbo member);
-	
+
 	boolean updateMemberVip(MemberDbo member);
-	
-	void updateMemberLogin(MemberDbo member);
+
+	void updateMemberLogin(String memberId, boolean vip, long lastLoginTime);
 
 	MemberDbo findMemberById(String memberId);
 
@@ -29,4 +29,6 @@ public interface MemberDao {
 	long countVIP();
 
 	long countRemain(long deviation);
+
+	void verifyUser(String memberId, String realName, String IDcard, boolean verify);
 }

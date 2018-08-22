@@ -1,6 +1,5 @@
 package com.anbang.qipai.admin.plan.dao.mongodb.mongodbpermissiondao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.permission.Privilege;
-import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
 import com.anbang.qipai.admin.plan.dao.permissiondao.PrivilegeDao;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbPrivilegeDao implements PrivilegeDao {
@@ -27,44 +24,24 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public List<Privilege> findAllPrivilegesOfRole(String roleId) {
-		Query refQuery = new Query(Criteria.where("roleId").is(roleId));
-		List<RoleRelationPrivilege> refList = mongoTemplate.find(refQuery, RoleRelationPrivilege.class);
-		List<String> privilegeIdList = new ArrayList<String>();
-		for (RoleRelationPrivilege ref : refList) {
-			privilegeIdList.add(ref.getPrivilegeId());
-		}
-		Query query = new Query(Criteria.where("id").in(privilegeIdList));
-		List<Privilege> privilegeList = mongoTemplate.find(query, Privilege.class);
-		return privilegeList;
-	}
-
-	@Override
 	public void addPrivileges(List<Privilege> privilegeList) {
 		mongoTemplate.insert(privilegeList, Privilege.class);
 	}
 
 	@Override
-	public void addRoleRefPrivilege(List<RoleRelationPrivilege> refList) {
-		mongoTemplate.insert(refList, RoleRelationPrivilege.class);
-	}
-
-	@Override
-	public boolean deletePrivilegeByIds(String[] ids) {
+	public void deletePrivilegeByIds(String[] ids) {
 		Object[] idsTemp = ids;
 		Query query = new Query(Criteria.where("id").in(idsTemp));
-		WriteResult writeResult = mongoTemplate.remove(query, Privilege.class);
-		return writeResult.getN() <= ids.length;
+		mongoTemplate.remove(query, Privilege.class);
 	}
 
 	@Override
-	public boolean updatePrivilege(Privilege privilege) {
+	public void updatePrivilege(Privilege privilege) {
 		Query query = new Query(Criteria.where("id").is(privilege.getId()));
 		Update update = new Update();
 		update.set("privilege", privilege.getPrivilege());
 		update.set("uri", privilege.getUri());
-		WriteResult writeResult = mongoTemplate.updateFirst(query, update, Privilege.class);
-		return writeResult.getN() > 0;
+		mongoTemplate.updateFirst(query, update, Privilege.class);
 	}
 
 	@Override
@@ -94,11 +71,10 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public boolean deleteRoleRelationPrivilegeByPrivilegeIds(String[] ids) {
-		Object[] idsTemp = ids;
-		Query query = new Query(Criteria.where("privilegeId").in(idsTemp));
-		WriteResult writeResult = mongoTemplate.remove(query, RoleRelationPrivilege.class);
-		return writeResult.getN() <= ids.length;
+	public List<Privilege> findPrivilegeById(String[] privilegeIds) {
+		Object[] ids=privilegeIds;
+		Query query = new Query(Criteria.where("id").in(ids));
+		return mongoTemplate.find(query, Privilege.class);
 	}
 
 }

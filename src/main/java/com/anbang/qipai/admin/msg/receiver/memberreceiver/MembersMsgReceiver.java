@@ -38,6 +38,9 @@ public class MembersMsgReceiver {
 		if ("member login".equals(msg)) {
 			memberService.updateMemberVip(member);
 		}
+		if ("verify member".equals(msg)) {
+			memberService.verifyUser(member.getId(), member.getRealName(), member.getIDcard(), member.isVerifyUser());
+		}
 	}
 
 }

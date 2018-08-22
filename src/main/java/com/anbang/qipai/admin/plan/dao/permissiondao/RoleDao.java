@@ -2,8 +2,8 @@ package com.anbang.qipai.admin.plan.dao.permissiondao;
 
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.permission.Privilege;
 import com.anbang.qipai.admin.plan.bean.permission.Role;
-import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
 
 /**
  * 角色Dao
@@ -15,21 +15,21 @@ public interface RoleDao {
 
 	List<Role> findAllRoles();
 
-	List<Role> findAllRolesOfAdmin(String adminId);
+	Role findRoleById(String roleId);
+
+	void updatePrivilegeList(String roleId, List<Privilege> privilegeList);
+	
+	List<Role> findRoleById(String[] roleIds);
 
 	List<Role> findRoleByName(int page, int size, String role);
 
 	void addRole(Role role);
 
-	boolean deleteRoleByIds(String[] ids);
+	void deleteRoleByIds(String[] ids);
 
-	boolean deleteAdminRelationRoleByRoleIds(String[] ids);
-
-	boolean updateRole(Role role);
-
-	boolean deleteRoleRelationPrivilegesByRoleIds(String[] ids);
-
-	void addPrivileges(List<RoleRelationPrivilege> refList);
+	void updateRole(Role role);
 
 	long getAmountByName(String role);
+
+	void deletePrivilegeByPrivilegeId(String[] privilegeIds);
 }

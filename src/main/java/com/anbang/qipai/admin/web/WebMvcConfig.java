@@ -2,6 +2,7 @@ package com.anbang.qipai.admin.web;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -27,6 +28,16 @@ import com.anbang.qipai.admin.web.interceptor.PermissionInterceptor;
 //@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+	@Bean
+	public LoginInterceptor loginInterceptor() {
+		return new LoginInterceptor();
+	}
+
+	@Bean
+	public PermissionInterceptor permissionInterceptor() {
+		return new PermissionInterceptor();
+	}
+
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> arg0) {
 		// TODO Auto-generated method stub
@@ -47,8 +58,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
-		registry.addInterceptor(new PermissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
+		registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
+		registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
 	}
 
 	@Override

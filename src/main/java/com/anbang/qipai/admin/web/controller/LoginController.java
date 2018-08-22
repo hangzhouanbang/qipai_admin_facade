@@ -1,11 +1,7 @@
 package com.anbang.qipai.admin.web.controller;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,14 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
 import com.anbang.qipai.admin.plan.bean.permission.Admin;
-import com.anbang.qipai.admin.plan.bean.permission.Privilege;
-import com.anbang.qipai.admin.plan.bean.permission.Role;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
-import com.anbang.qipai.admin.plan.service.permissionservice.PrivilegeService;
-import com.anbang.qipai.admin.plan.service.permissionservice.RoleService;
-import com.anbang.qipai.admin.web.vo.permissionvo.PrivilegeVO;
-import com.anbang.qipai.admin.web.vo.permissionvo.UserVO;
+import com.anbang.qipai.admin.web.vo.CommonVO;
 
 /**
  * 登录controller
@@ -35,64 +27,48 @@ public class LoginController {
 
 	@Autowired
 	private AdminService adminService;
+
 	@Autowired
-	private RoleService roleService;
-	@Autowired
-	private PrivilegeService privilegeService;
+	private AdminAuthService adminAuthService;
 
 	/**
 	 * 管理员登录
 	 * 
-	 * @param nickname
-	 * @param pass
-	 * @param session
-	 * @return
 	 */
 	@RequestMapping("/login")
-	public Map<String, Object> login(@RequestParam(value = "nickname", required = true) String nickname,
-			@RequestParam(value = "pass", required = true) String pass, HttpSession session) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public CommonVO login(@RequestParam(value = "nickname", required = true) String nickname,
+			@RequestParam(value = "pass", required = true) String pass) {
+		CommonVO vo = new CommonVO();
 		Admin admin = adminService.verifyAdmin(nickname, pass);
-		Map<String, PrivilegeVO> privilegeList = new HashMap<String, PrivilegeVO>();
-		UserVO user = null;
 		if (admin != null) {
-			List<Role> selectedRoleList = roleService.findAllRolesOfAdmin(admin.getId());
-			List<Privilege> allPrivileges = privilegeService.findAllPrivileges();
-			for (Privilege privilege : allPrivileges) {
-				PrivilegeVO privilegevo = new PrivilegeVO();
-				privilegevo.setPrivilege(privilege);
-				privilegevo.setSelected(false);
-				privilegeList.put(privilege.getUri(), privilegevo);
-			}
-			for (Role role : selectedRoleList) {
-				List<Privilege> selectedPrivilegeList = privilegeService.findAllPrivilegesOfRole(role.getId());
-				for (Privilege privilege : selectedPrivilegeList) {
-					privilegeList.get(privilege.getUri()).setSelected(true);
-				}
-			}
-			user = new UserVO();
-			user.setAdmin(admin);
-			user.setLoginTime(new Date(System.currentTimeMillis()));
-			session.setAttribute("user", user);
-			session.setAttribute("privilegeList", privilegeList);
+			String token = adminAuthService.thirdAuth(admin.getId());
+			vo.setSuccess(true);
+			vo.setMsg("token");
+			Map data = new HashMap();
+			admin.setPass(null);
+			data.put("admin", admin);
+			data.put("token", token);
+			vo.setData(data);
+			return vo;
 		}
-		map.put("user", user);
-		map.put("privilegeList", privilegeList);
-		return map;
+		vo.setSuccess(false);
+		return vo;
 	}
 
 	/**
 	 * 管理员登出
 	 * 
-	 * @param session
-	 * @return
 	 */
 	@RequestMapping("/logout")
-	public String logout(HttpSession session) {
-		session.removeAttribute("user");
-		if (session.getAttribute("user") == null) {
-			return "success";
+	public CommonVO logout(String token) {
+		CommonVO vo = new CommonVO();
+		String adminId = adminAuthService.getAdminIdBySessionId(token);
+		if (adminId == null) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid token");
+			return vo;
 		}
-		return "fail";
+		adminAuthService.removeSessionByAdminId(adminId);
+		return vo;
 	}
 }

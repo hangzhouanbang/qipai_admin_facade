@@ -3,7 +3,6 @@ package com.anbang.qipai.admin.plan.dao.permissiondao;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.permission.Privilege;
-import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
 
 /**
  * 权限Dao
@@ -13,23 +12,19 @@ import com.anbang.qipai.admin.plan.bean.permission.RoleRelationPrivilege;
  */
 public interface PrivilegeDao {
 
-	List<Privilege> findAllPrivileges();
-
-	List<Privilege> findPrivilegeByUri(List<String> uriList);
-
-	List<Privilege> findAllPrivilegesOfRole(String roleId);
+	long getAmountByName(String privilege);
 
 	List<Privilege> findPrivilegeByName(int page, int size, String privilege);
 
-	long getAmountByName(String privilege);
+	List<Privilege> findPrivilegeById(String[] privilegeIds);
 
 	void addPrivileges(List<Privilege> privilegeList);
 
-	void addRoleRefPrivilege(List<RoleRelationPrivilege> refList);
+	List<Privilege> findPrivilegeByUri(List<String> uriList);
 
-	boolean deletePrivilegeByIds(String[] ids);
+	List<Privilege> findAllPrivileges();
 
-	boolean deleteRoleRelationPrivilegeByPrivilegeIds(String[] ids);
+	void deletePrivilegeByIds(String[] ids);
 
-	boolean updatePrivilege(Privilege privilege);
+	void updatePrivilege(Privilege privilege);
 }

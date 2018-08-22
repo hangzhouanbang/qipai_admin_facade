@@ -1,14 +1,20 @@
 package com.anbang.qipai.admin.web.interceptor;
 
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.anbang.qipai.admin.web.vo.permissionvo.PrivilegeVO;
+import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
+import com.anbang.qipai.admin.plan.bean.permission.Privilege;
+import com.anbang.qipai.admin.plan.bean.permission.Role;
+import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 
 /**
  * 管理员操作拦截器
@@ -16,18 +22,38 @@ import com.anbang.qipai.admin.web.vo.permissionvo.PrivilegeVO;
  * @author 林少聪 2018.5.31
  *
  */
+@Component
 public class PermissionInterceptor implements HandlerInterceptor {
+
+	@Autowired
+	private AdminAuthService adminAuthService;
+
+	@Autowired
+	private AdminService adminService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		String uri = request.getRequestURI();
-		Object obj = request.getSession().getAttribute("privilegeList");
-		Map<String, PrivilegeVO> privilegevos = (Map<String, PrivilegeVO>) obj;
-		if (privilegevos.get(uri) == null) {
+		String token = (String) request.getAttribute("token");
+		if (token == null) {
 			return false;
 		}
-		return privilegevos.get(uri).getSelected();
+		String adminId = adminAuthService.getAdminIdBySessionId(token);
+		if (adminId == null) {
+			return false;
+		}
+		String uri = request.getRequestURI();
+		Admin admin = adminService.findAdminById(adminId);
+		List<Role> roleList = admin.getRoleList();
+		for (Role role : roleList) {
+			List<Privilege> privilegeList = role.getPrivilegeList();
+			for (Privilege p : privilegeList) {
+				if (uri.equals(p.getUri())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

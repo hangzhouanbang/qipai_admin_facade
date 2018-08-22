@@ -3,11 +3,13 @@ package com.anbang.qipai.admin.plan.dao.permissiondao;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.permission.Admin;
-import com.anbang.qipai.admin.plan.bean.permission.AdminRelationRole;
+import com.anbang.qipai.admin.plan.bean.permission.Role;
 
 public interface AdminDao {
 
 	Admin findAdminByNicknameAndPass(String nickname, String pass);
+
+	Admin findAdminById(String adminId);
 
 	long getAmountByNickname(String nickname);
 
@@ -15,11 +17,11 @@ public interface AdminDao {
 
 	void addAdmin(Admin admin);
 
-	boolean deleteAdminByIds(String[] ids);
+	void deleteAdminByIds(String[] ids);
 
-	boolean updateAdminPass(Admin admin);
+	void updateAdminPass(Admin admin);
 
-	boolean deleteAdminRelationRolesById(String adminId);
+	void deleteRoleByRoleId(String[] roleIds);
 
-	void addRoles(List<AdminRelationRole> refList);
+	void updateRoleList(String adminId, List<Role> roleList);
 }

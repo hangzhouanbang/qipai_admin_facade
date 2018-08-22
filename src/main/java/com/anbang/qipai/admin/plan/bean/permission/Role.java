@@ -1,8 +1,11 @@
 package com.anbang.qipai.admin.plan.bean.permission;
 
+import java.util.List;
+
 public class Role {
 	private String id;// 角色id
 	private String role;// 角色名称
+	private List<Privilege> privilegeList;// 权限列表
 
 	public String getId() {
 		return id;
@@ -20,9 +23,12 @@ public class Role {
 		this.role = role;
 	}
 
-	@Override
-	public String toString() {
-		return "Role [id=" + id + ", role=" + role + "]";
+	public List<Privilege> getPrivilegeList() {
+		return privilegeList;
+	}
+
+	public void setPrivilegeList(List<Privilege> privilegeList) {
+		this.privilegeList = privilegeList;
 	}
 
 }
