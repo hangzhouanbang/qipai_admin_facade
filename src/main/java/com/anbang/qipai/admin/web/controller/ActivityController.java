@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
 import com.anbang.qipai.admin.plan.bean.tasks.Activity;
+import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 import com.anbang.qipai.admin.plan.service.tasksservice.ActivityService;
 import com.anbang.qipai.admin.remote.service.QipaiTasksRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
@@ -30,6 +33,12 @@ public class ActivityController {
 	@Autowired
 	private QipaiTasksRemoteService qipaiTasksRemoteService;
 
+	@Autowired
+	private AdminAuthService adminAuthService;
+
+	@Autowired
+	private AdminService adminService;
+
 	/**
 	 * 添加活动，同时启用
 	 * 
@@ -37,15 +46,28 @@ public class ActivityController {
 	 * @return
 	 */
 	@RequestMapping("/addactivity")
-	public CommonVO addActivity(Activity activity) {
+	public CommonVO addActivity(Activity activity, String token) {
 		CommonVO vo = new CommonVO();
-		if (activity.getTheme() == null || activity.getContent() == null || activity.getUrl() == null
-				|| activity.getPromulgator() == null) {
+		if (activity.getTheme() == null || activity.getContent() == null || activity.getUrl() == null) {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 			return vo;
 		}
+		String adminId = adminAuthService.getAdminIdBySessionId(token);
+		if (adminId == null) {
+			vo.setSuccess(false);
+			return vo;
+		}
+		Admin admin = adminService.findAdminById(adminId);
+		activity.setPromulgator(admin.getNickname());
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_add(activity);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -64,6 +86,13 @@ public class ActivityController {
 	public CommonVO startActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_start(activityId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -82,6 +111,13 @@ public class ActivityController {
 	public CommonVO stopActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_stop(activityId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {

@@ -45,6 +45,13 @@ public class GameController {
 	public CommonVO gameserveronline(GameServer gameServer) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_gameServerOnline(gameServer);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -57,6 +64,13 @@ public class GameController {
 	public CommonVO gameserveroffline(@RequestParam(value = "gameServerId") String[] gameServerIds) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_gameServerOffline(gameServerIds);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -79,6 +93,13 @@ public class GameController {
 	public CommonVO addlaw(GameLaw law) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_addLaw(law);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -91,6 +112,13 @@ public class GameController {
 	public CommonVO removelaw(String lawId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_removelaw(lawId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -113,6 +141,13 @@ public class GameController {
 	public CommonVO addmutexgroup(LawsMutexGroup lawsMutexGroup) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_addmutexgroup(lawsMutexGroup);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -125,6 +160,13 @@ public class GameController {
 	public CommonVO removemutexgroup(String groupId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_removemutexgroup(groupId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {

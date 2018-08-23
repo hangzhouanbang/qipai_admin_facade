@@ -46,6 +46,13 @@ public class MemberShipRightsCtrl {
 		CommonRemoteVO cos = qipaiGameRomoteService.commonuser(commonuser.getPlanMemberRoomsCount(),
 				commonuser.getPlanMemberRoomsAliveHours(), commonuser.getPlanMemberMaxCreateRoomDaily(),
 				commonuser.getPlanMemberCreateRoomDailyGoldPrice(), commonuser.getPlanMemberJoinRoomGoldPrice());
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (co.isSuccess() && cos.isSuccess()) {
 			return "success";
 		} else {
@@ -64,6 +71,13 @@ public class MemberShipRightsCtrl {
 				vipUser.getVipGrowIntegralSpeed(), vipUser.getVipGrowGradeSpeed());
 		CommonRemoteVO cos = qipaiGameRomoteService.vipuser(vipUser.getVipMemberRoomsCount(),
 				vipUser.getVipMemberRoomsAliveHours());
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (co.isSuccess() && cos.isSuccess()) {
 			return "success";
 		} else {

@@ -89,7 +89,6 @@ public class AgentController {
 	@RequestMapping("/agentdetail")
 	public CommonVO queryAgentDetail(String agentId) {
 		CommonVO vo = new CommonVO();
-		vo.setSuccess(false);
 		Map<String, Object> map = new HashMap<String, Object>();
 		AgentDbo agent = agentDboService.findAgentDboById(agentId);
 		AccountRemoteVO accountRemoteVo = qipaiAgentsRemoteService.agent_account(agentId);
@@ -103,6 +102,7 @@ public class AgentController {
 			vo.setMsg("agent detail");
 			vo.setData(map);
 		}
+		vo.setSuccess(false);
 		return vo;
 	}
 
@@ -217,6 +217,13 @@ public class AgentController {
 			return vo;
 		}
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_pass(recordId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -241,6 +248,13 @@ public class AgentController {
 			return vo;
 		}
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_refuse(recordId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -260,6 +274,13 @@ public class AgentController {
 	public CommonVO setLevel(String agentId, Integer level) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_setlevel(agentId, level);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -285,6 +306,13 @@ public class AgentController {
 			return vo;
 		}
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_setboss(agentId, bossId, boss.getNickname());
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -303,6 +331,13 @@ public class AgentController {
 	public CommonVO removeBoss(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_removeboss(agentId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -321,6 +356,13 @@ public class AgentController {
 	public CommonVO ban(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_ban(agentId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -341,6 +383,13 @@ public class AgentController {
 	public CommonVO liberate(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_liberate(agentId);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -368,6 +417,13 @@ public class AgentController {
 		}
 		card.setSale(true);
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -386,6 +442,13 @@ public class AgentController {
 	public CommonVO updateAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -404,6 +467,13 @@ public class AgentController {
 	public CommonVO deleteAgentClubCard(@RequestParam(value = "cardId") String[] cardIds) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_deleteagentclubcard(cardIds);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -429,6 +499,13 @@ public class AgentController {
 		}
 		if (cardAmount > 0) {
 			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, cardAmount, "管理员调整");
+		}
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
@@ -478,6 +555,13 @@ public class AgentController {
 		}
 		if (scoreAmount > 0) {
 			scoreVO = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "管理员调整");
+		}
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		if (!cardVO.isSuccess() || !scoreVO.isSuccess()) {
 			vo.setSuccess(false);

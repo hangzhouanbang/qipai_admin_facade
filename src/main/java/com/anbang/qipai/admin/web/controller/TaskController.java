@@ -188,6 +188,13 @@ public class TaskController {
 		}
 		TaskDocumentHistory taskHistory = taskDocumentHistoryService.releaseTaskDocumentHistory(taskDoc, task);
 		CommonRemoteVO rvo = qipaiTasksRemoteService.taskdocument_release(taskHistory);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {
@@ -206,6 +213,13 @@ public class TaskController {
 	public CommonVO withdrawTask(@RequestParam(value = "taskId", required = true) String[] taskIds) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.taskdocument_withdraw(taskIds);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (rvo != null) {
 			vo.setSuccess(rvo.isSuccess());
 		} else {

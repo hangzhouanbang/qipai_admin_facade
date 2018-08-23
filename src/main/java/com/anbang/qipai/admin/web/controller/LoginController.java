@@ -63,12 +63,10 @@ public class LoginController {
 	public CommonVO logout(String token) {
 		CommonVO vo = new CommonVO();
 		String adminId = adminAuthService.getAdminIdBySessionId(token);
-		if (adminId == null) {
-			vo.setSuccess(false);
+		if (adminId != null) {
+			adminAuthService.removeSessionByAdminId(adminId);
 			vo.setMsg("invalid token");
-			return vo;
 		}
-		adminAuthService.removeSessionByAdminId(adminId);
 		return vo;
 	}
 }

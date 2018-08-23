@@ -64,6 +64,13 @@ public class MemberController {
 	public CommonRemoteVO give_reward(@RequestParam(value = "id") String[] ids, Integer score, Integer gold) {
 		// kafka发消息
 		CommonRemoteVO vo = qipaiMembersRemoteService.give_score_gold(ids, score, gold);
+		// kafka传递消息需要时间
+		try {
+			Thread.currentThread().sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (vo.isSuccess()) {
 			vo.setSuccess(true);
 			return vo;
