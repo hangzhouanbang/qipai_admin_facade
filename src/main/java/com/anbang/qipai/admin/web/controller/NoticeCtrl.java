@@ -67,13 +67,6 @@ public class NoticeCtrl {
 		}
 		Admin admin = adminService.findAdminById(adminId);
 		CommonRemoteVO co = qipaiGameRomoteService.addNotice(notice, place, admin.getNickname());
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if (co.isSuccess()) {
 			return "success";
 		} else {
@@ -89,13 +82,6 @@ public class NoticeCtrl {
 	@ResponseBody
 	public String updateNotice(String id) {
 		CommonRemoteVO co = qipaiGameRomoteService.updateNotice(id);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if (co.isSuccess()) {
 			return "success";
 		} else {

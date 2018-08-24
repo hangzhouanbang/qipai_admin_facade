@@ -15,18 +15,18 @@ public interface AgentDboDao {
 
 	AgentDbo findAgentDboById(String agentId);
 
-	boolean updateAgentDboBoss(String agentId, String bossId, String bossName);
+	void updateAgentDboBoss(String agentId, String bossId, String bossName);
 
-	boolean updateAgentDboLevel(String agentId, int level);
+	void updateAgentDboLevel(String agentId, int level);
 
-	boolean updateAgentDboState(String agentId, String state);
+	void updateAgentDboState(String agentId, String state);
 
-	boolean updateAgnetInfo(String agentId, String phone, String userName, String idCard, String frontUrl,
+	void updateAgnetInfo(String agentId, String phone, String userName, String idCard, String frontUrl,
 			String reverseUrl);
 
-	boolean updateAgentAuth(String agentId, boolean agentAuth);
+	void updateAgentAuth(String agentId, boolean agentAuth);
 
-	boolean removeAgentDboBoss(String agentId);
+	void removeAgentDboBoss(String agentId);
 	
-	boolean updateAgentCost(String agentId, double cost);
+	void updateAgentCost(String agentId, double cost);
 }

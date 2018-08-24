@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.msg.receiver;
+package com.anbang.qipai.admin.msg.receiver.gamereceiver;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

@@ -30,13 +30,6 @@ public class MemberGradeCtrl {
 	public CommonVO insert_grade(MemberGrade memberGradeDbo) {
 		CommonVO co = new CommonVO();
 		qipaiMembersService.grade_insert_grade(memberGradeDbo);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return co;
 	}
 

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentDboDao;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbAgentDboDao implements AgentDboDao {
@@ -60,22 +59,20 @@ public class MongodbAgentDboDao implements AgentDboDao {
 	}
 
 	@Override
-	public boolean updateAgentDboBoss(String agentId, String bossId, String bossName) {
+	public void updateAgentDboBoss(String agentId, String bossId, String bossName) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("bossId", bossId);
 		update.set("bossName", bossName);
-		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
 	@Override
-	public boolean updateAgentDboLevel(String agentId, int level) {
+	public void updateAgentDboLevel(String agentId, int level) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("level", level);
-		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
 	@Override
@@ -111,7 +108,7 @@ public class MongodbAgentDboDao implements AgentDboDao {
 	}
 
 	@Override
-	public boolean updateAgnetInfo(String agentId, String phone, String userName, String idCard, String frontUrl,
+	public void updateAgnetInfo(String agentId, String phone, String userName, String idCard, String frontUrl,
 			String reverseUrl) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
@@ -120,26 +117,23 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		update.set("idCard", idCard);
 		update.set("frontUrl", frontUrl);
 		update.set("reverseUrl", reverseUrl);
-		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
 	@Override
-	public boolean updateAgentAuth(String agentId, boolean agentAuth) {
+	public void updateAgentAuth(String agentId, boolean agentAuth) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("agentAuth", agentAuth);
-		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
 	@Override
-	public boolean updateAgentDboState(String agentId, String state) {
+	public void updateAgentDboState(String agentId, String state) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("state", state);
-		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
 	@Override
@@ -149,21 +143,20 @@ public class MongodbAgentDboDao implements AgentDboDao {
 	}
 
 	@Override
-	public boolean removeAgentDboBoss(String agentId) {
+	public void removeAgentDboBoss(String agentId) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.unset("bossId");
 		update.unset("bossName");
-		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
 	@Override
-	public boolean updateAgentCost(String agentId, double cost) {
+	public void updateAgentCost(String agentId, double cost) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("cost", cost);
-		WriteResult result = mongoTemplate.updateFirst(query, update, AgentDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
+		;
 	}
 }

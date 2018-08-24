@@ -9,7 +9,7 @@ public interface AgentApplyRecordDao {
 
 	void addAgentApplyRecord(AgentApplyRecord record);
 
-	boolean updateAgentApplyRecordSate(String recordId, String state);
+	void updateAgentApplyRecordSate(String recordId, String state);
 
 	long getAmountByConditions(int page, int size, AgentApplyRecordVO record);
 

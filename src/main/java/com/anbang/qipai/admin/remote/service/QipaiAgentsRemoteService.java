@@ -44,7 +44,7 @@ public interface QipaiAgentsRemoteService {
 	public CommonRemoteVO clubcard_updateagentclubcard(@RequestBody AgentClubCard card);
 
 	@RequestMapping("/clubcard/deleteagentclubcard")
-	public CommonRemoteVO clubcard_deleteagentclubcard(@RequestBody String[] cardIds);
+	public CommonRemoteVO clubcard_deleteagentclubcard(@RequestParam(value = "agentId") String agentId);
 
 	@RequestMapping("/score/withdraw")
 	public CommonRemoteVO score_withdraw(@RequestParam(value = "agentId") String agentId,

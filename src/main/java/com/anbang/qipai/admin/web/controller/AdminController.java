@@ -26,8 +26,8 @@ public class AdminController {
 	private AdminService adminService;
 
 	@RequestMapping("/queryadmin")
-	public CommonVO queryAdmin(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "size", defaultValue = "10") Integer size, String nickname) {
+	public CommonVO queryAdmin(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, String nickname) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = adminService.findAdminByNickname(page, size, nickname);
 		vo.setSuccess(true);
@@ -54,12 +54,6 @@ public class AdminController {
 	@RequestMapping("/deleteadmin")
 	public CommonVO deleteAdmin(@RequestParam(value = "id") String[] ids) {
 		CommonVO vo = new CommonVO();
-		for (String id : ids) {
-			if ("000000000000000000000001".equals(id)) {// 超级管理员无法删除
-				vo.setSuccess(false);
-				vo.setMsg("can not delete super admin");
-			}
-		}
 		adminService.deleteAdminByIds(ids);
 		vo.setSuccess(true);
 		vo.setMsg("delete admins success");
@@ -67,28 +61,17 @@ public class AdminController {
 	}
 
 	@RequestMapping("/repass")
-	public CommonVO repass(Admin admin) {
+	public CommonVO repass(@RequestParam(required = true) String id, @RequestParam(required = true) String pass) {
 		CommonVO vo = new CommonVO();
-		if (admin.getId() == null) {
-			vo.setSuccess(false);
-			vo.setMsg("adminId is null");
-			return vo;
-		}
-		adminService.updateAdminPass(admin);
+		adminService.updateAdminPass(id, pass);
 		vo.setSuccess(true);
-		vo.setMsg("update admin success");
+		vo.setMsg("repass success");
 		return vo;
 	}
 
 	@RequestMapping("/editrole")
-	public CommonVO editRole(@RequestParam(required = true) String adminId,
-			@RequestParam(value = "roleId") String[] roleIds) {
+	public CommonVO editRole(String adminId, @RequestParam(value = "roleId") String[] roleIds) {
 		CommonVO vo = new CommonVO();
-		if ("000000000000000000000001".equals(adminId)) {
-			vo.setSuccess(false);
-			vo.setMsg("can not edit super admin");
-			return vo;
-		}
 		adminService.updateRole(adminId, roleIds);
 		vo.setSuccess(true);
 		vo.setMsg("edit role success");

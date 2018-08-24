@@ -61,18 +61,7 @@ public class ActivityController {
 		Admin admin = adminService.findAdminById(adminId);
 		activity.setPromulgator(admin.getNickname());
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_add(activity);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -86,18 +75,7 @@ public class ActivityController {
 	public CommonVO startActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_start(activityId);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -111,18 +89,7 @@ public class ActivityController {
 	public CommonVO stopActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_stop(activityId);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -135,8 +102,8 @@ public class ActivityController {
 	 * @return
 	 */
 	@RequestMapping("/queryactivity")
-	public CommonVO queryActivity(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "size", defaultValue = "10") Integer size, Activity activity) {
+	public CommonVO queryActivity(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, Activity activity) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = activityService.findActivityByConditions(page, size, activity);
 		vo.setSuccess(true);

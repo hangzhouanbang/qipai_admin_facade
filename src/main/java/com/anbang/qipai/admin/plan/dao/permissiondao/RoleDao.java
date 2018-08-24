@@ -19,7 +19,7 @@ public interface RoleDao {
 
 	void updatePrivilegeList(String roleId, List<Privilege> privilegeList);
 	
-	List<Role> findRoleById(String[] roleIds);
+	List<Role> findRolesByIds(String[] roleIds);
 
 	List<Role> findRoleByName(int page, int size, String role);
 

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentClubCardDao;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbAgentClubCardDao implements AgentClubCardDao {
@@ -28,15 +27,13 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 	}
 
 	@Override
-	public boolean deleteAgentClubCard(String[] cardIds) {
-		Object[] ids = cardIds;
-		Query query = new Query(Criteria.where("id").in(ids));
-		WriteResult result = mongoTemplate.remove(query, AgentClubCard.class);
-		return result.getN() <= cardIds.length;
+	public void deleteAgentClubCard(String cardId) {
+		Query query = new Query(Criteria.where("id").in(cardId));
+		mongoTemplate.remove(query, AgentClubCard.class);
 	}
 
 	@Override
-	public boolean updateAgentClubCard(AgentClubCard card) {
+	public void updateAgentClubCard(AgentClubCard card) {
 		Query query = new Query(Criteria.where("id").is(card.getId()));
 		Update update = new Update();
 		update.set("product", card.getProduct());
@@ -47,8 +44,7 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		update.set("price", card.getPrice());
 		update.set("weight", card.getWeight());
 		update.set("sale", card.getSale());
-		WriteResult result = mongoTemplate.updateFirst(query, update, AgentClubCard.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, AgentClubCard.class);
 	}
 
 	@Override

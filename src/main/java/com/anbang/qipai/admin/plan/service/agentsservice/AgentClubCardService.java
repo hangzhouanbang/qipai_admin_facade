@@ -26,11 +26,11 @@ public class AgentClubCardService {
 		clubCardDao.addAgentClubCard(card);
 	}
 	
-	public boolean updateAgentClubCard(AgentClubCard card) {
-		return clubCardDao.updateAgentClubCard(card);
+	public void updateAgentClubCard(AgentClubCard card) {
+		clubCardDao.updateAgentClubCard(card);
 	}
 
-	public boolean deleteAgentClubCard(String[] cardIds) {
-		return clubCardDao.deleteAgentClubCard(cardIds);
+	public void deleteAgentClubCard(String cardId) {
+		clubCardDao.deleteAgentClubCard(cardId);
 	}
 }

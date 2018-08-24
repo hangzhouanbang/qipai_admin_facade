@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.plan.bean.agents.AgentApplyRecord;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentApplyRecordDao;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentApplyRecordVO;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbAgentApplyRecordDao implements AgentApplyRecordDao {
@@ -26,12 +25,11 @@ public class MongodbAgentApplyRecordDao implements AgentApplyRecordDao {
 	}
 
 	@Override
-	public boolean updateAgentApplyRecordSate(String recordId, String state) {
+	public void updateAgentApplyRecordSate(String recordId, String state) {
 		Query query = new Query(Criteria.where("id").is(recordId));
 		Update update = new Update();
 		update.set("state", state);
-		WriteResult result = mongoTempalte.updateFirst(query, update, AgentApplyRecord.class);
-		return result.getN() > 0;
+		mongoTempalte.updateFirst(query, update, AgentApplyRecord.class);
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.tasks.TaskDocumentHistory;
 import com.anbang.qipai.admin.plan.dao.tasksdao.TaskDocumentHistoryDao;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
@@ -35,7 +34,6 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 		if ("true".equals(task.getVip()) || "false".equals(task.getVip())) {
 			query.addCriteria(Criteria.where("vip").is(task.getVip()));
 		}
-		query.addCriteria(Criteria.where("state").is(1));
 		query.skip((page - 1) * size);
 		query.limit(size);
 		query.with(sort);
@@ -67,13 +65,11 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 	}
 
 	@Override
-	public boolean updateTaskState(String[] taskIds, int state) {
-		Object[] ids = taskIds;
-		Query query = new Query(Criteria.where("id").in(ids));
+	public void updateTaskState(String taskId, String state) {
+		Query query = new Query(Criteria.where("id").is(taskId));
 		Update update = new Update();
 		update.set("state", state);
-		WriteResult result = mongoTemplate.updateMulti(query, update, TaskDocumentHistory.class);
-		return result.getN() <= taskIds.length;
+		mongoTemplate.updateFirst(query, update, TaskDocumentHistory.class);
 	}
 
 }

@@ -62,18 +62,7 @@ public class ClubCardController {
 			return vo;
 		}
 		CommonRemoteVO rvo = qipaiMembersService.clubcard_add(clubCard);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -87,18 +76,7 @@ public class ClubCardController {
 	public CommonVO deleteClubCard(@RequestParam(value = "id") String[] clubCardIds) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiMembersService.clubcard_delete(clubCardIds);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -111,24 +89,8 @@ public class ClubCardController {
 	@RequestMapping("/updateclubcard")
 	public CommonVO updateClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
-		if (clubCard.getId() == null) {
-			vo.setSuccess(false);
-			vo.setMsg("clubCardId is null");
-			return vo;
-		}
 		CommonRemoteVO rvo = qipaiMembersService.clubcard_update(clubCard);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 

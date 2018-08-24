@@ -25,8 +25,7 @@ public class AgentOrdersMsgReceiveer {
 			agentOrderService.addOrder(order);
 		}
 		if ("trade over".equals(mo.getMsg())) {
-			agentOrderService.updateDeliveTime(order.getOut_trade_no(), order.getDeliveTime());
-			agentOrderService.updateOrderStatus(order.getOut_trade_no(), order.getStatus());
+			agentOrderService.orderFinished(order.getId(), order.getTransaction_id(), order.getStatus(), order.getDeliveTime());
 		}
 	}
 }

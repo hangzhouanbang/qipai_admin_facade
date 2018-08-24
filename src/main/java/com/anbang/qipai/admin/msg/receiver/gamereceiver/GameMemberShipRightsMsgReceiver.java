@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.msg.receiver;
+package com.anbang.qipai.admin.msg.receiver.gamereceiver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;

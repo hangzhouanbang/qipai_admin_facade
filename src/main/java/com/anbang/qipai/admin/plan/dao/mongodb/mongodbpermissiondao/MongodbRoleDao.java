@@ -89,7 +89,7 @@ public class MongodbRoleDao implements RoleDao {
 	}
 
 	@Override
-	public List<Role> findRoleById(String[] roleIds) {
+	public List<Role> findRolesByIds(String[] roleIds) {
 		Object[] ids = roleIds;
 		Query query = new Query(Criteria.where("id").in(ids));
 		return mongoTemplate.find(query, Role.class);

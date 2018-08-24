@@ -16,7 +16,7 @@ public interface PrivilegeDao {
 
 	List<Privilege> findPrivilegeByName(int page, int size, String privilege);
 
-	List<Privilege> findPrivilegeById(String[] privilegeIds);
+	List<Privilege> findPrivilegesByIds(String[] privilegeIds);
 
 	void addPrivileges(List<Privilege> privilegeList);
 

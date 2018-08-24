@@ -12,15 +12,13 @@ public interface MemberDao {
 
 	void addMember(MemberDbo member);
 
-	void editMember(MemberDbo member);
+	void updateMemberPhone(MemberDbo member);
 
-	boolean updateMemberPhone(MemberDbo member);
+	void resetMemberVip(MemberDbo member);
 
-	boolean resetMemberVip(MemberDbo member);
+	void updateMemberVip(MemberDbo member);
 
-	boolean updateMemberVip(MemberDbo member);
-
-	void updateMemberLogin(String memberId, boolean vip, long lastLoginTime);
+	void updateMemberLogin(String memberId, String state, String loginIp, boolean vip, long lastLoginTime);
 
 	MemberDbo findMemberById(String memberId);
 

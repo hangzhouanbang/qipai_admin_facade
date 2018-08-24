@@ -49,14 +49,13 @@ public class AdminService {
 		adminDao.deleteAdminByIds(ids);
 	}
 
-	public void updateAdminPass(Admin admin) {
-		String pass = MD5Util.getMD5(admin.getPass(), "utf-8");
-		admin.setPass(pass);
-		adminDao.updateAdminPass(admin);
+	public void updateAdminPass(String adminId, String pass) {
+		String newPass = MD5Util.getMD5(pass, "utf-8");
+		adminDao.updateAdminPass(adminId, newPass);
 	}
 
 	public void updateRole(String adminId, String[] roleIds) {
-		List<Role> roleList = roleDao.findRoleById(roleIds);
+		List<Role> roleList = roleDao.findRolesByIds(roleIds);
 		adminDao.updateRoleList(adminId, roleList);
 	}
 }

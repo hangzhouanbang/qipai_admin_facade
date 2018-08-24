@@ -19,8 +19,8 @@ public class ActivityService {
 		activityDao.addActivity(activity);
 	}
 
-	public boolean updateActivityState(String activityId, String state) {
-		return activityDao.updateActivityStateById(activityId, state);
+	public void updateActivityState(String activityId, String state) {
+		activityDao.updateActivityStateById(activityId, state);
 	}
 
 	public ListPage findActivityByConditions(int page, int size, Activity activity) {

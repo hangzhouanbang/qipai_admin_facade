@@ -22,13 +22,12 @@ public class TasksMsgReceiver {
 	public void tasks(CommonMO mo) {
 		String msg = mo.getMsg();
 		String json = gson.toJson(mo.getData());
+		TaskDocumentHistory taskHistory = gson.fromJson(json, TaskDocumentHistory.class);
 		if ("release task".equals(msg)) {
-			TaskDocumentHistory taskHistory = gson.fromJson(json, TaskDocumentHistory.class);
 			taskDocumentHistoryService.addTaskDocumentHistory(taskHistory);
 		}
 		if ("withdraw task".equals(msg)) {
-			String[] taskIds = gson.fromJson(json, String[].class);
-			taskDocumentHistoryService.withdrawTaskDocumentHistory(taskIds);
+			taskDocumentHistoryService.withdrawTaskDocumentHistory(taskHistory.getId(), taskHistory.getState());
 		}
 	}
 }

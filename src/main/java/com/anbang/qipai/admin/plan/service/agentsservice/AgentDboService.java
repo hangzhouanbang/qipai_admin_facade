@@ -27,32 +27,28 @@ public class AgentDboService {
 		return agentDboDao.findAgentDboById(agentId);
 	}
 
-	public boolean updateAgentCost(String agentId, double cost) {
-		return agentDboDao.updateAgentCost(agentId, cost);
+	public void updateAgentCost(String agentId, double cost) {
+		agentDboDao.updateAgentCost(agentId, cost);
 	}
-	
+
 	public void addAgentDbo(AgentDbo agent) {
 		agentDboDao.addAgentDbo(agent);
 	}
 
-	public boolean updateAgentDboBoss(String agentId, String bossId, String bossName) {
-		return agentDboDao.updateAgentDboBoss(agentId, bossId, bossName);
+	public void updateAgentDboBoss(String agentId, String bossId, String bossName) {
+		agentDboDao.updateAgentDboBoss(agentId, bossId, bossName);
 	}
 
-	public boolean removeAgentDboBoss(String agentId) {
-		return agentDboDao.removeAgentDboBoss(agentId);
+	public void removeAgentDboBoss(String agentId) {
+		agentDboDao.removeAgentDboBoss(agentId);
 	}
 
-	public boolean banAgentDboState(String agentId) {
-		return agentDboDao.updateAgentDboState(agentId, "封禁");
+	public void updateAgentDboState(String agentId, String state) {
+		agentDboDao.updateAgentDboState(agentId, state);
 	}
 
-	public boolean liberateAgentDboState(String agentId) {
-		return agentDboDao.updateAgentDboState(agentId, "正常");
-	}
-
-	public boolean updateAgentDboLevel(String agentId, int level) {
-		return agentDboDao.updateAgentDboLevel(agentId, level);
+	public void updateAgentDboLevel(String agentId, int level) {
+		agentDboDao.updateAgentDboLevel(agentId, level);
 	}
 
 	public void updateAgnetInfoAndAgentAuth(AgentDbo agent) {

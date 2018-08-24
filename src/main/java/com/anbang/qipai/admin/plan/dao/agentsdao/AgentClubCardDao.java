@@ -5,11 +5,12 @@ import java.util.List;
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 
 public interface AgentClubCardDao {
+	
 	void addAgentClubCard(AgentClubCard card);
 
-	boolean deleteAgentClubCard(String[] cardIds);
+	void deleteAgentClubCard(String cardId);
 
-	boolean updateAgentClubCard(AgentClubCard card);
+	void updateAgentClubCard(AgentClubCard card);
 
 	List<AgentClubCard> findAgentClubCardByConditions(int page, int size, AgentClubCard card);
 

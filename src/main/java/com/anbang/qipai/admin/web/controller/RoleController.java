@@ -35,8 +35,8 @@ public class RoleController {
 	 * @return
 	 */
 	@RequestMapping("/queryrole")
-	public CommonVO queryRole(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "size", defaultValue = "10") Integer size, String role) {
+	public CommonVO queryRole(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, String role) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = roleService.findRoleByName(page, size, role);
 		vo.setSuccess(true);
@@ -66,7 +66,7 @@ public class RoleController {
 	}
 
 	/**
-	 * 删除角色
+	 * 删除角色,包括具有该角色的管理员中的角色
 	 * 
 	 * @param ids
 	 * @return
@@ -74,13 +74,6 @@ public class RoleController {
 	@RequestMapping("/deleterole")
 	public CommonVO deleteRole(@RequestParam(value = "id") String[] ids) {
 		CommonVO vo = new CommonVO();
-		for (String id : ids) {
-			if (id.equals("000000000000000000000001")) {// 超级管理员角色无法删除
-				vo.setSuccess(false);
-				vo.setMsg("can not delete super role");
-				return vo;
-			}
-		}
 		roleService.deleteRoleByIds(ids);
 		vo.setSuccess(true);
 		vo.setMsg("delete role success");
@@ -96,11 +89,6 @@ public class RoleController {
 	@RequestMapping("/updaterole")
 	public CommonVO updateRole(Role role) {
 		CommonVO vo = new CommonVO();
-		if (role.getId() == null) {
-			vo.setSuccess(false);
-			vo.setMsg("roleId is null");
-			return vo;
-		}
 		roleService.updateRole(role);
 		vo.setSuccess(true);
 		vo.setMsg("update role success");
@@ -115,14 +103,8 @@ public class RoleController {
 	 * @return
 	 */
 	@RequestMapping("/editprivilege")
-	public CommonVO editPrivilege(@RequestParam(required = true) String roleId,
-			@RequestParam(value = "privilegeId") String[] privilegeIds) {
+	public CommonVO editPrivilege(String roleId, @RequestParam(value = "privilegeId") String[] privilegeIds) {
 		CommonVO vo = new CommonVO();
-		if (roleId == "000000000000000000000001") {
-			vo.setSuccess(false);
-			vo.setMsg("can not edit super role");
-			return vo;
-		}
 		roleService.editPrivilege(roleId, privilegeIds);
 		vo.setSuccess(true);
 		vo.setMsg("edit privilege success");

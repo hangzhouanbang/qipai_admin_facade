@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.tasks.TaskDocument;
 import com.anbang.qipai.admin.plan.dao.tasksdao.TaskDocumentDao;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbTaskDocumentDao implements TaskDocumentDao {
@@ -51,15 +50,14 @@ public class MongodbTaskDocumentDao implements TaskDocumentDao {
 	}
 
 	@Override
-	public boolean deleteTaskDocuments(String[] taskDocIds) {
+	public void deleteTaskDocuments(String[] taskDocIds) {
 		Object[] ids = taskDocIds;
 		Query query = new Query(Criteria.where("id").in(ids));
-		WriteResult result = mongoTemplate.remove(query, TaskDocument.class);
-		return result.getN() <= taskDocIds.length;
+		mongoTemplate.remove(query, TaskDocument.class);
 	}
 
 	@Override
-	public boolean updateTaskDocument(TaskDocument taskDoc) {
+	public void updateTaskDocument(TaskDocument taskDoc) {
 		Query query = new Query(Criteria.where("id").is(taskDoc.getId()));
 		Update update = new Update();
 		if (taskDoc.getDesc() != null) {
@@ -74,8 +72,7 @@ public class MongodbTaskDocumentDao implements TaskDocumentDao {
 		if (taskDoc.getType() != null) {
 			update.set("type", taskDoc.getType());
 		}
-		WriteResult result = mongoTemplate.updateFirst(query, update, TaskDocument.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, TaskDocument.class);
 	}
 
 	@Override

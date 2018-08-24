@@ -30,24 +30,21 @@ public class MemberDboService {
 		return memberDao.findMemberById(memberId);
 	}
 
-	public void editMember(MemberDbo member) {
-		memberDao.editMember(member);
+	public void updateMemberPhone(MemberDbo member) {
+		memberDao.updateMemberPhone(member);
 	}
-	
-	public boolean updateMemberPhone(MemberDbo member) {
-		return memberDao.updateMemberPhone(member);
+
+	public void resetMemberVip(MemberDbo member) {
+		memberDao.resetMemberVip(member);
 	}
-	
-	public boolean resetMemberVip(MemberDbo member) {
-		return memberDao.resetMemberVip(member);
+
+	public void updateMemberVip(MemberDbo member) {
+		memberDao.updateMemberVip(member);
 	}
-	
-	public boolean updateMemberVip(MemberDbo member) {
-		return memberDao.updateMemberVip(member);
-	}
-	
-	public boolean updateMemberLogin(MemberDbo member) {
-		return memberDao.updateMemberVip(member);
+
+	public void updateMemberLogin(MemberDbo member) {
+		memberDao.updateMemberLogin(member.getId(), member.getState(), member.getLoginIp(), member.getVip(),
+				member.getLastLoginTime());
 	}
 
 	public long countNewMemberByTime(long startTime, long endTime) {
@@ -61,7 +58,7 @@ public class MemberDboService {
 	public long countRemain(long deviation) {
 		return memberDao.countRemain(deviation);
 	}
-	
+
 	public void verifyUser(String memberId, String realName, String IDcard, boolean verify) {
 		memberDao.verifyUser(memberId, realName, IDcard, verify);
 	}

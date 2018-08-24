@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.tasks.Activity;
 import com.anbang.qipai.admin.plan.dao.tasksdao.ActivityDao;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbActivityDao implements ActivityDao {
@@ -25,12 +24,11 @@ public class MongodbActivityDao implements ActivityDao {
 	}
 
 	@Override
-	public boolean updateActivityStateById(String activityId, String state) {
+	public void updateActivityStateById(String activityId, String state) {
 		Query query = new Query(Criteria.where("id").is(activityId));
 		Update update = new Update();
 		update.set("state", state);
-		WriteResult result = mongoTemplate.updateFirst(query, update, Activity.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, Activity.class);
 	}
 
 	@Override
@@ -39,7 +37,7 @@ public class MongodbActivityDao implements ActivityDao {
 		if (activity.getTheme() != null && !"".equals(activity.getTheme())) {
 			query.addCriteria(Criteria.where("theme").regex(activity.getTheme()));
 		}
-		if (activity.getState() != null) {
+		if (activity.getState() != null && !"".equals(activity.getState())) {
 			query.addCriteria(Criteria.where("state").is(activity.getState()));
 		}
 		query.skip((page - 1) * size);
@@ -53,7 +51,7 @@ public class MongodbActivityDao implements ActivityDao {
 		if (activity.getTheme() != null && !"".equals(activity.getTheme())) {
 			query.addCriteria(Criteria.where("theme").regex(activity.getTheme()));
 		}
-		if (activity.getState() != null) {
+		if (activity.getState() != null && !"".equals(activity.getState())) {
 			query.addCriteria(Criteria.where("state").is(activity.getState()));
 		}
 		return mongoTemplate.count(query, Activity.class);

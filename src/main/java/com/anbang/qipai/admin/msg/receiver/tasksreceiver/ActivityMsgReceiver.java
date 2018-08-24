@@ -22,16 +22,14 @@ public class ActivityMsgReceiver {
 	public void activity(CommonMO mo) {
 		String msg = mo.getMsg();
 		String json = gson.toJson(mo.getData());
+		Activity activity = gson.fromJson(json, Activity.class);
 		if ("add activity".equals(msg)) {
-			Activity activity = gson.fromJson(json, Activity.class);
 			activityService.addActivity(activity);
 		}
 		if ("start activity".equals(msg)) {
-			Activity activity = gson.fromJson(json, Activity.class);
 			activityService.updateActivityState(activity.getId(), activity.getState());
 		}
 		if ("stop activity".equals(msg)) {
-			Activity activity = gson.fromJson(json, Activity.class);
 			activityService.updateActivityState(activity.getId(), activity.getState());
 		}
 	}

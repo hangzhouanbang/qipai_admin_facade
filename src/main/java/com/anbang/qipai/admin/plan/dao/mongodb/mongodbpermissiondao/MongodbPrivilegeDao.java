@@ -71,7 +71,7 @@ public class MongodbPrivilegeDao implements PrivilegeDao {
 	}
 
 	@Override
-	public List<Privilege> findPrivilegeById(String[] privilegeIds) {
+	public List<Privilege> findPrivilegesByIds(String[] privilegeIds) {
 		Object[] ids=privilegeIds;
 		Query query = new Query(Criteria.where("id").in(ids));
 		return mongoTemplate.find(query, Privilege.class);

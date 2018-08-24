@@ -20,8 +20,8 @@ public class AgentApplyRecordService {
 		agentApplyRecordDao.addAgentApplyRecord(record);
 	}
 
-	public boolean updateAgentApplyRecordSate(String recordId, String state) {
-		return agentApplyRecordDao.updateAgentApplyRecordSate(recordId, state);
+	public void updateAgentApplyRecordSate(String recordId, String state) {
+		agentApplyRecordDao.updateAgentApplyRecordSate(recordId, state);
 	}
 
 	public ListPage findAgentApplyRecordByByConditions(int page, int size, AgentApplyRecordVO record) {

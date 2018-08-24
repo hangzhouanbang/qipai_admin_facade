@@ -1,8 +1,7 @@
 package com.anbang.qipai.admin.plan.service.tasksservice;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,19 +17,17 @@ public class TaskDocumentService {
 	private TaskDocumentDao taskDocumentDao;
 
 	public void addTaskDocument(TaskDocument taskDoc) {
-		SimpleDateFormat format = new SimpleDateFormat("ssMMdd");
-		Date date = new Date();
-		String id = format.format(date);
+		String id = UUID.randomUUID().toString().substring(0, 8);
 		taskDoc.setId(id);
 		taskDocumentDao.addTaskDocument(taskDoc);
 	}
 
-	public boolean deleteTaskDocuments(String[] taskDocIds) {
-		return taskDocumentDao.deleteTaskDocuments(taskDocIds);
+	public void deleteTaskDocuments(String[] taskDocIds) {
+		taskDocumentDao.deleteTaskDocuments(taskDocIds);
 	}
 
-	public boolean updateTaskDocument(TaskDocument taskDoc) {
-		return taskDocumentDao.updateTaskDocument(taskDoc);
+	public void updateTaskDocument(TaskDocument taskDoc) {
+		taskDocumentDao.updateTaskDocument(taskDoc);
 	}
 
 	public ListPage findTaskDocuments(int page, int size, TaskDocument taskDoc) {

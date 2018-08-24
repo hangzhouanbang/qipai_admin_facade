@@ -36,7 +36,7 @@ public class MembersMsgReceiver {
 			memberService.updateMemberVip(member);
 		}
 		if ("member login".equals(msg)) {
-			memberService.updateMemberVip(member);
+			memberService.updateMemberLogin(member);
 		}
 		if ("verify member".equals(msg)) {
 			memberService.verifyUser(member.getId(), member.getRealName(), member.getIDcard(), member.isVerifyUser());

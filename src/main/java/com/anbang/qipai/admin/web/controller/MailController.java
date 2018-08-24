@@ -74,13 +74,6 @@ public class MailController {
 		mail.setAdminname(admin.getNickname());
 		String str = gson.toJson(mail);
 		qipaiGameRomoteService.addmail(str);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return "success";
 	}
 

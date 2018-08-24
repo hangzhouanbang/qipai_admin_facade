@@ -61,8 +61,8 @@ public class AgentClubCardsMsgReceiver {
 			agentClubCardService.updateAgentClubCard(card);
 		}
 		if ("delete agentclubcard".equals(msg)) {
-			String[] cardIds = gson.fromJson(json, String[].class);
-			agentClubCardService.deleteAgentClubCard(cardIds);
+			String cardId = gson.fromJson(json, String.class);
+			agentClubCardService.deleteAgentClubCard(cardId);
 		}
 	}
 }

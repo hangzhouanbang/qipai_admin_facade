@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberDao;
 import com.mongodb.BasicDBObject;
-import com.mongodb.WriteResult;
 
 @Component
 public class MongodbMemberDao implements MemberDao {
@@ -41,49 +40,6 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public void addMember(MemberDbo member) {
 		mongoTemplate.insert(member);
-	}
-
-	@Override
-	public void editMember(MemberDbo dbo) {
-		Query query = new Query(Criteria.where("id").is(dbo.getId()));
-		Update update = new Update();
-		if (dbo.getVip() != null) {
-			update.set("vip", dbo.getVip());
-		}
-		if (dbo.getGender() != null) {
-			update.set("gender", dbo.getGender());
-		}
-		if (dbo.getHeadimgurl() != null) {
-			update.set("headimgurl", dbo.getHeadimgurl());
-		}
-		if (dbo.getNickname() != null) {
-			update.set("nickname", dbo.getNickname());
-		}
-		if (dbo.getPhone() != null) {
-			update.set("phone", dbo.getPhone());
-		}
-		if (dbo.getVipEndTime() != null) {
-			update.set("vipEndTime", dbo.getVipEndTime());
-		}
-		if (dbo.getVipLevel() != null) {
-			update.set("vipLevel", dbo.getVipLevel());
-		}
-		if (dbo.getVipScore() != null) {
-			update.set("vipScore", dbo.getVipScore());
-		}
-		if (dbo.getCost() != null) {
-			update.set("cost", dbo.getCost());
-		}
-		if (dbo.getLastLoginTime() != null) {
-			update.set("lastLoginTime", dbo.getLastLoginTime());
-		}
-		if (dbo.getLoginIp() != null) {
-			update.set("loginIp", dbo.getLoginIp());
-		}
-		if (dbo.getOnlineTime() != null) {
-			update.set("onlineTime", dbo.getOnlineTime());
-		}
-		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override
@@ -136,25 +92,23 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public boolean updateMemberPhone(MemberDbo member) {
+	public void updateMemberPhone(MemberDbo member) {
 		Query query = new Query(Criteria.where("id").is(member.getId()));
 		Update update = new Update();
 		update.set("phone", member.getPhone());
-		WriteResult result = mongoTemplate.updateFirst(query, update, MemberDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override
-	public boolean resetMemberVip(MemberDbo member) {
+	public void resetMemberVip(MemberDbo member) {
 		Query query = new Query(Criteria.where("id").is(member.getId()));
 		Update update = new Update();
 		update.set("vip", member.getVip());
-		WriteResult result = mongoTemplate.updateFirst(query, update, MemberDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override
-	public boolean updateMemberVip(MemberDbo member) {
+	public void updateMemberVip(MemberDbo member) {
 		Query query = new Query(Criteria.where("id").is(member.getId()));
 		Update update = new Update();
 		update.set("vipEndTime", member.getVipEndTime());
@@ -162,14 +116,15 @@ public class MongodbMemberDao implements MemberDao {
 		update.set("vipLevel", member.getVipLevel());
 		update.set("vipScore", member.getVipScore());
 		update.set("cost", member.getCost());
-		WriteResult result = mongoTemplate.updateFirst(query, update, MemberDbo.class);
-		return result.getN() > 0;
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override
-	public void updateMemberLogin(String memberId, boolean vip, long lastLoginTime) {
+	public void updateMemberLogin(String memberId, String state, String loginIp, boolean vip, long lastLoginTime) {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
+		update.set("loginIp", loginIp);
+		update.set("state", state);
 		update.set("vip", vip);
 		update.set("lastLoginTime", lastLoginTime);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);

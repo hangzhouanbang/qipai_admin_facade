@@ -19,7 +19,7 @@ public interface AdminDao {
 
 	void deleteAdminByIds(String[] ids);
 
-	void updateAdminPass(Admin admin);
+	void updateAdminPass(String adminId, String pass);
 
 	void deleteRoleByRoleId(String[] roleIds);
 

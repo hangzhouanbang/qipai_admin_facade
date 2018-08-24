@@ -49,7 +49,7 @@ public class RoleService {
 	}
 
 	public void editPrivilege(String roleId, String[] privilegeIds) {
-		List<Privilege> privilegeList = privilegeDao.findPrivilegeById(privilegeIds);
+		List<Privilege> privilegeList = privilegeDao.findPrivilegesByIds(privilegeIds);
 		roleDao.updatePrivilegeList(roleId, privilegeList);
 	}
 

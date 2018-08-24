@@ -40,8 +40,8 @@ public class PrivilegeController {
 	 * @return
 	 */
 	@RequestMapping("/queryprivilege")
-	public CommonVO queryPrivilege(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "size", defaultValue = "10") Integer size, String privilege) {
+	public CommonVO queryPrivilege(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, String privilege) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = privilegeService.findPrivilegeByName(page, size, privilege);
 		vo.setSuccess(true);
@@ -70,7 +70,7 @@ public class PrivilegeController {
 	}
 
 	/**
-	 * 删除权限
+	 * 删除权限,包括具有该权限的角色中的权限
 	 * 
 	 * @param ids
 	 * @return
@@ -93,11 +93,6 @@ public class PrivilegeController {
 	@RequestMapping("/updateprivilege")
 	public CommonVO updatePrivilege(Privilege privilege) {
 		CommonVO vo = new CommonVO();
-		if (privilege.getId() == null) {
-			vo.setSuccess(false);
-			vo.setMsg("privilegeId is null");
-			return vo;
-		}
 		privilegeService.updatePrivilege(privilege);
 		vo.setSuccess(true);
 		vo.setMsg("update privilege success");

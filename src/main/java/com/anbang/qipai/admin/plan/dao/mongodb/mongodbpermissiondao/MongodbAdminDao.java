@@ -53,12 +53,10 @@ public class MongodbAdminDao implements AdminDao {
 	}
 
 	@Override
-	public void updateAdminPass(Admin admin) {
-		Query query = new Query(Criteria.where("id").is(admin.getId()));
+	public void updateAdminPass(String adminId, String pass) {
+		Query query = new Query(Criteria.where("id").is(adminId));
 		Update update = new Update();
-		if (admin.getPass() != null && !"".equals(admin.getPass())) {
-			update.set("pass", admin.getPass());
-		}
+		update.set("pass", pass);
 		mongoTemplate.updateFirst(query, update, Admin.class);
 	}
 

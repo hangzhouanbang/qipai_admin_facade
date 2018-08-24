@@ -47,8 +47,8 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping("/querymember")
-	public CommonVO queryMember(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "size", defaultValue = "10") Integer size, MemberDbo member) {
+	public CommonVO queryMember(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, MemberDbo member) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = memberService.findMemberDboByConditions(page, size, member);
 		vo.setSuccess(true);
@@ -62,20 +62,8 @@ public class MemberController {
 	 **/
 	@RequestMapping("/give_reward")
 	public CommonRemoteVO give_reward(@RequestParam(value = "id") String[] ids, Integer score, Integer gold) {
-		// kafka发消息
 		CommonRemoteVO vo = qipaiMembersRemoteService.give_score_gold(ids, score, gold);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (vo.isSuccess()) {
-			vo.setSuccess(true);
-			return vo;
-		}
-		vo.setSuccess(false);
+		vo.setSuccess(true);
 		return vo;
 	}
 
@@ -88,14 +76,9 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping("/querygoldrecord")
-	public CommonVO queryGoldRecord(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "size", defaultValue = "10") Integer size, String memberId) {
+	public CommonVO queryGoldRecord(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, String memberId) {
 		CommonVO vo = new CommonVO();
-		if (memberId == null) {
-			vo.setSuccess(false);
-			vo.setMsg("memberId is null");
-			return vo;
-		}
 		ListPage listPage = memberGoldService.findGoldRecordByMemberId(page, size, memberId);
 		vo.setSuccess(true);
 		vo.setMsg("goldrecordList");
@@ -112,14 +95,9 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping("/queryscorerecord")
-	public CommonVO queryScoreRecord(@RequestParam(name = "page", defaultValue = "1") Integer page,
-			@RequestParam(name = "size", defaultValue = "10") Integer size, String memberId) {
+	public CommonVO queryScoreRecord(@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "10") int size, String memberId) {
 		CommonVO vo = new CommonVO();
-		if (memberId == null) {
-			vo.setSuccess(false);
-			vo.setMsg("memberId is null");
-			return vo;
-		}
 		ListPage listPage = memberScoreService.findScoreRecordByMemberId(page, size, memberId);
 		vo.setSuccess(true);
 		vo.setMsg("goldrecordList");

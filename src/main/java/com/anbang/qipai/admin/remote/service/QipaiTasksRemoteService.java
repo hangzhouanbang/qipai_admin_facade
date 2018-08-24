@@ -22,7 +22,7 @@ public interface QipaiTasksRemoteService {
 	public CommonRemoteVO taskdocument_release(@RequestBody TaskDocumentHistory task);
 
 	@RequestMapping("/task/withdraw")
-	public CommonRemoteVO taskdocument_withdraw(@RequestBody String[] taskIds);
+	public CommonRemoteVO taskdocument_withdraw(@RequestParam(value = "taskId") String taskId);
 
 	@RequestMapping("/activity/addactivity")
 	public CommonRemoteVO activity_add(@RequestBody Activity activity);

@@ -1,8 +1,7 @@
 package com.anbang.qipai.admin.plan.bean.agents;
 
 public class AgentOrder {
-	private String id;
-	private String out_trade_no;// 商户订单流水号
+	private String id;// 商户订单流水号
 	private String pay_type;// 支付方式，支付宝或微信
 	private String transaction_id;// 订单号
 	private String status;// 微信或支付宝状态码
@@ -25,14 +24,6 @@ public class AgentOrder {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getOut_trade_no() {
-		return out_trade_no;
-	}
-
-	public void setOut_trade_no(String out_trade_no) {
-		this.out_trade_no = out_trade_no;
 	}
 
 	public String getPay_type() {

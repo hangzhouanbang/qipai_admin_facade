@@ -70,8 +70,8 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping("/queryagent")
-	public CommonVO queryAgent(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentDboVO agent) {
+	public CommonVO queryAgent(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+			AgentDboVO agent) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentDboService.findAgentDboByConditions(page, size, agent);
 		vo.setSuccess(true);
@@ -89,20 +89,19 @@ public class AgentController {
 	@RequestMapping("/agentdetail")
 	public CommonVO queryAgentDetail(String agentId) {
 		CommonVO vo = new CommonVO();
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> data = new HashMap<String, Object>();
 		AgentDbo agent = agentDboService.findAgentDboById(agentId);
+		data.put("agent", agent);
 		AccountRemoteVO accountRemoteVo = qipaiAgentsRemoteService.agent_account(agentId);
-		map.put("agent", agent);
 		if (accountRemoteVo.isSuccess()) {
-			map.put("score", accountRemoteVo.getScore());
-			map.put("clubCardZhou", accountRemoteVo.getClubCardZhou());
-			map.put("clubCardYue", accountRemoteVo.getClubCardYue());
-			map.put("clubCardJi", accountRemoteVo.getClubCardJi());
-			vo.setSuccess(true);
-			vo.setMsg("agent detail");
-			vo.setData(map);
+			data.put("score", accountRemoteVo.getScore());
+			data.put("clubCardZhou", accountRemoteVo.getClubCardZhou());
+			data.put("clubCardYue", accountRemoteVo.getClubCardYue());
+			data.put("clubCardJi", accountRemoteVo.getClubCardJi());
 		}
-		vo.setSuccess(false);
+		vo.setSuccess(true);
+		vo.setMsg("agent detail");
+		vo.setData(data);
 		return vo;
 	}
 
@@ -115,8 +114,8 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping("/queryapplyrecord")
-	public CommonVO queryApplyRecord(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentApplyRecordVO recordVo) {
+	public CommonVO queryApplyRecord(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentApplyRecordVO recordVo) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentApplyRecordService.findAgentApplyRecordByByConditions(page, size, recordVo);
 		vo.setSuccess(true);
@@ -134,8 +133,8 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping("/queryagentclubcard")
-	public CommonVO queryAgentClubCard(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentClubCard card) {
+	public CommonVO queryAgentClubCard(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentClubCard card) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentClubCardService.findAgentClubCardByConditions(page, size, card);
 		vo.setSuccess(true);
@@ -153,8 +152,8 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping("/queryclubcardrecord")
-	public CommonVO queryClubCardRecord(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentClubCardRecordDboVO record) {
+	public CommonVO queryClubCardRecord(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentClubCardRecordDboVO record) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentClubCardRecordDboService.findAgentClubCardRecordDboByConditions(page, size, record);
 		vo.setSuccess(true);
@@ -172,8 +171,8 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping("/queryscorerecord")
-	public CommonVO queryScoreRecord(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentScoreRecordDboVO record) {
+	public CommonVO queryScoreRecord(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentScoreRecordDboVO record) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentScoreRecordDboService.findAgentScoreRecordDboByConditions(page, size, record);
 		vo.setSuccess(true);
@@ -191,8 +190,8 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping("/queryagentinvitationrecord")
-	public CommonVO queryAgentInvitationRecord(@RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size, AgentInvitationRecordVO record) {
+	public CommonVO queryAgentInvitationRecord(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentInvitationRecordVO record) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentInvitationRecordService.findInvitationRecordByConditions(page, size, record);
 		vo.setSuccess(true);
@@ -217,18 +216,7 @@ public class AgentController {
 			return vo;
 		}
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_pass(recordId);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -248,18 +236,7 @@ public class AgentController {
 			return vo;
 		}
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_refuse(recordId);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -271,21 +248,10 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping("/setlevel")
-	public CommonVO setLevel(String agentId, Integer level) {
+	public CommonVO setLevel(String agentId, @RequestParam(defaultValue = "2") int level) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_setlevel(agentId, level);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -306,18 +272,7 @@ public class AgentController {
 			return vo;
 		}
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_setboss(agentId, bossId, boss.getNickname());
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -331,18 +286,7 @@ public class AgentController {
 	public CommonVO removeBoss(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_removeboss(agentId);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -356,18 +300,7 @@ public class AgentController {
 	public CommonVO ban(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_ban(agentId);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		AgentDbo agent = agentDboService.findAgentDboById(agentId);
 		vo.setData(agent.getState());
 		return vo;
@@ -383,18 +316,7 @@ public class AgentController {
 	public CommonVO liberate(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_liberate(agentId);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		AgentDbo agent = agentDboService.findAgentDboById(agentId);
 		vo.setData(agent.getState());
 		return vo;
@@ -417,18 +339,7 @@ public class AgentController {
 		}
 		card.setSale(true);
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
-		}
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
@@ -441,44 +352,50 @@ public class AgentController {
 	@RequestMapping("/updateagentclubcard")
 	public CommonVO updateAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
+		if (card.getProduct() == null || card.getProductPic() == null || card.getNumber() == null
+				|| card.getRepertory() == null || card.getPayType() == null || card.getPrice() == null
+				|| card.getWeight() == null) {
 			vo.setSuccess(false);
+			vo.setMsg("at least one param is null");
 		}
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
+		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
 
 	/**
-	 * 删除推广员会员卡，只从商品列表中删除，未删除库存
+	 * 删除推广员会员卡
 	 * 
 	 * @param cardIds
 	 * @return
 	 */
 	@RequestMapping("/deleteagentclubcard")
-	public CommonVO deleteAgentClubCard(@RequestParam(value = "cardId") String[] cardIds) {
+	public CommonVO deleteAgentClubCard(String cardId) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_deleteagentclubcard(cardIds);
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_deleteagentclubcard(cardId);
+		vo.setSuccess(rvo.isSuccess());
+		return vo;
+	}
+
+	/**
+	 * 调整推广员积分
+	 * 
+	 * @param agentId
+	 * @param scoreAmount
+	 * @return
+	 */
+	@RequestMapping("/scoremanager")
+	public CommonVO scoreManager(String agentId, int scoreAmount) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = new CommonRemoteVO();
+		if (scoreAmount < 0) {
+			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, -scoreAmount, "管理员调整");
 		}
-		if (rvo != null) {
-			vo.setSuccess(rvo.isSuccess());
-		} else {
-			vo.setSuccess(false);
+		if (scoreAmount > 0) {
+			rvo = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "管理员调整");
 		}
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
 		return vo;
 	}
 
@@ -488,41 +405,11 @@ public class AgentController {
 	 * @param agentId
 	 * @param card
 	 * @param cardAmount
-	 * @return
-	 */
-	@RequestMapping("/clubcardmanager")
-	public CommonVO clubCardManager(String agentId, String card, int cardAmount) {
-		CommonVO vo = new CommonVO();
-		CommonRemoteVO rvo = new CommonRemoteVO();
-		if (cardAmount < 0) {
-			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, -cardAmount, "管理员调整");
-		}
-		if (cardAmount > 0) {
-			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, cardAmount, "管理员调整");
-		}
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		vo.setSuccess(rvo.isSuccess());
-		vo.setMsg(rvo.getMsg());
-		return vo;
-	}
-
-	/**
-	 * 调整推广员积分
-	 * 
-	 * @param agentId
-	 * @param card
-	 * @param cardAmount
 	 * @param scoreAmount
 	 * @return
 	 */
-	@RequestMapping("/scoremanager")
-	public CommonVO scoreManager(String agentId, String card, int cardAmount, int scoreAmount) {
+	@RequestMapping("/clubcardmanager")
+	public CommonVO clubcardManager(String agentId, String card, int cardAmount, int scoreAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO cardVO = new CommonRemoteVO();
 		if ("周卡".equals(card)) {
@@ -555,13 +442,6 @@ public class AgentController {
 		}
 		if (scoreAmount > 0) {
 			scoreVO = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "管理员调整");
-		}
-		// kafka传递消息需要时间
-		try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		if (!cardVO.isSuccess() || !scoreVO.isSuccess()) {
 			vo.setSuccess(false);

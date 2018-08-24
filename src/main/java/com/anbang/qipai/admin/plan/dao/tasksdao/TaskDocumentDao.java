@@ -10,9 +10,9 @@ public interface TaskDocumentDao {
 
 	void addTaskDocument(TaskDocument taskDoc);
 
-	boolean deleteTaskDocuments(String[] taskDocIds);
+	void deleteTaskDocuments(String[] taskDocIds);
 
-	boolean updateTaskDocument(TaskDocument taskDoc);
+	void updateTaskDocument(TaskDocument taskDoc);
 
 	List<TaskDocument> findTaskDocuments(int page, int size, TaskDocument taskDoc);
 
