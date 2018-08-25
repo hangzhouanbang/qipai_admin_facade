@@ -1,6 +1,11 @@
 package com.anbang.qipai.admin.web.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,42 +56,41 @@ public class MemberOrderController {
 	 * @param order
 	 * @return
 	 */
-	@RequestMapping("/download")
-	public CommonVO downLoad(MemberOrderVO order) {
-		CommonVO vo = new CommonVO();
-		String fileName = "";
-		try {
-			fileName = orderService.exportOrder(order);
-		} catch (IOException e) {
-			vo.setSuccess(false);
-			vo.setMsg("IOException");
-		}
-		vo.setSuccess(true);
-		vo.setMsg("orderList");
-		vo.setData("/excel/" + fileName);
-		return vo;
-	}
-
-	// 备选方案,因为ajax无法下载文件
 	// @RequestMapping("/download")
-	// public CommonVO downLoad(MemberOrderVO order, HttpServletResponse response) {
+	// public CommonVO downLoad(MemberOrderVO order) {
 	// CommonVO vo = new CommonVO();
-	// SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-	// Date date = new Date();
-	// String fileName = format.format(date) + "order.xls";
-	// response.reset();
-	// response.setHeader("Content-disposition", "attachment; filename=" +
-	// fileName);
-	// response.setContentType("application/msexcel");
+	// String fileName = "";
 	// try {
-	// OutputStream output = response.getOutputStream();
-	// orderService.exportOrder(order, output);
+	// fileName = orderService.exportOrder(order);
 	// } catch (IOException e) {
 	// vo.setSuccess(false);
 	// vo.setMsg("IOException");
 	// }
 	// vo.setSuccess(true);
 	// vo.setMsg("orderList");
+	// vo.setData("/excel/" + fileName);
 	// return vo;
 	// }
+
+	// 备选方案,因为ajax无法下载文件
+	@RequestMapping("/download")
+	public CommonVO downLoad(MemberOrderVO order, HttpServletResponse response) {
+		CommonVO vo = new CommonVO();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		String fileName = format.format(date) + "order.xls";
+		response.reset();
+		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+		response.setContentType("application/msexcel");
+		try {
+			OutputStream output = response.getOutputStream();
+			orderService.exportOrder(order, output);
+		} catch (IOException e) {
+			vo.setSuccess(false);
+			vo.setMsg("IOException");
+		}
+		vo.setSuccess(true);
+		vo.setMsg("orderList");
+		return vo;
+	}
 }

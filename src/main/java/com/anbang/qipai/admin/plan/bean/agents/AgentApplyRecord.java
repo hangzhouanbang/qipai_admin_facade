@@ -11,7 +11,7 @@ public class AgentApplyRecord {
 	private String frontUrl;// 身份证正面照片
 	private String reverseUrl;// 身份证反面照片
 	private String state;
-	private Long createTime;
+	private long createTime;
 
 	public String getId() {
 		return id;
@@ -93,11 +93,11 @@ public class AgentApplyRecord {
 		this.state = state;
 	}
 
-	public Long getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 

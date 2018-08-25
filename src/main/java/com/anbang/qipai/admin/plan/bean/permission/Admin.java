@@ -8,8 +8,8 @@ public class Admin {
 	private String pass;// 管理员密码
 	private String user;// 管理员真实姓名
 	private String idCard;// 管理员身份证
-	private Long createTime;// 创建时间
-	private List<Role> roleList;//角色列表
+	private long createTime;// 创建时间
+	private List<Role> roleList;// 角色列表
 
 	public String getId() {
 		return id;
@@ -51,11 +51,11 @@ public class Admin {
 		this.idCard = idCard;
 	}
 
-	public Long getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 

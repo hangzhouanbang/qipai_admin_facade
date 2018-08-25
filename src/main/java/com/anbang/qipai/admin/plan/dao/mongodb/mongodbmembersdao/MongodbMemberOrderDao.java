@@ -3,6 +3,9 @@ package com.anbang.qipai.admin.plan.dao.mongodb.mongodbmembersdao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -64,6 +67,8 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 			}
 			query.addCriteria(criteria);
 		}
+		// 需要建立索引
+		query.with(new Sort(new Order(Direction.DESC, "createTime")));
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, MemberOrder.class);

@@ -4,13 +4,13 @@ public class AgentClubCard {
 	private String id;
 	private String product;// 商品名称
 	private String productPic;// ICON图
-	private Integer number;
-	private Integer repertory;// 库存数量
-	private Integer remain;// 剩余
+	private int number;
+	private int repertory;// 库存数量
+	private int remain;// 剩余
 	private String payType;// 支付方式
-	private Double price;// 价格
-	private Integer weight;// 权重
-	private Boolean sale;// 是否可用
+	private double price;// 价格
+	private int weight;// 权重
+	private boolean sale;// 是否可用
 
 	public String getId() {
 		return id;
@@ -36,20 +36,28 @@ public class AgentClubCard {
 		this.productPic = productPic;
 	}
 
-	public Integer getNumber() {
+	public int getNumber() {
 		return number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
-	public Integer getRepertory() {
+	public int getRepertory() {
 		return repertory;
 	}
 
-	public void setRepertory(Integer repertory) {
+	public void setRepertory(int repertory) {
 		this.repertory = repertory;
+	}
+
+	public int getRemain() {
+		return remain;
+	}
+
+	public void setRemain(int remain) {
+		this.remain = remain;
 	}
 
 	public String getPayType() {
@@ -60,36 +68,28 @@ public class AgentClubCard {
 		this.payType = payType;
 	}
 
-	public Double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
-	public Integer getWeight() {
+	public int getWeight() {
 		return weight;
 	}
 
-	public void setWeight(Integer weight) {
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 
-	public Boolean getSale() {
+	public boolean isSale() {
 		return sale;
 	}
 
-	public void setSale(Boolean sale) {
+	public void setSale(boolean sale) {
 		this.sale = sale;
-	}
-
-	public Integer getRemain() {
-		return remain;
-	}
-
-	public void setRemain(Integer remain) {
-		this.remain = remain;
 	}
 
 }

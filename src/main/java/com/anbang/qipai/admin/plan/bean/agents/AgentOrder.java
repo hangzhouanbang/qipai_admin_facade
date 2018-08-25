@@ -11,12 +11,12 @@ public class AgentOrder {
 	private String payerName;// 付款人昵称
 	private String productId;// 产品id
 	private String productName;// 产品名称
-	private Double productPrice;// 产品单价
-	private Integer number;// 购买数量
-	private Double totalamount;// 总价
+	private double productPrice;// 产品单价
+	private int number;// 购买数量
+	private double totalamount;// 总价
 	private String reqIP;// 终端ip
-	private Long createTime;// 订单创建时间
-	private Long deliveTime;// 发货时间
+	private long createTime;// 订单创建时间
+	private long deliveTime;// 发货时间
 
 	public String getId() {
 		return id;
@@ -98,27 +98,27 @@ public class AgentOrder {
 		this.productName = productName;
 	}
 
-	public Double getProductPrice() {
+	public double getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(Double productPrice) {
+	public void setProductPrice(double productPrice) {
 		this.productPrice = productPrice;
 	}
 
-	public Integer getNumber() {
+	public int getNumber() {
 		return number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
-	public Double getTotalamount() {
+	public double getTotalamount() {
 		return totalamount;
 	}
 
-	public void setTotalamount(Double totalamount) {
+	public void setTotalamount(double totalamount) {
 		this.totalamount = totalamount;
 	}
 
@@ -130,19 +130,19 @@ public class AgentOrder {
 		this.reqIP = reqIP;
 	}
 
-	public Long getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 
-	public Long getDeliveTime() {
+	public long getDeliveTime() {
 		return deliveTime;
 	}
 
-	public void setDeliveTime(Long deliveTime) {
+	public void setDeliveTime(long deliveTime) {
 		this.deliveTime = deliveTime;
 	}
 

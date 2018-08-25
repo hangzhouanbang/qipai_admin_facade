@@ -55,8 +55,7 @@ public class ClubCardController {
 	@RequestMapping("/addclubcard")
 	public CommonVO addClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
-		if (clubCard.getName() == null || clubCard.getGold() == null || clubCard.getScore() == null
-				|| clubCard.getPrice() == null || clubCard.getTime() == null) {
+		if (clubCard.getName() == null) {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 			return vo;

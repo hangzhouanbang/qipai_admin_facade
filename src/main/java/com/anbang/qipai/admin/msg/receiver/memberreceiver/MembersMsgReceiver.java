@@ -29,17 +29,20 @@ public class MembersMsgReceiver {
 		if ("update member phone".equals(msg)) {
 			memberService.updateMemberPhone(member);
 		}
-		if ("reset member vip".equals(msg)) {
-			memberService.resetMemberVip(member);
-		}
 		if ("update member vip".equals(msg)) {
 			memberService.updateMemberVip(member);
 		}
-		if ("member login".equals(msg)) {
-			memberService.updateMemberLogin(member);
+		if ("memberOrder delive".equals(msg)) {
+			memberService.memberOrderDelive(member);
 		}
-		if ("verify member".equals(msg)) {
-			memberService.verifyUser(member.getId(), member.getRealName(), member.getIDcard(), member.isVerifyUser());
+		if ("recharge vip".equals(msg)) {
+			memberService.rechargeVip(member);
+		}
+		if ("update member realUser".equals(msg)) {
+			memberService.updateMemberRealUser(member);
+		}
+		if ("update member onlineState".equals(msg)) {
+			memberService.updateMemberOnlineState(member);
 		}
 	}
 

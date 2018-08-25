@@ -10,15 +10,15 @@ public class MemberGoldRecordDbo {
 
 	private String memberId;
 
-	private Long accountingNo;
+	private long accountingNo;
 
-	private Integer accountingAmount;
+	private int accountingAmount;
 
-	private Integer balanceAfter;
+	private int balanceAfter;
 
 	private AccountingSummary summary;
 
-	private Long accountingTime;
+	private long accountingTime;
 
 	public String getId() {
 		return id;
@@ -44,27 +44,27 @@ public class MemberGoldRecordDbo {
 		this.memberId = memberId;
 	}
 
-	public Long getAccountingNo() {
+	public long getAccountingNo() {
 		return accountingNo;
 	}
 
-	public void setAccountingNo(Long accountingNo) {
+	public void setAccountingNo(long accountingNo) {
 		this.accountingNo = accountingNo;
 	}
 
-	public Integer getAccountingAmount() {
+	public int getAccountingAmount() {
 		return accountingAmount;
 	}
 
-	public void setAccountingAmount(Integer accountingAmount) {
+	public void setAccountingAmount(int accountingAmount) {
 		this.accountingAmount = accountingAmount;
 	}
 
-	public Integer getBalanceAfter() {
+	public int getBalanceAfter() {
 		return balanceAfter;
 	}
 
-	public void setBalanceAfter(Integer balanceAfter) {
+	public void setBalanceAfter(int balanceAfter) {
 		this.balanceAfter = balanceAfter;
 	}
 
@@ -76,11 +76,11 @@ public class MemberGoldRecordDbo {
 		this.summary = summary;
 	}
 
-	public Long getAccountingTime() {
+	public long getAccountingTime() {
 		return accountingTime;
 	}
 
-	public void setAccountingTime(Long accountingTime) {
+	public void setAccountingTime(long accountingTime) {
 		this.accountingTime = accountingTime;
 	}
 

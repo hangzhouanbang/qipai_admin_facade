@@ -12,12 +12,12 @@ public class AgentDbo {
 	private String reverseUrl;// 身份证反面照片
 	private String bossId;// 上级id
 	private String bossName;// 上级昵称
-	private Integer level;// 推广等级
-	private Long createTime;
-	private Boolean agentAuth;// 是否通过推广员申请
+	private int level;// 推广等级
+	private long createTime;
+	private boolean agentAuth;// 是否通过推广员申请
 	private String state;// 正常,封停
 	private String invitationCode;// 邀请码
-	private Double cost;// 充值金额
+	private double cost;// 充值金额
 
 	public String getId() {
 		return id;
@@ -57,6 +57,14 @@ public class AgentDbo {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getIdCard() {
@@ -99,27 +107,27 @@ public class AgentDbo {
 		this.bossName = bossName;
 	}
 
-	public Integer getLevel() {
+	public int getLevel() {
 		return level;
 	}
 
-	public void setLevel(Integer level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 
-	public Long getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 
-	public Boolean getAgentAuth() {
+	public boolean isAgentAuth() {
 		return agentAuth;
 	}
 
-	public void setAgentAuth(Boolean agentAuth) {
+	public void setAgentAuth(boolean agentAuth) {
 		this.agentAuth = agentAuth;
 	}
 
@@ -139,19 +147,11 @@ public class AgentDbo {
 		this.invitationCode = invitationCode;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public Double getCost() {
+	public double getCost() {
 		return cost;
 	}
 
-	public void setCost(Double cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
 	}
 

@@ -43,7 +43,7 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		update.set("payType", card.getPayType());
 		update.set("price", card.getPrice());
 		update.set("weight", card.getWeight());
-		update.set("sale", card.getSale());
+		update.set("sale", card.isSale());
 		mongoTemplate.updateFirst(query, update, AgentClubCard.class);
 	}
 

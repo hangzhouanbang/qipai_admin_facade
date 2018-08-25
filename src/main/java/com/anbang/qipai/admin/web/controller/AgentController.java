@@ -241,7 +241,7 @@ public class AgentController {
 	}
 
 	/**
-	 * 设置推广员等级
+	 * 设置推广员等级,默认2级
 	 * 
 	 * @param agentId
 	 * @param level
@@ -331,9 +331,7 @@ public class AgentController {
 	@RequestMapping("/addagentclubcard")
 	public CommonVO addAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
-		if (card.getProduct() == null || card.getProductPic() == null || card.getNumber() == null
-				|| card.getRepertory() == null || card.getPayType() == null || card.getPrice() == null
-				|| card.getWeight() == null) {
+		if (card.getProduct() == null || card.getProductPic() == null || card.getPayType() == null) {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 		}
@@ -352,9 +350,7 @@ public class AgentController {
 	@RequestMapping("/updateagentclubcard")
 	public CommonVO updateAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
-		if (card.getProduct() == null || card.getProductPic() == null || card.getNumber() == null
-				|| card.getRepertory() == null || card.getPayType() == null || card.getPrice() == null
-				|| card.getWeight() == null) {
+		if (card.getProduct() == null || card.getProductPic() == null || card.getPayType() == null) {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 		}

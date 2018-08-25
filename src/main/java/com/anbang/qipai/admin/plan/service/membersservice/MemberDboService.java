@@ -31,20 +31,20 @@ public class MemberDboService {
 	}
 
 	public void updateMemberPhone(MemberDbo member) {
-		memberDao.updateMemberPhone(member);
-	}
-
-	public void resetMemberVip(MemberDbo member) {
-		memberDao.resetMemberVip(member);
+		memberDao.updateMemberPhone(member.getId(), member.getPhone());
 	}
 
 	public void updateMemberVip(MemberDbo member) {
-		memberDao.updateMemberVip(member);
+		memberDao.updateMemberVip(member.getId(), member.isVip());
 	}
 
-	public void updateMemberLogin(MemberDbo member) {
-		memberDao.updateMemberLogin(member.getId(), member.getState(), member.getLoginIp(), member.getVip(),
-				member.getLastLoginTime());
+	public void memberOrderDelive(MemberDbo member) {
+		memberDao.memberOrderDelive(member.getId(), member.isVip(), member.getVipEndTime(), member.getVipLevel(),
+				member.getVipScore());
+	}
+
+	public void rechargeVip(MemberDbo member) {
+		memberDao.rechargeVip(member.getId(), member.isVip(), member.getVipEndTime());
 	}
 
 	public long countNewMemberByTime(long startTime, long endTime) {
@@ -59,7 +59,11 @@ public class MemberDboService {
 		return memberDao.countRemain(deviation);
 	}
 
-	public void verifyUser(String memberId, String realName, String IDcard, boolean verify) {
-		memberDao.verifyUser(memberId, realName, IDcard, verify);
+	public void updateMemberRealUser(MemberDbo member) {
+		memberDao.updateMemberRealUser(member.getId(), member.getRealName(), member.getIDcard(), member.isVerifyUser());
+	}
+
+	public void updateMemberOnlineState(MemberDbo member) {
+		memberDao.updateMemberOnlineState(member.getId(), member.getOnlineState());
 	}
 }

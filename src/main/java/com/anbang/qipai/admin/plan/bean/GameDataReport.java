@@ -3,10 +3,10 @@ package com.anbang.qipai.admin.plan.bean;
 public class GameDataReport {
 	private String id;
 	private String game;// 游戏名
-	private Long date;// 日期
-	private Integer currentMember;// 进入游戏的当日会员人数
-	private Integer gameNum;// 游戏总局数
-	private Integer loginMember;// 独立玩家
+	private long date;// 日期
+	private int currentMember;// 进入游戏的当日会员人数
+	private int gameNum;// 游戏总局数
+	private int loginMember;// 独立玩家
 
 	public String getId() {
 		return id;
@@ -24,35 +24,35 @@ public class GameDataReport {
 		this.game = game;
 	}
 
-	public Long getDate() {
+	public long getDate() {
 		return date;
 	}
 
-	public void setDate(Long date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 
-	public Integer getCurrentMember() {
+	public int getCurrentMember() {
 		return currentMember;
 	}
 
-	public void setCurrentMember(Integer currentMember) {
+	public void setCurrentMember(int currentMember) {
 		this.currentMember = currentMember;
 	}
 
-	public Integer getGameNum() {
+	public int getGameNum() {
 		return gameNum;
 	}
 
-	public void setGameNum(Integer gameNum) {
+	public void setGameNum(int gameNum) {
 		this.gameNum = gameNum;
 	}
 
-	public Integer getLoginMember() {
+	public int getLoginMember() {
 		return loginMember;
 	}
 
-	public void setLoginMember(Integer loginMember) {
+	public void setLoginMember(int loginMember) {
 		this.loginMember = loginMember;
 	}
 

@@ -10,7 +10,7 @@ public class AgentInvitationRecord {
 	private int rewardScore;// 奖励积分
 	private int inviteNum;// 邀请总人数
 	private int score;// 累计得分
-	private Long createTime;// 绑定时间
+	private long createTime;// 绑定时间
 
 	public String getId() {
 		return id;
@@ -84,11 +84,11 @@ public class AgentInvitationRecord {
 		this.score = score;
 	}
 
-	public Long getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 

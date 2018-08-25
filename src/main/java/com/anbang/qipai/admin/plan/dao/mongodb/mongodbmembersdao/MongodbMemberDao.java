@@ -29,9 +29,7 @@ public class MongodbMemberDao implements MemberDao {
 		if (member.getNickname() != null && !"".equals(member.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
-		if (member.getVip() != null) {
-			query.addCriteria(Criteria.where("vip").is(member.getVip()));
-		}
+		query.addCriteria(Criteria.where("vip").is(member.isVip()));
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, MemberDbo.class);
@@ -51,9 +49,7 @@ public class MongodbMemberDao implements MemberDao {
 		if (member.getNickname() != null && !"".equals(member.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
-		if (member.getVip() != null) {
-			query.addCriteria(Criteria.where("vip").is(member.getVip()));
-		}
+		query.addCriteria(Criteria.where("vip").is(member.isVip()));
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
@@ -92,51 +88,56 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public void updateMemberPhone(MemberDbo member) {
-		Query query = new Query(Criteria.where("id").is(member.getId()));
-		Update update = new Update();
-		update.set("phone", member.getPhone());
-		mongoTemplate.updateFirst(query, update, MemberDbo.class);
-	}
-
-	@Override
-	public void resetMemberVip(MemberDbo member) {
-		Query query = new Query(Criteria.where("id").is(member.getId()));
-		Update update = new Update();
-		update.set("vip", member.getVip());
-		mongoTemplate.updateFirst(query, update, MemberDbo.class);
-	}
-
-	@Override
-	public void updateMemberVip(MemberDbo member) {
-		Query query = new Query(Criteria.where("id").is(member.getId()));
-		Update update = new Update();
-		update.set("vipEndTime", member.getVipEndTime());
-		update.set("vip", member.getVip());
-		update.set("vipLevel", member.getVipLevel());
-		update.set("vipScore", member.getVipScore());
-		update.set("cost", member.getCost());
-		mongoTemplate.updateFirst(query, update, MemberDbo.class);
-	}
-
-	@Override
-	public void updateMemberLogin(String memberId, String state, String loginIp, boolean vip, long lastLoginTime) {
+	public void updateMemberPhone(String memberId, String phone) {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
-		update.set("loginIp", loginIp);
-		update.set("state", state);
-		update.set("vip", vip);
-		update.set("lastLoginTime", lastLoginTime);
+		update.set("phone", phone);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override
-	public void verifyUser(String memberId, String realName, String IDcard, boolean verify) {
+	public void updateMemberVip(String memberId, boolean vip) {
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("vip", vip);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public void memberOrderDelive(String memberId, boolean vip, long vipEndTime, int vipLevel, double vipScore) {
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("vipEndTime", vipEndTime);
+		update.set("vip", vip);
+		update.set("vipLevel", vipLevel);
+		update.set("vipScore", vipScore);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public void updateMemberRealUser(String memberId, String realName, String IDcard, boolean verify) {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
 		update.set("realName", realName);
 		update.set("IDcard", IDcard);
 		update.set("verifyUser", verify);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public void rechargeVip(String memberId, boolean vip, long vipEndTime) {
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("vipEndTime", vipEndTime);
+		update.set("vip", vip);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public void updateMemberOnlineState(String memberId, String onlineState) {
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("onlineState", onlineState);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 

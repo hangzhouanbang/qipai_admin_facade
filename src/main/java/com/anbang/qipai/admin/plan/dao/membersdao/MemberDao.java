@@ -12,13 +12,13 @@ public interface MemberDao {
 
 	void addMember(MemberDbo member);
 
-	void updateMemberPhone(MemberDbo member);
+	void updateMemberPhone(String memberId, String phone);
 
-	void resetMemberVip(MemberDbo member);
+	void updateMemberVip(String memberId, boolean vip);
 
-	void updateMemberVip(MemberDbo member);
+	void memberOrderDelive(String memberId, boolean vip, long vipEndTime, int vipLevel, double vipScore);
 
-	void updateMemberLogin(String memberId, String state, String loginIp, boolean vip, long lastLoginTime);
+	void rechargeVip(String memberId, boolean vip, long vipEndTime);
 
 	MemberDbo findMemberById(String memberId);
 
@@ -28,5 +28,7 @@ public interface MemberDao {
 
 	long countRemain(long deviation);
 
-	void verifyUser(String memberId, String realName, String IDcard, boolean verify);
+	void updateMemberRealUser(String memberId, String realName, String IDcard, boolean verify);
+	
+	void updateMemberOnlineState(String memberId,String onlineState);
 }
