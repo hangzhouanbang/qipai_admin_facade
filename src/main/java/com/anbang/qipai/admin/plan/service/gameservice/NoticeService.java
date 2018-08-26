@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.service;
+package com.anbang.qipai.admin.plan.service.gameservice;
 
 import java.util.Map;
 

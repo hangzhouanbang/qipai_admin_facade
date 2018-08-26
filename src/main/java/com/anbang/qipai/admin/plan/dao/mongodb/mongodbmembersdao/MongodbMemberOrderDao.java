@@ -140,4 +140,20 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 		mongoTemplate.updateFirst(query, update, MemberOrder.class);
 	}
 
+	@Override
+	public double countCostByMemberId(String memberId) {
+		Aggregation aggregation = Aggregation.newAggregation(
+				MemberOrder.class, Aggregation.match(Criteria.where("payerId").is(memberId).and("status")
+						.in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS")),
+				Aggregation.group().sum("totalamount").as("cost"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getDouble("cost");
+	}
+
 }

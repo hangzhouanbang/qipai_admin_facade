@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.plan.bean.notice.Notice;
 import com.anbang.qipai.admin.plan.dao.mongodb.repository.NoticeRepository;
 import com.anbang.qipai.admin.plan.dao.noticedao.NoticeDao;
-import com.anbang.qipai.admin.plan.service.NoticeService;
+import com.anbang.qipai.admin.plan.service.gameservice.NoticeService;
 
 @Component
 public class MongdbNoticeDao implements NoticeDao{

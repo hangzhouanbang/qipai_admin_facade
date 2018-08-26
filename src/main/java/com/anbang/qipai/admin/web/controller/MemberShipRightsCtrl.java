@@ -10,7 +10,7 @@ import com.anbang.qipai.admin.plan.bean.membershiprights.CommonUser;
 import com.anbang.qipai.admin.plan.bean.membershiprights.MemberShipRights;
 import com.anbang.qipai.admin.plan.bean.membershiprights.VipUser;
 import com.anbang.qipai.admin.plan.service.MemberShipRightsService;
-import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
+import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
@@ -31,7 +31,7 @@ public class MemberShipRightsCtrl {
 	private MemberShipRightsService memberShipRightsService;
 
 	@Autowired
-	private QipaiGameRomoteService qipaiGameRomoteService;
+	private QipaiGameRemoteService qipaiGameRomoteService;
 
 	/**
 	 * @param 普通会员所有权益

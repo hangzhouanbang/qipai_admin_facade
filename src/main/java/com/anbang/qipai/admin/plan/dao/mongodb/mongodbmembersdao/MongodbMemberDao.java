@@ -29,6 +29,9 @@ public class MongodbMemberDao implements MemberDao {
 		if (member.getNickname() != null && !"".equals(member.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
+		if (member.getOnlineState() != null && !"".equals(member.getOnlineState())) {
+			query.addCriteria(Criteria.where("onlineState").is(member.getOnlineState()));
+		}
 		query.addCriteria(Criteria.where("vip").is(member.isVip()));
 		query.skip((page - 1) * size);
 		query.limit(size);
@@ -49,6 +52,9 @@ public class MongodbMemberDao implements MemberDao {
 		if (member.getNickname() != null && !"".equals(member.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
+		if (member.getOnlineState() != null && !"".equals(member.getOnlineState())) {
+			query.addCriteria(Criteria.where("onlineState").is(member.getOnlineState()));
+		}
 		query.addCriteria(Criteria.where("vip").is(member.isVip()));
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
@@ -65,7 +71,7 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public long countVIP() {
+	public long countVipMember() {
 		Query query = new Query(Criteria.where("vip").is(true));
 		return mongoTemplate.count(query, MemberDbo.class);
 	}

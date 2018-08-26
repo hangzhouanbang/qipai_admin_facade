@@ -14,7 +14,7 @@ public class MemberDbo {
 	private String realName;// 真实姓名
 	private String IDcard;// 身份证
 	private boolean verifyUser;// 实名认证，true:通过认证,false:未通过认证
-	private String OnlineState;
+	private String onlineState;
 
 	public String getId() {
 		return id;
@@ -121,11 +121,11 @@ public class MemberDbo {
 	}
 
 	public String getOnlineState() {
-		return OnlineState;
+		return onlineState;
 	}
 
 	public void setOnlineState(String onlineState) {
-		OnlineState = onlineState;
+		this.onlineState = onlineState;
 	}
 
 }

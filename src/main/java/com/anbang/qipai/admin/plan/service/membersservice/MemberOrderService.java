@@ -39,6 +39,10 @@ public class MemberOrderService {
 		return orderDao.countCostByTime(startTime, endTime);
 	}
 
+	public double countCostByMemberId(String memberId) {
+		return orderDao.countCostByMemberId(memberId);
+	}
+
 	// public String exportOrder(MemberOrderVO order) throws IOException {
 	// SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 	// Date date = new Date();

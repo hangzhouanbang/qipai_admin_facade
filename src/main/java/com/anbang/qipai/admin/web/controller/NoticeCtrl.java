@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
 import com.anbang.qipai.admin.plan.bean.permission.Admin;
-import com.anbang.qipai.admin.plan.service.NoticeService;
+import com.anbang.qipai.admin.plan.service.gameservice.NoticeService;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
-import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
+import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**
@@ -29,7 +29,7 @@ public class NoticeCtrl {
 	private NoticeService noticeService;
 
 	@Autowired
-	private QipaiGameRomoteService qipaiGameRomoteService;
+	private QipaiGameRemoteService qipaiGameRomoteService;
 
 	@Autowired
 	private AdminAuthService adminAuthService;

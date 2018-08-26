@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import com.anbang.qipai.admin.plan.bean.GameDataReport;
+import com.anbang.qipai.admin.plan.bean.report.GameDataReport;
 import com.anbang.qipai.admin.plan.dao.GameReportDao;
 import com.mongodb.BasicDBObject;
 

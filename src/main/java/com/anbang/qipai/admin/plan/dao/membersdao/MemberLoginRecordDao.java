@@ -7,4 +7,6 @@ public interface MemberLoginRecordDao {
 	void save(MemberLoginRecord record);
 
 	void updateOnlineTimeById(String id, long onlineTime);
+	
+	MemberLoginRecord findRecentRecordByMemberId(String memberId);
 }

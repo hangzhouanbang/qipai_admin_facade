@@ -19,4 +19,8 @@ public class MemberLoginRecordService {
 	public void updateOnlineTimeById(String id, long onlineTime) {
 		memberLoginRecordDao.updateOnlineTimeById(id, onlineTime);
 	}
+
+	public MemberLoginRecord findRecentRecordByMemberId(String memberId) {
+		return memberLoginRecordDao.findRecentRecordByMemberId(memberId);
+	}
 }

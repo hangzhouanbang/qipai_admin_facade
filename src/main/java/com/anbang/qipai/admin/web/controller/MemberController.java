@@ -1,5 +1,10 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberGoldService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginRecordService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberOrderService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberScoreService;
+import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
@@ -33,10 +42,19 @@ public class MemberController {
 	private QipaiMembersRemoteService qipaiMembersRemoteService;
 
 	@Autowired
+	private QipaiGameRemoteService qipaiGameRemoteService;
+
+	@Autowired
 	private MemberGoldService memberGoldService;
 
 	@Autowired
 	private MemberScoreService memberScoreService;
+
+	@Autowired
+	private MemberOrderService memberOrderService;
+
+	@Autowired
+	private MemberLoginRecordService memberLoginRecordService;
 
 	/**
 	 * 查询会员
@@ -54,6 +72,26 @@ public class MemberController {
 		vo.setSuccess(true);
 		vo.setMsg("memberList");
 		vo.setData(listPage);
+		return vo;
+	}
+
+	@RequestMapping("/querymemberdetail")
+	public CommonVO queryMemberDetail(String memberId) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap();
+		double cost = memberOrderService.countCostByMemberId(memberId);
+		data.put("cost", cost);
+		MemberLoginRecord loginRecord = memberLoginRecordService.findRecentRecordByMemberId(memberId);
+		long onlineTime = loginRecord.getOnlineTime() / 60000;
+		data.put("onlineTime", onlineTime + "m");
+		data.put("loginIp", loginRecord.getLoginIp());
+		String loginTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(loginRecord.getLoginTime()));
+		data.put("loginTime", loginTime);
+		CommonRemoteVO rvo = qipaiGameRemoteService.game_queryMemberPlayingRoom(memberId);
+		data.put("roomList", rvo.getData());
+		vo.setSuccess(true);
+		vo.setMsg("member detail");
+		vo.setData(data);
 		return vo;
 	}
 

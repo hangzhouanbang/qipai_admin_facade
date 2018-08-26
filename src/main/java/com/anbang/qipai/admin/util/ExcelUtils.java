@@ -124,17 +124,13 @@ public class ExcelUtils {
 			row.createCell(8).setCellValue(order.getNumber());
 			row.createCell(10).setCellValue(order.getGold());
 			row.createCell(11).setCellValue(order.getScore());
-			SimpleDateFormat format = new SimpleDateFormat("DDD天");
-			Date date = new Date(order.getVipTime());
-			row.createCell(12).setCellValue(format.format(date));
+			row.createCell(12).setCellValue(new SimpleDateFormat("DDD天").format(new Date(order.getVipTime())));
 			row.createCell(13).setCellValue(order.getTotalamount());
 			row.createCell(14).setCellValue(order.getReqIP());
-			SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date2 = new Date(order.getCreateTime());
-			row.createCell(15).setCellValue(format.format(date));
-			SimpleDateFormat format3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date3 = new Date(order.getDeliveTime());
-			row.createCell(16).setCellValue(format.format(date));
+			row.createCell(15)
+					.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order.getCreateTime())));
+			row.createCell(16)
+					.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order.getDeliveTime())));
 			rowid++;
 		}
 	}

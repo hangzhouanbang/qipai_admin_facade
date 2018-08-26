@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.plan.bean;
+package com.anbang.qipai.admin.plan.bean.report;
 
 public class PlatformReport {
 	private String id;
@@ -12,6 +12,24 @@ public class PlatformReport {
 	private int remainThird;// 三日留存
 	private int remainSeventh;// 七日留存
 	private int remainMonth;// 30日以外留存
+
+	public PlatformReport() {
+
+	}
+
+	public PlatformReport(long date, int newMember, int currentMember, double cost, int gameNum, int loginMember,
+			int remainSecond, int remainThird, int remainSeventh, int remainMonth) {
+		this.date = date;
+		this.newMember = newMember;
+		this.currentMember = currentMember;
+		this.cost = cost;
+		this.gameNum = gameNum;
+		this.loginMember = loginMember;
+		this.remainSecond = remainSecond;
+		this.remainThird = remainThird;
+		this.remainSeventh = remainSeventh;
+		this.remainMonth = remainMonth;
+	}
 
 	public String getId() {
 		return id;

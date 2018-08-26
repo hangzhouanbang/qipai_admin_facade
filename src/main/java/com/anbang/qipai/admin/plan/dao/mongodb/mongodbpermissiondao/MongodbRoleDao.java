@@ -82,10 +82,13 @@ public class MongodbRoleDao implements RoleDao {
 	@Override
 	public void deletePrivilegeByPrivilegeId(String[] privilegeIds) {
 		Object[] ids = privilegeIds;
-		Query query = new Query(Criteria.where("privilegeList.id").in(ids));
-		Update update = new Update();
-		update.pullAll("privilegeList", ids);
-		mongoTemplate.updateMulti(query, update, Role.class);
+		Query query = new Query();
+		for (Object id : ids) {
+			Update update = new Update();
+			//TODO用$in取代is
+			update.pull("privilegeList", new Query(Criteria.where("id").is(id)));
+			mongoTemplate.updateMulti(query, update, Role.class);
+		}
 	}
 
 	@Override

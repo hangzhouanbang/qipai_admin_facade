@@ -51,8 +51,8 @@ public class MemberDboService {
 		return memberDao.countNewMemberByTime(startTime, endTime);
 	}
 
-	public long countVIP() {
-		return memberDao.countVIP();
+	public long countVipMember() {
+		return memberDao.countVipMember();
 	}
 
 	public long countRemain(long deviation) {

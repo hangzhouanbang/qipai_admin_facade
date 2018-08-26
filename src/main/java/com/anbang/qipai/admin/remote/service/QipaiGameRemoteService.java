@@ -17,7 +17,10 @@ import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
  *
  */
 @FeignClient("qipai-game")
-public interface QipaiGameRomoteService {
+public interface QipaiGameRemoteService {
+
+	@RequestMapping(value = "/game/query_memberplayingroom")
+	public CommonRemoteVO game_queryMemberPlayingRoom(@RequestParam("memberId") String memberId);
 
 	@RequestMapping(value = "/game/game_server_online")
 	public CommonRemoteVO game_gameServerOnline(@RequestBody GameServer gameServer);

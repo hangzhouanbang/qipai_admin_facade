@@ -15,5 +15,7 @@ public interface MemberOrderDao {
 
 	double countCostByTime(long startTime, long endTime);
 
+	double countCostByMemberId(String memberId);
+
 	void orderFinished(String id, String transaction_id, String status, long deliveTime);
 }

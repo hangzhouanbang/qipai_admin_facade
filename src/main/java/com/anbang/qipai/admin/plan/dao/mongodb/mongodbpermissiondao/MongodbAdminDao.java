@@ -72,18 +72,21 @@ public class MongodbAdminDao implements AdminDao {
 	@Override
 	public void deleteRoleByRoleId(String[] roleIds) {
 		Object[] ids = roleIds;
-		Query query = new Query(Criteria.where("roleList.id").in(ids));
-		Update update = new Update();
-		update.pullAll("roleList", ids);
-		mongoTemplate.updateMulti(query, update, Role.class);
+		Query query = new Query();
+		for (Object id : ids) {
+			Update update = new Update();
+			//TODO用$in取代is
+			update.pull("roleList", new Query(Criteria.where("roleList.id").is(id)));
+			mongoTemplate.updateMulti(query, update, Admin.class);
+		}
 	}
 
 	@Override
 	public void updateRoleList(String adminId, List<Role> roleList) {
-		Query query = new Query(Criteria.where("id").in(adminId));
+		Query query = new Query(Criteria.where("id").is(adminId));
 		Update update = new Update();
 		update.set("roleList", roleList);
-		mongoTemplate.updateFirst(query, update, Role.class);
+		mongoTemplate.updateFirst(query, update, Admin.class);
 	}
 
 	@Override

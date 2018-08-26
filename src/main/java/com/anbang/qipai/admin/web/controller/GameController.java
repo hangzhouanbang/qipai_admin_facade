@@ -15,7 +15,7 @@ import com.anbang.qipai.admin.plan.bean.games.GameLaw;
 import com.anbang.qipai.admin.plan.bean.games.GameServer;
 import com.anbang.qipai.admin.plan.bean.games.LawsMutexGroup;
 import com.anbang.qipai.admin.plan.service.gameservice.GameService;
-import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
+import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
@@ -26,7 +26,7 @@ import com.highto.framework.web.page.ListPage;
 public class GameController {
 
 	@Autowired
-	private QipaiGameRomoteService qipaiGameRomoteService;
+	private QipaiGameRemoteService qipaiGameRomoteService;
 
 	@Autowired
 	private GameService gameService;

@@ -15,11 +15,11 @@ import com.anbang.qipai.admin.plan.bean.mail.SystemMail;
 import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.bean.permission.Admin;
-import com.anbang.qipai.admin.plan.service.MailService;
+import com.anbang.qipai.admin.plan.service.gameservice.MailService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberClubCardService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
-import com.anbang.qipai.admin.remote.service.QipaiGameRomoteService;
+import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.vo.CommonVO;
@@ -38,7 +38,7 @@ import com.qiniu.util.Auth;
 public class MailController {
 
 	@Autowired
-	private QipaiGameRomoteService qipaiGameRomoteService;
+	private QipaiGameRemoteService qipaiGameRomoteService;
 
 	@Autowired
 	private MemberClubCardService clubCardService;

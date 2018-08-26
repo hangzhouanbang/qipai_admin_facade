@@ -24,7 +24,7 @@ public interface MemberDao {
 
 	long countNewMemberByTime(long startTime, long endTime);
 
-	long countVIP();
+	long countVipMember();
 
 	long countRemain(long deviation);
 
