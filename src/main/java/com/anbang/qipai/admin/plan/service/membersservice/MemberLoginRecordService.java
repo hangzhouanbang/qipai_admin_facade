@@ -23,4 +23,12 @@ public class MemberLoginRecordService {
 	public MemberLoginRecord findRecentRecordByMemberId(String memberId) {
 		return memberLoginRecordDao.findRecentRecordByMemberId(memberId);
 	}
+
+	public int countLoginMemberByTime(long startTime, long endTime) {
+		return memberLoginRecordDao.countLoginMemberByTime(startTime, endTime);
+	}
+
+	public int countRemainMemberByDeviationTime(long deviation) {
+		return memberLoginRecordDao.countRemainMemberByDeviationTime(deviation);
+	}
 }

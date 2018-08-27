@@ -55,10 +55,6 @@ public class MemberDboService {
 		return memberDao.countVipMember();
 	}
 
-	public long countRemain(long deviation) {
-		return memberDao.countRemain(deviation);
-	}
-
 	public void updateMemberRealUser(MemberDbo member) {
 		memberDao.updateMemberRealUser(member.getId(), member.getRealName(), member.getIDcard(), member.isVerifyUser());
 	}

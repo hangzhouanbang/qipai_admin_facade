@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberDao;
-import com.mongodb.BasicDBObject;
 
 @Component
 public class MongodbMemberDao implements MemberDao {
@@ -74,23 +71,6 @@ public class MongodbMemberDao implements MemberDao {
 	public long countVipMember() {
 		Query query = new Query(Criteria.where("vip").is(true));
 		return mongoTemplate.count(query, MemberDbo.class);
-	}
-
-	@Override
-	public long countRemain(long deviation) {
-		Aggregation aggregation = Aggregation.newAggregation(MemberDbo.class,
-				Aggregation.project("createTime", "lastLoginTime").andExpression("lastLoginTime-createTime")
-						.as("deviation"),
-				Aggregation.match(Criteria.where("deviation").gte(deviation)),
-				Aggregation.group().count().as("remain"));
-		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberDbo.class,
-				BasicDBObject.class);
-		List<BasicDBObject> list = result.getMappedResults();
-		if (list.isEmpty()) {
-			return 0;
-		}
-		BasicDBObject basicObj = list.get(0);
-		return basicObj.getLong("remain");
 	}
 
 	@Override

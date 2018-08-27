@@ -26,9 +26,7 @@ public interface MemberDao {
 
 	long countVipMember();
 
-	long countRemain(long deviation);
-
 	void updateMemberRealUser(String memberId, String realName, String IDcard, boolean verify);
-	
-	void updateMemberOnlineState(String memberId,String onlineState);
+
+	void updateMemberOnlineState(String memberId, String onlineState);
 }

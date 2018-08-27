@@ -19,6 +19,7 @@ public class MongodbPlatformReportDao implements PlatformReportDao {
 
 	@Override
 	public List<PlatformReport> findReportByTime(int page, int size, long startTime, long endTime) {
+		//需要按照date建立索引
 		Query query = new Query(Criteria.where("date").gte(startTime).lte(endTime));
 		query.skip((page - 1) * size);
 		query.limit(size);

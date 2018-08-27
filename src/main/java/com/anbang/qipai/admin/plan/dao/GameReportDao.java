@@ -8,8 +8,4 @@ public interface GameReportDao {
 	List<GameDataReport> findReportByTime(long startTime, long endTime, String game);
 
 	void addReport(GameDataReport report);
-
-	long countGameNumByTime(long date);
-
-	long countLoginMemberByTime(long date);
 }

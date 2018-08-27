@@ -14,6 +14,7 @@ import com.anbang.qipai.admin.plan.bean.report.PlatformReport;
 import com.anbang.qipai.admin.plan.service.GameReportService;
 import com.anbang.qipai.admin.plan.service.PlatformReportService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginRecordService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberOrderService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
@@ -40,6 +41,9 @@ public class DataReportController {
 
 	@Autowired
 	private MemberOrderService orderService;
+
+	@Autowired
+	private MemberLoginRecordService memberLoginRecordService;
 
 	/**
 	 * 平台运营数据
@@ -86,15 +90,22 @@ public class DataReportController {
 	 */
 	@Scheduled(cron = "0 0 2 * * ?") // 每天凌晨2点
 	public void createPlatformReport() {
+		long oneDay = 3600000 * 24;
 		// 当日凌晨2点
-		long startTime = System.currentTimeMillis();
-		// 次日凌晨2点
-		long endTime = startTime + 24*3600000;
-		PlatformReport report = new PlatformReport();
-		int newMember=(int) memberService.countNewMemberByTime(startTime, endTime);
-		int currentMember=(int) memberService.countVipMember();
-		double cost=orderService.countCostByTime(startTime, endTime);
-		int gameNum=0;
+		long endTime = System.currentTimeMillis();
+		// 昨日凌晨2点
+		long startTime = endTime - oneDay;
+		int newMember = (int) memberService.countNewMemberByTime(startTime, endTime);
+		int currentMember = (int) memberService.countVipMember();
+		double cost = orderService.countCostByTime(startTime, endTime);
+		int gameNum = 0;
+		int loginMember = memberLoginRecordService.countLoginMemberByTime(startTime, endTime);
+		int remainSecond = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay);
+		int remainThird = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 2);
+		int remainSeventh = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 6);
+		int remainMonth = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 30);
+		PlatformReport report = new PlatformReport(endTime, newMember, currentMember, cost, gameNum, loginMember,
+				remainSecond, remainThird, remainSeventh, remainMonth);
 		platformReportService.addPlatformReport(report);
 	}
 

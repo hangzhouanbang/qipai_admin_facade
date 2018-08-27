@@ -26,7 +26,7 @@ public class MemberLoginRecordMsgReceiver {
 		if ("member login".equals(msg)) {
 			memberLoginRecordService.save(record);
 		}
-		if ("member logout".equals(msg)) {
+		if ("update member online".equals(msg)) {
 			memberLoginRecordService.updateOnlineTimeById(record.getId(), record.getOnlineTime());
 		}
 	}
