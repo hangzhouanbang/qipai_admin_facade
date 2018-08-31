@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.plan.dao.mongodb.mongodbmembersdao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,10 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberLoginRecordDao;
+import com.mongodb.AggregationOptions;
 import com.mongodb.BasicDBObject;
+import com.mongodb.Cursor;
+import com.mongodb.DBObject;
 
 @Component
 public class MongodbMemberLoginRecordDao implements MemberLoginRecordDao {
@@ -62,19 +66,40 @@ public class MongodbMemberLoginRecordDao implements MemberLoginRecordDao {
 
 	@Override
 	public int countRemainMemberByDeviationTime(long deviation) {
-		Aggregation aggregation = Aggregation.newAggregation(MemberLoginRecord.class,
-				Aggregation.project("loginTime", "lastLoginTime").andExpression("loginTime-lastLoginTime")
-						.as("deviation"),
-				Aggregation.match(Criteria.where("deviation").gte(deviation)),
-				Aggregation.group("memberId").count().as("remain"));
-		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberLoginRecord.class,
-				BasicDBObject.class);
-		List<BasicDBObject> list = result.getMappedResults();
-		if (list.isEmpty()) {
+		List<DBObject> pipeline = new ArrayList<>();
+		long loginTime = System.currentTimeMillis() - deviation;
+		System.out.println(loginTime);
+		BasicDBObject project = new BasicDBObject();
+		project.put("memberId", "$memberId");
+		project.put("loginTime", "$loginTime");
+		List<Object> subtract = new ArrayList<>();
+		subtract.add("$loginTime");
+		subtract.add(loginTime);
+		BasicDBObject val = new BasicDBObject("$subtract", subtract);
+		project.put("val", val);
+		DBObject queryProject = new BasicDBObject("$project", project);
+		pipeline.add(queryProject);
+
+		DBObject queryMatch = new BasicDBObject("$match", new BasicDBObject("val", new BasicDBObject("$gt", 0)));
+		pipeline.add(queryMatch);
+
+		BasicDBObject group = new BasicDBObject();
+		group.put("_id", "$memberId");
+		group.put("no", new BasicDBObject("$sum", 1));
+		DBObject queryGroup = new BasicDBObject("$group", group);
+		pipeline.add(queryGroup);
+
+		Cursor cursor = mongoTemplate.getCollection("memberLoginRecord").aggregate(pipeline,
+				AggregationOptions.builder().outputMode(AggregationOptions.OutputMode.CURSOR).build());
+		if (cursor == null) {
 			return 0;
+		} else {
+			List<DBObject> results = new ArrayList<DBObject>();
+			while (cursor.hasNext()) {
+				results.add(cursor.next());
+			}
+			return results.size();
 		}
-		BasicDBObject basicObj = list.get(0);
-		return basicObj.getInt("remain");
 	}
 
 }
