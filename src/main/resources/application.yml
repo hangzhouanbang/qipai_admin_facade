@@ -56,35 +56,35 @@ spring:
           contentType: application/json
         notice:
           destination: notice
-          group: qipai_admin_facade
+          group: qipai-admin-facade
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         membershiprights:
           destination: membershiprights
-          group: qipai_admin_facade
+          group: qipai-admin-facade
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         grade:
           destination: grade
-          group: qipai_admin_facade
+          group: qipai-admin-facade
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         mail:
           destination: mail
-          group: qipai_admin_facade
+          group: qipai-admin-facade
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
         gameServer:
           destination: gameServer
-          group: qipai_admin_facade
+          group: qipai-admin-facade
           consumer:
             concurrency: 1
             partitioned: false
