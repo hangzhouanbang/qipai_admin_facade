@@ -68,7 +68,6 @@ public class MongodbMemberLoginRecordDao implements MemberLoginRecordDao {
 	public int countRemainMemberByDeviationTime(long deviation) {
 		List<DBObject> pipeline = new ArrayList<>();
 		long loginTime = System.currentTimeMillis() - deviation;
-		System.out.println(loginTime);
 		BasicDBObject project = new BasicDBObject();
 		project.put("memberId", "$memberId");
 		project.put("loginTime", "$loginTime");
@@ -89,16 +88,15 @@ public class MongodbMemberLoginRecordDao implements MemberLoginRecordDao {
 		DBObject queryGroup = new BasicDBObject("$group", group);
 		pipeline.add(queryGroup);
 
+		DBObject queryCount = new BasicDBObject("$count", "num");
+		pipeline.add(queryCount);
+
 		Cursor cursor = mongoTemplate.getCollection("memberLoginRecord").aggregate(pipeline,
 				AggregationOptions.builder().outputMode(AggregationOptions.OutputMode.CURSOR).build());
 		if (cursor == null) {
 			return 0;
 		} else {
-			List<DBObject> results = new ArrayList<DBObject>();
-			while (cursor.hasNext()) {
-				results.add(cursor.next());
-			}
-			return results.size();
+			return (int) cursor.next().get("num");
 		}
 	}
 
