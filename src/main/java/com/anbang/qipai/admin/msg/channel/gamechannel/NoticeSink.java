@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.msg.channel;
+package com.anbang.qipai.admin.msg.channel.gamechannel;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

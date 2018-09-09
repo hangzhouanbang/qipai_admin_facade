@@ -98,7 +98,7 @@ public class DataReportController {
 		int newMember = (int) memberService.countNewMemberByTime(startTime, endTime);
 		int currentMember = (int) memberService.countVipMember();
 		double cost = orderService.countCostByTime(startTime, endTime);
-		int gameNum = 0;
+		int gameNum = gameReportService.countGameNumByTime(startTime, endTime);
 		int loginMember = memberLoginRecordService.countLoginMemberByTime(startTime, endTime);
 		int remainSecond = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay);
 		int remainThird = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 2);

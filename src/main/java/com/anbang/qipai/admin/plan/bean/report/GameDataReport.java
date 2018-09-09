@@ -1,13 +1,21 @@
 package com.anbang.qipai.admin.plan.bean.report;
 
+import com.anbang.qipai.admin.plan.bean.games.Game;
+
 public class GameDataReport {
 	private String id;
+	private Game game;
 	private long date;// 日期
 	private int currentMember;// 进入游戏的当日会员人数
 	private int gameNum;// 游戏总局数
 	private int loginMember;// 独立玩家
 
-	public GameDataReport(long date, int currentMember, int gameNum, int loginMember) {
+	public GameDataReport() {
+
+	}
+
+	public GameDataReport(Game game, long date, int currentMember, int gameNum, int loginMember) {
+		this.game = game;
 		this.date = date;
 		this.currentMember = currentMember;
 		this.gameNum = gameNum;
@@ -20,6 +28,14 @@ public class GameDataReport {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	public long getDate() {

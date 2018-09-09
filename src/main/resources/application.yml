@@ -82,6 +82,13 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        gameDataReport:
+          destination: gameDataReport
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
         gameServer:
           destination: gameServer
           group: qipai-admin-facade

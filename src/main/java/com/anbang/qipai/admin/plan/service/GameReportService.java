@@ -23,4 +23,7 @@ public class GameReportService {
 		gameReportDao.addReport(report);
 	}
 
+	public int countGameNumByTime(long startTime, long endTime) {
+		return gameReportDao.countGameNumByTime(startTime, endTime);
+	}
 }
