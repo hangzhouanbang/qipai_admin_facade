@@ -48,4 +48,7 @@ public interface QipaiMembersRemoteService {
 	public CommonRemoteVO give_score_gold(@RequestBody String[] ids, @RequestParam(value = "score") Integer score,
 			@RequestParam(value = "gold") Integer gold);
 
+	@RequestMapping(value = "/snapshot/save")
+	CommonRemoteVO snapshot_save();
+
 }

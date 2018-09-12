@@ -64,4 +64,7 @@ public interface QipaiGameRemoteService {
 	public CommonRemoteVO vipuser(@RequestParam(value = "vipMemberRoomsCount") int vipMemberRoomsCount,
 			@RequestParam(value = "vipMemberRoomsAliveHours") int vipMemberRoomsAliveHours);
 
+	@RequestMapping(value = "/snapshot/save")
+	CommonRemoteVO snapshot_save();
+
 }
