@@ -62,4 +62,19 @@ public class MemberDboService {
 	public void updateMemberOnlineState(MemberDbo member) {
 		memberDao.updateMemberOnlineState(member.getId(), member.getOnlineState());
 	}
+
+	public List<String> findVipMemberId() {
+		List<String> ids = memberDao.findVipMemberId();
+		return ids;
+	}
+
+	public List<String> findMemberId() {
+		List<String> ids = memberDao.findMemberId();
+		return ids;
+	}
+
+	public List<String> findAllMemberId() {
+		List<String> ids = memberDao.findAllMemberId();
+		return ids;
+	}
 }

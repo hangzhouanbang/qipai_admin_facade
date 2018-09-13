@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +61,7 @@ public class MailController {
 	/**
 	 * 发布系统邮件
 	 * 
-	 * @param mail
-	 *            邮件信息
+	 * @param mail 邮件信息
 	 **/
 	@RequestMapping("/addmail")
 	@ResponseBody
@@ -80,8 +80,7 @@ public class MailController {
 	/**
 	 * 查询历史维护，恢复记录
 	 * 
-	 * @param page
-	 *            当前页，size 每页显示条数,admin 根据管理员名称查询,status,邮件状态
+	 * @param page 当前页，size 每页显示条数,admin 根据管理员名称查询,status,邮件状态
 	 **/
 	@RequestMapping("/querymail")
 	@ResponseBody
@@ -127,17 +126,23 @@ public class MailController {
 	 **/
 	@RequestMapping("/addmailbyid")
 	@ResponseBody
-	public CommonRemoteVO addMailById(SystemMail mail, @RequestParam(value = "ids") String[] ids, Integer validDay,
-			String vipCardId, String token) {
+	public CommonRemoteVO addMailById(SystemMail mail, @RequestParam(value = "ids", required = false) String[] ids,
+			Integer validDay, @RequestParam(value = "vipCardId", required = false) String vipCardId, String token,
+			Integer sendType) {
 		CommonRemoteVO vo = new CommonRemoteVO();
 		String adminId = adminAuthService.getAdminIdBySessionId(token);
 		if (adminId == null) {
 			vo.setSuccess(false);
+			vo.setMsg("登录异常，重新登录");
 			return vo;
 		}
 		Admin admin = adminService.findAdminById(adminId);
 		mail.setAdminname(admin.getNickname());
+		List<String> idss = new ArrayList<String>();
 		for (String id : ids) {
+			idss.add(id);
+		}
+		for (String id : idss) {
 			MemberDbo memberDbo = memberService.findMemberById(id);
 			if (memberDbo == null) {
 				vo.setMsg("memberId:" + id);
@@ -148,18 +153,70 @@ public class MailController {
 			long validTime = TimeUtil.getDate(System.currentTimeMillis(), validDay);
 			mail.setValidTime(validTime);
 		}
-		MemberClubCard clubCard = clubCardService.findClubCardById(vipCardId);
-		mail.setVipcard(TimeUtil.getDay(clubCard.getTime()));
+		if (vipCardId != null) {
+			MemberClubCard clubCard = clubCardService.findClubCardById(vipCardId);
+			mail.setVipcard(TimeUtil.getDay(clubCard.getTime()));
+		}
 		String str = gson.toJson(mail);
-		vo = qipaiGameRomoteService.addMailById(str, ids);
+		vo = qipaiGameRomoteService.addMailById(str, idss);
+		return vo;
+	}
+
+	/**
+	 * 管理员根据用户类型发布邮件
+	 */
+	@RequestMapping("/addmailbytype")
+	public CommonRemoteVO addMailByType(SystemMail mail, Integer sendType, Integer validDay,
+			@RequestParam(value = "vipCardId", required = false) String vipCardId, String token) {
+		CommonRemoteVO vo = new CommonRemoteVO();
+		String adminId = adminAuthService.getAdminIdBySessionId(token);
+		if (adminId == null) {
+			vo.setSuccess(false);
+			vo.setMsg("登录异常，重新登录");
+			return vo;
+		}
+		Admin admin = adminService.findAdminById(adminId);
+		mail.setAdminname(admin.getNickname());
+		List<String> idss = new ArrayList<String>();
+		switch (sendType) {
+		case 1:// 会员邮件
+			idss = memberService.findVipMemberId();
+			break;
+		case 2:// 非会员邮件
+			idss = memberService.findMemberId();
+			break;
+		case 3:// 系统邮件
+			idss = memberService.findAllMemberId();
+			break;
+		default:
+			vo.setSuccess(false);
+			vo.setMsg("sendType异常");
+			return vo;
+		}
+		for (String id : idss) {
+			MemberDbo memberDbo = memberService.findMemberById(id);
+			if (memberDbo == null) {
+				vo.setMsg("memberId:" + id);
+				return vo;
+			}
+		}
+		if (validDay != null) {
+			long validTime = TimeUtil.getDate(System.currentTimeMillis(), validDay);
+			mail.setValidTime(validTime);
+		}
+		if (vipCardId != null) {
+			MemberClubCard clubCard = clubCardService.findClubCardById(vipCardId);
+			mail.setVipcard(TimeUtil.getDay(clubCard.getTime()));
+		}
+		String str = gson.toJson(mail);
+		vo = qipaiGameRomoteService.addMailById(str, idss);
 		return vo;
 	}
 
 	/**
 	 * 查询邮件列表
 	 * 
-	 * @param page
-	 *            当前页，size 每页显示条数,memberId 会员编号,mailType 邮件类型
+	 * @param page 当前页，size 每页显示条数,memberId 会员编号,mailType 邮件类型
 	 */
 	@RequestMapping("/find_mail_record")
 	@ResponseBody

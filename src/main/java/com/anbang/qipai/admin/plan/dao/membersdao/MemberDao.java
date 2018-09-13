@@ -29,4 +29,10 @@ public interface MemberDao {
 	void updateMemberRealUser(String memberId, String realName, String IDcard, boolean verify);
 
 	void updateMemberOnlineState(String memberId, String onlineState);
+
+	List<String> findAllMemberId();
+
+	List<String> findMemberId();
+
+	List<String> findVipMemberId();
 }

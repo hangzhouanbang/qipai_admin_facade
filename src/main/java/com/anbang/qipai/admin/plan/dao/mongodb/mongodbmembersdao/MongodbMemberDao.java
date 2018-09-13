@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.plan.dao.mongodb.mongodbmembersdao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +126,39 @@ public class MongodbMemberDao implements MemberDao {
 		Update update = new Update();
 		update.set("onlineState", onlineState);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public List<String> findAllMemberId() {
+		Query query = new Query();
+		List<MemberDbo> memberDboList =  mongoTemplate.find(query, MemberDbo.class);
+		List<String> ids = new ArrayList<String>();
+		for(int i=0;i<memberDboList.size();i++) {
+			ids.add(memberDboList.get(i).getId());
+		}
+		return ids;
+	}
+
+	@Override
+	public List<String> findMemberId() {
+		Query query = new Query(Criteria.where("vip").is(false));
+		List<MemberDbo> memberDboList =  mongoTemplate.find(query, MemberDbo.class);
+		List<String> ids = new ArrayList<String>();
+		for(int i=0;i<memberDboList.size();i++) {
+			ids.add(memberDboList.get(i).getId());
+		}
+		return ids;
+	}
+
+	@Override
+	public List<String> findVipMemberId() {
+		Query query = new Query(Criteria.where("vip").is(true));
+		List<MemberDbo> memberDboList =  mongoTemplate.find(query, MemberDbo.class);
+		List<String> ids = new ArrayList<String>();
+		for(int i=0;i<memberDboList.size();i++) {
+			ids.add(memberDboList.get(i).getId());
+		}
+		return ids;
 	}
 
 }
