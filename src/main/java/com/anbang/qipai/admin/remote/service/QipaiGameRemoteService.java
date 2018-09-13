@@ -1,5 +1,7 @@
 package com.anbang.qipai.admin.remote.service;
 
+import java.util.List;
+
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +53,7 @@ public interface QipaiGameRemoteService {
 	public CommonRemoteVO addmail(@RequestParam(value = "mail") String mail);
 
 	@RequestMapping(value = "/mail/addmailbyid")
-	public CommonRemoteVO addMailById(@RequestParam(value = "mail") String mail, @RequestBody String[] ids);
+	public CommonRemoteVO addMailById(@RequestParam(value = "mail") String mail, @RequestBody List<String> idss);
 
 	@RequestMapping(value = "/member/plan_rights_conf")
 	public CommonRemoteVO commonuser(@RequestParam(value = "planMemberRoomsCount") int planMemberRoomsCount,
