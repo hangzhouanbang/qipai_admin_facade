@@ -15,9 +15,9 @@ public class MemberDboService {
 	@Autowired
 	private MemberDao memberDao;
 
-	public ListPage findMemberDboByConditions(int page, int size, MemberDbo member) {
-		long amount = memberDao.getAmountByConditions(member);
-		List<MemberDbo> memberList = memberDao.findMemberDboByConditions(page, size, member);
+	public ListPage findMemberDboByConditions(int page, int size, MemberDbo member, int queryType) {
+		long amount = memberDao.getAmountByConditions(member,queryType);
+		List<MemberDbo> memberList = memberDao.findMemberDboByConditions(page, size, member,queryType);
 		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
 		return listPage;
 	}

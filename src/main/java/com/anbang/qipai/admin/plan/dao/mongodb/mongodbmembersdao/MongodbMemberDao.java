@@ -19,7 +19,7 @@ public class MongodbMemberDao implements MemberDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<MemberDbo> findMemberDboByConditions(int page, int size, MemberDbo member) {
+	public List<MemberDbo> findMemberDboByConditions(int page, int size, MemberDbo member, int queryType) {
 		Query query = new Query();
 		if (member.getId() != null && !"".equals(member.getId())) {
 			query.addCriteria(Criteria.where("id").is(member.getId()));
@@ -30,7 +30,16 @@ public class MongodbMemberDao implements MemberDao {
 		if (member.getOnlineState() != null && !"".equals(member.getOnlineState())) {
 			query.addCriteria(Criteria.where("onlineState").is(member.getOnlineState()));
 		}
-		query.addCriteria(Criteria.where("vip").is(member.isVip()));
+		switch (queryType) {
+		case 0:
+			query.addCriteria(Criteria.where("vip").is(false));
+			break;
+		case 1:
+			query.addCriteria(Criteria.where("vip").is(true));
+			break;
+		default:
+			break;
+		}
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, MemberDbo.class);
@@ -42,7 +51,7 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public long getAmountByConditions(MemberDbo member) {
+	public long getAmountByConditions(MemberDbo member, int queryType) {
 		Query query = new Query();
 		if (member.getId() != null && !"".equals(member.getId())) {
 			query.addCriteria(Criteria.where("id").is(member.getId()));
@@ -53,7 +62,16 @@ public class MongodbMemberDao implements MemberDao {
 		if (member.getOnlineState() != null && !"".equals(member.getOnlineState())) {
 			query.addCriteria(Criteria.where("onlineState").is(member.getOnlineState()));
 		}
-		query.addCriteria(Criteria.where("vip").is(member.isVip()));
+		switch (queryType) {
+		case 0:
+			query.addCriteria(Criteria.where("vip").is(false));
+			break;
+		case 1:
+			query.addCriteria(Criteria.where("vip").is(true));
+			break;
+		default:
+			break;
+		}
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 

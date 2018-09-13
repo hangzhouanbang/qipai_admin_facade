@@ -57,7 +57,7 @@ public class MemberController {
 	private MemberLoginRecordService memberLoginRecordService;
 
 	/**
-	 * 查询会员
+	 * 查询用户
 	 * 
 	 * @param page
 	 * @param size
@@ -66,9 +66,10 @@ public class MemberController {
 	 */
 	@RequestMapping("/querymember")
 	public CommonVO queryMember(@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size, MemberDbo member) {
+			@RequestParam(value = "size", defaultValue = "10") int size, MemberDbo member,
+			@RequestParam(value = "queryType", defaultValue = "2") int queryType) {
 		CommonVO vo = new CommonVO();
-		ListPage listPage = memberService.findMemberDboByConditions(page, size, member);
+		ListPage listPage = memberService.findMemberDboByConditions(page, size, member,queryType);
 		vo.setSuccess(true);
 		vo.setMsg("memberList");
 		vo.setData(listPage);

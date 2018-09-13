@@ -6,9 +6,9 @@ import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 
 public interface MemberDao {
 
-	List<MemberDbo> findMemberDboByConditions(int page, int size, MemberDbo member);
+	List<MemberDbo> findMemberDboByConditions(int page, int size, MemberDbo member, int queryType);
 
-	long getAmountByConditions(MemberDbo member);
+	long getAmountByConditions(MemberDbo member, int queryType);
 
 	void addMember(MemberDbo member);
 
