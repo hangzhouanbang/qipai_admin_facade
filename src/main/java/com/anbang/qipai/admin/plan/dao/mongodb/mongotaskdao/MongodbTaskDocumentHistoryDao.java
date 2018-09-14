@@ -55,7 +55,6 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 		if ("true".equals(task.getVip()) || "false".equals(task.getVip())) {
 			query.addCriteria(Criteria.where("vip").is(task.getVip()));
 		}
-		query.addCriteria(Criteria.where("state").is(1));
 		return mongoTemplate.count(query, TaskDocumentHistory.class);
 	}
 
