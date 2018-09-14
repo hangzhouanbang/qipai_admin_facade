@@ -11,6 +11,16 @@ spring:
           minPartitionCount: 1
           autoCreateTopics: true
           autoAddPartitions: false
+        bindings:
+          gameServerManager:
+            configuration:
+               request:
+                 timeout:
+                   ms: 30000
+               linger:
+                 ms: 5
+               batch:
+                 size: 16384
       bindings:
         members:
           destination: members
@@ -152,6 +162,11 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        gameServerManager:
+          destination: gameServer
+          contentType: application/json
+          producer:
+            partitionCount: 1
   application:
     name: qipai-admin-facade
 server:

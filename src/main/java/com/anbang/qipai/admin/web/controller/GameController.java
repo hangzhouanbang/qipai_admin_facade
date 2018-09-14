@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,8 @@ import com.highto.framework.web.page.ListPage;
 @RestController
 @RequestMapping("/game")
 public class GameController {
+
+    private static final Logger LOGGER= LoggerFactory.getLogger(GameController.class);
 
 	@Autowired
 	private QipaiGameRemoteService qipaiGameRomoteService;
@@ -56,6 +60,44 @@ public class GameController {
 		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
+
+    /**
+     * 停止指定id的服务器
+     *
+     * @param ids
+     * @return
+     */
+	@RequestMapping("/stop")
+    public CommonVO stopGameServer(@RequestParam("ids[]")List<String>ids){
+        CommonVO vo=new CommonVO();
+        vo.setSuccess(true);
+        try {
+            this.gameService.stopGameServersAndSendMsg(ids);
+        } catch (Exception e) {
+            LOGGER.warn("stop game server -> {} failed ", ids);
+            vo.setSuccess(false);
+        }
+        return vo;
+    }
+
+	/**
+	 * 运行指定id的服务器
+     *
+	 * @param ids
+	 * @return
+	 */
+    @RequestMapping("/recover")
+    public CommonVO recoverGameServer(@RequestParam("ids[]")List<String>ids){
+        CommonVO vo=new CommonVO();
+        vo.setSuccess(true);
+        try {
+            this.gameService.recoverGameServersAndSendMsg(ids);
+        } catch (Exception e) {
+            LOGGER.warn("recover game server -> {} failed ", ids);
+            vo.setSuccess(false);
+        }
+        return vo;
+    }
 
 	@RequestMapping(value = "/query_gamelaw")
 	public CommonVO queryGameLaw(@RequestParam(value = "page", defaultValue = "1") int page,

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.games.Game;
@@ -38,5 +39,21 @@ public class MongodbGameServerDao implements GameServerDao {
 		}
 		return mongoTemplate.find(query, GameServer.class);
 	}
+
+	@Override
+    public List<GameServer> findGameServersByIds(List<String> ids) {
+		Query query=new Query();
+		query.addCriteria(Criteria.where("id").in(ids));
+        return this.mongoTemplate.find(query,GameServer.class);
+	}
+
+    @Override
+    public void updateGameServerState(List<String> ids, int state) {
+        Query query=new Query();
+        query.addCriteria(Criteria.where("id").in(ids));
+        Update update=new Update();
+        update.set("state",state);
+        this.mongoTemplate.updateMulti(query,update,GameServer.class);
+    }
 
 }

@@ -8,4 +8,5 @@ public interface GameServerSink {
 
 	@Input
 	SubscribableChannel gameServer();
+
 }
