@@ -35,4 +35,8 @@ public interface MemberDao {
 	List<String> findMemberId();
 
 	List<String> findVipMemberId();
+
+	void updateMemberGold(String id, int gold);
+
+	void updateMemberScore(String id, int score);
 }

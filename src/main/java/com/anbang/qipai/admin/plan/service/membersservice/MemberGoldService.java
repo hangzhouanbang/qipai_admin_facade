@@ -3,11 +3,13 @@ package com.anbang.qipai.admin.plan.service.membersservice;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberGoldRecordDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberGoldRecordDao;
 import com.highto.framework.web.page.ListPage;
+import com.mongodb.BasicDBObject;
 
 @Service
 public class MemberGoldService {
@@ -25,4 +27,5 @@ public class MemberGoldService {
 	public void addGoldRecord(MemberGoldRecordDbo dbo) {
 		memberGoldRecordDao.addGoldRecord(dbo);
 	}
+
 }

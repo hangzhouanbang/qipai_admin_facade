@@ -179,4 +179,20 @@ public class MongodbMemberDao implements MemberDao {
 		return ids;
 	}
 
+	@Override
+	public void updateMemberGold(String id, int gold) {
+		Query query = new Query(Criteria.where("id").is(id));
+		Update update = new Update();
+		update.set("gold", gold);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public void updateMemberScore(String id, int score) {
+		Query query = new Query(Criteria.where("id").is(id));
+		Update update = new Update();
+		update.set("score", score);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
 }

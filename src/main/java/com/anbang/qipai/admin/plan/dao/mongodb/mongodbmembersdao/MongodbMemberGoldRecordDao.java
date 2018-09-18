@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberGoldRecordDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberGoldRecordDao;
+import com.mongodb.BasicDBObject;
 
 @Component
 public class MongodbMemberGoldRecordDao implements MemberGoldRecordDao {

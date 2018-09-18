@@ -15,6 +15,24 @@ public class MemberDbo {
 	private String IDcard;// 身份证
 	private boolean verifyUser;// 实名认证，true:通过认证,false:未通过认证
 	private String onlineState;
+	private int gold;//金币
+	private int score;//积分
+
+	public int getGold() {
+		return gold;
+	}
+
+	public void setGold(int gold) {
+		this.gold = gold;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
 
 	public String getId() {
 		return id;
