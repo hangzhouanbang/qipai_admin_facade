@@ -76,18 +76,20 @@ public class MailService {
 		for (MailState mailState : list) {
 			SystemMail systemMail1 = maildao.findMailById(mailState.getMailid());
 			if (systemMail1 != null) {
-				long time = TimeUtil.getTimeOnDay(systemMail1.getVipcard());
-				MemberClubCard clubCard = clubCardDao.findClubCardByTime(time);
-				if (clubCard != null) {
-					MailList mailList = new MailList();
-					mailList.setId(mailState.getId());
-					mailList.setReceive(mailState.getReceive());
-					mailList.setRewardTime(mailState.getRewardTime());
-					mailList.setMemberId(mailState.getMemberid());
-					mailList.setSystemMail(systemMail1);
-					mailList.setVipCardName(clubCard.getName());
-					lists.add(mailList);
+				MailList mailList = new MailList();
+				mailList.setId(mailState.getId());
+				mailList.setReceive(mailState.getReceive());
+				mailList.setRewardTime(mailState.getRewardTime());
+				mailList.setMemberId(mailState.getMemberid());
+				mailList.setSystemMail(systemMail1);
+				if (systemMail1.getVipcard()!=null) {
+					long time = TimeUtil.getTimeOnDay(systemMail1.getVipcard());
+					MemberClubCard clubCard = clubCardDao.findClubCardByTime(time);
+					if (clubCard != null) {
+						mailList.setVipCardName(clubCard.getName());
+					}
 				}
+				lists.add(mailList);
 			}
 		}
 		ListPage listPage = new ListPage(lists, page, size, count);
