@@ -32,5 +32,8 @@ public class ActivityMsgReceiver {
 		if ("stop activity".equals(msg)) {
 			activityService.updateActivityState(activity.getId(), activity.getState());
 		}
+		if ("delete activity".equals(msg)) {
+			activityService.deleteActivity(activity.getId());
+		}
 	}
 }

@@ -12,4 +12,6 @@ public interface ActivityDao {
 	List<Activity> findActivityByConditions(int page, int size, Activity activity);
 
 	long getAmountByConditions(Activity activity);
+
+	void deleteActivity(String activityId);
 }

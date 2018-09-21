@@ -112,4 +112,17 @@ public class ActivityController {
 		vo.setData(listPage);
 		return vo;
 	}
+	
+	/**
+	 * 删除活动
+	 * @param activityId
+	 * @return
+	 */
+	@RequestMapping("/deleteactivity")
+	public CommonVO deleteActivity(@RequestParam(required = true) String activityId) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_delete(activityId);
+		vo.setSuccess(rvo.isSuccess());
+		return vo;
+	}
 }

@@ -29,4 +29,8 @@ public class ActivityService {
 		ListPage listPage = new ListPage(activities, page, size, (int) amount);
 		return listPage;
 	}
+
+	public void deleteActivity(String activityId) {
+		activityDao.deleteActivity(activityId);
+	}
 }

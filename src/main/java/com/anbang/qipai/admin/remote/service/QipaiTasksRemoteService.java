@@ -32,4 +32,7 @@ public interface QipaiTasksRemoteService {
 
 	@RequestMapping("/activity/stopactivity")
 	public CommonRemoteVO activity_stop(@RequestParam(value = "activityId") String activityId);
+	
+	@RequestMapping("/activity/deleteactivity")
+	public CommonRemoteVO activity_delete(@RequestParam(value = "activityId") String activityId);
 }
