@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
-import com.anbang.qipai.admin.msg.channel.memberchannel.MemberGoldsSink;
+import com.anbang.qipai.admin.msg.channel.sink.MemberGoldsSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
+import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.bean.members.MemberGoldRecordDbo;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberGoldService;
 import com.dml.accounting.AccountingSummary;
 import com.dml.accounting.TextAccountingSummary;
@@ -20,6 +22,9 @@ public class MemberGoldsMsgReceiver {
 	@Autowired
 	private MemberGoldService memberGoldService;
 
+	@Autowired
+	private MemberDboService memberDboService;
+	
 	private Gson gson = new Gson();
 
 	@StreamListener(MemberGoldsSink.MEMBERGOLDS)
@@ -38,6 +43,9 @@ public class MemberGoldsMsgReceiver {
 			dbo.setAccountingTime((long) map.get("accountingTime"));
 			dbo.setAccountingAmount((int) map.get("accountingAmount"));
 			memberGoldService.addGoldRecord(dbo);
+			MemberDbo memberDbo = new MemberDbo();
+			memberDbo.setGold((int) map.get("balanceAfter"));
+			memberDboService.updateMemberGold(memberDbo);
 		}
 	}
 }

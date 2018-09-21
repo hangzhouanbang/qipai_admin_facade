@@ -37,6 +37,14 @@ public class MemberDboService {
 	public void updateMemberVip(MemberDbo member) {
 		memberDao.updateMemberVip(member.getId(), member.isVip());
 	}
+	
+	public void updateMemberGold(MemberDbo member) {
+		memberDao.updateMemberGold(member.getId(), member.getGold());
+	}
+	
+	public void updateMemberScore(MemberDbo member) {
+		memberDao.updateMemberScore(member.getId(), member.getScore());
+	}
 
 	public void memberOrderDelive(MemberDbo member) {
 		memberDao.memberOrderDelive(member.getId(), member.isVip(), member.getVipEndTime(), member.getVipLevel(),

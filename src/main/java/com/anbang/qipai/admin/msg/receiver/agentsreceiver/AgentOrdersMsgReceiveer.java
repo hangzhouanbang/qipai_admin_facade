@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
-import com.anbang.qipai.admin.msg.channel.agentschannel.AgentOrdersSink;
+import com.anbang.qipai.admin.msg.channel.sink.AgentOrdersSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.bean.agents.AgentOrder;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentOrderService;

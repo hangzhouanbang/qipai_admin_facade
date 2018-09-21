@@ -4,7 +4,7 @@ spring:
       uri: mongodb://localhost:27017/qipai_admin_facade
   cloud:
     stream:
-      kafka:
+      kafka: 
         binder:
           brokers: localhost:9092
           zk-nodes: localhost:2181

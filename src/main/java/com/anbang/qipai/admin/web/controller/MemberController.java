@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
+import com.mongodb.BasicDBObject;
 
 /**
  * 会员controller
@@ -80,6 +82,8 @@ public class MemberController {
 	public CommonVO queryMemberDetail(String memberId) {
 		CommonVO vo = new CommonVO();
 		Map data = new HashMap();
+		MemberDbo memberDbo = memberService.findMemberById(memberId);
+		data.put("memberDbo", memberDbo);
 		double cost = memberOrderService.countCostByMemberId(memberId);
 		data.put("cost", cost);
 		MemberLoginRecord loginRecord = memberLoginRecordService.findRecentRecordByMemberId(memberId);

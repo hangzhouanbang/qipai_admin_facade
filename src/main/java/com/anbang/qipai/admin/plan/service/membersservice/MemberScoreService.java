@@ -3,11 +3,13 @@ package com.anbang.qipai.admin.plan.service.membersservice;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberScoreRecordDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberScoreRecordDao;
 import com.highto.framework.web.page.ListPage;
+import com.mongodb.BasicDBObject;
 
 @Service
 public class MemberScoreService {
@@ -24,4 +26,5 @@ public class MemberScoreService {
 	public void addScoreRecord(MemberScoreRecordDbo dbo) {
 		memberScoreRecordDao.addScoreRecord(dbo);
 	}
+
 }

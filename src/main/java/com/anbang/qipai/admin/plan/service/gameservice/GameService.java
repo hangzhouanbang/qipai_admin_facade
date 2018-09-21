@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.plan.service.gameservice;
 
-import com.anbang.qipai.admin.msg.channel.gamechannel.GameServerManagerSource;
+import com.anbang.qipai.admin.msg.channel.source.GameServerManagerSource;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.msg.receiver.GameServerMsgConstant;
 import com.anbang.qipai.admin.plan.bean.games.Game;
