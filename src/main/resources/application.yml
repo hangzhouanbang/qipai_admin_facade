@@ -21,6 +21,15 @@ spring:
                  ms: 5
                batch:
                  size: 16384
+        signInPrize: 
+          configuration: 
+               request:
+                 timeout:
+                   ms: 30000
+               linger:
+                 ms: 5
+               batch:
+                 size: 16384
       bindings:
         members:
           destination: members
@@ -164,6 +173,16 @@ spring:
           contentType: application/json
         gameServerManager:
           destination: gameServer
+          contentType: application/json
+          producer:
+            partitionCount: 1
+        signInPrize:
+          destination: signInPrize
+          contentType: application/json
+          producer:
+            partitionCount: 1
+        signInPrizeLog:
+          destination: signInPrizeLog
           contentType: application/json
           producer:
             partitionCount: 1
