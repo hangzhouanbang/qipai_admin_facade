@@ -46,6 +46,9 @@ public interface QipaiAgentsRemoteService {
 	@RequestMapping("/clubcard/deleteagentclubcard")
 	public CommonRemoteVO clubcard_deleteagentclubcard(@RequestParam(value = "agentId") String agentId);
 
+	@RequestMapping("/clubcard/query_club_card_amount")
+	public CommonRemoteVO query_club_card_amount(@RequestParam(value = "agentId") String agentId,@RequestParam(value = "cardType")String cardType);
+
 	@RequestMapping("/score/withdraw")
 	public CommonRemoteVO score_withdraw(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
@@ -53,6 +56,9 @@ public interface QipaiAgentsRemoteService {
 	@RequestMapping("/score/givescoretoagent")
 	public CommonRemoteVO score_givescoretoagent(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
+
+	@RequestMapping("/score/query_score_amount")
+	public CommonRemoteVO query_score_amount(@RequestParam(value = "agentId") String agentId);
 
 	@RequestMapping("/clubcard/withdrawclubcardzhou")
 	public CommonRemoteVO clubcard_withdrawclubcardzhou(@RequestParam(value = "agentId") String agentId,

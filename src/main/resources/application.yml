@@ -39,6 +39,15 @@ spring:
                  ms: 5
                batch:
                  size: 16384
+        memberClubCard: 
+          configuration: 
+               request:
+                 timeout:
+                   ms: 30000
+               linger:
+                 ms: 5
+               batch:
+                 size: 16384
       bindings:
         members:
           destination: members
@@ -192,6 +201,11 @@ spring:
             partitionCount: 1
         signInPrizeLog:
           destination: signInPrizeLog
+          contentType: application/json
+          producer:
+            partitionCount: 1
+        memberClubCard: 
+          destination: memberClubCard
           contentType: application/json
           producer:
             partitionCount: 1
