@@ -21,7 +21,16 @@ spring:
                  ms: 5
                batch:
                  size: 16384
-        signInPrize: 
+          signInPrize: 
+          configuration: 
+               request:
+                 timeout:
+                   ms: 30000
+               linger:
+                 ms: 5
+               batch:
+                 size: 16384
+          memberClubCard: 
           configuration: 
                request:
                  timeout:
