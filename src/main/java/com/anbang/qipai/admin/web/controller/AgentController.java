@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -181,6 +182,20 @@ public class AgentController {
 		return vo;
 	}
 
+	@RequestMapping("/query_agent_score")
+	public CommonVO queryAgentCurrentScore(String agentId){
+        CommonVO vo = new CommonVO();
+        vo.setSuccess(true);
+        return vo;
+    }
+
+    @RequestMapping("/query_agent_club")
+    public CommonVO queryAgentCurrentCard(String agentId){
+        CommonVO vo =new CommonVO();
+        return vo;
+    }
+
+
 	/**
 	 * 查询推广员的邀请记录
 	 * 
@@ -305,6 +320,38 @@ public class AgentController {
 		vo.setData(agent.getState());
 		return vo;
 	}
+
+    /**
+     * 推广员当前会员卡数量
+     *
+     * @param agentId
+     * @param cardType
+     * @return
+     */
+	@RequestMapping("/card_amount")
+	public  CommonVO cardAmount(String agentId ,String cardType){
+        CommonVO vo = new CommonVO();
+        vo.setSuccess(true);
+        if (!Arrays.asList("周卡","月卡","季卡").contains(cardType)){
+	        vo.setSuccess(false);
+	        vo.setMsg("卡类型必须为:[周卡,月卡,季卡]");
+        }
+		CommonRemoteVO commonRemoteVO = this.qipaiAgentsRemoteService.query_club_card_amount(agentId,cardType);
+        vo.setSuccess(commonRemoteVO.isSuccess());
+        vo.setMsg(commonRemoteVO.getMsg());
+		vo.setData(commonRemoteVO.getData());
+		return vo;
+	}
+
+	@RequestMapping("/score_amount")
+	public CommonVO scoreAmount(String agentId){
+		CommonVO vo=new CommonVO();
+		CommonRemoteVO commonRemoteVO = this.qipaiAgentsRemoteService.query_score_amount(agentId);
+		vo.setData(commonRemoteVO.getData());
+		vo.setSuccess(true);
+		return vo;
+	}
+
 
 	/**
 	 * 解封推广员
