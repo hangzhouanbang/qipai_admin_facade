@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.msg.service.MemberClubCardsSourceService;
 import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberClubCardService;
-import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
-import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 
 /**
@@ -29,7 +28,7 @@ public class ClubCardController {
 	private MemberClubCardService clubCardService;
 
 	@Autowired
-	private QipaiMembersRemoteService qipaiMembersService;
+	private MemberClubCardsSourceService memberClubCardsSourceService;
 
 	/**
 	 * 查询游戏商城会员卡列表
@@ -60,8 +59,9 @@ public class ClubCardController {
 			vo.setMsg("at least one param is null");
 			return vo;
 		}
-		CommonRemoteVO rvo = qipaiMembersService.clubcard_add(clubCard);
-		vo.setSuccess(rvo.isSuccess());
+		clubCardService.addClubCard(clubCard);
+		memberClubCardsSourceService.addClubCard(clubCard);
+		vo.setSuccess(true);
 		return vo;
 	}
 
@@ -74,8 +74,9 @@ public class ClubCardController {
 	@RequestMapping("/deleteclubcard")
 	public CommonVO deleteClubCard(@RequestParam(value = "id") String[] clubCardIds) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO rvo = qipaiMembersService.clubcard_delete(clubCardIds);
-		vo.setSuccess(rvo.isSuccess());
+		clubCardService.deleteClubCardByIds(clubCardIds);
+		memberClubCardsSourceService.deleteClubCards(clubCardIds);
+		vo.setSuccess(true);
 		return vo;
 	}
 
@@ -88,8 +89,9 @@ public class ClubCardController {
 	@RequestMapping("/updateclubcard")
 	public CommonVO updateClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO rvo = qipaiMembersService.clubcard_update(clubCard);
-		vo.setSuccess(rvo.isSuccess());
+		clubCardService.updateClubCard(clubCard);
+		memberClubCardsSourceService.updateClubCards(clubCard);
+		vo.setSuccess(true);
 		return vo;
 	}
 
