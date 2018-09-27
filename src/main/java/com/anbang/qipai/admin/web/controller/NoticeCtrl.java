@@ -22,7 +22,7 @@ import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
  **/
 @CrossOrigin
 @RestController
-@RequestMapping("noticectrl")
+@RequestMapping("/noticectrl")
 public class NoticeCtrl {
 
 	@Autowired

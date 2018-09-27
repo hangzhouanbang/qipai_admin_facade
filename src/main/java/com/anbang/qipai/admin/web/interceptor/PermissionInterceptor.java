@@ -34,7 +34,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		String token = (String) request.getAttribute("token");
+		String token = request.getParameter("token");
 		if (token == null) {
 			return false;
 		}
