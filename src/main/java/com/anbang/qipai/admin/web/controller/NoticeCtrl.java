@@ -40,10 +40,8 @@ public class NoticeCtrl {
 	/**
 	 * 查询公告记录
 	 * 
-	 * @param page
-	 *            当前页
-	 * @param size
-	 *            每页数量
+	 * @param page 当前页
+	 * @param size 每页数量
 	 **/
 	@RequestMapping("/querynotice")
 	@ResponseBody
@@ -55,8 +53,7 @@ public class NoticeCtrl {
 	/**
 	 * 添加系统公告
 	 * 
-	 * @param notice
-	 *            公告内容
+	 * @param notice 公告内容
 	 **/
 	@RequestMapping("/addnotice")
 	@ResponseBody
@@ -80,8 +77,13 @@ public class NoticeCtrl {
 	 **/
 	@RequestMapping("/updatenotice")
 	@ResponseBody
-	public String updateNotice(String id) {
-		CommonRemoteVO co = qipaiGameRomoteService.updateNotice(id);
+	public String updateNotice(String id, String notice, String place, Integer state, String token) {
+		String adminId = adminAuthService.getAdminIdBySessionId(token);
+		if (adminId == null) {
+			return "fail";
+		}
+		Admin admin = adminService.findAdminById(adminId);
+		CommonRemoteVO co = qipaiGameRomoteService.updateNotice(id, notice, place, state, admin.getNickname());
 		if (co.isSuccess()) {
 			return "success";
 		} else {

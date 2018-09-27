@@ -38,6 +38,7 @@ public class AgentClubCardsMsgReceiver {
 			dbo.setAgentId((String) map.get("agentId"));
 			dbo.setAgent((String) map.get("agent"));
 			dbo.setProduct((String) map.get("product"));
+			dbo.setNumber((int)map.get("number"));
 			dbo.setAccountingNo(Long.valueOf((int) map.get("accountingNo")));
 			dbo.setBalanceAfterZhou((int) map.get("balanceAfterZhou"));
 			dbo.setBalanceAfterYue((int) map.get("balanceAfterYue"));

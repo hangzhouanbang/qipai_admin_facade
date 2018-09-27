@@ -11,7 +11,9 @@ public class AgentClubCardRecordDbo {
 
 	private String agent;
 
-	private String product;
+	private String product;	
+	
+	private int number;
 
 	private String receiverId;// 使用对象
 
@@ -151,6 +153,14 @@ public class AgentClubCardRecordDbo {
 
 	public void setCost(double cost) {
 		this.cost = cost;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 }
