@@ -2,6 +2,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/qipai_admin_facade
+      
   cloud:
     stream:
       kafka: 
@@ -13,41 +14,35 @@ spring:
           autoAddPartitions: false
         bindings:
           gameServerManager:
-            configuration:
-               request:
-                 timeout:
-                   ms: 30000
-               linger:
-                 ms: 5
-               batch:
-                 size: 16384
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
           signInPrize: 
-          configuration: 
-               request:
-                 timeout:
-                   ms: 30000
-               linger:
-                 ms: 5
-               batch:
-                 size: 16384
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
           memberClubCard: 
-          configuration: 
-               request:
-                 timeout:
-                   ms: 30000
-               linger:
-                 ms: 5
-               batch:
-                 size: 16384
-        memberClubCard: 
-          configuration: 
-               request:
-                 timeout:
-                   ms: 30000
-               linger:
-                 ms: 5
-               batch:
-                 size: 16384
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
       bindings:
         members:
           destination: members
