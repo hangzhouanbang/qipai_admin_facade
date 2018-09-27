@@ -53,6 +53,7 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		if (card.getPayType() != null && !"".equals(card.getPayType())) {
 			query.addCriteria(Criteria.where("payType").is(card.getPayType()));
 		}
+		query.addCriteria(Criteria.where("sale").is(true));
 		query.skip((page - 1) * size);
 		query.limit(size);
 		Sort sort = new Sort(new Order(Direction.ASC, "weight"));
@@ -66,6 +67,7 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		if (card.getPayType() != null && !"".equals(card.getPayType())) {
 			query.addCriteria(Criteria.where("payType").is(card.getPayType()));
 		}
+		query.addCriteria(Criteria.where("sale").is(true));
 		return mongoTemplate.count(query, AgentClubCard.class);
 	}
 
