@@ -32,15 +32,6 @@ public interface QipaiMembersRemoteService {
 			@RequestParam(value = "vipGrowIntegralSpeed") float vipGrowIntegralSpeed,
 			@RequestParam(value = "vipGrowGradeSpeed") float vipGrowGradeSpeed);
 
-	@RequestMapping(value = "/clubcard/addclubcard")
-	public CommonRemoteVO clubcard_add(@RequestBody MemberClubCard clubCard);
-
-	@RequestMapping(value = "/clubcard/deleteclubcards")
-	public CommonRemoteVO clubcard_delete(@RequestBody String[] clubCardIds);
-
-	@RequestMapping(value = "/clubcard/updateclubcard")
-	public CommonRemoteVO clubcard_update(@RequestBody MemberClubCard clubCard);
-
 	@RequestMapping(value = "/grade/insert_grade")
 	public CommonRemoteVO grade_insert_grade(@RequestBody MemberGrade memberGrade);
 
