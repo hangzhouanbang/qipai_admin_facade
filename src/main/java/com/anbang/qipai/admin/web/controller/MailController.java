@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,9 +62,10 @@ public class MailController {
 	/**
 	 * 发布系统邮件
 	 * 
-	 * @param mail 邮件信息
+	 * @param mail
+	 *            邮件信息
 	 **/
-	@RequestMapping("/addmail")
+	@RequestMapping(value = "/addmail", method = RequestMethod.POST)
 	@ResponseBody
 	public String addmail(SystemMail mail, String token) {
 		String adminId = adminAuthService.getAdminIdBySessionId(token);
@@ -80,9 +82,10 @@ public class MailController {
 	/**
 	 * 查询历史维护，恢复记录
 	 * 
-	 * @param page 当前页，size 每页显示条数,admin 根据管理员名称查询,status,邮件状态
+	 * @param page
+	 *            当前页，size 每页显示条数,admin 根据管理员名称查询,status,邮件状态
 	 **/
-	@RequestMapping("/querymail")
+	@RequestMapping(value = "/querymail", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> querymail(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, String adminname, Integer status) {
@@ -93,7 +96,7 @@ public class MailController {
 	/**
 	 * 邮件图片上传，获取七牛云token
 	 **/
-	@RequestMapping("/uptoken")
+	@RequestMapping(value = "/uptoken", method = RequestMethod.POST)
 	@ResponseBody
 	public CommonVO uptoken() {
 		CommonVO vo = new CommonVO();
@@ -111,7 +114,7 @@ public class MailController {
 	/**
 	 * 查询所有会员卡
 	 **/
-	@RequestMapping("/find_vipcard")
+	@RequestMapping(value = "/find_vipcard", method = RequestMethod.POST)
 	@ResponseBody
 	public CommonRemoteVO find_vipcard() {
 		CommonRemoteVO co = new CommonRemoteVO();
@@ -124,7 +127,7 @@ public class MailController {
 	/**
 	 * 管理员根据id发布邮件
 	 **/
-	@RequestMapping("/addmailbyid")
+	@RequestMapping(value = "/addmailbyid", method = RequestMethod.POST)
 	@ResponseBody
 	public CommonRemoteVO addMailById(SystemMail mail, @RequestParam(value = "ids", required = false) String[] ids,
 			Integer validDay, @RequestParam(value = "vipCardId", required = false) String vipCardId, String token,
@@ -165,7 +168,7 @@ public class MailController {
 	/**
 	 * 管理员根据用户类型发布邮件
 	 */
-	@RequestMapping("/addmailbytype")
+	@RequestMapping(value = "/addmailbytype", method = RequestMethod.POST)
 	public CommonRemoteVO addMailByType(SystemMail mail, Integer sendType, Integer validDay,
 			@RequestParam(value = "vipCardId", required = false) String vipCardId, String token) {
 		CommonRemoteVO vo = new CommonRemoteVO();
@@ -216,9 +219,10 @@ public class MailController {
 	/**
 	 * 查询邮件列表
 	 * 
-	 * @param page 当前页，size 每页显示条数,memberId 会员编号,mailType 邮件类型
+	 * @param page
+	 *            当前页，size 每页显示条数,memberId 会员编号,mailType 邮件类型
 	 */
-	@RequestMapping("/find_mail_record")
+	@RequestMapping(value = "/find_mail_record", method = RequestMethod.POST)
 	@ResponseBody
 	public CommonRemoteVO find_mail_record(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, String memberId, String mailType,
@@ -233,7 +237,7 @@ public class MailController {
 	/**
 	 * 批量删除邮件
 	 */
-	@RequestMapping("/deleteMailStateAll")
+	@RequestMapping(value = "/deleteMailStateAll", method = RequestMethod.POST)
 	@ResponseBody
 	public CommonRemoteVO deleteMailStateAll(@RequestParam(value = "ids") String[] ids) {
 		CommonRemoteVO co = new CommonRemoteVO();

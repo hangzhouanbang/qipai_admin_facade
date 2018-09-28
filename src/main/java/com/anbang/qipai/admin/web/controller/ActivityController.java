@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +46,7 @@ public class ActivityController {
 	 * @param activity
 	 * @return
 	 */
-	@RequestMapping("/addactivity")
+	@RequestMapping(value = "/addactivity", method = RequestMethod.POST)
 	public CommonVO addActivity(Activity activity, String token) {
 		CommonVO vo = new CommonVO();
 		if (activity.getTheme() == null || activity.getContent() == null || activity.getUrl() == null) {
@@ -72,7 +73,7 @@ public class ActivityController {
 	 * @param activityId
 	 * @return
 	 */
-	@RequestMapping("/startactivity")
+	@RequestMapping(value = "/startactivity", method = RequestMethod.POST)
 	public CommonVO startActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_start(activityId);
@@ -86,7 +87,7 @@ public class ActivityController {
 	 * @param activityId
 	 * @return
 	 */
-	@RequestMapping("/stopactivity")
+	@RequestMapping(value = "/stopactivity", method = RequestMethod.POST)
 	public CommonVO stopActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_stop(activityId);
@@ -102,7 +103,7 @@ public class ActivityController {
 	 * @param activity
 	 * @return
 	 */
-	@RequestMapping("/queryactivity")
+	@RequestMapping(value = "/queryactivity", method = RequestMethod.POST)
 	public CommonVO queryActivity(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, Activity activity) {
 		CommonVO vo = new CommonVO();
@@ -112,13 +113,14 @@ public class ActivityController {
 		vo.setData(listPage);
 		return vo;
 	}
-	
+
 	/**
 	 * 删除活动
+	 * 
 	 * @param activityId
 	 * @return
 	 */
-	@RequestMapping("/deleteactivity")
+	@RequestMapping(value = "/deleteactivity", method = RequestMethod.POST)
 	public CommonVO deleteActivity(@RequestParam(required = true) String activityId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.activity_delete(activityId);

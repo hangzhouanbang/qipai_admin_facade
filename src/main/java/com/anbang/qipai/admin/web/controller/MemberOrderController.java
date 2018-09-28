@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +40,7 @@ public class MemberOrderController {
 	 * @param order
 	 * @return
 	 */
-	@RequestMapping("/queryorder")
+	@RequestMapping(value = "/queryorder", method = RequestMethod.POST)
 	public CommonVO queryOrder(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, MemberOrderVO order) {
 		CommonVO vo = new CommonVO();
@@ -50,7 +51,7 @@ public class MemberOrderController {
 		return vo;
 	}
 
-	@RequestMapping("/download")
+	@RequestMapping(value = "/download", method = RequestMethod.POST)
 	public CommonVO downLoad(MemberOrderVO order, HttpServletResponse response) {
 		CommonVO vo = new CommonVO();
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");

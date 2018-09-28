@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +36,7 @@ public class ClubCardController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/showclubcard")
+	@RequestMapping(value = "/showclubcard", method = RequestMethod.POST)
 	public CommonVO showClubCard() {
 		CommonVO vo = new CommonVO();
 		List<MemberClubCard> cardList = clubCardService.showClubCard();
@@ -51,7 +52,7 @@ public class ClubCardController {
 	 * @param clubCard
 	 * @return
 	 */
-	@RequestMapping("/addclubcard")
+	@RequestMapping(value = "/addclubcard", method = RequestMethod.POST)
 	public CommonVO addClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
 		if (clubCard.getName() == null) {
@@ -71,7 +72,7 @@ public class ClubCardController {
 	 * @param clubCardIds
 	 * @return
 	 */
-	@RequestMapping("/deleteclubcard")
+	@RequestMapping(value = "/deleteclubcard", method = RequestMethod.POST)
 	public CommonVO deleteClubCard(@RequestParam(value = "id") String[] clubCardIds) {
 		CommonVO vo = new CommonVO();
 		clubCardService.deleteClubCardByIds(clubCardIds);
@@ -86,7 +87,7 @@ public class ClubCardController {
 	 * @param clubCard
 	 * @return
 	 */
-	@RequestMapping("/updateclubcard")
+	@RequestMapping(value = "/updateclubcard", method = RequestMethod.POST)
 	public CommonVO updateClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
 		clubCardService.updateClubCard(clubCard);

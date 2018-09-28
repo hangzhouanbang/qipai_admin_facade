@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,7 @@ public class MemberGradeCtrl {
 	@Autowired
 	private QipaiMembersRemoteService qipaiMembersService;
 
-	@RequestMapping("/insert_grade")
+	@RequestMapping(value = "/insert_grade", method = RequestMethod.POST)
 	@ResponseBody
 	public CommonVO insert_grade(MemberGrade memberGradeDbo) {
 		CommonVO co = new CommonVO();
@@ -33,7 +34,7 @@ public class MemberGradeCtrl {
 		return co;
 	}
 
-	@RequestMapping("/find_grade")
+	@RequestMapping(value = "/find_grade", method = RequestMethod.POST)
 	@ResponseBody
 	public CommonVO find_grade() {
 		CommonVO co = new CommonVO();

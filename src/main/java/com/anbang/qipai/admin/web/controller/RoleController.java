@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,7 @@ public class RoleController {
 	 * @param role
 	 * @return
 	 */
-	@RequestMapping("/queryrole")
+	@RequestMapping(value = "/queryrole", method = RequestMethod.POST)
 	public CommonVO queryRole(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, String role) {
 		CommonVO vo = new CommonVO();
@@ -51,7 +52,7 @@ public class RoleController {
 	 * @param role
 	 * @return
 	 */
-	@RequestMapping("/addrole")
+	@RequestMapping(value = "/addrole", method = RequestMethod.POST)
 	public CommonVO addRole(Role role) {
 		CommonVO vo = new CommonVO();
 		if (role.getRole() == null) {
@@ -71,7 +72,7 @@ public class RoleController {
 	 * @param ids
 	 * @return
 	 */
-	@RequestMapping("/deleterole")
+	@RequestMapping(value = "/deleterole", method = RequestMethod.POST)
 	public CommonVO deleteRole(@RequestParam(value = "id") String[] ids) {
 		CommonVO vo = new CommonVO();
 		roleService.deleteRoleByIds(ids);
@@ -86,7 +87,7 @@ public class RoleController {
 	 * @param role
 	 * @return
 	 */
-	@RequestMapping("/updaterole")
+	@RequestMapping(value = "/updaterole", method = RequestMethod.POST)
 	public CommonVO updateRole(Role role) {
 		CommonVO vo = new CommonVO();
 		roleService.updateRole(role);
@@ -102,7 +103,7 @@ public class RoleController {
 	 * @param privilegeIds
 	 * @return
 	 */
-	@RequestMapping("/editprivilege")
+	@RequestMapping(value = "/editprivilege", method = RequestMethod.POST)
 	public CommonVO editPrivilege(String roleId, @RequestParam(value = "privilegeId") String[] privilegeIds) {
 		CommonVO vo = new CommonVO();
 		roleService.editPrivilege(roleId, privilegeIds);
@@ -116,7 +117,7 @@ public class RoleController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/queryallrole")
+	@RequestMapping(value = "/queryallrole", method = RequestMethod.POST)
 	public CommonVO queryAllRole() {
 		CommonVO vo = new CommonVO();
 		List<Role> roleList = roleService.findAllRoles();

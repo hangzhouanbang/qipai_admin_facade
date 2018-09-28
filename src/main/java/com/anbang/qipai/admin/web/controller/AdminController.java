@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,7 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
-	@RequestMapping("/queryadmin")
+	@RequestMapping(value = "/queryadmin", method = RequestMethod.POST)
 	public CommonVO queryAdmin(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, String nickname) {
 		CommonVO vo = new CommonVO();
@@ -36,7 +37,7 @@ public class AdminController {
 		return vo;
 	}
 
-	@RequestMapping("/addadmin")
+	@RequestMapping(value = "/addadmin", method = RequestMethod.POST)
 	public CommonVO addAdmin(Admin admin) {
 		CommonVO vo = new CommonVO();
 		if (admin.getNickname() == null || admin.getPass() == null || admin.getUser() == null
@@ -51,7 +52,7 @@ public class AdminController {
 		return vo;
 	}
 
-	@RequestMapping("/deleteadmin")
+	@RequestMapping(value = "/deleteadmin", method = RequestMethod.POST)
 	public CommonVO deleteAdmin(@RequestParam(value = "id") String[] ids) {
 		CommonVO vo = new CommonVO();
 		adminService.deleteAdminByIds(ids);
@@ -60,7 +61,7 @@ public class AdminController {
 		return vo;
 	}
 
-	@RequestMapping("/repass")
+	@RequestMapping(value = "/repass", method = RequestMethod.POST)
 	public CommonVO repass(@RequestParam(required = true) String id, @RequestParam(required = true) String pass) {
 		CommonVO vo = new CommonVO();
 		adminService.updateAdminPass(id, pass);
@@ -69,7 +70,7 @@ public class AdminController {
 		return vo;
 	}
 
-	@RequestMapping("/editrole")
+	@RequestMapping(value = "/editrole", method = RequestMethod.POST)
 	public CommonVO editRole(String adminId, @RequestParam(value = "roleId") String[] roleIds) {
 		CommonVO vo = new CommonVO();
 		adminService.updateRole(adminId, roleIds);

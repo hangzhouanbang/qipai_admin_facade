@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,10 +41,12 @@ public class NoticeCtrl {
 	/**
 	 * 查询公告记录
 	 * 
-	 * @param page 当前页
-	 * @param size 每页数量
+	 * @param page
+	 *            当前页
+	 * @param size
+	 *            每页数量
 	 **/
-	@RequestMapping("/querynotice")
+	@RequestMapping(value = "/querynotice", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryNotice(Integer page, Integer size) {
 		Map<String, Object> map = noticeService.findAll(page, size);
@@ -53,9 +56,10 @@ public class NoticeCtrl {
 	/**
 	 * 添加系统公告
 	 * 
-	 * @param notice 公告内容
+	 * @param notice
+	 *            公告内容
 	 **/
-	@RequestMapping("/addnotice")
+	@RequestMapping(value = "/addnotice", method = RequestMethod.POST)
 	@ResponseBody
 	public String addNotice(String notice, String place, String token) {
 		String adminId = adminAuthService.getAdminIdBySessionId(token);
@@ -75,7 +79,7 @@ public class NoticeCtrl {
 	/**
 	 * 修改系统公告状态
 	 **/
-	@RequestMapping("/updatenotice")
+	@RequestMapping(value = "/updatenotice", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateNotice(String id, String notice, String place, Integer state, String token) {
 		String adminId = adminAuthService.getAdminIdBySessionId(token);

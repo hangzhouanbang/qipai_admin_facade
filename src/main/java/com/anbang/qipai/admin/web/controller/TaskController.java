@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,7 +53,7 @@ public class TaskController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/querytaskconfig")
+	@RequestMapping(value = "/querytaskconfig", method = RequestMethod.POST)
 	public CommonVO queryTaskConfig() {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.task_querytaskconfig();
@@ -67,7 +68,7 @@ public class TaskController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/querytasktype")
+	@RequestMapping(value = "/querytasktype", method = RequestMethod.POST)
 	public CommonVO queryTaskType() {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = qipaiTasksRemoteService.task_querytasktype();
@@ -85,7 +86,7 @@ public class TaskController {
 	 * @param taskDoc
 	 * @return
 	 */
-	@RequestMapping("/querytaskdocument")
+	@RequestMapping(value = "/querytaskdocument", method = RequestMethod.POST)
 	public CommonVO queryTaskDocument(@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "size", defaultValue = "10") int size, TaskDocument taskDoc) {
 		CommonVO vo = new CommonVO();
@@ -104,7 +105,7 @@ public class TaskController {
 	 * @param task
 	 * @return
 	 */
-	@RequestMapping("/querytaskdocumenthistory")
+	@RequestMapping(value = "/querytaskdocumenthistory", method = RequestMethod.POST)
 	public CommonVO queryTaskDocumentHistory(@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "size", defaultValue = "10") int size, TaskDocumentHistory task) {
 		CommonVO vo = new CommonVO();
@@ -122,7 +123,7 @@ public class TaskController {
 	 * @param taskDoc
 	 * @return
 	 */
-	@RequestMapping("/addtaskdocument")
+	@RequestMapping(value = "/addtaskdocument", method = RequestMethod.POST)
 	public CommonVO addTaskDocument(TaskDocument taskDoc) {
 		CommonVO vo = new CommonVO();
 		if (taskDoc.getName() == null || taskDoc.getDesc() == null || taskDoc.getTaskName() == null
@@ -143,7 +144,7 @@ public class TaskController {
 	 * @param taskDocIds
 	 * @return
 	 */
-	@RequestMapping("/deletetaskdocuments")
+	@RequestMapping(value = "/deletetaskdocuments", method = RequestMethod.POST)
 	public CommonVO deleteTaskDocuments(@RequestParam(value = "taskDocId") String[] taskDocIds) {
 		CommonVO vo = new CommonVO();
 		taskDocumentService.deleteTaskDocuments(taskDocIds);
@@ -158,7 +159,7 @@ public class TaskController {
 	 * @param taskDoc
 	 * @return
 	 */
-	@RequestMapping("/updatetaskdocument")
+	@RequestMapping(value = "/updatetaskdocument", method = RequestMethod.POST)
 	public CommonVO updateTaskDocument(TaskDocument taskDoc) {
 		CommonVO vo = new CommonVO();
 		taskDocumentService.updateTaskDocument(taskDoc);
@@ -173,7 +174,7 @@ public class TaskController {
 	 * @param task
 	 * @return
 	 */
-	@RequestMapping("/release")
+	@RequestMapping(value = "/release", method = RequestMethod.POST)
 	public CommonVO releaseTask(TaskDocumentHistory task, String token) {
 		CommonVO vo = new CommonVO();
 		String adminId = adminAuthService.getAdminIdBySessionId(token);
@@ -201,7 +202,7 @@ public class TaskController {
 	 * @param taskIds
 	 * @return
 	 */
-	@RequestMapping("/withdraw")
+	@RequestMapping(value = "/withdraw", method = RequestMethod.POST)
 	public CommonVO withdrawTask(String taskId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiTasksRemoteService.taskdocument_withdraw(taskId);

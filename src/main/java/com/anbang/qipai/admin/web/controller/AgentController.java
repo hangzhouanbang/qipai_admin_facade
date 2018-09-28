@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -70,7 +71,7 @@ public class AgentController {
 	 * @param agent
 	 * @return
 	 */
-	@RequestMapping("/queryagent")
+	@RequestMapping(value = "/queryagent", method = RequestMethod.POST)
 	public CommonVO queryAgent(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
 			AgentDboVO agent) {
 		CommonVO vo = new CommonVO();
@@ -87,7 +88,7 @@ public class AgentController {
 	 * @param agentId
 	 * @return
 	 */
-	@RequestMapping("/agentdetail")
+	@RequestMapping(value = "/agentdetail", method = RequestMethod.POST)
 	public CommonVO queryAgentDetail(String agentId) {
 		CommonVO vo = new CommonVO();
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -114,7 +115,7 @@ public class AgentController {
 	 * @param recordVo
 	 * @return
 	 */
-	@RequestMapping("/queryapplyrecord")
+	@RequestMapping(value = "/queryapplyrecord", method = RequestMethod.POST)
 	public CommonVO queryApplyRecord(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentApplyRecordVO recordVo) {
 		CommonVO vo = new CommonVO();
@@ -133,7 +134,7 @@ public class AgentController {
 	 * @param card
 	 * @return
 	 */
-	@RequestMapping("/queryagentclubcard")
+	@RequestMapping(value = "/queryagentclubcard", method = RequestMethod.POST)
 	public CommonVO queryAgentClubCard(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentClubCard card) {
 		CommonVO vo = new CommonVO();
@@ -152,7 +153,7 @@ public class AgentController {
 	 * @param record
 	 * @return
 	 */
-	@RequestMapping("/queryclubcardrecord")
+	@RequestMapping(value = "/queryclubcardrecord", method = RequestMethod.POST)
 	public CommonVO queryClubCardRecord(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentClubCardRecordDboVO record) {
 		CommonVO vo = new CommonVO();
@@ -171,7 +172,7 @@ public class AgentController {
 	 * @param record
 	 * @return
 	 */
-	@RequestMapping("/queryscorerecord")
+	@RequestMapping(value = "/queryscorerecord", method = RequestMethod.POST)
 	public CommonVO queryScoreRecord(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentScoreRecordDboVO record) {
 		CommonVO vo = new CommonVO();
@@ -182,19 +183,18 @@ public class AgentController {
 		return vo;
 	}
 
-	@RequestMapping("/query_agent_score")
-	public CommonVO queryAgentCurrentScore(String agentId){
-        CommonVO vo = new CommonVO();
-        vo.setSuccess(true);
-        return vo;
-    }
+	@RequestMapping(value = "/query_agent_score", method = RequestMethod.POST)
+	public CommonVO queryAgentCurrentScore(String agentId) {
+		CommonVO vo = new CommonVO();
+		vo.setSuccess(true);
+		return vo;
+	}
 
-    @RequestMapping("/query_agent_club")
-    public CommonVO queryAgentCurrentCard(String agentId){
-        CommonVO vo =new CommonVO();
-        return vo;
-    }
-
+	@RequestMapping(value = "/query_agent_club", method = RequestMethod.POST)
+	public CommonVO queryAgentCurrentCard(String agentId) {
+		CommonVO vo = new CommonVO();
+		return vo;
+	}
 
 	/**
 	 * 查询推广员的邀请记录
@@ -204,7 +204,7 @@ public class AgentController {
 	 * @param record
 	 * @return
 	 */
-	@RequestMapping("/queryagentinvitationrecord")
+	@RequestMapping(value = "/queryagentinvitationrecord", method = RequestMethod.POST)
 	public CommonVO queryAgentInvitationRecord(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentInvitationRecordVO record) {
 		CommonVO vo = new CommonVO();
@@ -221,7 +221,7 @@ public class AgentController {
 	 * @param recordId
 	 * @return
 	 */
-	@RequestMapping("/applypass")
+	@RequestMapping(value = "/applypass", method = RequestMethod.POST)
 	public CommonVO applyPass(String recordId) {
 		CommonVO vo = new CommonVO();
 		AgentApplyRecord record = agentApplyRecordService.findAgentApplyRecordById(recordId);
@@ -241,7 +241,7 @@ public class AgentController {
 	 * @param recordId
 	 * @return
 	 */
-	@RequestMapping("/applyrefuse")
+	@RequestMapping(value = "/applyrefuse", method = RequestMethod.POST)
 	public CommonVO applyRefuse(String recordId) {
 		CommonVO vo = new CommonVO();
 		AgentApplyRecord record = agentApplyRecordService.findAgentApplyRecordById(recordId);
@@ -262,7 +262,7 @@ public class AgentController {
 	 * @param level
 	 * @return
 	 */
-	@RequestMapping("/setlevel")
+	@RequestMapping(value = "/setlevel", method = RequestMethod.POST)
 	public CommonVO setLevel(String agentId, @RequestParam(defaultValue = "2") int level) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_setlevel(agentId, level);
@@ -277,7 +277,7 @@ public class AgentController {
 	 * @param bossId
 	 * @return
 	 */
-	@RequestMapping("/setboss")
+	@RequestMapping(value = "/setboss", method = RequestMethod.POST)
 	public CommonVO setBoss(String agentId, String bossId) {
 		CommonVO vo = new CommonVO();
 		AgentDbo boss = agentDboService.findAgentDboById(bossId);
@@ -297,7 +297,7 @@ public class AgentController {
 	 * @param agentId
 	 * @return
 	 */
-	@RequestMapping("/removeboss")
+	@RequestMapping(value = "/removeboss", method = RequestMethod.POST)
 	public CommonVO removeBoss(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_removeboss(agentId);
@@ -311,7 +311,7 @@ public class AgentController {
 	 * @param agentId
 	 * @return
 	 */
-	@RequestMapping("/ban")
+	@RequestMapping(value = "/ban", method = RequestMethod.POST)
 	public CommonVO ban(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_ban(agentId);
@@ -321,37 +321,36 @@ public class AgentController {
 		return vo;
 	}
 
-    /**
-     * 推广员当前会员卡数量
-     *
-     * @param agentId
-     * @param cardType
-     * @return
-     */
-	@RequestMapping("/card_amount")
-	public  CommonVO cardAmount(String agentId ,String cardType){
-        CommonVO vo = new CommonVO();
-        vo.setSuccess(true);
-        if (!Arrays.asList("周卡","月卡","季卡").contains(cardType)){
-	        vo.setSuccess(false);
-	        vo.setMsg("卡类型必须为:[周卡,月卡,季卡]");
-        }
-		CommonRemoteVO commonRemoteVO = this.qipaiAgentsRemoteService.query_club_card_amount(agentId,cardType);
-        vo.setSuccess(commonRemoteVO.isSuccess());
-        vo.setMsg(commonRemoteVO.getMsg());
+	/**
+	 * 推广员当前会员卡数量
+	 *
+	 * @param agentId
+	 * @param cardType
+	 * @return
+	 */
+	@RequestMapping(value = "/card_amount", method = RequestMethod.POST)
+	public CommonVO cardAmount(String agentId, String cardType) {
+		CommonVO vo = new CommonVO();
+		vo.setSuccess(true);
+		if (!Arrays.asList("周卡", "月卡", "季卡").contains(cardType)) {
+			vo.setSuccess(false);
+			vo.setMsg("卡类型必须为:[周卡,月卡,季卡]");
+		}
+		CommonRemoteVO commonRemoteVO = this.qipaiAgentsRemoteService.query_club_card_amount(agentId, cardType);
+		vo.setSuccess(commonRemoteVO.isSuccess());
+		vo.setMsg(commonRemoteVO.getMsg());
 		vo.setData(commonRemoteVO.getData());
 		return vo;
 	}
 
-	@RequestMapping("/score_amount")
-	public CommonVO scoreAmount(String agentId){
-		CommonVO vo=new CommonVO();
+	@RequestMapping(value = "/score_amount", method = RequestMethod.POST)
+	public CommonVO scoreAmount(String agentId) {
+		CommonVO vo = new CommonVO();
 		CommonRemoteVO commonRemoteVO = this.qipaiAgentsRemoteService.query_score_amount(agentId);
 		vo.setData(commonRemoteVO.getData());
 		vo.setSuccess(true);
 		return vo;
 	}
-
 
 	/**
 	 * 解封推广员
@@ -359,7 +358,7 @@ public class AgentController {
 	 * @param agentId
 	 * @return
 	 */
-	@RequestMapping("/liberate")
+	@RequestMapping(value = "/liberate", method = RequestMethod.POST)
 	public CommonVO liberate(String agentId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_liberate(agentId);
@@ -375,7 +374,7 @@ public class AgentController {
 	 * @param card
 	 * @return
 	 */
-	@RequestMapping("/addagentclubcard")
+	@RequestMapping(value = "/addagentclubcard", method = RequestMethod.POST)
 	public CommonVO addAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
 		if (card.getProduct() == null || card.getProductPic() == null || card.getPayType() == null) {
@@ -394,7 +393,7 @@ public class AgentController {
 	 * @param card
 	 * @return
 	 */
-	@RequestMapping("/updateagentclubcard")
+	@RequestMapping(value = "/updateagentclubcard", method = RequestMethod.POST)
 	public CommonVO updateAgentClubCard(AgentClubCard card) {
 		CommonVO vo = new CommonVO();
 		if (card.getProduct() == null || card.getProductPic() == null || card.getPayType() == null) {
@@ -412,7 +411,7 @@ public class AgentController {
 	 * @param cardIds
 	 * @return
 	 */
-	@RequestMapping("/deleteagentclubcard")
+	@RequestMapping(value = "/deleteagentclubcard", method = RequestMethod.POST)
 	public CommonVO deleteAgentClubCard(String cardId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_deleteagentclubcard(cardId);
@@ -427,7 +426,7 @@ public class AgentController {
 	 * @param scoreAmount
 	 * @return
 	 */
-	@RequestMapping("/scoremanager")
+	@RequestMapping(value = "/scoremanager", method = RequestMethod.POST)
 	public CommonVO scoreManager(String agentId, int scoreAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = new CommonRemoteVO();
@@ -451,7 +450,7 @@ public class AgentController {
 	 * @param scoreAmount
 	 * @return
 	 */
-	@RequestMapping("/clubcardmanager")
+	@RequestMapping(value = "/clubcardmanager", method = RequestMethod.POST)
 	public CommonVO clubcardManager(String agentId, String card, int cardAmount, int scoreAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO cardVO = new CommonRemoteVO();

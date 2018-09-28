@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +38,7 @@ public class MemberShipRightsCtrl {
 	 * @param 普通会员所有权益
 	 * @return 操作结果
 	 **/
-	@RequestMapping("/commonuser")
+	@RequestMapping(value = "/commonuser", method = RequestMethod.POST)
 	@ResponseBody
 	public String commonuser(MemberShipRights commonuser) {
 		CommonRemoteVO co = qipaMemberClient.commonuser(commonuser.getSignGoldNumber(),
@@ -57,7 +58,7 @@ public class MemberShipRightsCtrl {
 	 * @param vip会员所有权益
 	 * @return 操作结果
 	 **/
-	@RequestMapping("/vipuser")
+	@RequestMapping(value = "/vipuser", method = RequestMethod.POST)
 	@ResponseBody
 	public String vipuser(MemberShipRights vipUser) {
 		CommonRemoteVO co = qipaMemberClient.vipuser(vipUser.getSignGoldNumber(), vipUser.getInviteIntegralNumber(),

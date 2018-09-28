@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +24,6 @@ import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
-import com.mongodb.BasicDBObject;
 
 /**
  * 会员controller
@@ -66,19 +65,19 @@ public class MemberController {
 	 * @param member
 	 * @return
 	 */
-	@RequestMapping("/querymember")
+	@RequestMapping(value = "/querymember", method = RequestMethod.POST)
 	public CommonVO queryMember(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, MemberDbo member,
 			@RequestParam(value = "queryType", defaultValue = "2") int queryType) {
 		CommonVO vo = new CommonVO();
-		ListPage listPage = memberService.findMemberDboByConditions(page, size, member,queryType);
+		ListPage listPage = memberService.findMemberDboByConditions(page, size, member, queryType);
 		vo.setSuccess(true);
 		vo.setMsg("memberList");
 		vo.setData(listPage);
 		return vo;
 	}
 
-	@RequestMapping("/querymemberdetail")
+	@RequestMapping(value = "/querymemberdetail", method = RequestMethod.POST)
 	public CommonVO queryMemberDetail(String memberId) {
 		CommonVO vo = new CommonVO();
 		Map data = new HashMap();
@@ -103,7 +102,7 @@ public class MemberController {
 	/**
 	 * 批量赠送金币或积分
 	 **/
-	@RequestMapping("/give_reward")
+	@RequestMapping(value = "/give_reward", method = RequestMethod.POST)
 	public CommonRemoteVO give_reward(@RequestParam(value = "id") String[] ids, Integer score, Integer gold) {
 		CommonRemoteVO vo = qipaiMembersRemoteService.give_score_gold(ids, score, gold);
 		vo.setSuccess(true);
@@ -118,7 +117,7 @@ public class MemberController {
 	 * @param memberId
 	 * @return
 	 */
-	@RequestMapping("/querygoldrecord")
+	@RequestMapping(value = "/querygoldrecord", method = RequestMethod.POST)
 	public CommonVO queryGoldRecord(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, String memberId) {
 		CommonVO vo = new CommonVO();
@@ -137,7 +136,7 @@ public class MemberController {
 	 * @param memberId
 	 * @return
 	 */
-	@RequestMapping("/queryscorerecord")
+	@RequestMapping(value = "/queryscorerecord", method = RequestMethod.POST)
 	public CommonVO queryScoreRecord(@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "size", defaultValue = "10") int size, String memberId) {
 		CommonVO vo = new CommonVO();

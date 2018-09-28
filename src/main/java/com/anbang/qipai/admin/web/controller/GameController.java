@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ import com.highto.framework.web.page.ListPage;
 @RequestMapping("/game")
 public class GameController {
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(GameController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
 	@Autowired
 	private QipaiGameRemoteService qipaiGameRomoteService;
@@ -35,7 +36,7 @@ public class GameController {
 	@Autowired
 	private GameService gameService;
 
-	@RequestMapping("/servers_for_game")
+	@RequestMapping(value = "/servers_for_game", method = RequestMethod.POST)
 	public CommonVO serversforgame(Game game) {
 		CommonVO vo = new CommonVO();
 		List<GameServer> serversForGame = gameService.findAllServersForGame(game);
@@ -45,7 +46,7 @@ public class GameController {
 		return vo;
 	}
 
-	@RequestMapping("/game_server_online")
+	@RequestMapping(value = "/game_server_online", method = RequestMethod.POST)
 	public CommonVO gameserveronline(GameServer gameServer) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_gameServerOnline(gameServer);
@@ -53,7 +54,7 @@ public class GameController {
 		return vo;
 	}
 
-	@RequestMapping("/game_server_offline")
+	@RequestMapping(value = "/game_server_offline", method = RequestMethod.POST)
 	public CommonVO gameserveroffline(@RequestParam(value = "gameServerId") String[] gameServerIds) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_gameServerOffline(gameServerIds);
@@ -61,45 +62,45 @@ public class GameController {
 		return vo;
 	}
 
-    /**
-     * 停止指定id的服务器
-     *
-     * @param ids
-     * @return
-     */
-	@RequestMapping("/stop")
-    public CommonVO stopGameServer(@RequestParam("ids[]")List<String>ids){
-        CommonVO vo=new CommonVO();
-        vo.setSuccess(true);
-        try {
-            this.gameService.stopGameServersAndSendMsg(ids);
-        } catch (Exception e) {
-            LOGGER.warn("stop game server -> {} failed ", ids);
-            vo.setSuccess(false);
-        }
-        return vo;
-    }
-
 	/**
-	 * 运行指定id的服务器
-     *
+	 * 停止指定id的服务器
+	 *
 	 * @param ids
 	 * @return
 	 */
-    @RequestMapping("/recover")
-    public CommonVO recoverGameServer(@RequestParam("ids[]")List<String>ids){
-        CommonVO vo=new CommonVO();
-        vo.setSuccess(true);
-        try {
-            this.gameService.recoverGameServersAndSendMsg(ids);
-        } catch (Exception e) {
-            LOGGER.warn("recover game server -> {} failed ", ids);
-            vo.setSuccess(false);
-        }
-        return vo;
-    }
+	@RequestMapping(value = "/stop", method = RequestMethod.POST)
+	public CommonVO stopGameServer(@RequestParam("ids[]") List<String> ids) {
+		CommonVO vo = new CommonVO();
+		vo.setSuccess(true);
+		try {
+			this.gameService.stopGameServersAndSendMsg(ids);
+		} catch (Exception e) {
+			LOGGER.warn("stop game server -> {} failed ", ids);
+			vo.setSuccess(false);
+		}
+		return vo;
+	}
 
-	@RequestMapping(value = "/query_gamelaw")
+	/**
+	 * 运行指定id的服务器
+	 *
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(value = "/recover", method = RequestMethod.POST)
+	public CommonVO recoverGameServer(@RequestParam("ids[]") List<String> ids) {
+		CommonVO vo = new CommonVO();
+		vo.setSuccess(true);
+		try {
+			this.gameService.recoverGameServersAndSendMsg(ids);
+		} catch (Exception e) {
+			LOGGER.warn("recover game server -> {} failed ", ids);
+			vo.setSuccess(false);
+		}
+		return vo;
+	}
+
+	@RequestMapping(value = "/query_gamelaw", method = RequestMethod.POST)
 	public CommonVO queryGameLaw(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, GameLaw law) {
 		CommonVO vo = new CommonVO();
@@ -109,7 +110,7 @@ public class GameController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/add_law")
+	@RequestMapping(value = "/add_law", method = RequestMethod.POST)
 	public CommonVO addlaw(GameLaw law) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_addLaw(law);
@@ -117,7 +118,7 @@ public class GameController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/remove_law")
+	@RequestMapping(value = "/remove_law", method = RequestMethod.POST)
 	public CommonVO removelaw(String lawId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_removelaw(lawId);
@@ -125,7 +126,7 @@ public class GameController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/query_lawsmutexgroup")
+	@RequestMapping(value = "/query_lawsmutexgroup", method = RequestMethod.POST)
 	public CommonVO queryLawsMutexGroup(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, LawsMutexGroup lawsMutexGroup) {
 		CommonVO vo = new CommonVO();
@@ -135,7 +136,7 @@ public class GameController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/add_mutexgroup")
+	@RequestMapping(value = "/add_mutexgroup", method = RequestMethod.POST)
 	public CommonVO addmutexgroup(LawsMutexGroup lawsMutexGroup) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_addmutexgroup(lawsMutexGroup);
@@ -143,7 +144,7 @@ public class GameController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/remove_mutexgroup")
+	@RequestMapping(value = "/remove_mutexgroup", method = RequestMethod.POST)
 	public CommonVO removemutexgroup(String groupId) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_removemutexgroup(groupId);

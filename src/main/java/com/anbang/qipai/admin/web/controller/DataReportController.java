@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,7 +55,7 @@ public class DataReportController {
 	 * @param size
 	 * @return
 	 */
-	@RequestMapping("/platformreport")
+	@RequestMapping(value = "/platformreport", method = RequestMethod.POST)
 	public CommonVO platformOperateReport(@RequestParam(required = true) Long startTime,
 			@RequestParam(required = true) Long endTime, @RequestParam(defaultValue = "1") Integer page,
 			@RequestParam(defaultValue = "10") Integer size) {
@@ -74,7 +75,7 @@ public class DataReportController {
 	 * @param game
 	 * @return
 	 */
-	@RequestMapping("/gamereport")
+	@RequestMapping(value = "/gamereport", method = RequestMethod.POST)
 	public CommonVO gameReport(@RequestParam(required = true) Long startTime,
 			@RequestParam(required = true) Long endTime, @RequestParam(required = true) String game) {
 		CommonVO vo = new CommonVO();

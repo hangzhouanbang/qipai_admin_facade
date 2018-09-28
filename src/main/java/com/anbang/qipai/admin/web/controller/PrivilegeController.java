@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +40,7 @@ public class PrivilegeController {
 	 * @param privilege
 	 * @return
 	 */
-	@RequestMapping("/queryprivilege")
+	@RequestMapping(value = "/queryprivilege", method = RequestMethod.POST)
 	public CommonVO queryPrivilege(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size, String privilege) {
 		CommonVO vo = new CommonVO();
@@ -56,7 +57,7 @@ public class PrivilegeController {
 	 * @param privileges
 	 * @return
 	 */
-	@RequestMapping("/deployprivilege")
+	@RequestMapping(value = "/deployprivilege", method = RequestMethod.POST)
 	public CommonVO deployPrivilege(@RequestParam(value = "privileges") String privileges) {
 		CommonVO vo = new CommonVO();
 		Gson gson = new Gson();
@@ -75,7 +76,7 @@ public class PrivilegeController {
 	 * @param ids
 	 * @return
 	 */
-	@RequestMapping("/deleteprivilege")
+	@RequestMapping(value = "/deleteprivilege", method = RequestMethod.POST)
 	public CommonVO deletePrivilege(@RequestParam(value = "id") String[] ids) {
 		CommonVO vo = new CommonVO();
 		privilegeService.deletePrivilegeByIds(ids);
@@ -90,7 +91,7 @@ public class PrivilegeController {
 	 * @param privilege
 	 * @return
 	 */
-	@RequestMapping("/updateprivilege")
+	@RequestMapping(value = "/updateprivilege", method = RequestMethod.POST)
 	public CommonVO updatePrivilege(Privilege privilege) {
 		CommonVO vo = new CommonVO();
 		privilegeService.updatePrivilege(privilege);
@@ -104,7 +105,7 @@ public class PrivilegeController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/queryallprivilege")
+	@RequestMapping(value = "/queryallprivilege", method = RequestMethod.POST)
 	public CommonVO queryAllPrivilege() {
 		CommonVO vo = new CommonVO();
 		List<Privilege> privilegeList = privilegeService.findAllPrivileges();
