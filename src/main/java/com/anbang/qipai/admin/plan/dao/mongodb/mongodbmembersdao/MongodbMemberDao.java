@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -42,6 +45,7 @@ public class MongodbMemberDao implements MemberDao {
 		}
 		query.skip((page - 1) * size);
 		query.limit(size);
+		query.with(new Sort(new Order(Direction.DESC, "createTime")));
 		return mongoTemplate.find(query, MemberDbo.class);
 	}
 
@@ -149,9 +153,9 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public List<String> findAllMemberId() {
 		Query query = new Query();
-		List<MemberDbo> memberDboList =  mongoTemplate.find(query, MemberDbo.class);
+		List<MemberDbo> memberDboList = mongoTemplate.find(query, MemberDbo.class);
 		List<String> ids = new ArrayList<String>();
-		for(int i=0;i<memberDboList.size();i++) {
+		for (int i = 0; i < memberDboList.size(); i++) {
 			ids.add(memberDboList.get(i).getId());
 		}
 		return ids;
@@ -160,9 +164,9 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public List<String> findMemberId() {
 		Query query = new Query(Criteria.where("vip").is(false));
-		List<MemberDbo> memberDboList =  mongoTemplate.find(query, MemberDbo.class);
+		List<MemberDbo> memberDboList = mongoTemplate.find(query, MemberDbo.class);
 		List<String> ids = new ArrayList<String>();
-		for(int i=0;i<memberDboList.size();i++) {
+		for (int i = 0; i < memberDboList.size(); i++) {
 			ids.add(memberDboList.get(i).getId());
 		}
 		return ids;
@@ -171,9 +175,9 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public List<String> findVipMemberId() {
 		Query query = new Query(Criteria.where("vip").is(true));
-		List<MemberDbo> memberDboList =  mongoTemplate.find(query, MemberDbo.class);
+		List<MemberDbo> memberDboList = mongoTemplate.find(query, MemberDbo.class);
 		List<String> ids = new ArrayList<String>();
-		for(int i=0;i<memberDboList.size();i++) {
+		for (int i = 0; i < memberDboList.size(); i++) {
 			ids.add(memberDboList.get(i).getId());
 		}
 		return ids;
