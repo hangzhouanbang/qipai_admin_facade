@@ -15,4 +15,6 @@ public interface AgentClubCardDao {
 	List<AgentClubCard> findAgentClubCardByConditions(int page, int size, AgentClubCard card);
 
 	long getAmountByConditions(AgentClubCard card);
+
+	AgentClubCard findAgentClubCardById(String id);
 }

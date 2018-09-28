@@ -381,6 +381,7 @@ public class AgentController {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 		}
+		card.setRemain(card.getRepertory());
 		card.setSale(true);
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
 		vo.setSuccess(rvo.isSuccess());
@@ -400,6 +401,14 @@ public class AgentController {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 		}
+		AgentClubCard agentClubCard = agentClubCardService.findAgentClubCardById(card.getId());
+		int  remain = agentClubCard.getRemain()+agentClubCard.getRepertory() - card.getRepertory();
+		if (remain<0) {
+			vo.setSuccess(false);
+			vo.setMsg("remain Less than 0");
+			return vo;
+		}
+		card.setRemain(remain);
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
 		vo.setSuccess(rvo.isSuccess());
 		return vo;

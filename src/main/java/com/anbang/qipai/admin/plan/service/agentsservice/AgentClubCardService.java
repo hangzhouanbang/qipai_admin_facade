@@ -33,4 +33,8 @@ public class AgentClubCardService {
 	public void deleteAgentClubCard(String cardId) {
 		clubCardDao.deleteAgentClubCard(cardId);
 	}
+
+	public AgentClubCard findAgentClubCardById(String id) {
+		return clubCardDao.findAgentClubCardById(id);
+	}
 }

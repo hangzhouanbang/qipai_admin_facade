@@ -71,4 +71,11 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		return mongoTemplate.count(query, AgentClubCard.class);
 	}
 
+	@Override
+	public AgentClubCard findAgentClubCardById(String id) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("id").is(id));
+		return mongoTemplate.findOne(query, AgentClubCard.class);
+	}
+
 }
