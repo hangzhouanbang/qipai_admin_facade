@@ -435,8 +435,8 @@ public class AgentController {
 	 * @param scoreAmount
 	 * @return
 	 */
-	@RequestMapping(value = "/scoremanager", method = RequestMethod.POST)
-	public CommonVO scoreManager(String agentId, int scoreAmount) {
+	@RequestMapping(value = "/clubcardmanager", method = RequestMethod.POST)
+	public CommonVO clubcardManager(String agentId, int scoreAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		if (scoreAmount < 0) {
@@ -459,8 +459,8 @@ public class AgentController {
 	 * @param scoreAmount
 	 * @return
 	 */
-	@RequestMapping(value = "/clubcardmanager", method = RequestMethod.POST)
-	public CommonVO clubcardManager(String agentId, String card, int cardAmount, int scoreAmount) {
+	@RequestMapping(value = "/scoremanager", method = RequestMethod.POST)
+	public CommonVO scoreManager(String agentId, String card, int cardAmount, int scoreAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO cardVO = new CommonRemoteVO();
 		if ("周卡".equals(card)) {
