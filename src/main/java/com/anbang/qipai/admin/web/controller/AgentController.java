@@ -436,14 +436,32 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/clubcardmanager", method = RequestMethod.POST)
-	public CommonVO clubcardManager(String agentId, int scoreAmount) {
+	public CommonVO clubcardManager(String agentId, String card,int cardAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = new CommonRemoteVO();
-		if (scoreAmount < 0) {
-			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, -scoreAmount, "管理员调整");
+		if ("周卡".equals(card)) {
+			if (cardAmount < 0) {
+				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "管理员调整");
+			}
+			if (cardAmount > 0) {
+				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "管理员调整");
+			}
 		}
-		if (scoreAmount > 0) {
-			rvo = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "管理员调整");
+		if ("月卡".equals(card)) {
+			if (cardAmount < 0) {
+				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "管理员调整");
+			}
+			if (cardAmount > 0) {
+				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "管理员调整");
+			}
+		}
+		if ("季卡".equals(card)) {
+			if (cardAmount < 0) {
+				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "管理员调整");
+			}
+			if (cardAmount > 0) {
+				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "管理员调整");
+			}
 		}
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
