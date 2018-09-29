@@ -14,6 +14,10 @@ public class AgentClubCardRecordDbo {
 	private String product;	
 	
 	private int number;
+	
+	private int scoreAccountingAmount;//消耗积分
+	
+	private int balanceAfter;//剩余积分
 
 	private String receiverId;// 使用对象
 
@@ -161,6 +165,22 @@ public class AgentClubCardRecordDbo {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	public int getScoreAccountingAmount() {
+		return scoreAccountingAmount;
+	}
+
+	public void setScoreAccountingAmount(int scoreAccountingAmount) {
+		this.scoreAccountingAmount = scoreAccountingAmount;
+	}
+
+	public int getBalanceAfter() {
+		return balanceAfter;
+	}
+
+	public void setBalanceAfter(int balanceAfter) {
+		this.balanceAfter = balanceAfter;
 	}
 
 }
