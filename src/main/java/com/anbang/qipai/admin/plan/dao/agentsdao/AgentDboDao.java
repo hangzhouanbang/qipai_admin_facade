@@ -21,12 +21,13 @@ public interface AgentDboDao {
 
 	void updateAgentDboState(String agentId, String state);
 
-	void updateAgnetInfo(String agentId, String phone, String userName, String idCard, String frontUrl,
-			String reverseUrl);
+	void updateAgnetInfo(String agentId, String phone, String userName, String area, String desc);
+
+	void updateAgentDboInvitationCode(String agentId, String invitationCode);
 
 	void updateAgentAuth(String agentId, boolean agentAuth);
 
 	void removeAgentDboBoss(String agentId);
-	
+
 	void updateAgentCost(String agentId, double cost);
 }

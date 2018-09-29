@@ -7,9 +7,8 @@ public class AgentDbo {
 	private String headimgurl;// 头像url
 	private String phone;// 推广员手机
 	private String userName;// 姓名
-	private String idCard;// 推广员身份证号
-	private String frontUrl;// 身份证正面照片
-	private String reverseUrl;// 身份证反面照片
+	private String area;// 所在区域
+	private String desc;// 备注
 	private String bossId;// 上级id
 	private String bossName;// 上级昵称
 	private int level;// 推广等级
@@ -67,28 +66,20 @@ public class AgentDbo {
 		this.userName = userName;
 	}
 
-	public String getIdCard() {
-		return idCard;
+	public String getArea() {
+		return area;
 	}
 
-	public void setIdCard(String idCard) {
-		this.idCard = idCard;
+	public void setArea(String area) {
+		this.area = area;
 	}
 
-	public String getFrontUrl() {
-		return frontUrl;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setFrontUrl(String frontUrl) {
-		this.frontUrl = frontUrl;
-	}
-
-	public String getReverseUrl() {
-		return reverseUrl;
-	}
-
-	public void setReverseUrl(String reverseUrl) {
-		this.reverseUrl = reverseUrl;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public String getBossId() {
@@ -154,5 +145,4 @@ public class AgentDbo {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
-
 }

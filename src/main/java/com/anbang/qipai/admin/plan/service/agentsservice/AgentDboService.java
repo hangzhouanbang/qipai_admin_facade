@@ -52,8 +52,10 @@ public class AgentDboService {
 	}
 
 	public void updateAgnetInfoAndAgentAuth(AgentDbo agent) {
-		agentDboDao.updateAgnetInfo(agent.getId(), agent.getPhone(), agent.getUserName(), agent.getIdCard(),
-				agent.getFrontUrl(), agent.getReverseUrl());
+		agentDboDao.updateAgentDboLevel(agent.getId(), agent.getLevel());
+		agentDboDao.updateAgentDboInvitationCode(agent.getId(), agent.getInvitationCode());
+		agentDboDao.updateAgnetInfo(agent.getId(), agent.getPhone(), agent.getUserName(), agent.getArea(),
+				agent.getDesc());
 		agentDboDao.updateAgentAuth(agent.getId(), agent.isAgentAuth());
 	}
 }

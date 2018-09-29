@@ -108,15 +108,13 @@ public class MongodbAgentDboDao implements AgentDboDao {
 	}
 
 	@Override
-	public void updateAgnetInfo(String agentId, String phone, String userName, String idCard, String frontUrl,
-			String reverseUrl) {
+	public void updateAgnetInfo(String agentId, String phone, String userName, String area, String desc) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
 		update.set("phone", phone);
 		update.set("userName", userName);
-		update.set("idCard", idCard);
-		update.set("frontUrl", frontUrl);
-		update.set("reverseUrl", reverseUrl);
+		update.set("area", area);
+		update.set("desc", desc);
 		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
@@ -157,6 +155,13 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		Update update = new Update();
 		update.set("cost", cost);
 		mongoTemplate.updateFirst(query, update, AgentDbo.class);
-		;
+	}
+
+	@Override
+	public void updateAgentDboInvitationCode(String agentId, String invitationCode) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		Update update = new Update();
+		update.set("invitationCode", invitationCode);
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 }
