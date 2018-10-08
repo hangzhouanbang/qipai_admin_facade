@@ -30,17 +30,17 @@ public class AgentClubCardsMsgReceiver {
 	public void recordAgentClubCardRecordDbo(CommonMO mo) {
 		String msg = mo.getMsg();
 		String json = gson.toJson(mo.getData());
-		Map<String, Object> map = (Map<String, Object>) mo.getData();
 		if ("accounting".equals(msg)) {
+			Map<String, Object> map = (Map<String, Object>) mo.getData();
 			AgentClubCardRecordDbo dbo = new AgentClubCardRecordDbo();
 			dbo.setId((String) map.get("id"));
 			dbo.setAccountId((String) map.get("accountId"));
 			dbo.setAgentId((String) map.get("agentId"));
 			dbo.setAgent((String) map.get("agent"));
 			dbo.setProduct((String) map.get("product"));
-			dbo.setNumber((int)map.get("number"));
-			dbo.setScoreAccountingAmount((int)map.get("scoreAccountingAmount"));
-			dbo.setBalanceAfter((int)map.get("balanceAfter"));
+			dbo.setNumber((int) map.get("number"));
+			dbo.setScoreAccountingAmount((int) map.get("scoreAccountingAmount"));
+			dbo.setBalanceAfter((int) map.get("balanceAfter"));
 			dbo.setAccountingNo(Long.valueOf((int) map.get("accountingNo")));
 			dbo.setBalanceAfterZhou((int) map.get("balanceAfterZhou"));
 			dbo.setBalanceAfterYue((int) map.get("balanceAfterYue"));
@@ -66,6 +66,10 @@ public class AgentClubCardsMsgReceiver {
 		if ("delete agentclubcard".equals(msg)) {
 			String cardId = gson.fromJson(json, String.class);
 			agentClubCardService.deleteAgentClubCard(cardId);
+		}
+		if ("update agentclubcard remain".equals(msg)) {
+			AgentClubCard card = gson.fromJson(json, AgentClubCard.class);
+			agentClubCardService.updateAgentClubCardRemain(card.getId(), card.getRemain());
 		}
 	}
 }

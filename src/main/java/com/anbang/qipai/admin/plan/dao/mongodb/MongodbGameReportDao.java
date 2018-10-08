@@ -48,12 +48,12 @@ public class MongodbGameReportDao implements GameReportDao {
 		group.put("num", new BasicDBObject("$sum", "$gameNum"));
 		DBObject queryGroup = new BasicDBObject("$group", group);
 		pipeline.add(queryGroup);
-		Cursor cursor = mongoTemplate.getCollection("memberLoginRecord").aggregate(pipeline,
+		Cursor cursor = mongoTemplate.getCollection("gameDataReport").aggregate(pipeline,
 				AggregationOptions.builder().outputMode(AggregationOptions.OutputMode.CURSOR).build());
-		if (cursor == null) {
-			return 0;
-		} else {
+		try {
 			return (int) cursor.next().get("num");
+		} catch (Exception e) {
+			return 0;
 		}
 	}
 

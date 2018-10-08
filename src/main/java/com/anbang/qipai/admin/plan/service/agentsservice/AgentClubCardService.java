@@ -25,7 +25,7 @@ public class AgentClubCardService {
 	public void addAgentClubCard(AgentClubCard card) {
 		clubCardDao.addAgentClubCard(card);
 	}
-	
+
 	public void updateAgentClubCard(AgentClubCard card) {
 		clubCardDao.updateAgentClubCard(card);
 	}
@@ -36,5 +36,10 @@ public class AgentClubCardService {
 
 	public AgentClubCard findAgentClubCardById(String id) {
 		return clubCardDao.findAgentClubCardById(id);
+	}
+
+	public AgentClubCard updateAgentClubCardRemain(String cardId, int remain) {
+		clubCardDao.updateAgentClubCardRemain(cardId, remain);
+		return clubCardDao.findAgentClubCardById(cardId);
 	}
 }

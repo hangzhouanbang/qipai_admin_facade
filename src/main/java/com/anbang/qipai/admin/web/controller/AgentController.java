@@ -183,19 +183,6 @@ public class AgentController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/query_agent_score", method = RequestMethod.POST)
-	public CommonVO queryAgentCurrentScore(String agentId) {
-		CommonVO vo = new CommonVO();
-		vo.setSuccess(true);
-		return vo;
-	}
-
-	@RequestMapping(value = "/query_agent_club", method = RequestMethod.POST)
-	public CommonVO queryAgentCurrentCard(String agentId) {
-		CommonVO vo = new CommonVO();
-		return vo;
-	}
-
 	/**
 	 * 查询推广员的邀请记录
 	 * 
@@ -401,14 +388,6 @@ public class AgentController {
 			vo.setSuccess(false);
 			vo.setMsg("at least one param is null");
 		}
-		AgentClubCard agentClubCard = agentClubCardService.findAgentClubCardById(card.getId());
-		int  remain = agentClubCard.getRemain()+agentClubCard.getRepertory() - card.getRepertory();
-		if (remain<0) {
-			vo.setSuccess(false);
-			vo.setMsg("remain Less than 0");
-			return vo;
-		}
-		card.setRemain(remain);
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
 		vo.setSuccess(rvo.isSuccess());
 		return vo;
@@ -436,7 +415,7 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/clubcardmanager", method = RequestMethod.POST)
-	public CommonVO clubcardManager(String agentId, String card,int cardAmount) {
+	public CommonVO clubcardManager(String agentId, String card, int cardAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		if ("周卡".equals(card)) {

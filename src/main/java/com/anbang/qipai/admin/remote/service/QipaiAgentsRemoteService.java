@@ -44,10 +44,11 @@ public interface QipaiAgentsRemoteService {
 	public CommonRemoteVO clubcard_updateagentclubcard(@RequestBody AgentClubCard card);
 
 	@RequestMapping("/clubcard/deleteagentclubcard")
-	public CommonRemoteVO clubcard_deleteagentclubcard(@RequestParam(value = "agentId") String agentId);
+	public CommonRemoteVO clubcard_deleteagentclubcard(@RequestParam(value = "cardId") String cardId);
 
 	@RequestMapping("/clubcard/query_club_card_amount")
-	public CommonRemoteVO query_club_card_amount(@RequestParam(value = "agentId") String agentId,@RequestParam(value = "cardType")String cardType);
+	public CommonRemoteVO query_club_card_amount(@RequestParam(value = "agentId") String agentId,
+			@RequestParam(value = "cardType") String cardType);
 
 	@RequestMapping("/score/withdraw")
 	public CommonRemoteVO score_withdraw(@RequestParam(value = "agentId") String agentId,

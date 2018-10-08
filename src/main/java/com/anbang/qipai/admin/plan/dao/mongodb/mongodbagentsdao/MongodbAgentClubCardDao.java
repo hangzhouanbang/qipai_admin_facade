@@ -28,7 +28,7 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 
 	@Override
 	public void deleteAgentClubCard(String cardId) {
-		Query query = new Query(Criteria.where("id").in(cardId));
+		Query query = new Query(Criteria.where("id").is(cardId));
 		mongoTemplate.remove(query, AgentClubCard.class);
 	}
 
@@ -76,6 +76,14 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("id").is(id));
 		return mongoTemplate.findOne(query, AgentClubCard.class);
+	}
+
+	@Override
+	public void updateAgentClubCardRemain(String cardId, int remain) {
+		Query query = new Query(Criteria.where("id").is(cardId));
+		Update update = new Update();
+		update.set("remain", remain);
+		mongoTemplate.updateFirst(query, update, AgentClubCard.class);
 	}
 
 }

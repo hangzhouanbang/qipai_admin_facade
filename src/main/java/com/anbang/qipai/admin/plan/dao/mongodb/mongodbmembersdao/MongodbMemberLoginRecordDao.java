@@ -93,10 +93,10 @@ public class MongodbMemberLoginRecordDao implements MemberLoginRecordDao {
 
 		Cursor cursor = mongoTemplate.getCollection("memberLoginRecord").aggregate(pipeline,
 				AggregationOptions.builder().outputMode(AggregationOptions.OutputMode.CURSOR).build());
-		if (cursor == null) {
-			return 0;
-		} else {
+		try {
 			return (int) cursor.next().get("num");
+		} catch (Exception e) {
+			return 0;
 		}
 	}
 
