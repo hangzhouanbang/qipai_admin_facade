@@ -408,7 +408,7 @@ public class AgentController {
 	}
 
 	/**
-	 * 调整推广员积分
+	 * 调整推广员会员卡
 	 * 
 	 * @param agentId
 	 * @param scoreAmount
@@ -448,7 +448,7 @@ public class AgentController {
 	}
 
 	/**
-	 * 调整推广员会员卡
+	 * 调整推广员积分
 	 * 
 	 * @param agentId
 	 * @param card
@@ -457,7 +457,8 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/scoremanager", method = RequestMethod.POST)
-	public CommonVO scoreManager(String agentId, String card, int cardAmount, int scoreAmount) {
+	public CommonVO scoreManager(String agentId, @RequestParam(required = false) String card,
+			@RequestParam(required = false) int cardAmount, @RequestParam(required = false) int scoreAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO cardVO = new CommonRemoteVO();
 		if ("周卡".equals(card)) {
