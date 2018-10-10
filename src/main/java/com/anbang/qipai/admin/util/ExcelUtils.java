@@ -34,8 +34,8 @@ public class ExcelUtils {
 			row.createCell(9).setCellValue("商品名称");
 			row.createCell(10).setCellValue("商品价格");
 			row.createCell(11).setCellValue("购买数量");
-			row.createCell(12).setCellValue("赠送金币/张");
-			row.createCell(13).setCellValue("赠送积分/张");
+			row.createCell(12).setCellValue("赠送玉石/张");
+			row.createCell(13).setCellValue("赠送礼券/张");
 			row.createCell(14).setCellValue("赠送会员时间/张");
 			row.createCell(15).setCellValue("总价");
 			row.createCell(16).setCellValue("购买ip地址");

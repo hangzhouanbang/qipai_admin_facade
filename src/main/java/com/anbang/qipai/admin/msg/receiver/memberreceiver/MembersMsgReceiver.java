@@ -41,9 +41,6 @@ public class MembersMsgReceiver {
 		if ("update member realUser".equals(msg)) {
 			memberService.updateMemberRealUser(member);
 		}
-		if ("update member onlineState".equals(msg)) {
-			memberService.updateMemberOnlineState(member);
-		}
 	}
 
 }

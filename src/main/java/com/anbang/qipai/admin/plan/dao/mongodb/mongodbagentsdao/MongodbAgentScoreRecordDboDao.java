@@ -71,6 +71,7 @@ public class MongodbAgentScoreRecordDboDao implements AgentScoreRecordDboDao {
 			}
 			query.addCriteria(criteria);
 		}
+		query.with(record.getSort());
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, AgentScoreRecordDbo.class);

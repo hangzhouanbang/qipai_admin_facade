@@ -13,6 +13,10 @@ public class AgentScoreRecordDbo {
 
 	private long accountingNo;
 
+	private String product;// 商品名称
+
+	private int number;// 商品数量
+
 	private int accountingAmount;
 
 	private int balanceAfter;
@@ -61,6 +65,22 @@ public class AgentScoreRecordDbo {
 		this.accountingNo = accountingNo;
 	}
 
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
 	public int getAccountingAmount() {
 		return accountingAmount;
 	}
@@ -92,5 +112,4 @@ public class AgentScoreRecordDbo {
 	public void setAccountingTime(long accountingTime) {
 		this.accountingTime = accountingTime;
 	}
-
 }

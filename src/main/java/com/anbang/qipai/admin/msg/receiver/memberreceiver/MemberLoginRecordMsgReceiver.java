@@ -1,12 +1,16 @@
 package com.anbang.qipai.admin.msg.receiver.memberreceiver;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.sink.MemberLoginRecordSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
+import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginRecordService;
 import com.google.gson.Gson;
 
@@ -16,18 +20,33 @@ public class MemberLoginRecordMsgReceiver {
 	@Autowired
 	private MemberLoginRecordService memberLoginRecordService;
 
+	@Autowired
+	private MemberDboService memberDboService;
+
 	private Gson gson = new Gson();
 
 	@StreamListener(MemberLoginRecordSink.MEMBERLOGINRECORD)
 	public void memberLoginRecord(CommonMO mo) {
-		String json = gson.toJson(mo.getData());
 		String msg = mo.getMsg();
-		MemberLoginRecord record = gson.fromJson(json, MemberLoginRecord.class);
+		Map map = (Map) mo.getData();
 		if ("member login".equals(msg)) {
+			String json = gson.toJson(map.get("record"));
+			MemberLoginRecord record = gson.fromJson(json, MemberLoginRecord.class);
+			MemberDbo member = memberDboService.findMemberById(record.getMemberId());
+			record.setNickname(member.getNickname());
 			memberLoginRecordService.save(record);
+			String onlineState = (String) map.get("onlineState");
+			memberDboService.updateMemberOnlineState(record.getMemberId(), onlineState);
 		}
-		if ("update member online".equals(msg)) {
+		if ("update member onlineTime".equals(msg)) {
+			String json = gson.toJson(mo.getData());
+			MemberLoginRecord record = gson.fromJson(json, MemberLoginRecord.class);
 			memberLoginRecordService.updateOnlineTimeById(record.getId(), record.getOnlineTime());
+		}
+		if ("update member onlineState".equals(msg)) {
+			String memberId = (String) map.get("memberId");
+			String onlineState = (String) map.get("onlineState");
+			memberDboService.updateMemberOnlineState(memberId, onlineState);
 		}
 	}
 }

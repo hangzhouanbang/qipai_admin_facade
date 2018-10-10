@@ -3,12 +3,15 @@ package com.anbang.qipai.admin.plan.dao.membersdao;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 
 public interface MemberDao {
 
-	List<MemberDbo> findMemberDboByConditions(int page, int size, MemberDbo member, int queryType);
+	List<MemberDbo> findMemberDboByConditions(int page, int size, MemberVO member);
 
-	long getAmountByConditions(MemberDbo member, int queryType);
+	long getAmountByConditions(MemberVO member);
+
+	long countAmount();
 
 	void addMember(MemberDbo member);
 
@@ -16,7 +19,13 @@ public interface MemberDao {
 
 	void updateMemberVip(String memberId, boolean vip);
 
-	void memberOrderDelive(String memberId, boolean vip, long vipEndTime, int vipLevel, double vipScore);
+	void updateMemberCost(String memberId, double cost);
+
+	void updateMemberGold(String memberId, int gold);
+
+	void updateMemberScore(String memberId, int score);
+
+	void memberOrderDelive(String memberId, boolean vip, long vipEndTime, int vipLevel, double vipScore, double cost);
 
 	void rechargeVip(String memberId, boolean vip, long vipEndTime);
 
@@ -36,7 +45,4 @@ public interface MemberDao {
 
 	List<String> findVipMemberId();
 
-	void updateMemberGold(String id, int gold);
-
-	void updateMemberScore(String id, int score);
 }

@@ -11,6 +11,8 @@ public interface AgentDboDao {
 
 	long getAmountByConditions(AgentDboVO agent);
 
+	long countAmountByLevel(int level);
+
 	List<AgentDbo> findAgentDboByConditions(int page, int size, AgentDboVO agent);
 
 	AgentDbo findAgentDboById(String agentId);

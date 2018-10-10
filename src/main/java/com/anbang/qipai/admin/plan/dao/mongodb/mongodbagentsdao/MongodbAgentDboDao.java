@@ -53,26 +53,10 @@ public class MongodbAgentDboDao implements AgentDboDao {
 			query.addCriteria(criteria);
 		}
 		query.addCriteria(Criteria.where("agentAuth").is(true));
+		query.with(agent.getSort());
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, AgentDbo.class);
-	}
-
-	@Override
-	public void updateAgentDboBoss(String agentId, String bossId, String bossName) {
-		Query query = new Query(Criteria.where("id").is(agentId));
-		Update update = new Update();
-		update.set("bossId", bossId);
-		update.set("bossName", bossName);
-		mongoTemplate.updateFirst(query, update, AgentDbo.class);
-	}
-
-	@Override
-	public void updateAgentDboLevel(String agentId, int level) {
-		Query query = new Query(Criteria.where("id").is(agentId));
-		Update update = new Update();
-		update.set("level", level);
-		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
 	@Override
@@ -105,6 +89,23 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		}
 		query.addCriteria(Criteria.where("agentAuth").is(true));
 		return mongoTemplate.count(query, AgentDbo.class);
+	}
+
+	@Override
+	public void updateAgentDboBoss(String agentId, String bossId, String bossName) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		Update update = new Update();
+		update.set("bossId", bossId);
+		update.set("bossName", bossName);
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
+	}
+
+	@Override
+	public void updateAgentDboLevel(String agentId, int level) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		Update update = new Update();
+		update.set("level", level);
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
 	@Override
@@ -163,5 +164,13 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		Update update = new Update();
 		update.set("invitationCode", invitationCode);
 		mongoTemplate.updateFirst(query, update, AgentDbo.class);
+	}
+
+	@Override
+	public long countAmountByLevel(int level) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("level").is(level));
+		query.addCriteria(Criteria.where("agentAuth").is(true));
+		return mongoTemplate.count(query, AgentDbo.class);
 	}
 }

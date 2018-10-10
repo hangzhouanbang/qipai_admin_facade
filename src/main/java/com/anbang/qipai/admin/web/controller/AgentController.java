@@ -24,7 +24,6 @@ import com.anbang.qipai.admin.remote.service.QipaiAgentsRemoteService;
 import com.anbang.qipai.admin.remote.vo.AccountRemoteVO;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
-import com.anbang.qipai.admin.web.vo.agentsvo.AgentApplyRecordVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentClubCardRecordDboVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentInvitationRecordVO;
@@ -75,7 +74,13 @@ public class AgentController {
 	public CommonVO queryAgent(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
 			AgentDboVO agent) {
 		CommonVO vo = new CommonVO();
+		Map data = new HashMap();
 		ListPage listPage = agentDboService.findAgentDboByConditions(page, size, agent);
+		data.put("agentList", listPage);
+		long seniorAmount = agentDboService.countAmountByLevel(1);
+		data.put("seniorAmount", seniorAmount);
+		long juniorAmount = agentDboService.countAmountByLevel(2);
+		data.put("juniorAmount", juniorAmount);
 		vo.setSuccess(true);
 		vo.setMsg("agentList");
 		vo.setData(listPage);
@@ -117,9 +122,9 @@ public class AgentController {
 	 */
 	@RequestMapping(value = "/queryapplyrecord", method = RequestMethod.POST)
 	public CommonVO queryApplyRecord(@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10") int size, AgentApplyRecordVO recordVo) {
+			@RequestParam(defaultValue = "10") int size, AgentApplyRecord record) {
 		CommonVO vo = new CommonVO();
-		ListPage listPage = agentApplyRecordService.findAgentApplyRecordByByConditions(page, size, recordVo);
+		ListPage listPage = agentApplyRecordService.findAgentApplyRecordByConditions(page, size, record);
 		vo.setSuccess(true);
 		vo.setMsg("recordList");
 		vo.setData(listPage);
@@ -408,7 +413,7 @@ public class AgentController {
 	}
 
 	/**
-	 * 调整推广员会员卡
+	 * 调整推广员积分
 	 * 
 	 * @param agentId
 	 * @param scoreAmount
@@ -420,26 +425,26 @@ public class AgentController {
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		if ("周卡".equals(card)) {
 			if (cardAmount < 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "管理员调整");
+				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "admin adjust");
 			}
 			if (cardAmount > 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "管理员调整");
+				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "admin adjust");
 			}
 		}
 		if ("月卡".equals(card)) {
 			if (cardAmount < 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "管理员调整");
+				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "admin adjust");
 			}
 			if (cardAmount > 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "管理员调整");
+				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "admin adjust");
 			}
 		}
 		if ("季卡".equals(card)) {
 			if (cardAmount < 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "管理员调整");
+				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "admin adjust");
 			}
 			if (cardAmount > 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "管理员调整");
+				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "admin adjust");
 			}
 		}
 		vo.setSuccess(rvo.isSuccess());
@@ -448,7 +453,7 @@ public class AgentController {
 	}
 
 	/**
-	 * 调整推广员积分
+	 * 调整推广员会员卡
 	 * 
 	 * @param agentId
 	 * @param card
@@ -457,40 +462,39 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/scoremanager", method = RequestMethod.POST)
-	public CommonVO scoreManager(String agentId, @RequestParam(required = false) String card,
-			@RequestParam(required = false) int cardAmount, @RequestParam(required = false) int scoreAmount) {
+	public CommonVO scoreManager(String agentId, String card, int cardAmount, int scoreAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO cardVO = new CommonRemoteVO();
 		if ("周卡".equals(card)) {
 			if (cardAmount < 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "管理员调整");
+				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "admin adjust");
 			}
 			if (cardAmount > 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "管理员调整");
+				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "admin adjust");
 			}
 		}
 		if ("月卡".equals(card)) {
 			if (cardAmount < 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "管理员调整");
+				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "admin adjust");
 			}
 			if (cardAmount > 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "管理员调整");
+				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "admin adjust");
 			}
 		}
 		if ("季卡".equals(card)) {
 			if (cardAmount < 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "管理员调整");
+				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "admin adjust");
 			}
 			if (cardAmount > 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "管理员调整");
+				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "admin adjust");
 			}
 		}
 		CommonRemoteVO scoreVO = new CommonRemoteVO();
 		if (scoreAmount < 0) {
-			scoreVO = qipaiAgentsRemoteService.score_withdraw(agentId, -scoreAmount, "管理员调整");
+			scoreVO = qipaiAgentsRemoteService.score_withdraw(agentId, -scoreAmount, "admin adjust");
 		}
 		if (scoreAmount > 0) {
-			scoreVO = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "管理员调整");
+			scoreVO = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "admin adjust");
 		}
 		if (!cardVO.isSuccess() || !scoreVO.isSuccess()) {
 			vo.setSuccess(false);

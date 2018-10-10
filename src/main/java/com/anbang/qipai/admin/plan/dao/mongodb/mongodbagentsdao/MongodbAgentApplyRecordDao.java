@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentApplyRecord;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentApplyRecordDao;
-import com.anbang.qipai.admin.web.vo.agentsvo.AgentApplyRecordVO;
 
 @Component
 public class MongodbAgentApplyRecordDao implements AgentApplyRecordDao {
@@ -33,7 +32,7 @@ public class MongodbAgentApplyRecordDao implements AgentApplyRecordDao {
 	}
 
 	@Override
-	public List<AgentApplyRecord> findAgentApplyRecordByConditions(int page, int size, AgentApplyRecordVO record) {
+	public List<AgentApplyRecord> findAgentApplyRecordByConditions(int page, int size, AgentApplyRecord record) {
 		Query query = new Query();
 		if (record.getAgentId() != null && !"".equals(record.getAgentId())) {
 			query.addCriteria(Criteria.where("agentId").is(record.getAgentId()));
@@ -41,23 +40,14 @@ public class MongodbAgentApplyRecordDao implements AgentApplyRecordDao {
 		if (record.getNickname() != null && !"".equals(record.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(record.getNickname()));
 		}
-		if (record.getStartTime() != null || record.getEndTime() != null) {
-			Criteria criteria = Criteria.where("createTime");
-			if (record.getStartTime() != null) {
-				criteria = criteria.gte(record.getStartTime());
-			}
-			if (record.getEndTime() != null) {
-				criteria = criteria.lte(record.getEndTime());
-			}
-			query.addCriteria(criteria);
-		}
+		query.addCriteria(Criteria.where("state").is("APPLYING"));
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTempalte.find(query, AgentApplyRecord.class);
 	}
 
 	@Override
-	public long getAmountByConditions(int page, int size, AgentApplyRecordVO record) {
+	public long getAmountByConditions(int page, int size, AgentApplyRecord record) {
 		Query query = new Query();
 		if (record.getAgentId() != null && !"".equals(record.getAgentId())) {
 			query.addCriteria(Criteria.where("agentId").is(record.getAgentId()));
@@ -65,16 +55,7 @@ public class MongodbAgentApplyRecordDao implements AgentApplyRecordDao {
 		if (record.getNickname() != null && !"".equals(record.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(record.getNickname()));
 		}
-		if (record.getStartTime() != null || record.getEndTime() != null) {
-			Criteria criteria = Criteria.where("createTime");
-			if (record.getStartTime() != null) {
-				criteria = criteria.gte(record.getStartTime());
-			}
-			if (record.getEndTime() != null) {
-				criteria = criteria.lte(record.getEndTime());
-			}
-			query.addCriteria(criteria);
-		}
+		query.addCriteria(Criteria.where("state").is("APPLYING"));
 		return mongoTempalte.count(query, AgentApplyRecord.class);
 	}
 

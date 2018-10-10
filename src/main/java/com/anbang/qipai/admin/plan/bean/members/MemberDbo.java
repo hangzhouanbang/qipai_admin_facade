@@ -15,8 +15,9 @@ public class MemberDbo {
 	private String IDcard;// 身份证
 	private boolean verifyUser;// 实名认证，true:通过认证,false:未通过认证
 	private String onlineState;
-	private int gold;//金币
-	private int score;//积分
+	private int gold;// 金币
+	private int score;// 积分
+	private double cost;// 累计消费
 
 	public int getGold() {
 		return gold;
@@ -144,6 +145,14 @@ public class MemberDbo {
 
 	public void setOnlineState(String onlineState) {
 		this.onlineState = onlineState;
+	}
+
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
 
 }

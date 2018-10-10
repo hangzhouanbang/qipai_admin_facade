@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberDao;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 
 @Component
 public class MongodbMemberDao implements MemberDao {
@@ -22,7 +20,7 @@ public class MongodbMemberDao implements MemberDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<MemberDbo> findMemberDboByConditions(int page, int size, MemberDbo member, int queryType) {
+	public List<MemberDbo> findMemberDboByConditions(int page, int size, MemberVO member) {
 		Query query = new Query();
 		if (member.getId() != null && !"".equals(member.getId())) {
 			query.addCriteria(Criteria.where("id").is(member.getId()));
@@ -33,50 +31,36 @@ public class MongodbMemberDao implements MemberDao {
 		if (member.getOnlineState() != null && !"".equals(member.getOnlineState())) {
 			query.addCriteria(Criteria.where("onlineState").is(member.getOnlineState()));
 		}
-		switch (queryType) {
-		case 0:
-			query.addCriteria(Criteria.where("vip").is(false));
-			break;
-		case 1:
-			query.addCriteria(Criteria.where("vip").is(true));
-			break;
-		default:
-			break;
+		if ("true".equals(member.getIsVip()) || "false".equals(member.getIsVip())) {
+			query.addCriteria(Criteria.where("vip").is(Boolean.valueOf(member.getIsVip())));
 		}
+		query.with(member.getSort());
 		query.skip((page - 1) * size);
 		query.limit(size);
-		query.with(new Sort(new Order(Direction.DESC, "createTime")));
 		return mongoTemplate.find(query, MemberDbo.class);
+	}
+
+	@Override
+	public long getAmountByConditions(MemberVO member) {
+		Query query = new Query();
+		if (member.getId() != null && !"".equals(member.getId())) {
+			query.addCriteria(Criteria.where("id").is(member.getId()));
+		}
+		if (member.getNickname() != null && !"".equals(member.getNickname())) {
+			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
+		}
+		if (member.getOnlineState() != null && !"".equals(member.getOnlineState())) {
+			query.addCriteria(Criteria.where("onlineState").is(member.getOnlineState()));
+		}
+		if ("true".equals(member.getIsVip()) || "false".equals(member.getIsVip())) {
+			query.addCriteria(Criteria.where("vip").is(Boolean.valueOf(member.getIsVip())));
+		}
+		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
 	@Override
 	public void addMember(MemberDbo member) {
 		mongoTemplate.insert(member);
-	}
-
-	@Override
-	public long getAmountByConditions(MemberDbo member, int queryType) {
-		Query query = new Query();
-		if (member.getId() != null && !"".equals(member.getId())) {
-			query.addCriteria(Criteria.where("id").is(member.getId()));
-		}
-		if (member.getNickname() != null && !"".equals(member.getNickname())) {
-			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
-		}
-		if (member.getOnlineState() != null && !"".equals(member.getOnlineState())) {
-			query.addCriteria(Criteria.where("onlineState").is(member.getOnlineState()));
-		}
-		switch (queryType) {
-		case 0:
-			query.addCriteria(Criteria.where("vip").is(false));
-			break;
-		case 1:
-			query.addCriteria(Criteria.where("vip").is(true));
-			break;
-		default:
-			break;
-		}
-		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
 	@Override
@@ -113,13 +97,15 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public void memberOrderDelive(String memberId, boolean vip, long vipEndTime, int vipLevel, double vipScore) {
+	public void memberOrderDelive(String memberId, boolean vip, long vipEndTime, int vipLevel, double vipScore,
+			double cost) {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
 		update.set("vipEndTime", vipEndTime);
 		update.set("vip", vip);
 		update.set("vipLevel", vipLevel);
 		update.set("vipScore", vipScore);
+		update.set("cost", cost);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
@@ -184,19 +170,33 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public void updateMemberGold(String id, int gold) {
-		Query query = new Query(Criteria.where("id").is(id));
+	public void updateMemberGold(String memberId, int gold) {
+		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
 		update.set("gold", gold);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override
-	public void updateMemberScore(String id, int score) {
-		Query query = new Query(Criteria.where("id").is(id));
+	public void updateMemberScore(String memberId, int score) {
+		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
 		update.set("score", score);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public void updateMemberCost(String memberId, double cost) {
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("cost", cost);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public long countAmount() {
+		Query query = new Query();
+		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
 }

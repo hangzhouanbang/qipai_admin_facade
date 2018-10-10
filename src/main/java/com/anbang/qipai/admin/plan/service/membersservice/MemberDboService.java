@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberDao;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 import com.highto.framework.web.page.ListPage;
 
 @Service
@@ -15,11 +16,15 @@ public class MemberDboService {
 	@Autowired
 	private MemberDao memberDao;
 
-	public ListPage findMemberDboByConditions(int page, int size, MemberDbo member, int queryType) {
-		long amount = memberDao.getAmountByConditions(member,queryType);
-		List<MemberDbo> memberList = memberDao.findMemberDboByConditions(page, size, member,queryType);
+	public ListPage findMemberDboByConditions(int page, int size, MemberVO member) {
+		long amount = memberDao.getAmountByConditions(member);
+		List<MemberDbo> memberList = memberDao.findMemberDboByConditions(page, size, member);
 		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
 		return listPage;
+	}
+
+	public long countAmount() {
+		return memberDao.countAmount();
 	}
 
 	public void addMember(MemberDbo member) {
@@ -37,18 +42,22 @@ public class MemberDboService {
 	public void updateMemberVip(MemberDbo member) {
 		memberDao.updateMemberVip(member.getId(), member.isVip());
 	}
-	
-	public void updateMemberGold(MemberDbo member) {
-		memberDao.updateMemberGold(member.getId(), member.getGold());
+
+	public void updateMemberCost(MemberDbo member) {
+		memberDao.updateMemberCost(member.getId(), member.getCost());
 	}
-	
-	public void updateMemberScore(MemberDbo member) {
-		memberDao.updateMemberScore(member.getId(), member.getScore());
+
+	public void updateMemberGold(String memberId, int gold) {
+		memberDao.updateMemberGold(memberId, gold);
+	}
+
+	public void updateMemberScore(String memberId, int score) {
+		memberDao.updateMemberScore(memberId, score);
 	}
 
 	public void memberOrderDelive(MemberDbo member) {
 		memberDao.memberOrderDelive(member.getId(), member.isVip(), member.getVipEndTime(), member.getVipLevel(),
-				member.getVipScore());
+				member.getVipScore(), member.getCost());
 	}
 
 	public void rechargeVip(MemberDbo member) {
@@ -67,8 +76,8 @@ public class MemberDboService {
 		memberDao.updateMemberRealUser(member.getId(), member.getRealName(), member.getIDcard(), member.isVerifyUser());
 	}
 
-	public void updateMemberOnlineState(MemberDbo member) {
-		memberDao.updateMemberOnlineState(member.getId(), member.getOnlineState());
+	public void updateMemberOnlineState(String memberId, String onlineState) {
+		memberDao.updateMemberOnlineState(memberId, onlineState);
 	}
 
 	public List<String> findVipMemberId() {

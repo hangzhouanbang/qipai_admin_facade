@@ -71,6 +71,7 @@ public class MongodbAgentClubCardRecordDboDao implements AgentClubCardRecordDboD
 			}
 			query.addCriteria(criteria);
 		}
+		query.with(record.getSort());
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, AgentClubCardRecordDbo.class);

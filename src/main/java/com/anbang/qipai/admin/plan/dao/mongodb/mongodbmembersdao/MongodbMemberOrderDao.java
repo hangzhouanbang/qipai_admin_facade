@@ -3,9 +3,6 @@ package com.anbang.qipai.admin.plan.dao.mongodb.mongodbmembersdao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -43,14 +40,14 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 			query.addCriteria(Criteria.where("payerId").is(order.getPayerId()));
 		}
 		if (order.getStatus() != null && !"".equals(order.getStatus())) {
-			if ("0".equals(order.getStatus())) {
+			if ("NOTPAY".equals(order.getStatus())) {
 				query.addCriteria(Criteria.where("status").in("WAIT_BUYER_PAY", "USERPAYING"));
 			}
-			if ("-1".equals(order.getStatus())) {
+			if ("PAYFAIL".equals(order.getStatus())) {
 				query.addCriteria(
 						Criteria.where("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR"));
 			}
-			if ("1".equals(order.getStatus())) {
+			if ("PAYSUCCESS".equals(order.getStatus())) {
 				query.addCriteria(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS"));
 			}
 		}
@@ -68,7 +65,7 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 			query.addCriteria(criteria);
 		}
 		// 需要建立索引
-		query.with(new Sort(new Order(Direction.DESC, "createTime")));
+		query.with(order.getSort());
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, MemberOrder.class);
@@ -87,14 +84,14 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 			query.addCriteria(Criteria.where("payerId").is(order.getPayerId()));
 		}
 		if (order.getStatus() != null && !"".equals(order.getStatus())) {
-			if ("0".equals(order.getStatus())) {
+			if ("NOTPAY".equals(order.getStatus())) {
 				query.addCriteria(Criteria.where("status").in("WAIT_BUYER_PAY", "USERPAYING"));
 			}
-			if ("-1".equals(order.getStatus())) {
+			if ("PAYFAIL".equals(order.getStatus())) {
 				query.addCriteria(
 						Criteria.where("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR"));
 			}
-			if ("1".equals(order.getStatus())) {
+			if ("PAYSUCCESS".equals(order.getStatus())) {
 				query.addCriteria(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS"));
 			}
 		}

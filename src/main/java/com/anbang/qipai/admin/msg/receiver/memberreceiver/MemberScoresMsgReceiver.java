@@ -8,7 +8,6 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.sink.MemberScoresSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.bean.members.MemberScoreRecordDbo;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberScoreService;
@@ -20,9 +19,9 @@ import com.google.gson.Gson;
 public class MemberScoresMsgReceiver {
 	@Autowired
 	private MemberScoreService memberScoreService;
-	
+
 	@Autowired
-	private MemberDboService memberDboService;
+	private MemberDboService memberService;
 
 	private Gson gson = new Gson();
 
@@ -42,9 +41,7 @@ public class MemberScoresMsgReceiver {
 			dbo.setAccountingTime((long) map.get("accountingTime"));
 			dbo.setAccountingAmount((int) map.get("accountingAmount"));
 			memberScoreService.addScoreRecord(dbo);
-			MemberDbo memberDbo = new MemberDbo();
-			memberDbo.setScore((int) map.get("balanceAfter"));
-			memberDboService.updateMemberGold(memberDbo);
+			memberService.updateMemberScore((String) map.get("memberId"), (int) map.get("balanceAfter"));
 		}
 	}
 }

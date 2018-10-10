@@ -29,6 +29,8 @@ public class AgentScoresMsgReceiver {
 			dbo.setAgentId((String) map.get("agentId"));
 			dbo.setAgent((String) map.get("agent"));
 			dbo.setAccountingNo(Long.valueOf((int) map.get("accountingNo")));
+			dbo.setProduct((String) map.get("product"));
+			dbo.setNumber((int) map.get("number"));
 			dbo.setBalanceAfter((int) map.get("balanceAfter"));
 			AccountingSummary summary = new TextAccountingSummary(
 					(String) ((Map<String, Object>) map.get("summary")).get("text"));

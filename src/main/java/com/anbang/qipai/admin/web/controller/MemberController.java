@@ -17,12 +17,12 @@ import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberGoldService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginRecordService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberOrderService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberScoreService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 import com.highto.framework.web.page.ListPage;
 
 /**
@@ -52,9 +52,6 @@ public class MemberController {
 	private MemberScoreService memberScoreService;
 
 	@Autowired
-	private MemberOrderService memberOrderService;
-
-	@Autowired
 	private MemberLoginRecordService memberLoginRecordService;
 
 	/**
@@ -67,13 +64,20 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/querymember", method = RequestMethod.POST)
 	public CommonVO queryMember(@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size, MemberDbo member,
-			@RequestParam(value = "queryType", defaultValue = "2") int queryType) {
+			@RequestParam(value = "size", defaultValue = "10") int size, MemberVO member) {
 		CommonVO vo = new CommonVO();
-		ListPage listPage = memberService.findMemberDboByConditions(page, size, member, queryType);
+		Map data = new HashMap();
+		ListPage listPage = memberService.findMemberDboByConditions(page, size, member);
+		data.put("memberList", listPage);
+		long amount = memberService.countAmount();
+		data.put("amount", amount);
+		long vipAmount = memberService.countVipMember();
+		data.put("vipAmount", vipAmount);
+		long noVipAmount = amount - vipAmount;
+		data.put("noVipAmount", noVipAmount);
 		vo.setSuccess(true);
 		vo.setMsg("memberList");
-		vo.setData(listPage);
+		vo.setData(data);
 		return vo;
 	}
 
@@ -83,8 +87,6 @@ public class MemberController {
 		Map data = new HashMap();
 		MemberDbo memberDbo = memberService.findMemberById(memberId);
 		data.put("memberDbo", memberDbo);
-		double cost = memberOrderService.countCostByMemberId(memberId);
-		data.put("cost", cost);
 		MemberLoginRecord loginRecord = memberLoginRecordService.findRecentRecordByMemberId(memberId);
 		long onlineTime = loginRecord.getOnlineTime() / 60000;
 		data.put("onlineTime", onlineTime + "m");

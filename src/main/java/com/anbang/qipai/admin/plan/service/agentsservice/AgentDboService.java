@@ -23,6 +23,10 @@ public class AgentDboService {
 		return listPage;
 	}
 
+	public long countAmountByLevel(int level) {
+		return agentDboDao.countAmountByLevel(level);
+	}
+
 	public AgentDbo findAgentDboById(String agentId) {
 		return agentDboDao.findAgentDboById(agentId);
 	}
