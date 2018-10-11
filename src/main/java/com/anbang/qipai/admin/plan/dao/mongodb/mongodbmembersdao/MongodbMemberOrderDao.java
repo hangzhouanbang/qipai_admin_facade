@@ -157,30 +157,30 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 	public double countPayCostByConditions(MemberOrderVO order) {
 		Criteria criteria = new Criteria();
 		if (order.getId() != null && !"".equals(order.getId())) {
-			criteria.and("id").is(order.getId());
+			criteria = criteria.and("id").is(order.getId());
 		}
 		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
-			criteria.and("pay_type").is(order.getPay_type());
+			criteria = criteria.and("pay_type").is(order.getPay_type());
 		}
 		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
-			criteria.and("payerId").is(order.getPayerId());
+			criteria = criteria.and("payerId").is(order.getPayerId());
 		}
 		if (order.getStatus() != null && !"".equals(order.getStatus())) {
 			if ("NOTPAY".equals(order.getStatus())) {
-				criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
+				criteria = criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
 			}
 			if ("PAYFAIL".equals(order.getStatus())) {
-				criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
+				criteria = criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
 			}
 			if ("PAYSUCCESS".equals(order.getStatus())) {
-				criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+				criteria = criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
 			}
 		}
 		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
-			criteria.and("payerName").regex(order.getPayerName());
+			criteria = criteria.and("payerName").regex(order.getPayerName());
 		}
 		if (order.getStartTime() != null || order.getEndTime() != null) {
-			criteria.and("createTime");
+			criteria = criteria.and("createTime");
 			if (order.getStartTime() != null) {
 				criteria = criteria.gte(order.getStartTime());
 			}
@@ -205,27 +205,27 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 	public double countNotPayCostByConditions(MemberOrderVO order) {
 		Criteria criteria = new Criteria();
 		if (order.getId() != null && !"".equals(order.getId())) {
-			criteria.and("id").is(order.getId());
+			criteria = criteria.and("id").is(order.getId());
 		}
 		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
-			criteria.and("pay_type").is(order.getPay_type());
+			criteria = criteria.and("pay_type").is(order.getPay_type());
 		}
 		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
-			criteria.and("payerId").is(order.getPayerId());
+			criteria = criteria.and("payerId").is(order.getPayerId());
 		}
 		if (order.getStatus() != null && !"".equals(order.getStatus())) {
 			if ("NOTPAY".equals(order.getStatus())) {
-				criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
+				criteria = criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
 			}
 			if ("PAYFAIL".equals(order.getStatus())) {
-				criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
+				criteria = criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
 			}
 			if ("PAYSUCCESS".equals(order.getStatus())) {
-				criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+				criteria = criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
 			}
 		}
 		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
-			criteria.and("payerName").regex(order.getPayerName());
+			criteria = criteria.and("payerName").regex(order.getPayerName());
 		}
 		if (order.getStartTime() != null || order.getEndTime() != null) {
 			criteria = criteria.and("createTime");
@@ -254,27 +254,27 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 	public int countPayAmountByConditions(MemberOrderVO order) {
 		Criteria criteria = new Criteria();
 		if (order.getId() != null && !"".equals(order.getId())) {
-			criteria.and("id").is(order.getId());
+			criteria = criteria.and("id").is(order.getId());
 		}
 		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
-			criteria.and("pay_type").is(order.getPay_type());
+			criteria = criteria.and("pay_type").is(order.getPay_type());
 		}
 		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
-			criteria.and("payerId").is(order.getPayerId());
+			criteria = criteria.and("payerId").is(order.getPayerId());
 		}
 		if (order.getStatus() != null && !"".equals(order.getStatus())) {
 			if ("NOTPAY".equals(order.getStatus())) {
-				criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
+				criteria = criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
 			}
 			if ("PAYFAIL".equals(order.getStatus())) {
-				criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
+				criteria = criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
 			}
 			if ("PAYSUCCESS".equals(order.getStatus())) {
-				criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+				criteria = criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
 			}
 		}
 		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
-			criteria.and("payerName").regex(order.getPayerName());
+			criteria = criteria.and("payerName").regex(order.getPayerName());
 		}
 		if (order.getStartTime() != null || order.getEndTime() != null) {
 			criteria = criteria.and("createTime");
@@ -302,27 +302,27 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 	public int countNotPayAmountByConditions(MemberOrderVO order) {
 		Criteria criteria = new Criteria();
 		if (order.getId() != null && !"".equals(order.getId())) {
-			criteria.and("id").is(order.getId());
+			criteria = criteria.and("id").is(order.getId());
 		}
 		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
-			criteria.and("pay_type").is(order.getPay_type());
+			criteria = criteria.and("pay_type").is(order.getPay_type());
 		}
 		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
-			criteria.and("payerId").is(order.getPayerId());
+			criteria = criteria.and("payerId").is(order.getPayerId());
 		}
 		if (order.getStatus() != null && !"".equals(order.getStatus())) {
 			if ("NOTPAY".equals(order.getStatus())) {
-				criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
+				criteria = criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
 			}
 			if ("PAYFAIL".equals(order.getStatus())) {
-				criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
+				criteria = criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
 			}
 			if ("PAYSUCCESS".equals(order.getStatus())) {
-				criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+				criteria = criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
 			}
 		}
 		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
-			criteria.and("payerName").regex(order.getPayerName());
+			criteria = criteria.and("payerName").regex(order.getPayerName());
 		}
 		if (order.getStartTime() != null || order.getEndTime() != null) {
 			criteria = criteria.and("createTime");

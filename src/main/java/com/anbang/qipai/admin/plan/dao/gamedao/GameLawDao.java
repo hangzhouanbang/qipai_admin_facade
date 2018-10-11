@@ -8,6 +8,8 @@ public interface GameLawDao {
 
 	void save(GameLaw law);
 
+	void update(GameLaw law);
+
 	void remove(String id);
 
 	List<GameLaw> findGameLawByConditions(int page, int size, GameLaw law);

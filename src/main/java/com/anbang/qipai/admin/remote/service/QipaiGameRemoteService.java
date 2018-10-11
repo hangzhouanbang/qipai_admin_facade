@@ -33,6 +33,9 @@ public interface QipaiGameRemoteService {
 	@RequestMapping(value = "/game/add_law")
 	public CommonRemoteVO game_addLaw(@RequestBody GameLaw law);
 
+	@RequestMapping(value = "/game/update_law")
+	public CommonRemoteVO game_updateLaw(@RequestBody GameLaw law);
+
 	@RequestMapping(value = "/game/remove_law")
 	public CommonRemoteVO game_removelaw(@RequestParam("lawId") String lawId);
 
@@ -47,8 +50,9 @@ public interface QipaiGameRemoteService {
 			@RequestParam(value = "place") String place, @RequestParam(value = "adminname") String adminname);
 
 	@RequestMapping(value = "/notice/updatenotice")
-	public CommonRemoteVO updateNotice(@RequestParam(value = "id") String id, @RequestParam(value = "notice") String notice,
-			@RequestParam(value = "place") String place,@RequestParam(value = "state")  Integer state, @RequestParam(value = "adminname") String adminname);
+	public CommonRemoteVO updateNotice(@RequestParam(value = "id") String id,
+			@RequestParam(value = "notice") String notice, @RequestParam(value = "place") String place,
+			@RequestParam(value = "state") Integer state, @RequestParam(value = "adminname") String adminname);
 
 	@RequestMapping(value = "/mail/addmail")
 	public CommonRemoteVO addmail(@RequestParam(value = "mail") String mail);

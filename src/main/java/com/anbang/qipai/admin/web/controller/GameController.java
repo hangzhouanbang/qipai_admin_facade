@@ -118,6 +118,14 @@ public class GameController {
 		return vo;
 	}
 
+	@RequestMapping(value = "/update_law", method = RequestMethod.POST)
+	public CommonVO updatelaw(GameLaw law) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiGameRomoteService.game_updateLaw(law);
+		vo.setSuccess(rvo.isSuccess());
+		return vo;
+	}
+
 	@RequestMapping(value = "/remove_law", method = RequestMethod.POST)
 	public CommonVO removelaw(String lawId) {
 		CommonVO vo = new CommonVO();

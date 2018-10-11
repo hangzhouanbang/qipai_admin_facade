@@ -1,5 +1,12 @@
 package com.anbang.qipai.admin.plan.service.gameservice;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Component;
+
 import com.anbang.qipai.admin.msg.channel.source.GameServerManagerSource;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.msg.receiver.GameServerMsgConstant;
@@ -11,19 +18,13 @@ import com.anbang.qipai.admin.plan.dao.gamedao.GameLawDao;
 import com.anbang.qipai.admin.plan.dao.gamedao.GameServerDao;
 import com.anbang.qipai.admin.plan.dao.gamedao.LawsMutexGroupDao;
 import com.highto.framework.web.page.ListPage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @EnableBinding(GameServerManagerSource.class)
 public class GameService {
 
-    public static final int GAME_SERVER_STATE_RUNNING=0;
-    public static final int GAME_SERVER_STATE_STOP=1;
+	public static final int GAME_SERVER_STATE_RUNNING = 0;
+	public static final int GAME_SERVER_STATE_STOP = 1;
 
 	@Autowired
 	private GameLawDao gameLawDao;
@@ -53,6 +54,10 @@ public class GameService {
 		gameLawDao.save(law);
 	}
 
+	public void updateGameLaw(GameLaw law) {
+		gameLawDao.update(law);
+	}
+
 	public void removeGameLaw(String lawId) {
 		gameLawDao.remove(lawId);
 	}
@@ -80,38 +85,36 @@ public class GameService {
 	}
 
 	public void stopGameServersAndSendMsg(List<String> ids) {
-	    if (ids!=null && ids.size()>0){
-            CommonMO commonMO = new CommonMO();
-            commonMO.setMsg(GameServerMsgConstant.STOP_GAME_SERVERS);
-            commonMO.setData(ids);
-            //TODO Stream 异步发送
-            this.gameServerManagerSource.gameServerManager().send(MessageBuilder.withPayload(commonMO).build());
-            this.stopGameServers(ids);
-        }
+		if (ids != null && ids.size() > 0) {
+			CommonMO commonMO = new CommonMO();
+			commonMO.setMsg(GameServerMsgConstant.STOP_GAME_SERVERS);
+			commonMO.setData(ids);
+			// TODO Stream 异步发送
+			this.gameServerManagerSource.gameServerManager().send(MessageBuilder.withPayload(commonMO).build());
+			this.stopGameServers(ids);
+		}
 	}
 
-	public void recoverGameServersAndSendMsg(List<String> ids){
-	    if (ids != null && ids.size() > 0){
-	        CommonMO commonMO = new CommonMO();
-	        commonMO.setMsg(GameServerMsgConstant.RECOVER_GAME_SERVERS);
-	        commonMO.setData(ids);
-            this.gameServerManagerSource.gameServerManager().send(MessageBuilder.withPayload(commonMO).build());
-            this.startGameServers(ids);
-        }
-    }
+	public void recoverGameServersAndSendMsg(List<String> ids) {
+		if (ids != null && ids.size() > 0) {
+			CommonMO commonMO = new CommonMO();
+			commonMO.setMsg(GameServerMsgConstant.RECOVER_GAME_SERVERS);
+			commonMO.setData(ids);
+			this.gameServerManagerSource.gameServerManager().send(MessageBuilder.withPayload(commonMO).build());
+			this.startGameServers(ids);
+		}
+	}
 
+	public void startGameServers(List<String> ids) {
+		if (ids != null && ids.size() > 0) {
+			this.gameServerDao.updateGameServerState(ids, GameService.GAME_SERVER_STATE_RUNNING);
+		}
+	}
 
-    public void startGameServers(List<String> ids) {
-        if (ids!=null && ids.size() > 0){
-            this.gameServerDao.updateGameServerState(ids,GameService.GAME_SERVER_STATE_RUNNING);
-        }
-    }
-
-    public void stopGameServers(List<String> ids){
-        if (ids!=null && ids.size() > 0){
-            this.gameServerDao.updateGameServerState(ids,GameService.GAME_SERVER_STATE_STOP);
-        }
-    }
-
+	public void stopGameServers(List<String> ids) {
+		if (ids != null && ids.size() > 0) {
+			this.gameServerDao.updateGameServerState(ids, GameService.GAME_SERVER_STATE_STOP);
+		}
+	}
 
 }

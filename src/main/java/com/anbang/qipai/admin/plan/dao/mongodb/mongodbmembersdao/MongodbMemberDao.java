@@ -28,11 +28,8 @@ public class MongodbMemberDao implements MemberDao {
 		if (member.getNickname() != null && !"".equals(member.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(member.getNickname()));
 		}
-		if ("online".equals(member.getOnlineState())) {
-			query.addCriteria(Criteria.where("onlineState").is("在线"));
-		}
-		if ("offline".equals(member.getOnlineState())) {
-			query.addCriteria(Criteria.where("onlineState").is("下线"));
+		if (member.getOnlineState() != null && !"".equals(member.getOnlineState())) {
+			query.addCriteria(Criteria.where("onlineState").is(member.getOnlineState()));
 		}
 		if ("true".equals(member.getIsVip()) || "false".equals(member.getIsVip())) {
 			query.addCriteria(Criteria.where("vip").is(Boolean.valueOf(member.getIsVip())));

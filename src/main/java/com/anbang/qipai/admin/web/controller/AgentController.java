@@ -151,7 +151,7 @@ public class AgentController {
 	}
 
 	/**
-	 * 查询推广员的会员卡流水
+	 * 查询会员卡记录
 	 * 
 	 * @param page
 	 * @param size
@@ -170,7 +170,27 @@ public class AgentController {
 	}
 
 	/**
-	 * 查询推广员的积分流水
+	 * 查询会员卡购买记录
+	 * 
+	 * @param page
+	 * @param size
+	 * @param record
+	 * @return
+	 */
+	@RequestMapping(value = "/queryclubcardbuy", method = RequestMethod.POST)
+	public CommonVO queryClubCardBuy(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentClubCardRecordDboVO record) {
+		CommonVO vo = new CommonVO();
+		record.setType("buy");
+		ListPage listPage = agentClubCardRecordDboService.findAgentClubCardRecordDboByConditions(page, size, record);
+		vo.setSuccess(true);
+		vo.setMsg("recordList");
+		vo.setData(listPage);
+		return vo;
+	}
+
+	/**
+	 * 查询推广员的积分记录
 	 * 
 	 * @param page
 	 * @param size
@@ -181,6 +201,26 @@ public class AgentController {
 	public CommonVO queryScoreRecord(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentScoreRecordDboVO record) {
 		CommonVO vo = new CommonVO();
+		ListPage listPage = agentScoreRecordDboService.findAgentScoreRecordDboByConditions(page, size, record);
+		vo.setSuccess(true);
+		vo.setMsg("recordList");
+		vo.setData(listPage);
+		return vo;
+	}
+
+	/**
+	 * 查询会员卡兑换记录
+	 * 
+	 * @param page
+	 * @param size
+	 * @param record
+	 * @return
+	 */
+	@RequestMapping(value = "/queryscoreexchange", method = RequestMethod.POST)
+	public CommonVO queryScoreExchange(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentScoreRecordDboVO record) {
+		CommonVO vo = new CommonVO();
+		record.setType("exchange");
 		ListPage listPage = agentScoreRecordDboService.findAgentScoreRecordDboByConditions(page, size, record);
 		vo.setSuccess(true);
 		vo.setMsg("recordList");
@@ -413,7 +453,7 @@ public class AgentController {
 	}
 
 	/**
-	 * 调整推广员积分
+	 * 调整推广员会员卡
 	 * 
 	 * @param agentId
 	 * @param scoreAmount
@@ -423,7 +463,8 @@ public class AgentController {
 	public CommonVO clubcardManager(String agentId, String card, int cardAmount) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = new CommonRemoteVO();
-		if ("周卡".equals(card)) {
+		rvo.setSuccess(false);
+		if ("zhou".equals(card)) {
 			if (cardAmount < 0) {
 				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "admin adjust");
 			}
@@ -431,7 +472,7 @@ public class AgentController {
 				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "admin adjust");
 			}
 		}
-		if ("月卡".equals(card)) {
+		if ("yue".equals(card)) {
 			if (cardAmount < 0) {
 				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "admin adjust");
 			}
@@ -439,7 +480,7 @@ public class AgentController {
 				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "admin adjust");
 			}
 		}
-		if ("季卡".equals(card)) {
+		if ("ji".equals(card)) {
 			if (cardAmount < 0) {
 				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "admin adjust");
 			}
@@ -453,7 +494,7 @@ public class AgentController {
 	}
 
 	/**
-	 * 调整推广员会员卡
+	 * 调整推广员积分
 	 * 
 	 * @param agentId
 	 * @param card
@@ -462,49 +503,18 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/scoremanager", method = RequestMethod.POST)
-	public CommonVO scoreManager(String agentId, String card, int cardAmount, int scoreAmount) {
+	public CommonVO scoreManager(String agentId, int scoreAmount) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO cardVO = new CommonRemoteVO();
-		if ("周卡".equals(card)) {
-			if (cardAmount < 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "admin adjust");
-			}
-			if (cardAmount > 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "admin adjust");
-			}
-		}
-		if ("月卡".equals(card)) {
-			if (cardAmount < 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "admin adjust");
-			}
-			if (cardAmount > 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "admin adjust");
-			}
-		}
-		if ("季卡".equals(card)) {
-			if (cardAmount < 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "admin adjust");
-			}
-			if (cardAmount > 0) {
-				cardVO = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "admin adjust");
-			}
-		}
-		CommonRemoteVO scoreVO = new CommonRemoteVO();
+		CommonRemoteVO rvo = new CommonRemoteVO();
+		rvo.setSuccess(false);
 		if (scoreAmount < 0) {
-			scoreVO = qipaiAgentsRemoteService.score_withdraw(agentId, -scoreAmount, "admin adjust");
+			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, -scoreAmount, "admin adjust");
 		}
 		if (scoreAmount > 0) {
-			scoreVO = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "admin adjust");
+			rvo = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "admin adjust");
 		}
-		if (!cardVO.isSuccess() || !scoreVO.isSuccess()) {
-			vo.setSuccess(false);
-		}
-		if (cardVO.getMsg() != null) {
-			vo.setMsg(cardVO.getMsg());
-		}
-		if (scoreVO.getMsg() != null) {
-			vo.setMsg(scoreVO.getMsg());
-		}
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
 		return vo;
 	}
 }

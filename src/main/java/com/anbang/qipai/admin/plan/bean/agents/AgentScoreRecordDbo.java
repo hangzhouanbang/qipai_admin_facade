@@ -11,11 +11,11 @@ public class AgentScoreRecordDbo {
 
 	private String agent;
 
-	private long accountingNo;
-
 	private String product;// 商品名称
 
 	private int number;// 商品数量
+
+	private long accountingNo;
 
 	private int accountingAmount;
 

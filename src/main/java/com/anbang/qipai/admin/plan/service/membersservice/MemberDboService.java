@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberDao;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberOnlineState;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 import com.highto.framework.web.page.ListPage;
 
@@ -19,6 +20,10 @@ public class MemberDboService {
 	public ListPage findMemberDboByConditions(int page, int size, MemberVO member) {
 		long amount = memberDao.getAmountByConditions(member);
 		List<MemberDbo> memberList = memberDao.findMemberDboByConditions(page, size, member);
+		for (int i = 0; i < memberList.size(); i++) {
+			String onlineState = memberList.get(i).getOnlineState();
+			memberList.get(i).setOnlineState(MemberOnlineState.getSummaryText(onlineState));
+		}
 		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
 		return listPage;
 	}
