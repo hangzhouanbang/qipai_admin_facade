@@ -43,7 +43,7 @@ public class MemberLoginRecordMsgReceiver {
 			MemberLoginRecord record = gson.fromJson(json, MemberLoginRecord.class);
 			memberLoginRecordService.updateOnlineTimeById(record.getId(), record.getOnlineTime());
 		}
-		if ("update member onlineState".equals(msg)) {
+		if ("member logout".equals(msg)) {
 			String memberId = (String) map.get("memberId");
 			String onlineState = (String) map.get("onlineState");
 			memberDboService.updateMemberOnlineState(memberId, onlineState);

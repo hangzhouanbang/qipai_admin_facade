@@ -11,9 +11,19 @@ public interface MemberOrderDao {
 
 	long getAmountByConditions(MemberOrderVO order);
 
+	int countPayAmountByConditions(MemberOrderVO order);
+
+	int countNotPayAmountByConditions(MemberOrderVO order);
+
+	double countPayCostByConditions(MemberOrderVO order);
+
+	double countNotPayCostByConditions(MemberOrderVO order);
+
 	void addOrder(MemberOrder order);
 
 	double countCostByTime(long startTime, long endTime);
+
+	double countCost();
 
 	double countCostByMemberId(String memberId);
 

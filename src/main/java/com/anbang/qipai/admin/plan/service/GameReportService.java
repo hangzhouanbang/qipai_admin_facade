@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.games.Game;
 import com.anbang.qipai.admin.plan.bean.report.GameDataReport;
 import com.anbang.qipai.admin.plan.dao.GameReportDao;
 
@@ -14,7 +15,7 @@ public class GameReportService {
 	@Autowired
 	private GameReportDao gameReportDao;
 
-	public List<GameDataReport> findGameReportByTimeAndGame(long startTime, long endTime, String game) {
+	public List<GameDataReport> findGameReportByTimeAndGame(long startTime, long endTime, Game game) {
 		List<GameDataReport> reportList = gameReportDao.findReportByTime(startTime, endTime, game);
 		return reportList;
 	}

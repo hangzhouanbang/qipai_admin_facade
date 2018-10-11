@@ -86,7 +86,11 @@ public class MemberController {
 		CommonVO vo = new CommonVO();
 		Map data = new HashMap();
 		MemberDbo memberDbo = memberService.findMemberById(memberId);
-		data.put("memberDbo", memberDbo);
+		data.put("realName", memberDbo.getRealName());
+		data.put("gender", memberDbo.getGender());
+		data.put("phone", memberDbo.getPhone());
+		data.put("IDcard", memberDbo.getIDcard());
+		data.put("cost", memberDbo.getCost());
 		MemberLoginRecord loginRecord = memberLoginRecordService.findRecentRecordByMemberId(memberId);
 		long onlineTime = loginRecord.getOnlineTime() / 60000;
 		data.put("onlineTime", onlineTime + "m");

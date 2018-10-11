@@ -42,7 +42,7 @@ public class MemberGoldsMsgReceiver {
 			dbo.setAccountingTime((long) map.get("accountingTime"));
 			dbo.setAccountingAmount((int) map.get("accountingAmount"));
 			memberGoldService.addGoldRecord(dbo);
-			memberService.updateMemberScore((String) map.get("memberId"), (int) map.get("balanceAfter"));
+			memberService.updateMemberGold((String) map.get("memberId"), (int) map.get("balanceAfter"));
 		}
 	}
 }

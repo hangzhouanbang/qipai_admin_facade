@@ -153,4 +153,213 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 		return basicObj.getDouble("cost");
 	}
 
+	@Override
+	public double countPayCostByConditions(MemberOrderVO order) {
+		Criteria criteria = new Criteria();
+		if (order.getId() != null && !"".equals(order.getId())) {
+			criteria.and("id").is(order.getId());
+		}
+		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
+			criteria.and("pay_type").is(order.getPay_type());
+		}
+		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
+			criteria.and("payerId").is(order.getPayerId());
+		}
+		if (order.getStatus() != null && !"".equals(order.getStatus())) {
+			if ("NOTPAY".equals(order.getStatus())) {
+				criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
+			}
+			if ("PAYFAIL".equals(order.getStatus())) {
+				criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
+			}
+			if ("PAYSUCCESS".equals(order.getStatus())) {
+				criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+			}
+		}
+		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
+			criteria.and("payerName").regex(order.getPayerName());
+		}
+		if (order.getStartTime() != null || order.getEndTime() != null) {
+			criteria.and("createTime");
+			if (order.getStartTime() != null) {
+				criteria = criteria.gte(order.getStartTime());
+			}
+			if (order.getEndTime() != null) {
+				criteria = criteria.lte(order.getEndTime());
+			}
+		}
+		Aggregation aggregation = Aggregation.newAggregation(MemberOrder.class, Aggregation.match(criteria),
+				Aggregation.match(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS")),
+				Aggregation.group().sum("totalamount").as("cost"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getDouble("cost");
+	}
+
+	@Override
+	public double countNotPayCostByConditions(MemberOrderVO order) {
+		Criteria criteria = new Criteria();
+		if (order.getId() != null && !"".equals(order.getId())) {
+			criteria.and("id").is(order.getId());
+		}
+		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
+			criteria.and("pay_type").is(order.getPay_type());
+		}
+		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
+			criteria.and("payerId").is(order.getPayerId());
+		}
+		if (order.getStatus() != null && !"".equals(order.getStatus())) {
+			if ("NOTPAY".equals(order.getStatus())) {
+				criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
+			}
+			if ("PAYFAIL".equals(order.getStatus())) {
+				criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
+			}
+			if ("PAYSUCCESS".equals(order.getStatus())) {
+				criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+			}
+		}
+		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
+			criteria.and("payerName").regex(order.getPayerName());
+		}
+		if (order.getStartTime() != null || order.getEndTime() != null) {
+			criteria = criteria.and("createTime");
+			if (order.getStartTime() != null) {
+				criteria = criteria.gte(order.getStartTime());
+			}
+			if (order.getEndTime() != null) {
+				criteria = criteria.lte(order.getEndTime());
+			}
+		}
+		Aggregation aggregation = Aggregation.newAggregation(
+				MemberOrder.class, Aggregation.match(criteria), Aggregation.match(Criteria.where("status")
+						.in("WAIT_BUYER_PAY", "USERPAYING", "TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR")),
+				Aggregation.group().sum("totalamount").as("cost"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getDouble("cost");
+	}
+
+	@Override
+	public int countPayAmountByConditions(MemberOrderVO order) {
+		Criteria criteria = new Criteria();
+		if (order.getId() != null && !"".equals(order.getId())) {
+			criteria.and("id").is(order.getId());
+		}
+		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
+			criteria.and("pay_type").is(order.getPay_type());
+		}
+		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
+			criteria.and("payerId").is(order.getPayerId());
+		}
+		if (order.getStatus() != null && !"".equals(order.getStatus())) {
+			if ("NOTPAY".equals(order.getStatus())) {
+				criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
+			}
+			if ("PAYFAIL".equals(order.getStatus())) {
+				criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
+			}
+			if ("PAYSUCCESS".equals(order.getStatus())) {
+				criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+			}
+		}
+		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
+			criteria.and("payerName").regex(order.getPayerName());
+		}
+		if (order.getStartTime() != null || order.getEndTime() != null) {
+			criteria = criteria.and("createTime");
+			if (order.getStartTime() != null) {
+				criteria = criteria.gte(order.getStartTime());
+			}
+			if (order.getEndTime() != null) {
+				criteria = criteria.lte(order.getEndTime());
+			}
+		}
+		Aggregation aggregation = Aggregation.newAggregation(MemberOrder.class, Aggregation.match(criteria),
+				Aggregation.match(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS")),
+				Aggregation.group().count().as("num"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getInt("num");
+	}
+
+	@Override
+	public int countNotPayAmountByConditions(MemberOrderVO order) {
+		Criteria criteria = new Criteria();
+		if (order.getId() != null && !"".equals(order.getId())) {
+			criteria.and("id").is(order.getId());
+		}
+		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
+			criteria.and("pay_type").is(order.getPay_type());
+		}
+		if (order.getPayerId() != null && !"".equals(order.getPayerId())) {
+			criteria.and("payerId").is(order.getPayerId());
+		}
+		if (order.getStatus() != null && !"".equals(order.getStatus())) {
+			if ("NOTPAY".equals(order.getStatus())) {
+				criteria.and("status").in("WAIT_BUYER_PAY", "USERPAYING");
+			}
+			if ("PAYFAIL".equals(order.getStatus())) {
+				criteria.and("status").in("TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR");
+			}
+			if ("PAYSUCCESS".equals(order.getStatus())) {
+				criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+			}
+		}
+		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
+			criteria.and("payerName").regex(order.getPayerName());
+		}
+		if (order.getStartTime() != null || order.getEndTime() != null) {
+			criteria = criteria.and("createTime");
+			if (order.getStartTime() != null) {
+				criteria = criteria.gte(order.getStartTime());
+			}
+			if (order.getEndTime() != null) {
+				criteria = criteria.lte(order.getEndTime());
+			}
+		}
+		Aggregation aggregation = Aggregation.newAggregation(
+				MemberOrder.class, Aggregation.match(criteria), Aggregation.match(Criteria.where("status")
+						.in("WAIT_BUYER_PAY", "USERPAYING", "TRADE_CLOSED", "CLOSED", "REFUND", "REVOKED", "PAYERROR")),
+				Aggregation.group().count().as("num"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getInt("num");
+	}
+
+	@Override
+	public double countCost() {
+		Aggregation aggregation = Aggregation.newAggregation(MemberOrder.class,
+				Aggregation.match(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS")),
+				Aggregation.group().sum("totalamount").as("cost"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getDouble("cost");
+	}
+
 }

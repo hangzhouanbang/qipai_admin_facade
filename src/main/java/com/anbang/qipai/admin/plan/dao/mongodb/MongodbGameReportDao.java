@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import com.anbang.qipai.admin.plan.bean.games.Game;
 import com.anbang.qipai.admin.plan.bean.report.GameDataReport;
 import com.anbang.qipai.admin.plan.dao.GameReportDao;
 import com.mongodb.AggregationOptions;
@@ -23,7 +24,7 @@ public class MongodbGameReportDao implements GameReportDao {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<GameDataReport> findReportByTime(long startTime, long endTime, String game) {
+	public List<GameDataReport> findReportByTime(long startTime, long endTime, Game game) {
 		Query query = new Query(Criteria.where("game").is(game));
 		query.addCriteria(Criteria.where("date").gte(startTime).lte(endTime));
 		// 需要按照date建立索引

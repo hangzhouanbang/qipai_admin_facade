@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.anbang.qipai.admin.plan.bean.members.MemberOrder;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberOrderDao;
 import com.anbang.qipai.admin.util.ExcelUtils;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderStatus;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderVO;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberPatType;
 import com.highto.framework.web.page.ListPage;
 
 @Service
@@ -31,8 +33,34 @@ public class MemberOrderService {
 	public ListPage findOrderByConditions(int page, int size, MemberOrderVO order) {
 		long amount = orderDao.getAmountByConditions(order);
 		List<MemberOrder> orderList = orderDao.findOrderByConditions(page, size, order);
+		for (int i = 0; i < orderList.size(); i++) {
+			String status = orderList.get(i).getStatus();
+			orderList.get(i).setStatus(MemberOrderStatus.getSummaryText(status));
+			String payType = orderList.get(i).getPay_type();
+			orderList.get(i).setPay_type(MemberPatType.getSummaryText(payType));
+		}
 		ListPage listPage = new ListPage(orderList, page, size, (int) amount);
 		return listPage;
+	}
+
+	public int countPayAmountByConditions(MemberOrderVO order) {
+		return orderDao.countPayAmountByConditions(order);
+	}
+
+	public int countNotPayAmountByConditions(MemberOrderVO order) {
+		return orderDao.countNotPayAmountByConditions(order);
+	}
+
+	public double countPayCostByConditions(MemberOrderVO order) {
+		return orderDao.countPayCostByConditions(order);
+	}
+
+	public double countNotPayCostByConditions(MemberOrderVO order) {
+		return orderDao.countNotPayCostByConditions(order);
+	}
+
+	public double countCost() {
+		return orderDao.countCost();
 	}
 
 	public double countCostByTime(long startTime, long endTime) {

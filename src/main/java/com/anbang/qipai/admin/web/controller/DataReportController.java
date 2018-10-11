@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.plan.bean.games.Game;
 import com.anbang.qipai.admin.plan.bean.report.GameDataReport;
 import com.anbang.qipai.admin.plan.bean.report.PlatformReport;
 import com.anbang.qipai.admin.plan.service.GameReportService;
@@ -77,7 +78,7 @@ public class DataReportController {
 	 */
 	@RequestMapping(value = "/gamereport", method = RequestMethod.POST)
 	public CommonVO gameReport(@RequestParam(required = true) Long startTime,
-			@RequestParam(required = true) Long endTime, @RequestParam(required = true) String game) {
+			@RequestParam(required = true) Long endTime, @RequestParam(required = true) Game game) {
 		CommonVO vo = new CommonVO();
 		List<GameDataReport> reportList = gameReportService.findGameReportByTimeAndGame(startTime, endTime, game);
 		vo.setSuccess(true);

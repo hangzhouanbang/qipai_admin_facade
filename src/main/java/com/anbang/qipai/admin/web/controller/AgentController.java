@@ -83,7 +83,7 @@ public class AgentController {
 		data.put("juniorAmount", juniorAmount);
 		vo.setSuccess(true);
 		vo.setMsg("agentList");
-		vo.setData(listPage);
+		vo.setData(data);
 		return vo;
 	}
 

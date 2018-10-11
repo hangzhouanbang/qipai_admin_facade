@@ -15,7 +15,6 @@ public class AgentClubCardRecordDboVO extends AgentClubCardRecordDbo {
 	private String type;
 	private String accountingTimeSort;
 	private String costSort;
-	private String productSort;
 	private String balanceAfterZhouSort;
 	private String balanceAfterYueSort;
 	private String balanceAfterJiSort;
@@ -31,11 +30,6 @@ public class AgentClubCardRecordDboVO extends AgentClubCardRecordDbo {
 			orderList.add(new Order(Direction.ASC, "cost"));
 		} else if ("DESC".equals(costSort)) {
 			orderList.add(new Order(Direction.DESC, "cost"));
-		}
-		if ("ASC".equals(productSort)) {
-			orderList.add(new Order(Direction.ASC, "product"));
-		} else if ("DESC".equals(productSort)) {
-			orderList.add(new Order(Direction.DESC, "product"));
 		}
 		if ("ASC".equals(balanceAfterZhouSort)) {
 			orderList.add(new Order(Direction.ASC, "balanceAfterZhou"));
@@ -57,14 +51,6 @@ public class AgentClubCardRecordDboVO extends AgentClubCardRecordDbo {
 			return sort;
 		}
 		return null;
-	}
-
-	public String getProductSort() {
-		return productSort;
-	}
-
-	public void setProductSort(String productSort) {
-		this.productSort = productSort;
 	}
 
 	public String getBalanceAfterZhouSort() {

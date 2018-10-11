@@ -16,7 +16,6 @@ public class AgentScoreRecordDboVO extends AgentScoreRecordDbo {
 	private String accountingAmountSort;
 	private String accountingTimeSort;
 	private String balanceAfterSort;
-	private String productSort;
 	private String numberSort;
 
 	public Sort getSort() {
@@ -35,11 +34,6 @@ public class AgentScoreRecordDboVO extends AgentScoreRecordDbo {
 			orderList.add(new Order(Direction.ASC, "balanceAfter"));
 		} else if ("DESC".equals(balanceAfterSort)) {
 			orderList.add(new Order(Direction.DESC, "balanceAfter"));
-		}
-		if ("ASC".equals(productSort)) {
-			orderList.add(new Order(Direction.ASC, "product"));
-		} else if ("DESC".equals(productSort)) {
-			orderList.add(new Order(Direction.DESC, "product"));
 		}
 		if ("ASC".equals(numberSort)) {
 			orderList.add(new Order(Direction.ASC, "number"));
@@ -99,14 +93,6 @@ public class AgentScoreRecordDboVO extends AgentScoreRecordDbo {
 
 	public void setBalanceAfterSort(String balanceAfterSort) {
 		this.balanceAfterSort = balanceAfterSort;
-	}
-
-	public String getProductSort() {
-		return productSort;
-	}
-
-	public void setProductSort(String productSort) {
-		this.productSort = productSort;
 	}
 
 	public String getNumberSort() {
