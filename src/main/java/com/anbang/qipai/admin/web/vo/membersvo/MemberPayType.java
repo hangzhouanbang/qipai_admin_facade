@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.web.vo.membersvo;
 
-public enum MemberPatType {
+public enum MemberPayType {
 	微信支付, 支付宝支付;
 	public static String getSummaryText(String text) {
 		switch (text) {

@@ -13,7 +13,7 @@ import com.anbang.qipai.admin.plan.dao.membersdao.MemberOrderDao;
 import com.anbang.qipai.admin.util.ExcelUtils;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderStatus;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderVO;
-import com.anbang.qipai.admin.web.vo.membersvo.MemberPatType;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberPayType;
 import com.highto.framework.web.page.ListPage;
 
 @Service
@@ -37,7 +37,7 @@ public class MemberOrderService {
 			String status = orderList.get(i).getStatus();
 			orderList.get(i).setStatus(MemberOrderStatus.getSummaryText(status));
 			String payType = orderList.get(i).getPay_type();
-			orderList.get(i).setPay_type(MemberPatType.getSummaryText(payType));
+			orderList.get(i).setPay_type(MemberPayType.getSummaryText(payType));
 		}
 		ListPage listPage = new ListPage(orderList, page, size, (int) amount);
 		return listPage;

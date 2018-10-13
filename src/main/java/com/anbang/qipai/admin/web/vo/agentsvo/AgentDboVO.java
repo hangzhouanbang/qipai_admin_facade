@@ -37,7 +37,8 @@ public class AgentDboVO extends AgentDbo {
 			Sort sort = new Sort(orderList);
 			return sort;
 		}
-		return null;
+		Sort sort = new Sort(new Order(Direction.DESC, "createTime"));
+		return sort;
 	}
 
 	public Long getStartTime() {

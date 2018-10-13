@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentClubCardDao;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentPayType;
 import com.highto.framework.web.page.ListPage;
 
 @Service
@@ -18,6 +19,10 @@ public class AgentClubCardService {
 	public ListPage findAgentClubCardByConditions(int page, int size, AgentClubCard card) {
 		long amount = clubCardDao.getAmountByConditions(card);
 		List<AgentClubCard> cardList = clubCardDao.findAgentClubCardByConditions(page, size, card);
+		for (int i = 0; i < cardList.size(); i++) {
+			String payType = cardList.get(i).getPayType();
+			cardList.get(i).setPayType(AgentPayType.getSummaryText(payType));
+		}
 		ListPage listPage = new ListPage(cardList, page, size, (int) amount);
 		return listPage;
 	}

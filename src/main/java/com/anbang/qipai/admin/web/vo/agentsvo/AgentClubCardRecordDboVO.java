@@ -50,7 +50,8 @@ public class AgentClubCardRecordDboVO extends AgentClubCardRecordDbo {
 			Sort sort = new Sort(orderList);
 			return sort;
 		}
-		return null;
+		Sort sort = new Sort(new Order(Direction.DESC, "accountingTime"));
+		return sort;
 	}
 
 	public String getBalanceAfterZhouSort() {

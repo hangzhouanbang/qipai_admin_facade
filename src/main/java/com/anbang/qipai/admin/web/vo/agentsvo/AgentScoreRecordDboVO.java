@@ -44,7 +44,8 @@ public class AgentScoreRecordDboVO extends AgentScoreRecordDbo {
 			Sort sort = new Sort(orderList);
 			return sort;
 		}
-		return null;
+		Sort sort = new Sort(new Order(Direction.DESC, "accountingTime"));
+		return sort;
 	}
 
 	public Long getStartTime() {

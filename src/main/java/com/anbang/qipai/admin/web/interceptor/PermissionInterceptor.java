@@ -36,10 +36,12 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			throws Exception {
 		String token = request.getParameter("token");
 		if (token == null) {
+			request.getRequestDispatcher("/index.html").forward(request, response);
 			return false;
 		}
 		String adminId = adminAuthService.getAdminIdBySessionId(token);
 		if (adminId == null) {
+			request.getRequestDispatcher("/index.html").forward(request, response);
 			return false;
 		}
 		String uri = request.getRequestURI();

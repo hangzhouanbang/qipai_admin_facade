@@ -4,6 +4,9 @@ public enum RecordSummaryTexts {
 	新推广员, 邀请玩家, 管理员调整, 积分兑换会员卡, 微信购买会员卡, 转赠下级, 上级转赠, 充值玩家VIP;
 
 	public static String getSummaryText(String text) {
+		if (text == null) {
+			return null;
+		}
 		switch (text) {
 		case "new agent":
 			return 新推广员.name();
