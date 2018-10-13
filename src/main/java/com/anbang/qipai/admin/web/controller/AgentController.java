@@ -2,7 +2,10 @@ package com.anbang.qipai.admin.web.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,15 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anbang.qipai.admin.plan.bean.agents.AgentApplyRecord;
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentImageDbo;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentApplyRecordService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardRecordDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentImageDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentInvitationRecordService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentScoreRecordDboService;
 import com.anbang.qipai.admin.remote.service.QipaiAgentsRemoteService;
 import com.anbang.qipai.admin.remote.vo.AccountRemoteVO;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
+import com.anbang.qipai.admin.util.QiniuUtil;
+import com.anbang.qipai.admin.util.QrCodeCreateUtil;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentClubCardRecordDboVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
@@ -61,6 +68,9 @@ public class AgentController {
 
 	@Autowired
 	private AgentInvitationRecordService agentInvitationRecordService;
+
+	@Autowired
+	private AgentImageDboService agentImageDboService;
 
 	/**
 	 * 查询推广员，不包括未通过申请的
@@ -515,6 +525,66 @@ public class AgentController {
 		}
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	@RequestMapping(value = "/qrcode", method = RequestMethod.GET)
+	public void qrcode(String agentId, HttpServletResponse response) {
+		AgentDbo agent = agentDboService.findAgentDboById(agentId);
+		if (agent != null) {
+			String content = "http://scs.3cscy.com/majiang/u3D/html/xiazai.html?invitationCode="
+					+ agent.getInvitationCode();
+			try {
+				QrCodeCreateUtil.createQrCode(content, 1000, "jpg", response);
+			} catch (Exception e) {
+
+			}
+		}
+	}
+
+	@RequestMapping(value = "/queryimage", method = RequestMethod.POST)
+	public CommonVO queryimage() {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		List<AgentImageDbo> imageList = agentImageDboService.findAgentImageDbo();
+		data.put("imageList", imageList);
+		vo.setSuccess(true);
+		vo.setMsg("imageList");
+		vo.setData(data);
+		return vo;
+	}
+
+	@RequestMapping(value = "/addimage", method = RequestMethod.POST)
+	public CommonVO addimage(String fileName) {
+		CommonVO vo = new CommonVO();
+		AgentImageDbo image = new AgentImageDbo();
+		image.setFileName(fileName);
+		image.setDownloadUrl("http://qiniu.3cscy.com/" + fileName);
+		String[] s = fileName.split(".");
+		String imageFormat = s[s.length - 1];
+		image.setImageFormat(imageFormat);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.image_addimage(image);
+		vo.setSuccess(rvo.isSuccess());
+		return vo;
+	}
+
+	@RequestMapping(value = "/deleteimage", method = RequestMethod.POST)
+	public CommonVO deleteimage(String imageId) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.image_deleteimage(imageId);
+		vo.setSuccess(rvo.isSuccess());
+		return vo;
+	}
+
+	@RequestMapping(value = "/uptoken", method = RequestMethod.POST)
+	public CommonVO uptoken() {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		String uptoken = QiniuUtil.getUpToken();
+		data.put("uptoken", uptoken);
+		vo.setSuccess(true);
+		vo.setMsg("uptoken");
+		vo.setData(data);
 		return vo;
 	}
 }

@@ -23,11 +23,11 @@ import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
+import com.anbang.qipai.admin.util.QiniuUtil;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.google.gson.Gson;
 import com.highto.framework.web.page.ListPage;
-import com.qiniu.util.Auth;
 
 /**
  * 系统邮件controller
@@ -100,11 +100,7 @@ public class MailController {
 	@ResponseBody
 	public CommonVO uptoken() {
 		CommonVO vo = new CommonVO();
-		String accessKey = "qQj7mRKyvE7dOOjObMC8W58i6Yn3penfr7-_fg4d";
-		String secretKey = "9f70kmAddF1maP1U0jy0vRNAhwWNv_huR1xDSH_s";
-		String bucket = "anbang";
-		Auth auth = Auth.create(accessKey, secretKey);
-		String uptoken = auth.uploadToken(bucket);
+		String uptoken = QiniuUtil.getUpToken();
 		vo.setSuccess(true);
 		vo.setMsg("Obtaintoken");
 		vo.setData(uptoken);

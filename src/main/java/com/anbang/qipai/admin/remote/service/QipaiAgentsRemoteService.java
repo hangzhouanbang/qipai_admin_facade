@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
+import com.anbang.qipai.admin.plan.bean.agents.AgentImageDbo;
 import com.anbang.qipai.admin.remote.vo.AccountRemoteVO;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
@@ -84,4 +85,10 @@ public interface QipaiAgentsRemoteService {
 	@RequestMapping("/clubcard/giveclubcardjitoagent")
 	public CommonRemoteVO clubcard_giveclubcardjitoagent(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
+
+	@RequestMapping("/image/addimage")
+	public CommonRemoteVO image_addimage(@RequestBody AgentImageDbo image);
+
+	@RequestMapping("/image/deleteimage")
+	public CommonRemoteVO image_deleteimage(@RequestParam(value = "imageId") String imageId);
 }
