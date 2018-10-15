@@ -6,6 +6,7 @@ public class AgentImageDbo {
 	private String fileName;// 图片名称
 	private String downloadUrl;// 图片下载地址
 	private String imageFormat;// 图片格式
+	private int ordinal;// 图片序号
 
 	public String getId() {
 		return id;
@@ -37,6 +38,14 @@ public class AgentImageDbo {
 
 	public void setImageFormat(String imageFormat) {
 		this.imageFormat = imageFormat;
+	}
+
+	public int getOrdinal() {
+		return ordinal;
+	}
+
+	public void setOrdinal(int ordinal) {
+		this.ordinal = ordinal;
 	}
 
 }

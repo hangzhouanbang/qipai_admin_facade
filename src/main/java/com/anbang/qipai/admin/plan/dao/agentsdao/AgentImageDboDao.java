@@ -13,4 +13,6 @@ public interface AgentImageDboDao {
 	AgentImageDbo findAgentImageDboById(String imageId);
 
 	void deleteAgentImageDboById(String imageId);
+
+	void deleteAgentImageDboByOrdinal(int ordinal);
 }

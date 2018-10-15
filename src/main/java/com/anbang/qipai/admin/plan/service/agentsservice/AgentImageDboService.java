@@ -29,4 +29,8 @@ public class AgentImageDboService {
 	public void deleteAgentImageDboById(String imageId) {
 		agentImageDboDao.deleteAgentImageDboById(imageId);
 	}
+
+	public void deleteAgentImageDboByOrdinal(int ordinal) {
+		agentImageDboDao.deleteAgentImageDboByOrdinal(ordinal);
+	}
 }

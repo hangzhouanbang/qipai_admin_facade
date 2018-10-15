@@ -8,7 +8,8 @@ public class AgentClubCard {
 	private int repertory;// 库存数量
 	private int remain;// 剩余
 	private String payType;// 支付方式
-	private double price;// 价格
+	private double firstPrice;// 一级价格
+	private double secordPrice;// 二级价格
 	private int weight;// 权重
 	private boolean sale;// 是否可用
 
@@ -68,12 +69,20 @@ public class AgentClubCard {
 		this.payType = payType;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getFirstPrice() {
+		return firstPrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setFirstPrice(double firstPrice) {
+		this.firstPrice = firstPrice;
+	}
+
+	public double getSecordPrice() {
+		return secordPrice;
+	}
+
+	public void setSecordPrice(double secordPrice) {
+		this.secordPrice = secordPrice;
 	}
 
 	public int getWeight() {

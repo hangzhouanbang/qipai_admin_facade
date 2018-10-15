@@ -40,4 +40,10 @@ public class MongodbAgentImageDboDao implements AgentImageDboDao {
 		return mongoTemplate.findOne(query, AgentImageDbo.class);
 	}
 
+	@Override
+	public void deleteAgentImageDboByOrdinal(int ordinal) {
+		Query query = new Query(Criteria.where("ordinal").is(ordinal));
+		mongoTemplate.remove(query, AgentImageDbo.class);
+	}
+
 }

@@ -555,13 +555,27 @@ public class AgentController {
 	}
 
 	@RequestMapping(value = "/addimage", method = RequestMethod.POST)
-	public CommonVO addimage(String fileName) {
+	public CommonVO addimage(String fileName, @RequestParam(required = true) Integer ordinal) {
 		CommonVO vo = new CommonVO();
+		if (ordinal < 1 || ordinal > 3) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid ordinal");
+			return vo;
+		}
+		agentImageDboService.deleteAgentImageDboByOrdinal(ordinal);
 		AgentImageDbo image = new AgentImageDbo();
+		image.setOrdinal(ordinal);
 		image.setFileName(fileName);
 		image.setDownloadUrl("http://qiniu.3cscy.com/" + fileName);
-		String[] s = fileName.split(".");
-		String imageFormat = s[s.length - 1];
+		String[] s = fileName.split("\\.");
+		String imageFormat = "";
+		try {
+			imageFormat = s[s.length - 1];
+		} catch (Exception e) {
+			vo.setSuccess(false);
+			vo.setMsg(e.getClass().getName());
+			return vo;
+		}
 		image.setImageFormat(imageFormat);
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.image_addimage(image);
 		vo.setSuccess(rvo.isSuccess());

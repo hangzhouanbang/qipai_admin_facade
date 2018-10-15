@@ -41,7 +41,8 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		update.set("number", card.getNumber());
 		update.set("repertory", card.getRepertory());
 		update.set("payType", card.getPayType());
-		update.set("price", card.getPrice());
+		update.set("firstPrice", card.getFirstPrice());
+		update.set("secordPrice", card.getSecordPrice());
 		update.set("weight", card.getWeight());
 		update.set("sale", card.isSale());
 		mongoTemplate.updateFirst(query, update, AgentClubCard.class);

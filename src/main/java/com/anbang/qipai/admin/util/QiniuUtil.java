@@ -13,7 +13,6 @@ public class QiniuUtil {
 	private static String secretKey = "9f70kmAddF1maP1U0jy0vRNAhwWNv_huR1xDSH_s";
 	private static String bucket = "anbang";
 	private static Auth auth = Auth.create(accessKey, secretKey);
-	private static String uptoken = auth.uploadToken(bucket);
 	// 构造一个带指定Zone对象的配置类
 	private static Configuration config = new Configuration(Zone.zone0());
 	private static UploadManager uploadManager = new UploadManager(config);
@@ -24,6 +23,6 @@ public class QiniuUtil {
 	}
 
 	public static String getUpToken() {
-		return uptoken;
+		return auth.uploadToken(bucket);
 	}
 }
