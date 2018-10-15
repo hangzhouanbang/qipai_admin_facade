@@ -1,7 +1,7 @@
 package com.anbang.qipai.admin.web.vo.agentsvo;
 
 public enum AgentPayType {
-	微信支付, 积分支付;
+	微信支付, 积分兑换;
 	public static String getSummaryText(String text) {
 		if (text == null) {
 			return null;
@@ -10,7 +10,7 @@ public enum AgentPayType {
 		case "wxpay":
 			return 微信支付.name();
 		case "scorepay":
-			return 积分支付.name();
+			return 积分兑换.name();
 		default:
 			return text;
 		}
