@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,13 +35,18 @@ public class SignInController {
 
 	@Autowired
 	private SignInPrizeExchangeLogService signInPrizeExchangeLogService;
-
-	@RequestMapping("/addsigninprize")
+	//添加抽奖奖励
+	@RequestMapping(value = "/addsigninprize", method = RequestMethod.POST)
 	public CommonVO addSignInPrize(SignInPrize signInPrize) {
 		CommonVO vo = new CommonVO();
-		if (signInPrize.getName() == null || signInPrize.getType() == null || signInPrize.getSingleNum() == 0
-				|| signInPrize.getStoreNum() == 0 || signInPrize.getIconUrl() == null || signInPrize.getPrizeProb() == 0
-				|| signInPrize.getFirstPrizeProb() == 0 || signInPrize.getOverstep() == null) {
+		if (signInPrize.getName() == null || 
+			signInPrize.getType() == null || 
+			signInPrize.getSingleNum() == 0 || 
+			signInPrize.getStoreNum() == 0 || 
+			signInPrize.getIconUrl() == null || 
+			signInPrize.getPrizeProb() == 0 || 
+			signInPrize.getFirstPrizeProb() == 0 || 
+			signInPrize.getOverstep() == null) {
 			vo.setSuccess(false);
 			vo.setMsg("incompleteParam");
 			return vo;
@@ -56,8 +62,8 @@ public class SignInController {
 		vo.setMsg("success");
 		return vo;
 	}
-
-	@RequestMapping("/querysigninprize")
+	//查询所有抽奖奖励
+	@RequestMapping(value = "/querysigninprize", method = RequestMethod.POST)
 	public CommonVO querySignInPrize() {
 		CommonVO vo = new CommonVO();
 		List<SignInPrize> list = signInPrizeService.querySignInPrize();
@@ -66,8 +72,8 @@ public class SignInController {
 		vo.setData(list);
 		return vo;
 	}
-
-	@RequestMapping("/querysigninprizebyid")
+	//根据id查询抽奖奖励
+	@RequestMapping(value = "/querysigninprizebyid", method = RequestMethod.POST)
 	public CommonVO querySignInPrizeById(String id) {
 		CommonVO vo = new CommonVO();
 		SignInPrize signInPrize = signInPrizeService.querySignInPrizeById(id);
@@ -76,8 +82,8 @@ public class SignInController {
 		vo.setData(signInPrize);
 		return vo;
 	}
-
-	@RequestMapping("/deletesigninprizebyid")
+	//根据id删除抽奖奖励
+	@RequestMapping(value = "/deletesigninprizebyid", method = RequestMethod.POST)
 	public CommonVO deleteSignInPrizeById(String id) {
 		CommonVO vo = new CommonVO();
 		signInPrizeService.deleteSignInPrizeById(id);
@@ -85,14 +91,19 @@ public class SignInController {
 		vo.setMsg("success");
 		return vo;
 	}
-
-	@RequestMapping("/updatesigninprize")
+	//修改抽奖奖品
+	@RequestMapping(value = "/updatesigninprize", method = RequestMethod.POST)
 	public CommonVO updateSignInPrize(SignInPrize signInPrize) {
 		CommonVO vo = new CommonVO();
-		if (signInPrize.getId() == null || signInPrize.getName() == null || signInPrize.getType() == null
-				|| signInPrize.getSingleNum() == 0 || signInPrize.getStoreNum() == 0 || signInPrize.getIconUrl() == null
-				|| signInPrize.getPrizeProb() == 0 || signInPrize.getFirstPrizeProb() == 0
-				|| signInPrize.getOverstep() == null) {
+		if (signInPrize.getId() == null || 
+			signInPrize.getName() == null || 
+			signInPrize.getType() == null || 
+			signInPrize.getSingleNum() == 0 || 
+			signInPrize.getStoreNum() == 0 || 
+			signInPrize.getIconUrl() == null|| 
+			signInPrize.getPrizeProb() == 0 || 
+			signInPrize.getFirstPrizeProb() == 0 || 
+			signInPrize.getOverstep() == null) {
 			vo.setSuccess(false);
 			vo.setMsg("incompleteParam");
 			return vo;
@@ -102,21 +113,21 @@ public class SignInController {
 		vo.setMsg("success");
 		return vo;
 	}
-
-	@RequestMapping("/querysigninprizelog")
+	//查询抽奖中奖纪录
+	@RequestMapping(value = "/querysigninprizelog", method = RequestMethod.POST)
 	public CommonVO querySignInPrizeLog(SignInPrizeLog signInPrizeLog,
 			@RequestParam(value = "startTime", required = false) Long startTime,
 			@RequestParam(value = "endTime", required = false) Long endTime) {
 		CommonVO vo = new CommonVO();
-		List<SignInPrizeLog> signInPrizeLogs = signInPrizeLogService.querySignInPrizeLog(signInPrizeLog, startTime,
-				endTime);
+		List<SignInPrizeLog> signInPrizeLogs = 
+				signInPrizeLogService.querySignInPrizeLog(signInPrizeLog, startTime,endTime);
 		vo.setSuccess(true);
 		vo.setMsg("success");
 		vo.setData(signInPrizeLogs);
 		return vo;
 	}
-
-	@RequestMapping("/querysigninprizeexchangelog")
+	//查询抽奖奖品兑换纪录
+	@RequestMapping(value = "/querysigninprizeexchangelog", method = RequestMethod.POST)
 	public CommonVO querySignInPrizeExchangeLog(SignInPrizeExchangeLog signInPrizeExchangeLog,
 			@RequestParam(value = "startTime", required = false) Long startTime,
 			@RequestParam(value = "endTime", required = false) Long endTime) {
@@ -130,11 +141,11 @@ public class SignInController {
 	}
 
 	/**
-	 * 统计待发放奖品
+	 * 统计抽奖奖品个数
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/countunissuesigninprize")
+	@RequestMapping(value = "/countunissuesigninprize", method = RequestMethod.POST)
 	public CommonVO countUnIssueSignInPrize() {
 		CommonVO vo = new CommonVO();
 		int count = signInPrizeExchangeLogService.countUnIssueSignInPrize();
@@ -143,8 +154,8 @@ public class SignInController {
 		vo.setData(count);
 		return vo;
 	}
-
-	@RequestMapping("/issuesigninprize")
+	//发放兑换记录奖品
+	@RequestMapping(value = "/issuesigninprize", method = RequestMethod.POST)
 	public CommonVO issueSignInPrize(int id) {
 		CommonVO vo = new CommonVO();
 		signInPrizeExchangeLogService.issueSignInPrize(id);
@@ -152,8 +163,8 @@ public class SignInController {
 		vo.setMsg("success");
 		return vo;
 	}
-
-	@RequestMapping("/releasesigninprize")
+	//发布10个抽奖奖励
+	@RequestMapping(value = "/releasesigninprize", method = RequestMethod.POST)
 	public CommonVO releaseSignInPrize() {
 		CommonVO vo = new CommonVO();
 		int count = signInPrizeService.countSignInPrize();
@@ -173,15 +184,16 @@ public class SignInController {
 		if (checkPrizeProb > 100) {
 			vo.setSuccess(false);
 			vo.setMsg("PrizeProbOverstep");
-			vo.setData(checkPrizeProb);
+			//vo.setData(checkPrizeProb);
 			return vo;
 		}
 		if (checkFirstPrizeProb > 100) {
 			vo.setSuccess(false);
 			vo.setMsg("FirstPrizeProbOverstep");
-			vo.setData(checkFirstPrizeProb);
+			//vo.setData(checkFirstPrizeProb);
 			return vo;
 		}
+		// kafka发消息
 		signInPrizeService.releaseSignInPrize();
 		vo.setSuccess(true);
 		vo.setMsg("success");
