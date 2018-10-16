@@ -52,9 +52,9 @@ public class SignInController {
 			return vo;
 		}
 		int count = signInPrizeService.countSignInPrize();
-		if (count >= 10) {
+		if (count != 10) {
 			vo.setSuccess(false);
-			vo.setMsg("overstep");
+			//vo.setMsg("overstep");
 			return vo;
 		}
 		signInPrizeService.addSignInPrize(signInPrize);
