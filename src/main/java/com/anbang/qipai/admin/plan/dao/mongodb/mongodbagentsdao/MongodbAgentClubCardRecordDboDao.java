@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCardRecordDbo;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentClubCardRecordDboDao;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentClubCardRecordDboVO;
+import com.mongodb.BasicDBObject;
 
 @Component
 public class MongodbAgentClubCardRecordDboDao implements AgentClubCardRecordDboDao {
@@ -75,6 +78,22 @@ public class MongodbAgentClubCardRecordDboDao implements AgentClubCardRecordDboD
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, AgentClubCardRecordDbo.class);
+	}
+
+	@Override
+	public int countProductNumByTimeAndProduct(String productName, String type, long startTime, long endTime) {
+		Aggregation aggregation = Aggregation.newAggregation(AgentClubCardRecordDbo.class,
+				Aggregation.match(Criteria.where("accountingTime").gte(startTime).lte(endTime).and("product")
+						.is(productName).and("summary.text").regex(type)),
+				Aggregation.group().sum("accountingAmount").as("num"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, AgentClubCardRecordDbo.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getInt("num");
 	}
 
 }

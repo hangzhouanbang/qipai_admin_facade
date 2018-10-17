@@ -7,5 +7,4 @@ public interface AgentOrderDao {
 	public void addOrder(AgentOrder order);
 
 	void orderFinished(String id, String transaction_id, String status, long deliveTime);
-
 }

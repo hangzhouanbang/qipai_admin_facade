@@ -15,6 +15,8 @@ public class AccountRemoteVO {
 
 	private int clubCardJi;
 
+	private int clubCardRi;
+
 	public boolean isSuccess() {
 		return success;
 	}
@@ -69,6 +71,14 @@ public class AccountRemoteVO {
 
 	public void setData(Object data) {
 		this.data = data;
+	}
+
+	public int getClubCardRi() {
+		return clubCardRi;
+	}
+
+	public void setClubCardRi(int clubCardRi) {
+		this.clubCardRi = clubCardRi;
 	}
 
 }

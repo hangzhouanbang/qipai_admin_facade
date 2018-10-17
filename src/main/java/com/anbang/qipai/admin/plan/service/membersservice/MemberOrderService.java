@@ -85,4 +85,8 @@ public class MemberOrderService {
 		workbook.write(output);
 		workbook.close();
 	}
+
+	public int countProductNumByTimeAndProduct(String productName, long startTime, long endTime) {
+		return orderDao.countProductNumByTimeAndProduct(productName, startTime, endTime);
+	}
 }

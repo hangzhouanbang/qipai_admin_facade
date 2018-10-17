@@ -42,9 +42,4 @@ public class AgentClubCardService {
 	public AgentClubCard findAgentClubCardById(String id) {
 		return clubCardDao.findAgentClubCardById(id);
 	}
-
-	public AgentClubCard updateAgentClubCardRemain(String cardId, int remain) {
-		clubCardDao.updateAgentClubCardRemain(cardId, remain);
-		return clubCardDao.findAgentClubCardById(cardId);
-	}
 }

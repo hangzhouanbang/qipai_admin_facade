@@ -35,4 +35,8 @@ public class AgentClubCardRecordDboService {
 		ListPage listPage = new ListPage(recordList, page, size, (int) amount);
 		return listPage;
 	}
+
+	public int countProductNumByTimeAndProduct(String productName, String type, long startTime, long endTime) {
+		return agentClubCardRecordDboDao.countProductNumByTimeAndProduct(productName, type, startTime, endTime);
+	}
 }

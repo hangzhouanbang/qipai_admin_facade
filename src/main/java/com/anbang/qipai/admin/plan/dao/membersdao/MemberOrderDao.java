@@ -28,4 +28,6 @@ public interface MemberOrderDao {
 	double countCostByMemberId(String memberId);
 
 	void orderFinished(String id, String transaction_id, String status, long deliveTime);
+
+	int countProductNumByTimeAndProduct(String productName, long startTime, long endTime);
 }
