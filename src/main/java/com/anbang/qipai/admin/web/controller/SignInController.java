@@ -53,9 +53,9 @@ public class SignInController {
 			return vo;
 		}
 		int count = signInPrizeService.countSignInPrize();
-		if (count != 10) {
+		if (count >= 10) {
 			vo.setSuccess(false);
-			//vo.setMsg("overstep");
+			vo.setMsg("overstep");
 			return vo;
 		}
 		signInPrizeService.addSignInPrize(signInPrize);
@@ -96,19 +96,6 @@ public class SignInController {
 	@RequestMapping(value = "/updatesigninprize", method = RequestMethod.POST)
 	public CommonVO updateSignInPrize(SignInPrize signInPrize) {
 		CommonVO vo = new CommonVO();
-		if (signInPrize.getId() == null || 
-			signInPrize.getName() == null || 
-			signInPrize.getType() == null || 
-			signInPrize.getSingleNum() == 0 || 
-			signInPrize.getStoreNum() == 0 || 
-			signInPrize.getIconUrl() == null|| 
-			signInPrize.getPrizeProb() == 0 || 
-			signInPrize.getFirstPrizeProb() == 0 || 
-			signInPrize.getOverstep() == null) {
-			vo.setSuccess(false);
-			vo.setMsg("incompleteParam");
-			return vo;
-		}
 		signInPrizeService.updateSignInPrize(signInPrize);
 		vo.setSuccess(true);
 		vo.setMsg("success");
