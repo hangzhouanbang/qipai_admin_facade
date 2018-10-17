@@ -121,6 +121,14 @@ public class MemberController {
 		return vo;
 	}
 
+	@RequestMapping(value = "/give_reward_clubcard", method = RequestMethod.POST)
+	public CommonRemoteVO give_reward_clubcard(@RequestParam(value = "id") String[] ids, Integer vipTime) {
+		long day = 24 * 60 * 60 * 1000;
+		CommonRemoteVO vo = qipaiMembersRemoteService.give_viptime(ids, vipTime * day);
+		vo.setSuccess(vo.isSuccess());
+		return vo;
+	}
+
 	/**
 	 * 查询会员金币流水
 	 * 

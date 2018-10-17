@@ -48,8 +48,8 @@ public class LoginController {
 	@Autowired
 	private AgentClubCardRecordDboService agentClubCardRecordDboService;
 
-	@RequestMapping("/index")
-	public CommonVO index(@RequestParam(defaultValue = "-1") Integer month) {
+	@RequestMapping("/memberindex")
+	public CommonVO memberIndex(@RequestParam(defaultValue = "-1") Integer month) {
 		CommonVO vo = new CommonVO();
 		Map<String, Object> data = new HashMap<String, Object>();
 		long amount = memberService.countAmount();
@@ -73,6 +73,25 @@ public class LoginController {
 		data.put("memberYueAmount", memberYueAmount);
 		int memberJiAmount = orderService.countProductNumByTimeAndProduct("季卡", startTime, endTime);
 		data.put("memberJiAmount", memberJiAmount);
+		vo.setSuccess(true);
+		vo.setMsg("index info");
+		vo.setData(data);
+		return vo;
+	}
+
+	@RequestMapping("/agentindex")
+	public CommonVO agentIndex(@RequestParam(defaultValue = "-1") Integer month) {
+		CommonVO vo = new CommonVO();
+		Map<String, Object> data = new HashMap<String, Object>();
+		Calendar calendar = Calendar.getInstance();
+		if (month < 12 && month > -1) {
+			calendar.set(Calendar.MONTH, month - 1);
+		}
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		long startTime = calendar.getTimeInMillis();// 当月第一天
+		calendar.add(Calendar.MONTH, 1);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		long endTime = calendar.getTimeInMillis();// 下月第一天
 		long seniorAmount = agentDboService.countAmountByLevel(1);
 		data.put("seniorAmount", seniorAmount);
 		long juniorAmount = agentDboService.countAmountByLevel(2);

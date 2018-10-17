@@ -51,6 +51,9 @@ public class RoleService {
 	public void editPrivilege(String roleId, String[] privilegeIds) {
 		List<Privilege> privilegeList = privilegeDao.findPrivilegesByIds(privilegeIds);
 		roleDao.updatePrivilegeList(roleId, privilegeList);
+		Role role = roleDao.findRoleById(roleId);
+		adminDao.updatePrivilegeByRole(role.getId(), role.getPrivilegeList());
+		;
 	}
 
 }

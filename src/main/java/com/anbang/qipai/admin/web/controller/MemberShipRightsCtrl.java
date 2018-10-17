@@ -43,7 +43,7 @@ public class MemberShipRightsCtrl {
 	public String commonuser(MemberShipRights commonuser) {
 		CommonRemoteVO co = qipaMemberClient.commonuser(commonuser.getSignGoldNumber(),
 				commonuser.getGoldForNewNember(), commonuser.getInviteIntegralNumber(),
-				commonuser.getPlanGrowIntegralSpeed());
+				commonuser.getGoldForAgentInvite(), commonuser.getPlanGrowIntegralSpeed());
 		CommonRemoteVO cos = qipaiGameRomoteService.commonuser(commonuser.getPlanMemberRoomsCount(),
 				commonuser.getPlanMemberRoomsAliveHours(), commonuser.getPlanMemberMaxCreateRoomDaily(),
 				commonuser.getPlanMemberCreateRoomDailyGoldPrice(), commonuser.getPlanMemberJoinRoomGoldPrice());
@@ -93,6 +93,7 @@ public class MemberShipRightsCtrl {
 			comm.setPlanMemberRoomsAliveHours(memberShipRights.getPlanMemberRoomsAliveHours());
 			comm.setPlanMemberRoomsCount(memberShipRights.getPlanMemberRoomsCount());
 			comm.setGoldForNewNember(memberShipRights.getGoldForNewNember());
+			comm.setGoldForAgentInvite(memberShipRights.getGoldForAgentInvite());
 		}
 		return comm;
 	}

@@ -18,7 +18,6 @@ import com.anbang.qipai.admin.plan.bean.mail.SystemMail;
 import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberClubCardDao;
 import com.anbang.qipai.admin.plan.dao.systemmaildao.MailDao;
-import com.anbang.qipai.admin.util.TimeUtil;
 import com.highto.framework.web.page.ListPage;
 
 @Service
@@ -82,9 +81,8 @@ public class MailService {
 				mailList.setRewardTime(mailState.getRewardTime());
 				mailList.setMemberId(mailState.getMemberid());
 				mailList.setSystemMail(systemMail1);
-				if (systemMail1.getVipcard()!=null) {
-					long time = TimeUtil.getTimeOnDay(systemMail1.getVipcard());
-					MemberClubCard clubCard = clubCardDao.findClubCardByTime(time);
+				if (systemMail1.getVipCardId() != null) {
+					MemberClubCard clubCard = clubCardDao.getClubCardById(systemMail1.getVipCardId());
 					if (clubCard != null) {
 						mailList.setVipCardName(clubCard.getName());
 					}

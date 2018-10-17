@@ -2,23 +2,25 @@ package com.anbang.qipai.admin.plan.bean.membershiprights;
 
 public class CommonUser {
 	private String id;
- 	
- 	private int signGoldNumber;//用户签到得金币数量
- 	
- 	private int goldForNewNember;//新用户注册赠送的金币数量
- 	
- 	private int inviteIntegralNumber;//邀请得积分数量
- 	
- 	private float planGrowIntegralSpeed;//普通用户积分增长速度
- 	
- 	private int planMemberCreateRoomDailyGoldPrice;//创建房间的金币价格
- 	private int planMemberaddRoomDailyGoldPrice;//加入房间的金币价格
- 	
- 	private int planMemberRoomsCount;//普通保存房间数量
- 	
- 	private int planMemberMaxCreateRoomDaily;//普通用户创建vip房间的上限
- 	
- 	private int planMemberRoomsAliveHours;//普通房间存活小时数
+
+	private int signGoldNumber;// 用户签到得金币数量
+
+	private int goldForNewNember;// 新用户注册赠送的金币数量
+
+	private int inviteIntegralNumber;// 邀请得积分数量
+
+	private float planGrowIntegralSpeed;// 普通用户积分增长速度
+
+	private int planMemberCreateRoomDailyGoldPrice;// 创建房间的金币价格
+	private int planMemberaddRoomDailyGoldPrice;// 加入房间的金币价格
+
+	private int planMemberRoomsCount;// 普通保存房间数量
+
+	private int planMemberMaxCreateRoomDaily;// 普通用户创建vip房间的上限
+
+	private int planMemberRoomsAliveHours;// 普通房间存活小时数
+
+	private int goldForAgentInvite;// 填写邀请码赠送玉石数
 
 	public String getId() {
 		return id;
@@ -99,6 +101,13 @@ public class CommonUser {
 	public void setPlanMemberRoomsAliveHours(int planMemberRoomsAliveHours) {
 		this.planMemberRoomsAliveHours = planMemberRoomsAliveHours;
 	}
- 	
- 	
+
+	public int getGoldForAgentInvite() {
+		return goldForAgentInvite;
+	}
+
+	public void setGoldForAgentInvite(int goldForAgentInvite) {
+		this.goldForAgentInvite = goldForAgentInvite;
+	}
+
 }

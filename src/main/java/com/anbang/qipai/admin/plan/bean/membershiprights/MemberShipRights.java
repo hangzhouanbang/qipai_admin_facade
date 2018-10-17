@@ -29,6 +29,8 @@ public class MemberShipRights {
 
 	private int vipMemberRoomsAliveHours;// 会员房间存活小时数
 
+	private int goldForAgentInvite;// 填写邀请码赠送玉石数
+
 	public String getId() {
 		return id;
 	}
@@ -139,6 +141,14 @@ public class MemberShipRights {
 
 	public void setPlanMemberJoinRoomGoldPrice(int planMemberJoinRoomGoldPrice) {
 		this.planMemberJoinRoomGoldPrice = planMemberJoinRoomGoldPrice;
+	}
+
+	public int getGoldForAgentInvite() {
+		return goldForAgentInvite;
+	}
+
+	public void setGoldForAgentInvite(int goldForAgentInvite) {
+		this.goldForAgentInvite = goldForAgentInvite;
 	}
 
 }

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anbang.qipai.admin.plan.bean.grade.MemberGrade;
-import com.anbang.qipai.admin.plan.bean.members.MemberClubCard;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**
@@ -24,6 +23,7 @@ public interface QipaiMembersRemoteService {
 	public CommonRemoteVO commonuser(@RequestParam(value = "signGoldNumber") Integer signGoldNumber,
 			@RequestParam(value = "goldForNewNember") Integer goldForNewNember,
 			@RequestParam(value = "inviteIntegralNumber") Integer inviteIntegralNumber,
+			@RequestParam(value = "goldForAgentInvite") Integer goldForAgentInvite,
 			@RequestParam(value = "planGrowIntegralSpeed") float planGrowIntegralSpeed);
 
 	@RequestMapping(value = "/conf/vipuser")
@@ -38,6 +38,9 @@ public interface QipaiMembersRemoteService {
 	@RequestMapping(value = "/member/update_score_gold")
 	public CommonRemoteVO give_score_gold(@RequestBody String[] ids, @RequestParam(value = "score") Integer score,
 			@RequestParam(value = "gold") Integer gold);
+
+	@RequestMapping(value = "/member/update_viptime")
+	public CommonRemoteVO give_viptime(@RequestBody String[] ids, @RequestParam(value = "vipEndTime") Long vipEndTime);
 
 	@RequestMapping(value = "/snapshot/save")
 	CommonRemoteVO snapshot_save();

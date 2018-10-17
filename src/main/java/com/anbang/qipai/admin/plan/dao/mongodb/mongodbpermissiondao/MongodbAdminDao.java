@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.permission.Admin;
+import com.anbang.qipai.admin.plan.bean.permission.Privilege;
 import com.anbang.qipai.admin.plan.bean.permission.Role;
 import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
 
@@ -75,7 +76,7 @@ public class MongodbAdminDao implements AdminDao {
 		Query query = new Query();
 		for (Object id : ids) {
 			Update update = new Update();
-			//TODO用$in取代is
+			// TODO用$in取代is
 			update.pull("roleList", new Query(Criteria.where("roleList.id").is(id)));
 			mongoTemplate.updateMulti(query, update, Admin.class);
 		}
@@ -96,6 +97,14 @@ public class MongodbAdminDao implements AdminDao {
 		criteria.and("id").is(adminId);
 		query.addCriteria(criteria);
 		return mongoTemplate.findOne(query, Admin.class);
+	}
+
+	@Override
+	public void updatePrivilegeByRole(String roleId, List<Privilege> privilegeList) {
+		Query query = new Query(Criteria.where("roleList.id").is(roleId));
+		Update update = new Update();
+		update.set("roleList.privilegeList", privilegeList);
+		mongoTemplate.updateFirst(query, update, Admin.class);
 	}
 
 }

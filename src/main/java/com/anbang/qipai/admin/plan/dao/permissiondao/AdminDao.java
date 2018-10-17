@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.plan.dao.permissiondao;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.permission.Admin;
+import com.anbang.qipai.admin.plan.bean.permission.Privilege;
 import com.anbang.qipai.admin.plan.bean.permission.Role;
 
 public interface AdminDao {
@@ -24,4 +25,6 @@ public interface AdminDao {
 	void deleteRoleByRoleId(String[] roleIds);
 
 	void updateRoleList(String adminId, List<Role> roleList);
+
+	void updatePrivilegeByRole(String roleId, List<Privilege> privilegeList);
 }

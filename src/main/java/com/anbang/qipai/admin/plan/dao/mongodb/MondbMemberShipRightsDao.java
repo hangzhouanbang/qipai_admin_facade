@@ -51,6 +51,7 @@ public class MondbMemberShipRightsDao implements MemberShipRightsDao {
 		update.set("vipGrowIntegralSpeed", commonuser.getVipGrowIntegralSpeed());
 		update.set("planGrowIntegralSpeed", commonuser.getPlanGrowIntegralSpeed());
 		update.set("vipGrowGradeSpeed", commonuser.getVipGrowGradeSpeed());
+		update.set("goldForAgentInvite", commonuser.getGoldForAgentInvite());
 		mongoTemplate.updateFirst(query, update, MemberShipRights.class);
 	}
 

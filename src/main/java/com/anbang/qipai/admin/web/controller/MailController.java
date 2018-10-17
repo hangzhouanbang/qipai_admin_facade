@@ -153,8 +153,9 @@ public class MailController {
 			mail.setValidTime(validTime);
 		}
 		if (vipCardId != null) {
-			MemberClubCard clubCard = clubCardService.findClubCardById(vipCardId);
-			mail.setVipcard(TimeUtil.getDay(clubCard.getTime()));
+			MemberClubCard card = clubCardService.findClubCardById(vipCardId);
+			mail.setCardName(card.getName());
+			mail.setVipCardId(vipCardId);
 		}
 		String str = gson.toJson(mail);
 		vo = qipaiGameRomoteService.addMailById(str, idss);
@@ -204,8 +205,7 @@ public class MailController {
 			mail.setValidTime(validTime);
 		}
 		if (vipCardId != null) {
-			MemberClubCard clubCard = clubCardService.findClubCardById(vipCardId);
-			mail.setVipcard(TimeUtil.getDay(clubCard.getTime()));
+			mail.setVipCardId(vipCardId);
 		}
 		String str = gson.toJson(mail);
 		vo = qipaiGameRomoteService.addMailById(str, idss);

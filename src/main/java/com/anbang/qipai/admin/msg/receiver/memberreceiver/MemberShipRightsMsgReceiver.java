@@ -40,6 +40,7 @@ public class MemberShipRightsMsgReceiver {
 		commonusers.setVipGrowIntegralSpeed(commonuser.getVipGrowIntegralSpeed());
 		commonusers.setPlanGrowIntegralSpeed(commonuser.getPlanGrowIntegralSpeed());
 		commonusers.setVipGrowGradeSpeed(commonuser.getVipGrowGradeSpeed());
+		commonusers.setGoldForAgentInvite(commonuser.getGoldForAgentInvite());
 		createMemberService.saveMemberShipRights(commonusers);
 	}
 
