@@ -40,13 +40,14 @@ public class SignInController {
 	public CommonVO addSignInPrize(SignInPrize signInPrize) {
 		CommonVO vo = new CommonVO();
 		if (signInPrize.getName() == null || 
-			signInPrize.getType() == null || 
+			//signInPrize.getType() == null || 
 			signInPrize.getSingleNum() == 0 || 
 			signInPrize.getStoreNum() == 0 || 
 			signInPrize.getIconUrl() == null || 
 			signInPrize.getPrizeProb() == 0 || 
-			signInPrize.getFirstPrizeProb() == 0 || 
-			signInPrize.getOverstep() == null) {
+			signInPrize.getFirstPrizeProb() == 0 
+			//|| signInPrize.getOverstep() == null
+			) {
 			vo.setSuccess(false);
 			vo.setMsg("incompleteParam");
 			return vo;
