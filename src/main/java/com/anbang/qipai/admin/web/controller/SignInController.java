@@ -18,7 +18,7 @@ import com.anbang.qipai.admin.plan.service.signinservice.SignInPrizeService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 
 /**
- * 签到Controller
+ * 签到抽奖Controller
  */
 @CrossOrigin
 @RestController
@@ -38,14 +38,11 @@ public class SignInController {
 	public CommonVO addSignInPrize(SignInPrize signInPrize) {
 		CommonVO vo = new CommonVO();
 		if (signInPrize.getName() == null || 
-			//signInPrize.getType() == null || 
 			signInPrize.getSingleNum() == 0 || 
 			signInPrize.getStoreNum() == 0 || 
 			signInPrize.getIconUrl() == null || 
 			signInPrize.getPrizeProb() == 0 || 
-			signInPrize.getFirstPrizeProb() == 0 
-			//|| signInPrize.getOverstep() == null
-			) {
+			signInPrize.getFirstPrizeProb() == 0) {
 			vo.setSuccess(false);
 			vo.setMsg("incompleteParam");
 			return vo;
@@ -99,6 +96,46 @@ public class SignInController {
 		vo.setMsg("success");
 		return vo;
 	}
+	
+	//发布10个抽奖奖励
+	@RequestMapping(value = "/releasesigninprize", method = RequestMethod.POST)
+	public CommonVO releaseSignInPrize() {
+		CommonVO vo = new CommonVO();
+		int count = signInPrizeService.countSignInPrize();
+		if (count < 10) {
+			vo.setSuccess(false);
+			vo.setMsg("notEnough");
+			vo.setData(count);
+			return vo;
+		}
+		List<SignInPrize> list = signInPrizeService.querySignInPrize();
+		long checkPrizeProb = 0;
+		long checkFirstPrizeProb = 0;
+		for (SignInPrize signInPrize : list) {
+			checkPrizeProb += signInPrize.getPrizeProb();
+			checkFirstPrizeProb += signInPrize.getFirstPrizeProb();
+			//发布改变状态为可减库存
+			signInPrize.setState("0");
+		}		
+		if (checkPrizeProb != 10000000) {
+			vo.setSuccess(false);
+			vo.setMsg("中奖概率设置有误");
+			//vo.setData(checkPrizeProb);
+			return vo;
+		}
+		if (checkFirstPrizeProb != 10000000) {
+			vo.setSuccess(false);
+			vo.setMsg("首次中奖概率设置有误");
+			//vo.setData(checkFirstPrizeProb);
+			return vo;
+		}
+		// kafka发消息
+		signInPrizeService.releaseSignInPrize();
+		vo.setSuccess(true);
+		vo.setMsg("success");
+		return vo;
+	}	
+	
 	//查询抽奖中奖纪录
 	@RequestMapping(value = "/querysigninprizelog", method = RequestMethod.POST)
 	public CommonVO querySignInPrizeLog(SignInPrizeLog signInPrizeLog,
@@ -149,40 +186,5 @@ public class SignInController {
 		vo.setMsg("success");
 		return vo;
 	}
-	//发布10个抽奖奖励
-	@RequestMapping(value = "/releasesigninprize", method = RequestMethod.POST)
-	public CommonVO releaseSignInPrize() {
-		CommonVO vo = new CommonVO();
-		int count = signInPrizeService.countSignInPrize();
-		if (count < 10) {
-			vo.setSuccess(false);
-			vo.setMsg("notEnough");
-			vo.setData(count);
-			return vo;
-		}
-		List<SignInPrize> list = signInPrizeService.querySignInPrize();
-		int checkPrizeProb = 0;
-		int checkFirstPrizeProb = 0;
-		for (SignInPrize signInPrize : list) {
-			checkPrizeProb += signInPrize.getPrizeProb();
-			checkFirstPrizeProb += signInPrize.getFirstPrizeProb();
-		}
-		if (checkPrizeProb > 100) {
-			vo.setSuccess(false);
-			vo.setMsg("PrizeProbOverstep");
-			//vo.setData(checkPrizeProb);
-			return vo;
-		}
-		if (checkFirstPrizeProb > 100) {
-			vo.setSuccess(false);
-			vo.setMsg("FirstPrizeProbOverstep");
-			//vo.setData(checkFirstPrizeProb);
-			return vo;
-		}
-		// kafka发消息
-		signInPrizeService.releaseSignInPrize();
-		vo.setSuccess(true);
-		vo.setMsg("success");
-		return vo;
-	}
+
 }

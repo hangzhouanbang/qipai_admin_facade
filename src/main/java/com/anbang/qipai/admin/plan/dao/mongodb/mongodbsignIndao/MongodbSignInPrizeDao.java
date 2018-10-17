@@ -28,15 +28,14 @@ public class MongodbSignInPrizeDao implements SignInPrizeDao {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("id").is(signInPrize.getId()));
 		Update update = new Update();
-		update.set("name", signInPrize.getName());
-		
-		//update.set("type", signInPrize.getType());
+		update.set("name", signInPrize.getName());		
+		update.set("type", signInPrize.getType());
 		update.set("singleNum", signInPrize.getSingleNum());
 		update.set("storeNum", signInPrize.getStoreNum());
 		update.set("iconUrl", signInPrize.getIconUrl());
 		update.set("prizeProb", signInPrize.getPrizeProb());
 		update.set("firstPrizeProb", signInPrize.getFirstPrizeProb());
-		//update.set("overstep", signInPrize.getOverstep());
+		update.set("overstep", signInPrize.getOverstep());
 		mongoTemplate.updateFirst(query, update, SignInPrize.class);
 	}
 

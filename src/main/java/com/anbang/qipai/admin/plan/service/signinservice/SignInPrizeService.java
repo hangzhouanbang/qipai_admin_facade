@@ -32,7 +32,6 @@ public class SignInPrizeService {
 	 * @param signInPrize
 	 */
 	public void updateSignInPrize(SignInPrize signInPrize) {
-		signInPrize.setState("1");
 		signInPrizeDao.updateSignInPrize(signInPrize);
 	}
 
