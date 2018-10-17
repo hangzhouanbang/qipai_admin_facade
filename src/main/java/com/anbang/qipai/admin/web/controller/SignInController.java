@@ -19,8 +19,6 @@ import com.anbang.qipai.admin.web.vo.CommonVO;
 
 /**
  * 签到Controller
- * 
- * @author created by hanzhuofan 2018.09.15
  */
 @CrossOrigin
 @RestController

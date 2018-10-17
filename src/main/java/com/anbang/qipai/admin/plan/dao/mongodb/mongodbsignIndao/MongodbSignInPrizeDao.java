@@ -29,6 +29,7 @@ public class MongodbSignInPrizeDao implements SignInPrizeDao {
 		query.addCriteria(Criteria.where("id").is(signInPrize.getId()));
 		Update update = new Update();
 		update.set("name", signInPrize.getName());
+		
 		//update.set("type", signInPrize.getType());
 		update.set("singleNum", signInPrize.getSingleNum());
 		update.set("storeNum", signInPrize.getStoreNum());
