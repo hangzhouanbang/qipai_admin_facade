@@ -5,8 +5,6 @@ public class AgentClubCard {
 	private String product;// 商品名称
 	private String productPic;// ICON图
 	private int number;
-	private int repertory;// 库存数量
-	private int remain;// 剩余
 	private String payType;// 支付方式
 	private double firstPrice;// 一级价格
 	private double secordPrice;// 二级价格
@@ -43,22 +41,6 @@ public class AgentClubCard {
 
 	public void setNumber(int number) {
 		this.number = number;
-	}
-
-	public int getRepertory() {
-		return repertory;
-	}
-
-	public void setRepertory(int repertory) {
-		this.repertory = repertory;
-	}
-
-	public int getRemain() {
-		return remain;
-	}
-
-	public void setRemain(int remain) {
-		this.remain = remain;
 	}
 
 	public String getPayType() {

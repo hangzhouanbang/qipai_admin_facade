@@ -362,4 +362,20 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 		return basicObj.getDouble("cost");
 	}
 
+	@Override
+	public int countProductNumByTimeAndProduct(String productName, long startTime, long endTime) {
+		Aggregation aggregation = Aggregation.newAggregation(MemberOrder.class,
+				Aggregation.match(Criteria.where("createTime").gte(startTime).lte(endTime).and("productName")
+						.is(productName).and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS")),
+				Aggregation.group().sum("number").as("num"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getInt("num");
+	}
+
 }

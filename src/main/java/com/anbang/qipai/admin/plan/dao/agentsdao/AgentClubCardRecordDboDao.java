@@ -12,4 +12,6 @@ public interface AgentClubCardRecordDboDao {
 
 	List<AgentClubCardRecordDbo> findAgentClubCardRecordDboByConditions(int page, int size,
 			AgentClubCardRecordDboVO record);
+
+	int countProductNumByTimeAndProduct(String productName, String type, long startTime, long endTime);
 }

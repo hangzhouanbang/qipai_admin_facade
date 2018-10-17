@@ -39,7 +39,6 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		update.set("product", card.getProduct());
 		update.set("productPic", card.getProductPic());
 		update.set("number", card.getNumber());
-		update.set("repertory", card.getRepertory());
 		update.set("payType", card.getPayType());
 		update.set("firstPrice", card.getFirstPrice());
 		update.set("secordPrice", card.getSecordPrice());
@@ -77,14 +76,6 @@ public class MongodbAgentClubCardDao implements AgentClubCardDao {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("id").is(id));
 		return mongoTemplate.findOne(query, AgentClubCard.class);
-	}
-
-	@Override
-	public void updateAgentClubCardRemain(String cardId, int remain) {
-		Query query = new Query(Criteria.where("id").is(cardId));
-		Update update = new Update();
-		update.set("remain", remain);
-		mongoTemplate.updateFirst(query, update, AgentClubCard.class);
 	}
 
 }

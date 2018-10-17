@@ -12,8 +12,6 @@ public interface AgentClubCardDao {
 
 	void updateAgentClubCard(AgentClubCard card);
 
-	void updateAgentClubCardRemain(String cardId, int remain);
-
 	List<AgentClubCard> findAgentClubCardByConditions(int page, int size, AgentClubCard card);
 
 	long getAmountByConditions(AgentClubCard card);

@@ -91,11 +91,17 @@ public class MemberController {
 		data.put("phone", memberDbo.getPhone());
 		data.put("IDcard", memberDbo.getIDcard());
 		data.put("cost", memberDbo.getCost());
+		long onlineTime = 0;
+		String loginIp = "";
+		String loginTime = "";
 		MemberLoginRecord loginRecord = memberLoginRecordService.findRecentRecordByMemberId(memberId);
-		long onlineTime = loginRecord.getOnlineTime() / 60000;
+		if (loginRecord != null) {
+			onlineTime = loginRecord.getOnlineTime() / 60000;
+			loginIp = loginRecord.getLoginIp();
+			loginTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(loginRecord.getLoginTime()));
+		}
 		data.put("onlineTime", onlineTime + "m");
-		data.put("loginIp", loginRecord.getLoginIp());
-		String loginTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(loginRecord.getLoginTime()));
+		data.put("loginIp", loginIp);
 		data.put("loginTime", loginTime);
 		CommonRemoteVO rvo = qipaiGameRemoteService.game_queryMemberPlayingRoom(memberId);
 		data.put("roomList", rvo.getData());
