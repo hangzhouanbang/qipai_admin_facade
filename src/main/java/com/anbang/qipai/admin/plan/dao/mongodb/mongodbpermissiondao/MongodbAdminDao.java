@@ -103,7 +103,7 @@ public class MongodbAdminDao implements AdminDao {
 	public void updatePrivilegeByRole(String roleId, List<Privilege> privilegeList) {
 		Query query = new Query(Criteria.where("roleList.id").is(roleId));
 		Update update = new Update();
-		update.set("roleList.privilegeList", privilegeList);
+		update.set("roleList.$.privilegeList", privilegeList);
 		mongoTemplate.updateFirst(query, update, Admin.class);
 	}
 

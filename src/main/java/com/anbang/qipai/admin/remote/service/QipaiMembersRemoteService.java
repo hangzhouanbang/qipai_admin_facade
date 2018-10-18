@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anbang.qipai.admin.plan.bean.grade.MemberGrade;
+import com.anbang.qipai.admin.plan.bean.members.MemberLoginLimitRecord;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**
@@ -41,6 +42,12 @@ public interface QipaiMembersRemoteService {
 
 	@RequestMapping(value = "/member/update_viptime")
 	public CommonRemoteVO give_viptime(@RequestBody String[] ids, @RequestParam(value = "vipEndTime") Long vipEndTime);
+
+	@RequestMapping(value = "/auth/addlimit")
+	public CommonRemoteVO addlimit(@RequestBody MemberLoginLimitRecord record);
+
+	@RequestMapping(value = "/auth/deletelimits")
+	public CommonRemoteVO deletelimits(@RequestBody String[] recordIds);
 
 	@RequestMapping(value = "/snapshot/save")
 	CommonRemoteVO snapshot_save();

@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.members.MemberLoginLimitRecord;
 import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberGoldService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginLimitRecordService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginRecordService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberScoreService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
@@ -53,6 +55,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberLoginRecordService memberLoginRecordService;
+
+	@Autowired
+	private MemberLoginLimitRecordService memberLoginLimitRecordService;
 
 	/**
 	 * 查询用户
@@ -164,6 +169,44 @@ public class MemberController {
 		vo.setSuccess(true);
 		vo.setMsg("goldrecordList");
 		vo.setData(listPage);
+		return vo;
+	}
+
+	@RequestMapping(value = "/querylimit", method = RequestMethod.POST)
+	public CommonVO queryLimit(@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "10") int size, String memberId) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		ListPage listPage = memberLoginLimitRecordService.findMemberLoginLimitRecordByMemberId(page, size, memberId);
+		data.put("listPage", listPage);
+		vo.setSuccess(true);
+		vo.setMsg("limit records");
+		vo.setData(data);
+		return vo;
+	}
+
+	@RequestMapping(value = "/addlimit", method = RequestMethod.POST)
+	public CommonVO addLimit(MemberLoginLimitRecord record) {
+		CommonVO vo = new CommonVO();
+		MemberDbo memberDbo = memberService.findMemberById(record.getMemberId());
+		if (memberDbo == null) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid memberId");
+			return vo;
+		}
+		record.setEfficient(true);
+		record.setNickname(memberDbo.getNickname());
+		record.setCreateTime(System.currentTimeMillis());
+		qipaiMembersRemoteService.addlimit(record);
+		vo.setSuccess(true);
+		return vo;
+	}
+
+	@RequestMapping(value = "/deletelimits", method = RequestMethod.POST)
+	public CommonVO deleteLimits(@RequestParam(value = "recordId") String[] recordIds) {
+		CommonVO vo = new CommonVO();
+		qipaiMembersRemoteService.deletelimits(recordIds);
+		vo.setSuccess(true);
 		return vo;
 	}
 }

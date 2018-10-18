@@ -53,7 +53,6 @@ public class RoleService {
 		roleDao.updatePrivilegeList(roleId, privilegeList);
 		Role role = roleDao.findRoleById(roleId);
 		adminDao.updatePrivilegeByRole(role.getId(), role.getPrivilegeList());
-		;
 	}
 
 }

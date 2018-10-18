@@ -14,6 +14,7 @@ public class MemberDbo {
 	private String realName;// 真实姓名
 	private String IDcard;// 身份证
 	private boolean verifyUser;// 实名认证，true:通过认证,false:未通过认证
+	private boolean bindAgent;// 绑定推广员，true:绑定,false:未绑定
 	private String onlineState;
 	private int gold;// 金币
 	private int score;// 积分
@@ -153,6 +154,14 @@ public class MemberDbo {
 
 	public void setCost(double cost) {
 		this.cost = cost;
+	}
+
+	public boolean isBindAgent() {
+		return bindAgent;
+	}
+
+	public void setBindAgent(boolean bindAgent) {
+		this.bindAgent = bindAgent;
 	}
 
 }

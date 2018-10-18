@@ -81,6 +81,10 @@ public class MemberDboService {
 		memberDao.updateMemberRealUser(member.getId(), member.getRealName(), member.getIDcard(), member.isVerifyUser());
 	}
 
+	public void updateMemberBindAgent(String memberId, boolean bindAgent) {
+		memberDao.updateMemberBindAgent(memberId, bindAgent);
+	}
+
 	public void updateMemberOnlineState(String memberId, String onlineState) {
 		memberDao.updateMemberOnlineState(memberId, onlineState);
 	}
