@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/qipai_admin_facade
-
+      
   cloud:
     stream:
       kafka: 
@@ -206,6 +206,13 @@ spring:
             partitionCount: 1
         agentImage:
           destination: agentImage
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        memberLoginLimitRecord:
+          destination: memberLoginLimitRecord
           group: qipai-admin-facade
           consumer:
             concurrency: 1
