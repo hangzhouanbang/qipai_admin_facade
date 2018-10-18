@@ -36,6 +36,7 @@ public class MongodbSignInPrizeDao implements SignInPrizeDao {
 		update.set("prizeProb", signInPrize.getPrizeProb());
 		update.set("firstPrizeProb", signInPrize.getFirstPrizeProb());
 		update.set("overstep", signInPrize.getOverstep());
+		update.set("state", "1");
 		mongoTemplate.updateFirst(query, update, SignInPrize.class);
 	}
 

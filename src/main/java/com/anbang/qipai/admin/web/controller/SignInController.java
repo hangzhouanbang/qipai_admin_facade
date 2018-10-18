@@ -87,7 +87,7 @@ public class SignInController {
 		vo.setMsg("success");
 		return vo;
 	}
-	//修改抽奖奖品
+	//修改抽奖奖品(无论是否发布，修改后都要把state设置为1)
 	@RequestMapping(value = "/updatesigninprize", method = RequestMethod.POST)
 	public CommonVO updateSignInPrize(SignInPrize signInPrize) {
 		CommonVO vo = new CommonVO();
