@@ -4,7 +4,7 @@ import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 
 /**
-*@author   created by hanzhuofan  2018.09.18
+* 发布奖品
 */
 public interface SignInPrizeSource {
 

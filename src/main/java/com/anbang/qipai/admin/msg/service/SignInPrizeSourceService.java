@@ -12,7 +12,7 @@ import com.anbang.qipai.admin.plan.bean.signin.SignInPrize;
 import com.anbang.qipai.admin.plan.dao.signindao.SignInPrizeDao;
 
 /**
-*@author   created by hanzhuofan  2018.09.18
+*发布奖品
 */
 @EnableBinding(SignInPrizeSource.class)
 public class SignInPrizeSourceService {

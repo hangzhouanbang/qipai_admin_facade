@@ -3,15 +3,15 @@ package com.anbang.qipai.admin.plan.bean.signin;
 public class SignInPrize {//签到奖品
 	private String id;
 	private String name;
-	private String type;
+	private String type;//奖品类型
 	private int singleNum;//单奖数量
 	private int lotteryNum;//已抽取数量
 	private int storeNum;//库存数量
 	private String iconUrl;
-	private int prizeProb;//中奖概率
-	private int firstPrizeProb;//首次中奖概率
+	private Integer prizeProb;//中奖概率
+	private Integer firstPrizeProb;//首次中奖概率
 	private String overstep;//超出奖池
-	private String state;//0、可减库存；1、不可减库存
+	private String state;//0、可减库存(已经发布抽奖)；1、不可减库存(未发布抽奖)
 	
 	public String getState() {
 		return state;
@@ -61,16 +61,17 @@ public class SignInPrize {//签到奖品
 	public void setIconUrl(String iconUrl) {
 		this.iconUrl = iconUrl;
 	}
-	public int getPrizeProb() {
+
+	public Integer getPrizeProb() {
 		return prizeProb;
 	}
-	public void setPrizeProb(int prizeProb) {
+	public void setPrizeProb(Integer prizeProb) {
 		this.prizeProb = prizeProb;
 	}
-	public int getFirstPrizeProb() {
+	public Integer getFirstPrizeProb() {
 		return firstPrizeProb;
 	}
-	public void setFirstPrizeProb(int firstPrizeProb) {
+	public void setFirstPrizeProb(Integer firstPrizeProb) {
 		this.firstPrizeProb = firstPrizeProb;
 	}
 	public String getOverstep() {

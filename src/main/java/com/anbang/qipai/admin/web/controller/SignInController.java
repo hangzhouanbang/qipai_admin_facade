@@ -41,8 +41,10 @@ public class SignInController {
 			signInPrize.getSingleNum() == 0 || 
 			signInPrize.getStoreNum() == 0 || 
 			signInPrize.getIconUrl() == null || 
-			signInPrize.getPrizeProb() == 0 || 
-			signInPrize.getFirstPrizeProb() == 0) {
+			//中奖概率可以设置为0
+			signInPrize.getPrizeProb() == null || 
+			signInPrize.getFirstPrizeProb() == null
+			) {
 			vo.setSuccess(false);
 			vo.setMsg("incompleteParam");
 			return vo;
