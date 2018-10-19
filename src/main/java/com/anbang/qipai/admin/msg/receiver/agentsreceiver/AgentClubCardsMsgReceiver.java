@@ -44,6 +44,7 @@ public class AgentClubCardsMsgReceiver {
 			dbo.setBalanceAfterZhou((int) map.get("balanceAfterZhou"));
 			dbo.setBalanceAfterYue((int) map.get("balanceAfterYue"));
 			dbo.setBalanceAfterJi((int) map.get("balanceAfterJi"));
+			dbo.setBalanceAfterRi((int) map.get("balanceAfterRi"));
 			AccountingSummary summary = new TextAccountingSummary(
 					(String) ((Map<String, Object>) map.get("summary")).get("text"));
 			dbo.setSummary(summary);

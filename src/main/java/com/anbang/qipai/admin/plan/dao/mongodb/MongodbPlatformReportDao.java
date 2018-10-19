@@ -3,6 +3,9 @@ package com.anbang.qipai.admin.plan.dao.mongodb;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,8 +22,9 @@ public class MongodbPlatformReportDao implements PlatformReportDao {
 
 	@Override
 	public List<PlatformReport> findReportByTime(int page, int size, long startTime, long endTime) {
-		//需要按照date建立索引
+		// 需要按照date建立索引
 		Query query = new Query(Criteria.where("date").gte(startTime).lte(endTime));
+		query.with(new Sort(new Order(Direction.DESC, "date")));
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, PlatformReport.class);

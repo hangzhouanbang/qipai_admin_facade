@@ -31,6 +31,8 @@ public class AgentClubCardRecordDbo {
 
 	private int balanceAfterJi;// 剩余季卡
 
+	private int balanceAfterRi;// 剩余季卡
+
 	private AccountingSummary summary;
 
 	private long accountingTime;
@@ -131,6 +133,14 @@ public class AgentClubCardRecordDbo {
 
 	public void setBalanceAfterJi(int balanceAfterJi) {
 		this.balanceAfterJi = balanceAfterJi;
+	}
+
+	public int getBalanceAfterRi() {
+		return balanceAfterRi;
+	}
+
+	public void setBalanceAfterRi(int balanceAfterRi) {
+		this.balanceAfterRi = balanceAfterRi;
 	}
 
 	public AccountingSummary getSummary() {
