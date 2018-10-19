@@ -27,4 +27,6 @@ public interface AdminDao {
 	void updateRoleList(String adminId, List<Role> roleList);
 
 	void updatePrivilegeByRole(String roleId, List<Privilege> privilegeList);
+
+	void deletePrivilegeByPrivilegeId(String[] privilegeIds);
 }

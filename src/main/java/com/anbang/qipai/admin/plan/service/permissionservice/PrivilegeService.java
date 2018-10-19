@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.bean.permission.Privilege;
+import com.anbang.qipai.admin.plan.dao.permissiondao.AdminDao;
 import com.anbang.qipai.admin.plan.dao.permissiondao.PrivilegeDao;
 import com.anbang.qipai.admin.plan.dao.permissiondao.RoleDao;
 import com.highto.framework.web.page.ListPage;
@@ -18,6 +19,9 @@ public class PrivilegeService {
 
 	@Autowired
 	private RoleDao roleDao;
+
+	@Autowired
+	private AdminDao adminDao;
 
 	public List<Privilege> findAllPrivileges() {
 		return privilegeDao.findAllPrivileges();

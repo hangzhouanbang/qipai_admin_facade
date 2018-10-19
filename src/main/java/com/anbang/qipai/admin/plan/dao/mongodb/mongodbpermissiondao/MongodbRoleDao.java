@@ -85,7 +85,7 @@ public class MongodbRoleDao implements RoleDao {
 		Query query = new Query();
 		for (Object id : ids) {
 			Update update = new Update();
-			//TODO用$in取代is
+			// TODO用$in取代is
 			update.pull("privilegeList", new Query(Criteria.where("id").is(id)));
 			mongoTemplate.updateMulti(query, update, Role.class);
 		}

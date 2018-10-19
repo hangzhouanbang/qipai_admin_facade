@@ -107,4 +107,16 @@ public class MongodbAdminDao implements AdminDao {
 		mongoTemplate.updateFirst(query, update, Admin.class);
 	}
 
+	@Override
+	public void deletePrivilegeByPrivilegeId(String[] privilegeIds) {
+		Object[] ids = privilegeIds;
+		Query query = new Query();
+		for (Object id : ids) {
+			Update update = new Update();
+			// TODO用$in取代is
+			update.pull("privilegeList", new Query(Criteria.where("id").is(id)));
+			mongoTemplate.updateMulti(query, update, Admin.class);
+		}
+	}
+
 }
