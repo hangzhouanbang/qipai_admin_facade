@@ -18,6 +18,12 @@ import com.anbang.qipai.admin.plan.service.signinservice.SignInPrizeService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 
 /**
+ * 
+ * 主要有抽奖奖励的CRUD以及发布抽奖奖励的输出通道；
+ * 其中中奖概率以及首次中奖概率可以在发布抽奖中进行设置；
+ * 按照产品设计，发布的抽奖奖励个数不超过10个；
+ * 抽奖的概率以及首次中奖概率可以设置为0；
+ * 
  * 签到抽奖Controller
  */
 @CrossOrigin
@@ -41,7 +47,7 @@ public class SignInController {
 			signInPrize.getSingleNum() == 0 || 
 			signInPrize.getStoreNum() == 0 || 
 			signInPrize.getIconUrl() == null || 
-			//中奖概率可以设置为0
+			//中奖概率可以设置为0，中奖概率类型设计为包装类，可以与null进行比较
 			signInPrize.getPrizeProb() == null || 
 			signInPrize.getFirstPrizeProb() == null
 			) {
@@ -50,6 +56,7 @@ public class SignInController {
 			return vo;
 		}
 		int count = signInPrizeService.countSignInPrize();
+		//这里进行抽奖的奖励设置
 		if (count >= 10) {
 			vo.setSuccess(false);
 			vo.setMsg("overstep");
