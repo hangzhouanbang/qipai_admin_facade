@@ -9,7 +9,7 @@ public class Admin {
 	private String user;// 管理员真实姓名
 	private String idCard;// 管理员身份证
 	private long createTime;// 创建时间
-	private List<Role> roleList;// 角色列表
+	private List<AdminRefRole> roleList;// 角色列表
 
 	public String getId() {
 		return id;
@@ -59,11 +59,11 @@ public class Admin {
 		this.createTime = createTime;
 	}
 
-	public List<Role> getRoleList() {
+	public List<AdminRefRole> getRoleList() {
 		return roleList;
 	}
 
-	public void setRoleList(List<Role> roleList) {
+	public void setRoleList(List<AdminRefRole> roleList) {
 		this.roleList = roleList;
 	}
 

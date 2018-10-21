@@ -11,10 +11,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
-import com.anbang.qipai.admin.plan.bean.permission.Admin;
-import com.anbang.qipai.admin.plan.bean.permission.Privilege;
-import com.anbang.qipai.admin.plan.bean.permission.Role;
+import com.anbang.qipai.admin.plan.bean.permission.AdminRefRole;
+import com.anbang.qipai.admin.plan.bean.permission.RoleRefPrivilege;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
+import com.anbang.qipai.admin.plan.service.permissionservice.RoleService;
 
 /**
  * 管理员操作拦截器
@@ -31,6 +31,9 @@ public class PermissionInterceptor implements HandlerInterceptor {
 	@Autowired
 	private AdminService adminService;
 
+	@Autowired
+	private RoleService roleService;
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -43,11 +46,10 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		String uri = request.getRequestURI();
-		Admin admin = adminService.findAdminById(adminId);
-		List<Role> roleList = admin.getRoleList();
-		for (Role role : roleList) {
-			List<Privilege> privilegeList = role.getPrivilegeList();
-			for (Privilege p : privilegeList) {
+		List<AdminRefRole> roleList = adminService.findRoleByAdminId(adminId);
+		for (AdminRefRole role : roleList) {
+			List<RoleRefPrivilege> privilegeList = roleService.findPrivilegeByRoleId(role.getRoleId());
+			for (RoleRefPrivilege p : privilegeList) {
 				if (uri.equals(p.getUri())) {
 					return true;
 				}
