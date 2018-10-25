@@ -18,6 +18,7 @@ import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.bean.agents.AgentImageDbo;
 import com.anbang.qipai.admin.plan.bean.agents.AgentType;
+import com.anbang.qipai.admin.plan.bean.agents.AgentWithdrawRecordDbo;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentApplyRecordService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardRecordDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardService;
@@ -305,6 +306,21 @@ public class AgentController {
 		data.put("listPage", listPage);
 		vo.setSuccess(true);
 		vo.setMsg("agent reward");
+		vo.setData(data);
+		return vo;
+	}
+
+	@RequestMapping(value = "/queryagentrewardapply", method = RequestMethod.POST)
+	public CommonVO queryAgentRewardApply(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentWithdrawRecordDbo record) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		long amount = agentRewardRecordDboService.countAgentWithdrawRecordDboAmountByApplying();
+		data.put("amount", amount);
+		ListPage listPage = agentRewardRecordDboService.findAgentWithdrawRecordDboByConditions(page, size, record);
+		data.put("listPage", listPage);
+		vo.setSuccess(true);
+		vo.setMsg("agent reward apply");
 		vo.setData(data);
 		return vo;
 	}
@@ -696,6 +712,30 @@ public class AgentController {
 	public CommonVO removeAgentType(@RequestParam(value = "id") String[] typeIds) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_removeagenttype(typeIds);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	/**
+	 * 推广员提现申请通过
+	 */
+	@RequestMapping(value = "/rewardapplypass", method = RequestMethod.POST)
+	public CommonVO rewardApplyPass(String recordId) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.reward_rewardapplypass(recordId);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	/**
+	 * 推广员提现申请拒绝
+	 */
+	@RequestMapping(value = "/rewardapplyrefuse", method = RequestMethod.POST)
+	public CommonVO rewardApplyRefuse(String recordId, String desc) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.reward_rewardapplyrefusee(recordId, desc);
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
 		return vo;

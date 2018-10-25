@@ -103,4 +103,11 @@ public interface QipaiAgentsRemoteService {
 
 	@RequestMapping("/agent/removeagenttype")
 	public CommonRemoteVO agent_removeagenttype(@RequestBody String[] typeIds);
+
+	@RequestMapping("/reward/rewardapplypass")
+	public CommonRemoteVO reward_rewardapplypass(@RequestParam(value = "recordId") String recordId);
+
+	@RequestMapping("/reward/rewardapplyrefuse")
+	public CommonRemoteVO reward_rewardapplyrefusee(@RequestParam(value = "recordId") String recordId,
+			@RequestParam(value = "desc") String desc);
 }
