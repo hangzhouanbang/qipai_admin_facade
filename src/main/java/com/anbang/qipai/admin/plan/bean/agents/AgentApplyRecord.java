@@ -9,8 +9,17 @@ public class AgentApplyRecord {
 	private String userName;// 姓名
 	private String area;// 所在区域
 	private String desc;// 备注
+	private String bossId;// 推荐人姓名
 	private String state;
 	private long createTime;
+
+	public String getBossId() {
+		return bossId;
+	}
+
+	public void setBossId(String bossId) {
+		this.bossId = bossId;
+	}
 
 	public String getId() {
 		return id;

@@ -7,13 +7,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.bean.agents.AgentImageDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentType;
 import com.anbang.qipai.admin.remote.vo.AccountRemoteVO;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 @FeignClient("qipai-agents")
 public interface QipaiAgentsRemoteService {
 	@RequestMapping("/apply/applypass")
-	public CommonRemoteVO apply_pass(@RequestParam(value = "recordId") String recordId);
+	public CommonRemoteVO apply_pass(@RequestParam(value = "recordId") String recordId,
+			@RequestParam(value = "typeId") String typeId);
 
 	@RequestMapping("/apply/applyrefuse")
 	public CommonRemoteVO apply_refuse(@RequestParam(value = "recordId") String recordId);
@@ -21,9 +23,9 @@ public interface QipaiAgentsRemoteService {
 	@RequestMapping("/agent/agentaccount")
 	public AccountRemoteVO agent_account(@RequestParam(value = "agentId") String agentId);
 
-	@RequestMapping("/agent/setlevel")
-	public CommonRemoteVO agent_setlevel(@RequestParam(value = "agentId") String agentId,
-			@RequestParam(value = "level") int level);
+	@RequestMapping("/agent/settype")
+	public CommonRemoteVO agent_settype(@RequestParam(value = "agentId") String agentId,
+			@RequestParam(value = "typeId") String typeId);
 
 	@RequestMapping("/agent/setboss")
 	public CommonRemoteVO agent_setboss(@RequestParam(value = "agentId") String agentId,
@@ -92,4 +94,13 @@ public interface QipaiAgentsRemoteService {
 
 	@RequestMapping("/image/deleteimage")
 	public CommonRemoteVO image_deleteimage(@RequestParam(value = "imageId") String imageId);
+
+	@RequestMapping("/agent/addagenttype")
+	public CommonRemoteVO agent_addagenttype(@RequestBody AgentType type);
+
+	@RequestMapping("/agent/updateagenttype")
+	public CommonRemoteVO agent_updateagenttype(@RequestBody AgentType type);
+
+	@RequestMapping("/agent/removeagenttype")
+	public CommonRemoteVO agent_removeagenttype(@RequestBody String[] typeIds);
 }

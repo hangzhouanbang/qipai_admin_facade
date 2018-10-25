@@ -8,8 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -52,16 +50,30 @@ public class MongodbMemberLoginRecordDao implements MemberLoginRecordDao {
 
 	@Override
 	public int countLoginMemberByTime(long startTime, long endTime) {
-		Aggregation aggregation = Aggregation.newAggregation(MemberLoginRecord.class,
-				Aggregation.match(Criteria.where("loginTime").gte(startTime).lte(endTime)),
-				Aggregation.group("memberId").sum("id").as("loginNo"));
-		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberLoginRecord.class,
-				BasicDBObject.class);
-		List<BasicDBObject> list = result.getMappedResults();
-		if (list.isEmpty()) {
+		List<DBObject> pipeline = new ArrayList<>();
+		DBObject match = new BasicDBObject();
+		DBObject criteria = new BasicDBObject();
+		match.put("loginTime", criteria);
+		criteria.put("$gt", startTime);
+		criteria.put("$lt", endTime);
+		DBObject queryMatch = new BasicDBObject("$match", match);
+		pipeline.add(queryMatch);
+
+		BasicDBObject group = new BasicDBObject();
+		group.put("_id", "$memberId");
+		DBObject queryGroup = new BasicDBObject("$group", group);
+		pipeline.add(queryGroup);
+
+		DBObject queryCount = new BasicDBObject("$count", "num");
+		pipeline.add(queryCount);
+
+		Cursor cursor = mongoTemplate.getCollection("memberLoginRecord").aggregate(pipeline,
+				AggregationOptions.builder().outputMode(AggregationOptions.OutputMode.CURSOR).build());
+		try {
+			return (int) cursor.next().get("num");
+		} catch (Exception e) {
 			return 0;
 		}
-		return list.size();
 	}
 
 	@Override

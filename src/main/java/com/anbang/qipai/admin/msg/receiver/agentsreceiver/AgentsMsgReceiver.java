@@ -32,14 +32,20 @@ public class AgentsMsgReceiver {
 		if ("update cost".equals(msg)) {
 			agentDboService.updateAgentCost(agent.getId(), agent.getCost());
 		}
-		if ("update level".equals(msg)) {
-			agentDboService.updateAgentDboLevel(agent.getId(), agent.getLevel());
+		if ("update agent type".equals(msg)) {
+			agentDboService.updateAgentDboType(agent.getId(), agent.getAgentType());
 		}
 		if ("update boss".equals(msg)) {
 			agentDboService.updateAgentDboBoss(agent.getId(), agent.getBossId(), agent.getBossName());
 		}
 		if ("remove boss".equals(msg)) {
 			agentDboService.removeAgentDboBoss(agent.getId());
+		}
+		if ("update agent juniornum".equals(msg)) {
+			agentDboService.updateAgentJuniorNum(agent.getId(), agent.getJuniorNum());
+		}
+		if ("update agent invitemembernum".equals(msg)) {
+			agentDboService.updateAgentInviteMemberNum(agent.getId(), agent.getInviteMemberNum());
 		}
 		if ("ban agent".equals(msg)) {
 			agentDboService.updateAgentDboState(agent.getId(), agent.getState());

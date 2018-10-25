@@ -149,6 +149,13 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        agentRewards:
+          destination: agentRewards
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
         agentClubCards:
           destination: agentClubCards
           group: qipai-admin-facade
@@ -213,6 +220,13 @@ spring:
           contentType: application/json
         memberLoginLimitRecord:
           destination: memberLoginLimitRecord
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        agentType:
+          destination: agentType
           group: qipai-admin-facade
           consumer:
             concurrency: 1

@@ -12,16 +12,22 @@ import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 public class AgentDboVO extends AgentDbo {
 	private Long startTime;
 	private Long endTime;
-	private String levelSort;
+	private String inviteMemberNumSort;
+	private String juniorNumSort;
 	private String createTimeSort;
 	private String stateSort;
 
 	public Sort getSort() {
 		List<Order> orderList = new ArrayList<>();
-		if ("ASC".equals(levelSort)) {
-			orderList.add(new Order(Direction.ASC, "level"));
-		} else if ("DESC".equals(levelSort)) {
-			orderList.add(new Order(Direction.DESC, "level"));
+		if ("ASC".equals(inviteMemberNumSort)) {
+			orderList.add(new Order(Direction.ASC, "inviteMemberNum"));
+		} else if ("DESC".equals(inviteMemberNumSort)) {
+			orderList.add(new Order(Direction.DESC, "inviteMemberNum"));
+		}
+		if ("ASC".equals(juniorNumSort)) {
+			orderList.add(new Order(Direction.ASC, "juniorNum"));
+		} else if ("DESC".equals(juniorNumSort)) {
+			orderList.add(new Order(Direction.DESC, "juniorNum"));
 		}
 		if ("ASC".equals(createTimeSort)) {
 			orderList.add(new Order(Direction.ASC, "createTime"));
@@ -57,12 +63,20 @@ public class AgentDboVO extends AgentDbo {
 		this.endTime = endTime;
 	}
 
-	public String getLevelSort() {
-		return levelSort;
+	public String getInviteMemberNumSort() {
+		return inviteMemberNumSort;
 	}
 
-	public void setLevelSort(String levelSort) {
-		this.levelSort = levelSort;
+	public void setInviteMemberNumSort(String inviteMemberNumSort) {
+		this.inviteMemberNumSort = inviteMemberNumSort;
+	}
+
+	public String getJuniorNumSort() {
+		return juniorNumSort;
+	}
+
+	public void setJuniorNumSort(String juniorNumSort) {
+		this.juniorNumSort = juniorNumSort;
 	}
 
 	public String getCreateTimeSort() {

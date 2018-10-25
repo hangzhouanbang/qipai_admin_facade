@@ -17,13 +17,16 @@ import com.anbang.qipai.admin.plan.bean.agents.AgentApplyRecord;
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.bean.agents.AgentImageDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentType;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentApplyRecordService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardRecordDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentClubCardService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentImageDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentInvitationRecordService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentRewardRecordDboService;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentScoreRecordDboService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentTypeService;
 import com.anbang.qipai.admin.remote.service.QipaiAgentsRemoteService;
 import com.anbang.qipai.admin.remote.vo.AccountRemoteVO;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
@@ -33,6 +36,7 @@ import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentClubCardRecordDboVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentInvitationRecordVO;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentRewardRecordDboVO;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentScoreRecordDboVO;
 import com.highto.framework.web.page.ListPage;
 
@@ -71,6 +75,12 @@ public class AgentController {
 	@Autowired
 	private AgentImageDboService agentImageDboService;
 
+	@Autowired
+	private AgentTypeService agentTypeService;
+
+	@Autowired
+	private AgentRewardRecordDboService agentRewardRecordDboService;
+
 	/**
 	 * 查询推广员，不包括未通过申请的
 	 * 
@@ -86,10 +96,8 @@ public class AgentController {
 		Map data = new HashMap();
 		ListPage listPage = agentDboService.findAgentDboByConditions(page, size, agent);
 		data.put("agentList", listPage);
-		long seniorAmount = agentDboService.countAmountByLevel(1);
-		data.put("seniorAmount", seniorAmount);
-		long juniorAmount = agentDboService.countAmountByLevel(2);
-		data.put("juniorAmount", juniorAmount);
+		long amount = agentDboService.countAmountByConditions(agent);
+		data.put("amount", amount);
 		vo.setSuccess(true);
 		vo.setMsg("agentList");
 		vo.setData(data);
@@ -275,6 +283,32 @@ public class AgentController {
 		return vo;
 	}
 
+	@RequestMapping(value = "/queryagenttype", method = RequestMethod.POST)
+	public CommonVO queryAgentType(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentType type) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		ListPage listPage = agentTypeService.findByConditions(page, size, type);
+		data.put("listPage", listPage);
+		vo.setSuccess(true);
+		vo.setMsg("agenttype");
+		vo.setData(data);
+		return vo;
+	}
+
+	@RequestMapping(value = "/queryagentreward", method = RequestMethod.POST)
+	public CommonVO queryAgentReward(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, AgentRewardRecordDboVO record) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		ListPage listPage = agentRewardRecordDboService.findAgentRewardRecordDboByConditions(page, size, record);
+		data.put("listPage", listPage);
+		vo.setSuccess(true);
+		vo.setMsg("agent reward");
+		vo.setData(data);
+		return vo;
+	}
+
 	/**
 	 * 推广员申请通过
 	 * 
@@ -282,7 +316,7 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/applypass", method = RequestMethod.POST)
-	public CommonVO applyPass(String recordId) {
+	public CommonVO applyPass(String recordId, String typeId) {
 		CommonVO vo = new CommonVO();
 		AgentApplyRecord record = agentApplyRecordService.findAgentApplyRecordById(recordId);
 		if (record == null) {
@@ -290,7 +324,13 @@ public class AgentController {
 			vo.setMsg("not found apply record");
 			return vo;
 		}
-		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_pass(recordId);
+		AgentType type = agentTypeService.findById(typeId);
+		if (type == null) {
+			vo.setSuccess(false);
+			vo.setMsg("not found agenttype");
+			return vo;
+		}
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_pass(recordId, typeId);
 		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
@@ -322,15 +362,16 @@ public class AgentController {
 	 * @param level
 	 * @return
 	 */
-	@RequestMapping(value = "/setlevel", method = RequestMethod.POST)
-	public CommonVO setLevel(String agentId, @RequestParam(defaultValue = "2") int level) {
+	@RequestMapping(value = "/settype", method = RequestMethod.POST)
+	public CommonVO setType(String agentId, String agentTypeId) {
 		CommonVO vo = new CommonVO();
-		AgentDbo agent = agentDboService.findAgentDboById(agentId);
-		if (agent.getLevel() == level) {
-			vo.setSuccess(true);
+		AgentType type = agentTypeService.findById(agentTypeId);
+		if (type == null) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid agentTypeId");
 			return vo;
 		}
-		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_setlevel(agentId, level);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_settype(agentId, agentTypeId);
 		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
@@ -346,13 +387,13 @@ public class AgentController {
 	public CommonVO setBoss(String agentId, String bossId) {
 		CommonVO vo = new CommonVO();
 		AgentDbo junior = agentDboService.findAgentDboById(agentId);
-		if (junior == null || junior.getLevel() != 2) {
+		if (junior == null) {
 			vo.setSuccess(false);
 			vo.setMsg("junior not found");
 			return vo;
 		}
 		AgentDbo boss = agentDboService.findAgentDboById(bossId);
-		if (boss == null || boss.getLevel() != 1) {
+		if (boss == null) {
 			vo.setSuccess(false);
 			vo.setMsg("boss not found");
 			return vo;
@@ -604,6 +645,59 @@ public class AgentController {
 		vo.setSuccess(true);
 		vo.setMsg("uptoken");
 		vo.setData(data);
+		return vo;
+	}
+
+	@RequestMapping("/addagenttype")
+	public CommonVO addAgentType(AgentType type) {
+		CommonVO vo = new CommonVO();
+		if (type.getMemberReward() > 50 || type.getJuniorReward() > 15) {
+			vo.setSuccess(false);
+			vo.setMsg("reward too much");
+			return vo;
+		}
+		if (Double.valueOf(type.getMemberReward() * 100).intValue() != type.getMemberReward() * 100
+				|| Double.valueOf(type.getJuniorReward() * 100).intValue() != type.getJuniorReward() * 100) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid reward");
+			return vo;
+		}
+		type.setMemberReward(type.getMemberReward() / 100);
+		type.setJuniorReward(type.getJuniorReward() / 100);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_addagenttype(type);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	@RequestMapping("/updateagenttype")
+	public CommonVO updateAgentType(AgentType type) {
+		CommonVO vo = new CommonVO();
+		if (type.getMemberReward() > 50 || type.getJuniorReward() > 15) {
+			vo.setSuccess(false);
+			vo.setMsg("reward too much");
+			return vo;
+		}
+		if (Double.valueOf(type.getMemberReward() * 100).intValue() != type.getMemberReward() * 100
+				|| Double.valueOf(type.getJuniorReward() * 100).intValue() != type.getJuniorReward() * 100) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid reward");
+			return vo;
+		}
+		type.setMemberReward(type.getMemberReward() / 100);
+		type.setJuniorReward(type.getJuniorReward() / 100);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_updateagenttype(type);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	@RequestMapping("/removeagenttype")
+	public CommonVO removeAgentType(@RequestParam(value = "id") String[] typeIds) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_removeagenttype(typeIds);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
 		return vo;
 	}
 }

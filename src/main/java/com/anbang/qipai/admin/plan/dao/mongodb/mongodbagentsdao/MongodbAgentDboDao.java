@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
+import com.anbang.qipai.admin.plan.bean.agents.AgentType;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentDboDao;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
 
@@ -39,8 +40,8 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		if (agent.getUserName() != null && !"".equals(agent.getUserName())) {
 			query.addCriteria(Criteria.where("nickname").regex(agent.getUserName()));
 		}
-		if (agent.getLevel() == 1 || agent.getLevel() == 2) {
-			query.addCriteria(Criteria.where("level").is(agent.getLevel()));
+		if (agent.getAgentType() != null && !"".equals(agent.getAgentType().getType())) {
+			query.addCriteria(Criteria.where("agentType.type").regex(agent.getAgentType().getType()));
 		}
 		if (agent.getStartTime() != null || agent.getEndTime() != null) {
 			Criteria criteria = Criteria.where("createTime");
@@ -74,8 +75,8 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		if (agent.getUserName() != null && !"".equals(agent.getUserName())) {
 			query.addCriteria(Criteria.where("nickname").regex(agent.getUserName()));
 		}
-		if (agent.getLevel() == 1 || agent.getLevel() == 2) {
-			query.addCriteria(Criteria.where("level").is(agent.getLevel()));
+		if (agent.getAgentType() != null && !"".equals(agent.getAgentType().getType())) {
+			query.addCriteria(Criteria.where("agentType.type").regex(agent.getAgentType().getType()));
 		}
 		if (agent.getStartTime() != null || agent.getEndTime() != null) {
 			Criteria criteria = Criteria.where("createTime");
@@ -101,10 +102,10 @@ public class MongodbAgentDboDao implements AgentDboDao {
 	}
 
 	@Override
-	public void updateAgentDboLevel(String agentId, int level) {
+	public void updateAgentDboType(String agentId, AgentType type) {
 		Query query = new Query(Criteria.where("id").is(agentId));
 		Update update = new Update();
-		update.set("level", level);
+		update.set("agentType", type);
 		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 
@@ -167,10 +168,18 @@ public class MongodbAgentDboDao implements AgentDboDao {
 	}
 
 	@Override
-	public long countAmountByLevel(int level) {
-		Query query = new Query();
-		query.addCriteria(Criteria.where("level").is(level));
-		query.addCriteria(Criteria.where("agentAuth").is(true));
-		return mongoTemplate.count(query, AgentDbo.class);
+	public void updateAgentInviteMemberNum(String agentId, int inviteMemberNum) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		Update update = new Update();
+		update.set("inviteMemberNum", inviteMemberNum);
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
+	}
+
+	@Override
+	public void updateAgentJuniorNum(String agentId, int juniorNum) {
+		Query query = new Query(Criteria.where("id").is(agentId));
+		Update update = new Update();
+		update.set("juniorNum", juniorNum);
+		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
 }

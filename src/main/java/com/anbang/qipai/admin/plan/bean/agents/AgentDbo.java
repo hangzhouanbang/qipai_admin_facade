@@ -11,12 +11,14 @@ public class AgentDbo {
 	private String desc;// 备注
 	private String bossId;// 上级id
 	private String bossName;// 上级昵称
-	private int level;// 推广等级
 	private long createTime;
 	private boolean agentAuth;// 是否通过推广员申请
 	private String state;// 正常,封停
 	private String invitationCode;// 邀请码
 	private double cost;// 充值金额
+	private AgentType agentType;// 推广员类型
+	private int inviteMemberNum;// 邀请玩家数量
+	private int juniorNum;// 下级数量
 
 	public String getId() {
 		return id;
@@ -98,14 +100,6 @@ public class AgentDbo {
 		this.bossName = bossName;
 	}
 
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
 	public long getCreateTime() {
 		return createTime;
 	}
@@ -145,4 +139,29 @@ public class AgentDbo {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
+
+	public AgentType getAgentType() {
+		return agentType;
+	}
+
+	public void setAgentType(AgentType agentType) {
+		this.agentType = agentType;
+	}
+
+	public int getInviteMemberNum() {
+		return inviteMemberNum;
+	}
+
+	public void setInviteMemberNum(int inviteMemberNum) {
+		this.inviteMemberNum = inviteMemberNum;
+	}
+
+	public int getJuniorNum() {
+		return juniorNum;
+	}
+
+	public void setJuniorNum(int juniorNum) {
+		this.juniorNum = juniorNum;
+	}
+
 }

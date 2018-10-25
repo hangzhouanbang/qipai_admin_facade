@@ -106,7 +106,7 @@ public class DataReportController {
 		int remainThird = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 2);
 		int remainSeventh = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 6);
 		int remainMonth = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 30);
-		PlatformReport report = new PlatformReport(startTime, newMember, currentMember, cost, gameNum, loginMember,
+		PlatformReport report = new PlatformReport(endTime, newMember, currentMember, cost, gameNum, loginMember,
 				remainSecond, remainThird, remainSeventh, remainMonth);
 		platformReportService.addPlatformReport(report);
 	}

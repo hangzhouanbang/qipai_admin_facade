@@ -18,6 +18,7 @@ import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberOrderService;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentDboVO;
 
 /**
  * 登录controller
@@ -92,10 +93,8 @@ public class LoginController {
 		calendar.add(Calendar.MONTH, 1);
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 		long endTime = calendar.getTimeInMillis();// 下月第一天
-		long seniorAmount = agentDboService.countAmountByLevel(1);
-		data.put("seniorAmount", seniorAmount);
-		long juniorAmount = agentDboService.countAmountByLevel(2);
-		data.put("juniorAmount", juniorAmount);
+		long amount = agentDboService.countAmountByConditions(new AgentDboVO());
+		data.put("amount", amount);
 		int agentRiAmount = agentClubCardRecordDboService.countProductNumByTimeAndProduct("日卡", "buy", startTime,
 				endTime);
 		data.put("agentRiAmount", agentRiAmount);
