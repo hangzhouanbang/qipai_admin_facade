@@ -55,6 +55,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 				}
 			}
 		}
+		response.sendRedirect("http://scs.3cscy.com/admin/index.html");
 		return false;
 	}
 

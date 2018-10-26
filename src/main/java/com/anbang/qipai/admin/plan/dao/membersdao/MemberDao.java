@@ -37,7 +37,7 @@ public interface MemberDao {
 
 	void updateMemberRealUser(String memberId, String realName, String IDcard, boolean verify);
 
-	void updateMemberBindAgent(String memberId, boolean bindAgent);
+	void updateMemberBindAgent(String memberId, String agentId, boolean bindAgent);
 
 	void updateMemberOnlineState(String memberId, String onlineState);
 

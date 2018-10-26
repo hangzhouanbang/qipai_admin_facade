@@ -35,6 +35,16 @@ public class MongodbAgentRewardRecordDboDao implements AgentRewardRecordDboDao {
 		if (record.getMemberId() != null && !"".equals(record.getMemberId())) {
 			query.addCriteria(Criteria.where("memberId").is(record.getMemberId()));
 		}
+		if (record.getStartTime() != null || record.getEndTime() != null) {
+			Criteria criteria = Criteria.where("accountingTime");
+			if (record.getStartTime() != null) {
+				criteria = criteria.gte(record.getStartTime());
+			}
+			if (record.getEndTime() != null) {
+				criteria = criteria.lte(record.getEndTime());
+			}
+			query.addCriteria(criteria);
+		}
 		return mongoTemplate.count(query, AgentRewardRecordDbo.class);
 	}
 
@@ -50,6 +60,16 @@ public class MongodbAgentRewardRecordDboDao implements AgentRewardRecordDboDao {
 		}
 		if (record.getMemberId() != null && !"".equals(record.getMemberId())) {
 			query.addCriteria(Criteria.where("memberId").is(record.getMemberId()));
+		}
+		if (record.getStartTime() != null || record.getEndTime() != null) {
+			Criteria criteria = Criteria.where("accountingTime");
+			if (record.getStartTime() != null) {
+				criteria = criteria.gte(record.getStartTime());
+			}
+			if (record.getEndTime() != null) {
+				criteria = criteria.lte(record.getEndTime());
+			}
+			query.addCriteria(criteria);
 		}
 		query.with(record.getSort());
 		query.limit(size);

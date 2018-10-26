@@ -200,10 +200,11 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public void updateMemberBindAgent(String memberId, boolean bindAgent) {
+	public void updateMemberBindAgent(String memberId, String agentId, boolean bindAgent) {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
 		update.set("bindAgent", bindAgent);
+		update.set("agentId", agentId);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 

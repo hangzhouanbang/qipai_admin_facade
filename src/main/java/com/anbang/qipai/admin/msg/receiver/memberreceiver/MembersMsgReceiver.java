@@ -42,7 +42,7 @@ public class MembersMsgReceiver {
 			memberService.updateMemberRealUser(member);
 		}
 		if ("update member bindAgent".equals(msg)) {
-			memberService.updateMemberBindAgent(member.getId(), member.isBindAgent());
+			memberService.updateMemberBindAgent(member.getId(), member.getAgentId(), member.isBindAgent());
 		}
 	}
 
