@@ -4,7 +4,7 @@ import com.anbang.qipai.admin.plan.bean.permission.Role;
 
 public class RoleVO {
 	private Role role;
-	private Boolean selected;
+	private boolean selected;
 
 	public Role getRole() {
 		return role;
@@ -14,11 +14,11 @@ public class RoleVO {
 		this.role = role;
 	}
 
-	public Boolean getSelected() {
+	public boolean getSelected() {
 		return selected;
 	}
 
-	public void setSelected(Boolean selected) {
+	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
 

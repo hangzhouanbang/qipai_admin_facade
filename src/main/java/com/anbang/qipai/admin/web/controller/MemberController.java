@@ -117,20 +117,54 @@ public class MemberController {
 	}
 
 	/**
-	 * 批量赠送金币或积分
+	 * 批量赠送玉石
 	 **/
-	@RequestMapping(value = "/give_reward", method = RequestMethod.POST)
-	public CommonRemoteVO give_reward(@RequestParam(value = "id") String[] ids, Integer score, Integer gold) {
-		CommonRemoteVO vo = qipaiMembersRemoteService.give_score_gold(ids, score, gold);
-		vo.setSuccess(true);
+	@RequestMapping(value = "/give_reward_gold", method = RequestMethod.POST)
+	public CommonVO giveGold(@RequestParam(value = "id") String[] ids, Integer amount) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = new CommonRemoteVO();
+		if (ids.length == 0) {
+			rvo.setSuccess(true);
+		} else if (amount > 0) {
+			rvo = qipaiMembersRemoteService.gold_givegoldtomembers(ids, amount, "admin_give_gold");
+		} else if (amount < 0) {
+			rvo = qipaiMembersRemoteService.gold_members_withdraw(ids, -amount, "admin_give_gold");
+		} else {
+			rvo.setSuccess(true);
+		}
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	/**
+	 * 批量赠送礼券
+	 **/
+	@RequestMapping(value = "/give_reward_score", method = RequestMethod.POST)
+	public CommonVO giveScore(@RequestParam(value = "id") String[] ids, Integer amount) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = new CommonRemoteVO();
+		if (ids.length == 0) {
+			rvo.setSuccess(true);
+		} else if (amount > 0) {
+			rvo = qipaiMembersRemoteService.score_givescoretomembers(ids, amount, "admin_give_score");
+		} else if (amount < 0) {
+			rvo = qipaiMembersRemoteService.score_memebrs_withdraw(ids, -amount, "admin_give_score");
+		} else {
+			rvo.setSuccess(true);
+		}
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
 		return vo;
 	}
 
 	@RequestMapping(value = "/give_reward_clubcard", method = RequestMethod.POST)
-	public CommonRemoteVO give_reward_clubcard(@RequestParam(value = "id") String[] ids, Integer vipTime) {
+	public CommonVO give_reward_clubcard(@RequestParam(value = "id") String[] ids, Integer vipTime) {
+		CommonVO vo = new CommonVO();
 		long day = 24 * 60 * 60 * 1000;
-		CommonRemoteVO vo = qipaiMembersRemoteService.give_viptime(ids, vipTime * day);
-		vo.setSuccess(vo.isSuccess());
+		CommonRemoteVO rvo = qipaiMembersRemoteService.give_viptime(ids, vipTime * day);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
 		return vo;
 	}
 

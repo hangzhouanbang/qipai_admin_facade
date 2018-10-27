@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anbang.qipai.admin.plan.bean.permission.Privilege;
 import com.anbang.qipai.admin.plan.service.permissionservice.PrivilegeService;
 import com.anbang.qipai.admin.web.vo.CommonVO;
+import com.anbang.qipai.admin.web.vo.permissionvo.PrivilegeVO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.highto.framework.web.page.ListPage;
@@ -106,9 +107,9 @@ public class PrivilegeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/queryallprivilege", method = RequestMethod.POST)
-	public CommonVO queryAllPrivilege() {
+	public CommonVO queryAllPrivilege(String roleId) {
 		CommonVO vo = new CommonVO();
-		List<Privilege> privilegeList = privilegeService.findAllPrivileges();
+		List<PrivilegeVO> privilegeList = privilegeService.findAllPrivileges(roleId);
 		vo.setSuccess(true);
 		vo.setMsg("privilegeList");
 		vo.setData(privilegeList);

@@ -38,6 +38,10 @@ public class AgentTypeService {
 		return listPage;
 	}
 
+	public AgentType findByType(String type) {
+		return agentTypeDao.findByType(type);
+	}
+
 	public AgentType findById(String typeId) {
 		return agentTypeDao.findById(typeId);
 	}

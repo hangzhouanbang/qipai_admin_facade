@@ -46,7 +46,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				return true;
 			}
 		}
-		response.sendRedirect("http://scs.3cscy.com/admin/index.html");
+		response.sendRedirect("http://scs.3cscy.com/dist/index.html");
 		return false;
 	}
 

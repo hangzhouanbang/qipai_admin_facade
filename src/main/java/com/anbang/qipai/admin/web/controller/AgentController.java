@@ -379,15 +379,15 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/settype", method = RequestMethod.POST)
-	public CommonVO setType(String agentId, String agentTypeId) {
+	public CommonVO setType(String agentId, String type) {
 		CommonVO vo = new CommonVO();
-		AgentType type = agentTypeService.findById(agentTypeId);
+		AgentType agentType = agentTypeService.findByType(type);
 		if (type == null) {
 			vo.setSuccess(false);
 			vo.setMsg("invalid agentTypeId");
 			return vo;
 		}
-		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_settype(agentId, agentTypeId);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_settype(agentId, agentType.getId());
 		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}

@@ -36,10 +36,6 @@ public interface QipaiMembersRemoteService {
 	@RequestMapping(value = "/grade/insert_grade")
 	public CommonRemoteVO grade_insert_grade(@RequestBody MemberGrade memberGrade);
 
-	@RequestMapping(value = "/member/update_score_gold")
-	public CommonRemoteVO give_score_gold(@RequestBody String[] ids, @RequestParam(value = "score") Integer score,
-			@RequestParam(value = "gold") Integer gold);
-
 	@RequestMapping(value = "/member/update_viptime")
 	public CommonRemoteVO give_viptime(@RequestBody String[] ids, @RequestParam(value = "vipEndTime") Long vipEndTime);
 
@@ -52,4 +48,19 @@ public interface QipaiMembersRemoteService {
 	@RequestMapping(value = "/snapshot/save")
 	CommonRemoteVO snapshot_save();
 
+	@RequestMapping(value = "/gold/members_withdraw")
+	public CommonRemoteVO gold_members_withdraw(@RequestBody String[] memberIds,
+			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
+
+	@RequestMapping(value = "/gold/givegoldtomembers")
+	public CommonRemoteVO gold_givegoldtomembers(@RequestBody String[] memberIds,
+			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
+
+	@RequestMapping(value = "/score/memebrs_withdraw")
+	public CommonRemoteVO score_memebrs_withdraw(@RequestBody String[] memberIds,
+			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
+
+	@RequestMapping(value = "/score/givescoretomembers")
+	public CommonRemoteVO score_givescoretomembers(@RequestBody String[] memberIds,
+			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
 }

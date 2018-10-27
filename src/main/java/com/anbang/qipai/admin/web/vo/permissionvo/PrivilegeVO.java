@@ -1,24 +1,40 @@
 package com.anbang.qipai.admin.web.vo.permissionvo;
 
-import com.anbang.qipai.admin.plan.bean.permission.Privilege;
-
 public class PrivilegeVO {
-	private Privilege privilege;
-	private Boolean selected;
+	private String id;// 权限id
+	private String privilege;// 权限名称
+	private String uri;// 拦截URI
+	private boolean selected;
 
-	public Privilege getPrivilege() {
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPrivilege() {
 		return privilege;
 	}
 
-	public void setPrivilege(Privilege privilege) {
+	public void setPrivilege(String privilege) {
 		this.privilege = privilege;
 	}
 
-	public Boolean getSelected() {
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	public boolean getSelected() {
 		return selected;
 	}
 
-	public void setSelected(Boolean selected) {
+	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
 

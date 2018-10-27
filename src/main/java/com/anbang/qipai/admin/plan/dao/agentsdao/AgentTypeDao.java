@@ -17,4 +17,6 @@ public interface AgentTypeDao {
 	List<AgentType> findByConditions(int page, int size, AgentType type);
 
 	AgentType findById(String typeId);
+
+	AgentType findByType(String type);
 }

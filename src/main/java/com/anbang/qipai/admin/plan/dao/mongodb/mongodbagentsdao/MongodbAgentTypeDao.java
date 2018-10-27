@@ -60,4 +60,10 @@ public class MongodbAgentTypeDao implements AgentTypeDao {
 		return mongoTemplate.findOne(query, AgentType.class);
 	}
 
+	@Override
+	public AgentType findByType(String type) {
+		Query query = new Query(Criteria.where("type").is(type));
+		return mongoTemplate.findOne(query, AgentType.class);
+	}
+
 }
