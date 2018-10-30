@@ -7,6 +7,8 @@ import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 
 public interface MemberDao {
 
+	List<MemberDbo> findMemberDboByIds(String[] memberIds);
+
 	List<MemberDbo> findMemberDboByConditions(int page, int size, MemberVO member);
 
 	long getAmountByConditions(MemberVO member);

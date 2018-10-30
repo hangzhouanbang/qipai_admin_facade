@@ -1,13 +1,17 @@
 package com.anbang.qipai.admin.msg.receiver.gamereceiver;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import com.anbang.qipai.admin.msg.channel.sink.NoticeSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
-import com.anbang.qipai.admin.plan.bean.notice.Notice;
-import com.anbang.qipai.admin.plan.service.gameservice.NoticeService;
+import com.anbang.qipai.admin.plan.bean.games.SystemNotice;
+import com.anbang.qipai.admin.plan.service.gameservice.SystemNoticeService;
 import com.google.gson.Gson;
 
 /**
@@ -19,7 +23,7 @@ import com.google.gson.Gson;
 public class NoticeMsgReceiver {
 
 	@Autowired
-	private NoticeService noticeService;
+	private SystemNoticeService systemNoticeService;
 
 	private Gson gson = new Gson();
 
@@ -34,8 +38,24 @@ public class NoticeMsgReceiver {
 		String msg = mo.getMsg();
 		String json = gson.toJson(mo.getData());
 		if ("newNotice".equals(msg)) {
-			Notice notice = gson.fromJson(json, Notice.class);
-			noticeService.addNotice(notice);
+			List<SystemNotice> list = new ArrayList<>();
+			List notices = gson.fromJson(json, ArrayList.class);
+			notices.forEach((notice) -> {
+				list.add(new SystemNotice((Map) notice));
+			});
+			systemNoticeService.addSystemNotices(list);
+		}
+		if ("start notice".equals(msg)) {
+			SystemNotice notice = gson.fromJson(json, SystemNotice.class);
+			systemNoticeService.updateSystemNoticeState(notice.getId(), notice.getAdminName(), notice.getState());
+		}
+		if ("stop notice".equals(msg)) {
+			SystemNotice notice = gson.fromJson(json, SystemNotice.class);
+			systemNoticeService.updateSystemNoticeState(notice.getId(), notice.getAdminName(), notice.getState());
+		}
+		if ("remove notice".equals(msg)) {
+			SystemNotice notice = gson.fromJson(json, SystemNotice.class);
+			systemNoticeService.updateSystemNoticeValid(notice.getId(), notice.getAdminName(), notice.isValid());
 		}
 	}
 

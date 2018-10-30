@@ -5,9 +5,19 @@ public class MemberOperationRecord {
 	private String memberId;
 	private String memberName;
 	private String desc;// 操作描述
-	private Object[] params;// 参数
-	private String operationTime;// 操作时间
+	private String param;// 参数
+	private long operationTime;// 操作时间
 	private String operator;// 操作人
+
+	public MemberOperationRecord() {
+
+	}
+
+	public MemberOperationRecord(MemberDbo member) {
+		this.memberId = member.getId();
+		this.memberName = member.getNickname();
+		this.operationTime = System.currentTimeMillis();
+	}
 
 	public String getId() {
 		return id;
@@ -41,19 +51,19 @@ public class MemberOperationRecord {
 		this.desc = desc;
 	}
 
-	public Object[] getParams() {
-		return params;
+	public String getParam() {
+		return param;
 	}
 
-	public void setParams(Object[] params) {
-		this.params = params;
+	public void setParam(String param) {
+		this.param = param;
 	}
 
-	public String getOperationTime() {
+	public long getOperationTime() {
 		return operationTime;
 	}
 
-	public void setOperationTime(String operationTime) {
+	public void setOperationTime(long operationTime) {
 		this.operationTime = operationTime;
 	}
 

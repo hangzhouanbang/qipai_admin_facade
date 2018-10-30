@@ -208,4 +208,11 @@ public class MongodbMemberDao implements MemberDao {
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
+	@Override
+	public List<MemberDbo> findMemberDboByIds(String[] memberIds) {
+		Object[] ids = memberIds;
+		Query query = new Query(Criteria.where("id").in(ids));
+		return mongoTemplate.find(query, MemberDbo.class);
+	}
+
 }

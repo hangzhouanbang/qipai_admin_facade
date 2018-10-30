@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.web.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +13,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.bean.members.MemberLoginLimitRecord;
 import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
+import com.anbang.qipai.admin.plan.bean.members.MemberOperationRecord;
+import com.anbang.qipai.admin.plan.bean.permission.Admin;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberGoldService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginLimitRecordService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginRecordService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberOperationRecordService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberScoreService;
+import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
@@ -37,6 +43,12 @@ import com.highto.framework.web.page.ListPage;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+
+	@Autowired
+	private AdminService adminService;
+
+	@Autowired
+	private AdminAuthService adminAuthService;
 
 	@Autowired
 	private MemberDboService memberService;
@@ -58,6 +70,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberLoginLimitRecordService memberLoginLimitRecordService;
+
+	@Autowired
+	private MemberOperationRecordService memberOperationRecordService;
 
 	/**
 	 * 查询用户
@@ -120,7 +135,7 @@ public class MemberController {
 	 * 批量赠送玉石
 	 **/
 	@RequestMapping(value = "/give_reward_gold", method = RequestMethod.POST)
-	public CommonVO giveGold(@RequestParam(value = "id") String[] ids, Integer amount) {
+	public CommonVO giveGold(@RequestParam(value = "id") String[] ids, Integer amount, String token) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		if (ids.length == 0) {
@@ -132,6 +147,18 @@ public class MemberController {
 		} else {
 			rvo.setSuccess(true);
 		}
+		if (rvo.isSuccess()) {
+			String adminId = adminAuthService.getAdminIdBySessionId(token);
+			Admin admin = adminService.findAdminById(adminId);
+			List<MemberDbo> memberList = memberService.findMemberDboByIds(ids);
+			for (MemberDbo m : memberList) {
+				MemberOperationRecord record = new MemberOperationRecord(m);
+				record.setDesc("赠送玉石");
+				record.setOperator(admin.getNickname());
+				record.setParam(amount.toString());
+				memberOperationRecordService.save(record);
+			}
+		}
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
 		return vo;
@@ -141,7 +168,7 @@ public class MemberController {
 	 * 批量赠送礼券
 	 **/
 	@RequestMapping(value = "/give_reward_score", method = RequestMethod.POST)
-	public CommonVO giveScore(@RequestParam(value = "id") String[] ids, Integer amount) {
+	public CommonVO giveScore(@RequestParam(value = "id") String[] ids, Integer amount, String token) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		if (ids.length == 0) {
@@ -153,16 +180,55 @@ public class MemberController {
 		} else {
 			rvo.setSuccess(true);
 		}
+		if (rvo.isSuccess()) {
+			String adminId = adminAuthService.getAdminIdBySessionId(token);
+			Admin admin = adminService.findAdminById(adminId);
+			List<MemberDbo> memberList = memberService.findMemberDboByIds(ids);
+			for (MemberDbo m : memberList) {
+				MemberOperationRecord record = new MemberOperationRecord(m);
+				record.setDesc("赠送礼券");
+				record.setOperator(admin.getNickname());
+				record.setParam(amount.toString());
+				memberOperationRecordService.save(record);
+			}
+		}
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
 		return vo;
 	}
 
 	@RequestMapping(value = "/give_reward_clubcard", method = RequestMethod.POST)
-	public CommonVO give_reward_clubcard(@RequestParam(value = "id") String[] ids, Integer vipTime) {
+	public CommonVO give_reward_clubcard(@RequestParam(value = "id") String[] ids, Integer vipTime, String token) {
 		CommonVO vo = new CommonVO();
 		long day = 24 * 60 * 60 * 1000;
 		CommonRemoteVO rvo = qipaiMembersRemoteService.give_viptime(ids, vipTime * day);
+		if (rvo.isSuccess()) {
+			String param = "";
+			switch (vipTime) {
+			case 1:
+				param = "日卡";
+				break;
+			case 7:
+				param = "周卡";
+				break;
+			case 30:
+				param = "月卡";
+				break;
+			case 90:
+				param = "季卡";
+				break;
+			}
+			String adminId = adminAuthService.getAdminIdBySessionId(token);
+			Admin admin = adminService.findAdminById(adminId);
+			List<MemberDbo> memberList = memberService.findMemberDboByIds(ids);
+			for (MemberDbo m : memberList) {
+				MemberOperationRecord record = new MemberOperationRecord(m);
+				record.setDesc("赠送会员卡");
+				record.setOperator(admin.getNickname());
+				record.setParam(param);
+				memberOperationRecordService.save(record);
+			}
+		}
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
 		return vo;
@@ -202,6 +268,20 @@ public class MemberController {
 		ListPage listPage = memberScoreService.findScoreRecordByMemberId(page, size, memberId);
 		vo.setSuccess(true);
 		vo.setMsg("goldrecordList");
+		vo.setData(listPage);
+		return vo;
+	}
+
+	/**
+	 * 查询操作记录
+	 */
+	@RequestMapping(value = "/queryoperation", method = RequestMethod.POST)
+	public CommonVO queryOperation(@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "10") int size, MemberOperationRecord record) {
+		CommonVO vo = new CommonVO();
+		ListPage listPage = memberOperationRecordService.findByConditions(page, size, record);
+		vo.setSuccess(true);
+		vo.setMsg("operationrecordList");
 		vo.setData(listPage);
 		return vo;
 	}

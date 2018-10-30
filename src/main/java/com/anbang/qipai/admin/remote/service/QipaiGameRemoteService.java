@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.anbang.qipai.admin.plan.bean.games.GameLaw;
 import com.anbang.qipai.admin.plan.bean.games.GameServer;
 import com.anbang.qipai.admin.plan.bean.games.LawsMutexGroup;
+import com.anbang.qipai.admin.plan.bean.games.SystemNoticePlace;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**
@@ -45,14 +46,21 @@ public interface QipaiGameRemoteService {
 	@RequestMapping(value = "/game/remove_mutexgroup")
 	public CommonRemoteVO game_removemutexgroup(@RequestParam("groupId") String groupId);
 
-	@RequestMapping(value = "/notice/addnotice")
-	public CommonRemoteVO addNotice(@RequestParam(value = "notice") String notice,
-			@RequestParam(value = "place") String place, @RequestParam(value = "adminname") String adminname);
+	@RequestMapping(value = "/sysnotice/addnotice")
+	public CommonRemoteVO addNotice(@RequestParam(value = "content") String content,
+			@RequestBody SystemNoticePlace[] places, @RequestParam(value = "adminName") String adminName);
 
-	@RequestMapping(value = "/notice/updatenotice")
-	public CommonRemoteVO updateNotice(@RequestParam(value = "id") String id,
-			@RequestParam(value = "notice") String notice, @RequestParam(value = "place") String place,
-			@RequestParam(value = "state") Integer state, @RequestParam(value = "adminname") String adminname);
+	@RequestMapping(value = "/sysnotice/startnotice")
+	public CommonRemoteVO startNotice(@RequestParam(value = "id") String id,
+			@RequestParam(value = "adminName") String adminName);
+
+	@RequestMapping(value = "/sysnotice/stopnotice")
+	public CommonRemoteVO stopNotice(@RequestParam(value = "id") String id,
+			@RequestParam(value = "adminName") String adminName);
+
+	@RequestMapping(value = "/sysnotice/removenotice")
+	public CommonRemoteVO removeNotice(@RequestParam(value = "id") String id,
+			@RequestParam(value = "adminName") String adminName);
 
 	@RequestMapping(value = "/mail/addmail")
 	public CommonRemoteVO addmail(@RequestParam(value = "mail") String mail);
