@@ -11,7 +11,12 @@ public interface SignInPrizeLogSink {
 	String channel = "signInPrizeLog";
 	String addSignInPrizeLog = "addSignInPrizeLog";
 	String addSignInPrizeExchangeLog = "addSignInPrizeExchangeLog";
-	
+
+	String RAFFLE_RECORD = "RAFFLE_HISTORY";
+	String OBTAIN_SIGN_PRIZE = "OBTAIN_SIGN_PRIZE_LOG";
+	String PRIZE_EXCHANGE = "EXCHANGE_HONGBAO_PHONEFEE";
+	String RAFFLE_HISTORY = "RAFFLE_HISTORY";
+
 	@Input
 	SubscribableChannel signInPrizeLog();
 }

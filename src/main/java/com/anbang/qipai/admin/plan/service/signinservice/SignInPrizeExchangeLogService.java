@@ -32,7 +32,7 @@ public class SignInPrizeExchangeLogService {
 
 	/**
 	 * 发放签到奖品
-	 * @param ids
+	 * @param id
 	 */
 	public void issueSignInPrize(int id) {
 		signInPrizeExchangeLogDao.issueSignInPrize(id);
@@ -45,4 +45,5 @@ public class SignInPrizeExchangeLogService {
 	public void updateSignInPrizeExchangeLog(SignInPrizeExchangeLog signInPrizeExchangeLog) {
 		signInPrizeExchangeLogDao.updateSignInPrizeExchangeLog(signInPrizeExchangeLog);
 	}
+
 }

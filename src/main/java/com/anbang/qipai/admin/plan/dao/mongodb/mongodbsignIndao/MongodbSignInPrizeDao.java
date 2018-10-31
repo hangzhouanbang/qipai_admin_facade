@@ -36,7 +36,7 @@ public class MongodbSignInPrizeDao implements SignInPrizeDao {
 		update.set("prizeProb", signInPrize.getPrizeProb());
 		update.set("firstPrizeProb", signInPrize.getFirstPrizeProb());
 		update.set("overstep", signInPrize.getOverstep());
-		update.set("state", "1");
+		//update.set("state", "1");
 		mongoTemplate.updateFirst(query, update, SignInPrize.class);
 	}
 
@@ -64,10 +64,10 @@ public class MongodbSignInPrizeDao implements SignInPrizeDao {
 
 	@Override
 	public void releaseSignInPrize() {
-		Query query = new Query();
-		Update update = new Update();
-		update.set("state", "0");
-		mongoTemplate.updateMulti(query, update, SignInPrize.class);
+		//Query query = new Query();
+		//Update update = new Update();
+		//update.set("state", "0");
+		//mongoTemplate.updateMulti(query, update, SignInPrize.class);
 	}
 
 	@Override

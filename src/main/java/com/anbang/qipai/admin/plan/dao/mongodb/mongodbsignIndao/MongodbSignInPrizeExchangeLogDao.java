@@ -23,18 +23,18 @@ public class MongodbSignInPrizeExchangeLogDao implements SignInPrizeExchangeLogD
 
 	@Override
 	public void addSignInPrizeExchangeLog(SignInPrizeExchangeLog signInPrizeExchangeLog) {
-		mongoTemplate.insert(signInPrizeExchangeLog);
+		mongoTemplate.save(signInPrizeExchangeLog);
 	}
 
 	@Override
 	public List<SignInPrizeExchangeLog> querySignInPrizeExchangeLog(SignInPrizeExchangeLog signInPrizeExchangeLog,
 			Long startTime, Long endTime) {
 		Query query = new Query();
-		if (signInPrizeExchangeLog.getSignInPrizeLog().getMemberId() != null) {
-			query.addCriteria(Criteria.where("memberId").is(signInPrizeExchangeLog.getSignInPrizeLog().getMemberId()));
+		if (signInPrizeExchangeLog.getMemberId() != null) {
+			query.addCriteria(Criteria.where("memberId").is(signInPrizeExchangeLog.getMemberId()));
 		}
-		if (signInPrizeExchangeLog.getSignInPrizeLog().getNickname() != null) {
-			query.addCriteria(Criteria.where("nickname").is(signInPrizeExchangeLog.getSignInPrizeLog().getNickname()));
+		if (signInPrizeExchangeLog.getNickName() != null) {
+			query.addCriteria(Criteria.where("nickname").is(signInPrizeExchangeLog.getNickName()));
 		}
 		if (signInPrizeExchangeLog.getPhone() != null) {
 			query.addCriteria(Criteria.where("phone").is(signInPrizeExchangeLog.getPhone()));
@@ -64,7 +64,7 @@ public class MongodbSignInPrizeExchangeLogDao implements SignInPrizeExchangeLogD
 
 	@Override
 	public void updateSignInPrizeExchangeLog(SignInPrizeExchangeLog signInPrizeExchangeLog) {
-		Query query = new Query(Criteria.where("signInPrizeLog.id").is(signInPrizeExchangeLog.getSignInPrizeLog().getId()));
+		Query query = new Query(Criteria.where("signInPrizeLog.id").is(signInPrizeExchangeLog.getId()));
 		Update update = new Update();
 		update.set("phone", signInPrizeExchangeLog.getPhone());
 		update.set("deliveryName", signInPrizeExchangeLog.getDeliveryName());

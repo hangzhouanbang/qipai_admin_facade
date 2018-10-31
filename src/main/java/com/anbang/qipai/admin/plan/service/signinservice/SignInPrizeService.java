@@ -23,7 +23,6 @@ public class SignInPrizeService {
 	 * @param signInPrize
 	 */
 	public void addSignInPrize(SignInPrize signInPrize) {
-		signInPrize.setState("1");
 		signInPrizeDao.addSignInPrize(signInPrize);
 	}
 

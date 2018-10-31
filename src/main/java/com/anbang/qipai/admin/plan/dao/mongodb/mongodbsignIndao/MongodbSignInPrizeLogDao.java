@@ -19,7 +19,7 @@ public class MongodbSignInPrizeLogDao implements SignInPrizeLogDao {
 
 	@Override
 	public void addSignInPrizeLog(SignInPrizeLog signInPrizeLog) {
-		mongoTemplate.insert(signInPrizeLog);
+		mongoTemplate.save(signInPrizeLog);
 	}
 
 	@Override

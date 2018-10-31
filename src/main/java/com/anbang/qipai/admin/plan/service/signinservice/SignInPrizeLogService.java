@@ -26,12 +26,12 @@ public class SignInPrizeLogService {
 	 */
 	public void addSignInPrizeLog(SignInPrizeLog signInPrizeLog) {
 		signInPrizeLogDao.addSignInPrizeLog(signInPrizeLog);
-		String type = signInPrizeLog.getType();
-		if (type.equals("实物") || type.equals("红包")) {
-			SignInPrizeExchangeLog signInPrizeExchangeLog = new SignInPrizeExchangeLog();
-			signInPrizeExchangeLog.setSignInPrizeLog(signInPrizeLog);
-			signInPrizeExchangeLogDao.addSignInPrizeExchangeLog(signInPrizeExchangeLog);
-		}
+//		String type = signInPrizeLog.getType();
+//		if (type.equals("实物") || type.equals("红包")||type.equals("话费")) {
+//			SignInPrizeExchangeLog signInPrizeExchangeLog = new SignInPrizeExchangeLog();
+//			//signInPrizeExchangeLog.setSignInPrizeLog(signInPrizeLog);
+//			signInPrizeExchangeLogDao.addSignInPrizeExchangeLog(signInPrizeExchangeLog);
+//		}
 	}
 
 	/**

@@ -40,7 +40,7 @@ public class SignInController {
 	@Autowired
 	private SignInPrizeExchangeLogService signInPrizeExchangeLogService;
 	//添加抽奖奖励
-	@RequestMapping(value = "/addsigninprize", method = RequestMethod.POST)
+	@RequestMapping(value = "/addsigninprize")
 	public CommonVO addSignInPrize(SignInPrize signInPrize) {
 		CommonVO vo = new CommonVO();
 		if (signInPrize.getName() == null || 
@@ -68,7 +68,7 @@ public class SignInController {
 		return vo;
 	}
 	//查询所有抽奖奖励
-	@RequestMapping(value = "/querysigninprize", method = RequestMethod.POST)
+	@RequestMapping(value = "/querysigninprize")
 	public CommonVO querySignInPrize() {
 		CommonVO vo = new CommonVO();
 		List<SignInPrize> list = signInPrizeService.querySignInPrize();
@@ -78,7 +78,7 @@ public class SignInController {
 		return vo;
 	}
 	//根据id查询抽奖奖励
-	@RequestMapping(value = "/querysigninprizebyid", method = RequestMethod.POST)
+	@RequestMapping(value = "/querysigninprizebyid")
 	public CommonVO querySignInPrizeById(String id) {
 		CommonVO vo = new CommonVO();
 		SignInPrize signInPrize = signInPrizeService.querySignInPrizeById(id);
@@ -123,9 +123,7 @@ public class SignInController {
 		for (SignInPrize signInPrize : list) {
 			checkPrizeProb += signInPrize.getPrizeProb();
 			checkFirstPrizeProb += signInPrize.getFirstPrizeProb();
-			//发布改变状态为可减库存
-			signInPrize.setState("0");
-		}		
+		}
 		if (checkPrizeProb != 10000000) {
 			vo.setSuccess(false);
 			vo.setMsg("中奖概率设置有误");
@@ -143,7 +141,7 @@ public class SignInController {
 		vo.setSuccess(true);
 		vo.setMsg("success");
 		return vo;
-	}	
+	}
 	
 	//查询抽奖中奖纪录
 	@RequestMapping(value = "/querysigninprizelog", method = RequestMethod.POST)
