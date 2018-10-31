@@ -89,7 +89,6 @@ public class GameService {
 			CommonMO commonMO = new CommonMO();
 			commonMO.setMsg(GameServerMsgConstant.STOP_GAME_SERVERS);
 			commonMO.setData(ids);
-			// TODO Stream 异步发送
 			this.gameServerManagerSource.gameServerManager().send(MessageBuilder.withPayload(commonMO).build());
 			this.stopGameServers(ids);
 		}

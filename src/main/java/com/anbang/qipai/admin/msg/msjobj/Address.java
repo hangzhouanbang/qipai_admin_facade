@@ -4,7 +4,6 @@ public class Address {
 
     private String memberId;
     private String name;
-    //TODO
     private String phone;
     private String address;
 
