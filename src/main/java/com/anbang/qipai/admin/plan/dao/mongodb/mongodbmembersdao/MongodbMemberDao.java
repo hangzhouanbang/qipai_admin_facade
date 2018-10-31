@@ -114,7 +114,7 @@ public class MongodbMemberDao implements MemberDao {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
 		update.set("realName", realName);
-		update.set("IDcard", IDcard);
+		update.set("idCard", IDcard);
 		update.set("verifyUser", verify);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}

@@ -109,7 +109,7 @@ public class MemberController {
 		data.put("realName", memberDbo.getRealName());
 		data.put("gender", memberDbo.getGender());
 		data.put("phone", memberDbo.getPhone());
-		data.put("IDcard", memberDbo.getIDcard());
+		data.put("IDcard", memberDbo.getIdCard());
 		data.put("cost", memberDbo.getCost());
 		long onlineTime = 0;
 		String loginIp = "";

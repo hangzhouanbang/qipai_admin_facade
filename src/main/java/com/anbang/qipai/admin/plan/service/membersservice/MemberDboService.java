@@ -82,7 +82,7 @@ public class MemberDboService {
 	}
 
 	public void updateMemberRealUser(MemberDbo member) {
-		memberDao.updateMemberRealUser(member.getId(), member.getRealName(), member.getIDcard(), member.isVerifyUser());
+		memberDao.updateMemberRealUser(member.getId(), member.getRealName(), member.getIdCard(), member.isVerifyUser());
 	}
 
 	public void updateMemberBindAgent(String memberId, String agentId, boolean bindAgent) {
