@@ -34,11 +34,14 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		if (agent.getNickname() != null && !"".equals(agent.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(agent.getNickname()));
 		}
+		if (agent.getBossId() != null && !"".equals(agent.getBossId())) {
+			query.addCriteria(Criteria.where("bossId").is(agent.getBossId()));
+		}
 		if (agent.getPhone() != null && !"".equals(agent.getPhone())) {
 			query.addCriteria(Criteria.where("phone").regex(agent.getPhone()));
 		}
 		if (agent.getUserName() != null && !"".equals(agent.getUserName())) {
-			query.addCriteria(Criteria.where("nickname").regex(agent.getUserName()));
+			query.addCriteria(Criteria.where("userName").regex(agent.getUserName()));
 		}
 		if (agent.getAgentType() != null && !"".equals(agent.getAgentType().getType())) {
 			query.addCriteria(Criteria.where("agentType.type").regex(agent.getAgentType().getType()));
@@ -69,11 +72,14 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		if (agent.getNickname() != null && !"".equals(agent.getNickname())) {
 			query.addCriteria(Criteria.where("nickname").regex(agent.getNickname()));
 		}
+		if (agent.getBossId() != null && !"".equals(agent.getBossId())) {
+			query.addCriteria(Criteria.where("bossId").is(agent.getBossId()));
+		}
 		if (agent.getPhone() != null && !"".equals(agent.getPhone())) {
 			query.addCriteria(Criteria.where("phone").regex(agent.getPhone()));
 		}
 		if (agent.getUserName() != null && !"".equals(agent.getUserName())) {
-			query.addCriteria(Criteria.where("nickname").regex(agent.getUserName()));
+			query.addCriteria(Criteria.where("userName").regex(agent.getUserName()));
 		}
 		if (agent.getAgentType() != null && !"".equals(agent.getAgentType().getType())) {
 			query.addCriteria(Criteria.where("agentType.type").regex(agent.getAgentType().getType()));
