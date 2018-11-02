@@ -332,7 +332,7 @@ public class AgentController {
 	 * @return
 	 */
 	@RequestMapping(value = "/applypass", method = RequestMethod.POST)
-	public CommonVO applyPass(String recordId, String typeId) {
+	public CommonVO applyPass(String recordId, String type) {
 		CommonVO vo = new CommonVO();
 		AgentApplyRecord record = agentApplyRecordService.findAgentApplyRecordById(recordId);
 		if (record == null) {
@@ -340,13 +340,13 @@ public class AgentController {
 			vo.setMsg("not found apply record");
 			return vo;
 		}
-		AgentType type = agentTypeService.findById(typeId);
+		AgentType agentType = agentTypeService.findByType(type);
 		if (type == null) {
 			vo.setSuccess(false);
 			vo.setMsg("not found agenttype");
 			return vo;
 		}
-		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_pass(recordId, typeId);
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.apply_pass(recordId, agentType.getId());
 		vo.setSuccess(rvo.isSuccess());
 		return vo;
 	}
@@ -371,20 +371,13 @@ public class AgentController {
 		return vo;
 	}
 
-	/**
-	 * 设置推广员等级,默认2级
-	 * 
-	 * @param agentId
-	 * @param level
-	 * @return
-	 */
 	@RequestMapping(value = "/settype", method = RequestMethod.POST)
 	public CommonVO setType(String agentId, String type) {
 		CommonVO vo = new CommonVO();
 		AgentType agentType = agentTypeService.findByType(type);
 		if (type == null) {
 			vo.setSuccess(false);
-			vo.setMsg("invalid agentTypeId");
+			vo.setMsg("not found agenttype");
 			return vo;
 		}
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.agent_settype(agentId, agentType.getId());

@@ -145,7 +145,7 @@ public class MemberController {
 		} else if (amount < 0) {
 			rvo = qipaiMembersRemoteService.gold_members_withdraw(ids, -amount, "admin_give_gold");
 		} else {
-			rvo.setSuccess(true);
+			vo.setSuccess(true);
 		}
 		if (rvo.isSuccess()) {
 			String adminId = adminAuthService.getAdminIdBySessionId(token);
