@@ -140,12 +140,8 @@ public class MemberController {
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		if (ids.length == 0) {
 			rvo.setSuccess(true);
-		} else if (amount > 0) {
-			rvo = qipaiMembersRemoteService.gold_givegoldtomembers(ids, amount, "admin_give_gold");
-		} else if (amount < 0) {
-			rvo = qipaiMembersRemoteService.gold_members_withdraw(ids, -amount, "admin_give_gold");
 		} else {
-			vo.setSuccess(true);
+			rvo = qipaiMembersRemoteService.gold_givegoldtomembers(ids, amount, "admin_give_gold");
 		}
 		if (rvo.isSuccess()) {
 			String adminId = adminAuthService.getAdminIdBySessionId(token);
@@ -173,12 +169,8 @@ public class MemberController {
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		if (ids.length == 0) {
 			rvo.setSuccess(true);
-		} else if (amount > 0) {
-			rvo = qipaiMembersRemoteService.score_givescoretomembers(ids, amount, "admin_give_score");
-		} else if (amount < 0) {
-			rvo = qipaiMembersRemoteService.score_memebrs_withdraw(ids, -amount, "admin_give_score");
 		} else {
-			rvo.setSuccess(true);
+			rvo = qipaiMembersRemoteService.score_givescoretomembers(ids, amount, "admin_give_score");
 		}
 		if (rvo.isSuccess()) {
 			String adminId = adminAuthService.getAdminIdBySessionId(token);
@@ -200,24 +192,28 @@ public class MemberController {
 	@RequestMapping(value = "/give_reward_clubcard", method = RequestMethod.POST)
 	public CommonVO give_reward_clubcard(@RequestParam(value = "id") String[] ids, Integer vipTime, String token) {
 		CommonVO vo = new CommonVO();
-		long day = 24 * 60 * 60 * 1000;
+		String param = "";
+		switch (vipTime) {
+		case 1:
+			param = "日卡";
+			break;
+		case 7:
+			param = "周卡";
+			break;
+		case 30:
+			param = "月卡";
+			break;
+		case 90:
+			param = "季卡";
+			break;
+		default:
+			vo.setSuccess(false);
+			vo.setMsg("invalid vipTime");
+			return vo;
+		}
+		long day = 24L * 60 * 60 * 1000;
 		CommonRemoteVO rvo = qipaiMembersRemoteService.give_viptime(ids, vipTime * day);
 		if (rvo.isSuccess()) {
-			String param = "";
-			switch (vipTime) {
-			case 1:
-				param = "日卡";
-				break;
-			case 7:
-				param = "周卡";
-				break;
-			case 30:
-				param = "月卡";
-				break;
-			case 90:
-				param = "季卡";
-				break;
-			}
 			String adminId = adminAuthService.getAdminIdBySessionId(token);
 			Admin admin = adminService.findAdminById(adminId);
 			List<MemberDbo> memberList = memberService.findMemberDboByIds(ids);

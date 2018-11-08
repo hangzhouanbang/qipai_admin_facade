@@ -522,36 +522,16 @@ public class AgentController {
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		rvo.setSuccess(false);
 		if ("ri".equals(card)) {
-			if (cardAmount < 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardri(agentId, -cardAmount, "admin adjust");
-			}
-			if (cardAmount > 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardritoagent(agentId, cardAmount, "admin adjust");
-			}
+			rvo = qipaiAgentsRemoteService.clubcard_giveclubcardritoagent(agentId, cardAmount, "admin adjust");
 		}
 		if ("zhou".equals(card)) {
-			if (cardAmount < 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardzhou(agentId, -cardAmount, "admin adjust");
-			}
-			if (cardAmount > 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "admin adjust");
-			}
+			rvo = qipaiAgentsRemoteService.clubcard_giveclubcardzhoutoagent(agentId, cardAmount, "admin adjust");
 		}
 		if ("yue".equals(card)) {
-			if (cardAmount < 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardyue(agentId, -cardAmount, "admin adjust");
-			}
-			if (cardAmount > 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "admin adjust");
-			}
+			rvo = qipaiAgentsRemoteService.clubcard_giveclubcardyuetoagent(agentId, cardAmount, "admin adjust");
 		}
 		if ("ji".equals(card)) {
-			if (cardAmount < 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_withdrawclubcardji(agentId, -cardAmount, "admin adjust");
-			}
-			if (cardAmount > 0) {
-				rvo = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "admin adjust");
-			}
+			rvo = qipaiAgentsRemoteService.clubcard_giveclubcardjitoagent(agentId, cardAmount, "admin adjust");
 		}
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
@@ -572,12 +552,7 @@ public class AgentController {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = new CommonRemoteVO();
 		rvo.setSuccess(false);
-		if (scoreAmount < 0) {
-			rvo = qipaiAgentsRemoteService.score_withdraw(agentId, -scoreAmount, "admin adjust");
-		}
-		if (scoreAmount > 0) {
-			rvo = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "admin adjust");
-		}
+		rvo = qipaiAgentsRemoteService.score_givescoretoagent(agentId, scoreAmount, "admin adjust");
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
 		return vo;
