@@ -16,6 +16,8 @@ public interface AgentDboDao {
 
 	AgentDbo findAgentDboById(String agentId);
 
+	void updateAgentTypeForTypeChange(AgentType type);
+
 	void updateAgentDboBoss(String agentId, String bossId, String bossName);
 
 	void updateAgentDboType(String agentId, AgentType type);

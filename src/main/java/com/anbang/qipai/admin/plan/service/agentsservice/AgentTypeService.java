@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentType;
+import com.anbang.qipai.admin.plan.dao.agentsdao.AgentDboDao;
 import com.anbang.qipai.admin.plan.dao.agentsdao.AgentTypeDao;
 import com.highto.framework.web.page.ListPage;
 
@@ -14,6 +15,9 @@ public class AgentTypeService {
 
 	@Autowired
 	private AgentTypeDao agentTypeDao;
+
+	@Autowired
+	private AgentDboDao agentDboDao;
 
 	public void save(AgentType type) {
 		agentTypeDao.save(type);
@@ -25,6 +29,7 @@ public class AgentTypeService {
 
 	public void updateAgentType(AgentType type) {
 		agentTypeDao.updateAgentType(type);
+		agentDboDao.updateAgentTypeForTypeChange(type);
 	}
 
 	public ListPage findByConditions(int page, int size, AgentType type) {

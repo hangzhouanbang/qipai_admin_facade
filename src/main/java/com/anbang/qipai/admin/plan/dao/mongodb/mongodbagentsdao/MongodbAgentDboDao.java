@@ -188,4 +188,14 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		update.set("juniorNum", juniorNum);
 		mongoTemplate.updateFirst(query, update, AgentDbo.class);
 	}
+
+	@Override
+	public void updateAgentTypeForTypeChange(AgentType type) {
+		Query query = new Query(Criteria.where("agentType.type").is(type.getType()));
+		Update update = new Update();
+		update.set("agentType.type", type.getType());
+		update.set("agentType.memberReward", type.getMemberReward());
+		update.set("agentType.juniorReward", type.getJuniorReward());
+		mongoTemplate.updateMulti(query, update, AgentDbo.class);
+	}
 }

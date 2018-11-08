@@ -341,7 +341,7 @@ public class AgentController {
 			return vo;
 		}
 		AgentType agentType = agentTypeService.findByType(type);
-		if (type == null) {
+		if (agentType == null) {
 			vo.setSuccess(false);
 			vo.setMsg("not found agenttype");
 			return vo;
