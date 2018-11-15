@@ -89,7 +89,9 @@ public class GameService {
 			CommonMO commonMO = new CommonMO();
 			commonMO.setMsg(GameServerMsgConstant.STOP_GAME_SERVERS);
 			commonMO.setData(ids);
+			//通知game系统
 			this.gameServerManagerSource.gameServerManager().send(MessageBuilder.withPayload(commonMO).build());
+            //修改admin的gameServer的state字段
 			this.stopGameServers(ids);
 		}
 	}
