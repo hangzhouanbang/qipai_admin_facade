@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentInvitationRecord;
@@ -43,6 +44,7 @@ public class MongodbAgentInvitationRecordDao implements AgentInvitationRecordDao
 			}
 			query.addCriteria(criteria);
 		}
+		query.addCriteria(Criteria.where("ban").is(false));
 		query.with(record.getSort());
 		query.skip((page - 1) * size);
 		query.limit(size);
@@ -68,7 +70,16 @@ public class MongodbAgentInvitationRecordDao implements AgentInvitationRecordDao
 			}
 			query.addCriteria(criteria);
 		}
+		query.addCriteria(Criteria.where("ban").is(false));
 		return mongoTemplate.count(query, AgentInvitationRecord.class);
+	}
+
+	@Override
+	public void banInvitationRecordById(String id) {
+		Query query = new Query(Criteria.where("id").is(id));
+		Update update = new Update();
+		update.set("ban", true);
+		mongoTemplate.updateFirst(query, update, AgentInvitationRecord.class);
 	}
 
 }

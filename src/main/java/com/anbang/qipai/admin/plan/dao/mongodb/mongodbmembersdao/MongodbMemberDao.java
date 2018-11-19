@@ -215,4 +215,13 @@ public class MongodbMemberDao implements MemberDao {
 		return mongoTemplate.find(query, MemberDbo.class);
 	}
 
+	@Override
+	public void removeMemberBindAgent(String memberId) {
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("bindAgent", false);
+		update.unset("agentId");
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
 }

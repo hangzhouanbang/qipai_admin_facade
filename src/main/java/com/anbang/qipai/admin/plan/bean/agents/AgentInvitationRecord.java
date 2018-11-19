@@ -11,6 +11,15 @@ public class AgentInvitationRecord {
 	private int inviteNum;// 邀请总人数
 	private int score;// 累计得分
 	private long createTime;// 绑定时间
+	private boolean ban;// 是否禁用
+
+	public boolean isBan() {
+		return ban;
+	}
+
+	public void setBan(boolean ban) {
+		this.ban = ban;
+	}
 
 	public String getId() {
 		return id;

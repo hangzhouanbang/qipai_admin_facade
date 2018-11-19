@@ -16,6 +16,7 @@ public class AgentDboVO extends AgentDbo {
 	private String juniorNumSort;
 	private String createTimeSort;
 	private String stateSort;
+	private String type;
 
 	public Sort getSort() {
 		List<Order> orderList = new ArrayList<>();
@@ -93,6 +94,14 @@ public class AgentDboVO extends AgentDbo {
 
 	public void setStateSort(String stateSort) {
 		this.stateSort = stateSort;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
