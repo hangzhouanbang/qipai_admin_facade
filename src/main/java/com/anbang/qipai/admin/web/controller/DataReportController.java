@@ -1,14 +1,14 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.report.AddUserCount;
+import com.anbang.qipai.admin.util.CommonVOUtil;
+import com.anbang.qipai.admin.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.anbang.qipai.admin.plan.bean.games.Game;
 import com.anbang.qipai.admin.plan.bean.report.GameDataReport;
@@ -110,5 +110,42 @@ public class DataReportController {
 				remainSecond, remainThird, remainSeventh, remainMonth);
 		platformReportService.addPlatformReport(report);
 	}
+
+    /**
+     * 新增用户明细
+     */
+    @PostMapping(value = "addUserCount")
+    public CommonVO addUserCount(Long currentTime){
+        //1.月份开始时间点转化为月起始时间点,月结束时间点
+        Long startTime= TimeUtil.getBeginDayTimeOfCurrentMonth(currentTime);
+        Long endTime=TimeUtil.getEndDayTimeOfCurrentMonth(currentTime);
+        //2.查询时间点中新增用户(借鉴老代码)
+        ListPage listPage = platformReportService.findPlatformReportByTime(1, 31, startTime, endTime);
+        List<PlatformReport> reportList= (List<PlatformReport>) listPage.getItems();
+
+        //3.查询从九月一号到月起始时间点注册的用户数量
+        int totalMember = (int) memberService.countNewMemberByTime(1535731200000L, startTime);
+
+        //4.拼装List(时间戳,count)
+        List<AddUserCount> addUserCountList=new ArrayList<>();
+        for(PlatformReport platformReport:reportList){
+            //新增用户不为0才填充
+            if(platformReport.getNewMember()!=0){
+                AddUserCount addUserCount=new AddUserCount();
+                addUserCount.setDate(platformReport.getDate());
+                addUserCount.setNewMember(platformReport.getNewMember());
+                //用户总量进行累加
+                totalMember+=platformReport.getNewMember();
+                addUserCount.setTotalMember(platformReport.getNewMember());
+                addUserCountList.add(addUserCount);
+            }
+        }
+
+
+        Object data=addUserCountList;
+        String msg="addUserCountList";
+        return CommonVOUtil.success(data,msg);
+    }
+
 
 }
