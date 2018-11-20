@@ -20,6 +20,10 @@ public class AgentInvitationRecordService {
 		invitationRecordDao.addInvitationRecord(record);
 	}
 
+	public void banInvitationRecordById(String id) {
+		invitationRecordDao.banInvitationRecordById(id);
+	}
+
 	public ListPage findInvitationRecordByConditions(int page, int size, AgentInvitationRecordVO record) {
 		long amount = invitationRecordDao.getAmountByByConditions(record);
 		List<AgentInvitationRecord> recordList = invitationRecordDao.findInvitationRecordByConditions(page, size,

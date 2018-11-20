@@ -89,6 +89,10 @@ public class MemberDboService {
 		memberDao.updateMemberBindAgent(memberId, agentId, bindAgent);
 	}
 
+	public void removeMemberBindAgent(String memberId) {
+		memberDao.removeMemberBindAgent(memberId);
+	}
+
 	public void updateMemberOnlineState(String memberId, String onlineState) {
 		memberDao.updateMemberOnlineState(memberId, onlineState);
 	}

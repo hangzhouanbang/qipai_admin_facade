@@ -41,6 +41,8 @@ public interface MemberDao {
 
 	void updateMemberBindAgent(String memberId, String agentId, boolean bindAgent);
 
+	void removeMemberBindAgent(String memberId);
+
 	void updateMemberOnlineState(String memberId, String onlineState);
 
 	List<String> findAllMemberId();

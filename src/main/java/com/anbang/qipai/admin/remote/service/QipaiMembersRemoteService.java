@@ -63,4 +63,11 @@ public interface QipaiMembersRemoteService {
 	@RequestMapping(value = "/score/givescoretomembers")
 	public CommonRemoteVO score_givescoretomembers(@RequestBody String[] memberIds,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
+
+	@RequestMapping(value = "/member/removeagent")
+	public CommonRemoteVO remove_agentbind(@RequestParam(value = "memberId") String memberId);
+
+	@RequestMapping(value = "/member/updateagent")
+	public CommonRemoteVO update_agentbind(@RequestParam(value = "memberId") String memberId,
+			@RequestParam(value = "agentId") String agentId);
 }

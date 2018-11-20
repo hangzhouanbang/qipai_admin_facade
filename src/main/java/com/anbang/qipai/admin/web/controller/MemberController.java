@@ -132,6 +132,45 @@ public class MemberController {
 	}
 
 	/**
+	 * 移除推广员绑定
+	 */
+	@RequestMapping(value = "/remove_agent_bind", method = RequestMethod.POST)
+	public CommonVO removeAgentBind(String token, String memberId) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiMembersRemoteService.remove_agentbind(memberId);
+		if (rvo.isSuccess()) {
+			String adminId = adminAuthService.getAdminIdBySessionId(token);
+			Admin admin = adminService.findAdminById(adminId);
+			MemberDbo member = memberService.findMemberById(memberId);
+			MemberOperationRecord record = new MemberOperationRecord(member);
+			record.setDesc("移除推广员绑定");
+			record.setOperator(admin.getNickname());
+			memberOperationRecordService.save(record);
+		}
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	@RequestMapping(value = "/update_agent_bind", method = RequestMethod.POST)
+	public CommonVO updateAgentBind(String token, String memberId, String agentId) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiMembersRemoteService.remove_agentbind(memberId);
+		if (rvo.isSuccess()) {
+			String adminId = adminAuthService.getAdminIdBySessionId(token);
+			Admin admin = adminService.findAdminById(adminId);
+			MemberDbo member = memberService.findMemberById(memberId);
+			MemberOperationRecord record = new MemberOperationRecord(member);
+			record.setDesc("修改推广员绑定");
+			record.setOperator(admin.getNickname());
+			memberOperationRecordService.save(record);
+		}
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	/**
 	 * 批量赠送玉石
 	 **/
 	@RequestMapping(value = "/give_reward_gold", method = RequestMethod.POST)

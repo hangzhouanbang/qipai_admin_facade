@@ -44,6 +44,12 @@ public class MembersMsgReceiver {
 		if ("update member bindAgent".equals(msg)) {
 			memberService.updateMemberBindAgent(member.getId(), member.getAgentId(), member.isBindAgent());
 		}
+		if ("remove member bindAgent".equals(msg)) {
+			memberService.removeMemberBindAgent(member.getId());
+		}
+		if ("add member bindAgent".equals(msg)) {
+			memberService.updateMemberBindAgent(member.getId(), member.getAgentId(), member.isBindAgent());
+		}
 	}
 
 }
