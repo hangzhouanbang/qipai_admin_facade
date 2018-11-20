@@ -15,9 +15,9 @@ public class MemberOperationRecordService {
 	@Autowired
 	private MemberOperationRecordDao memberOperationRecordDao;
 
-	public void save(MemberOperationRecord record) {
-		memberOperationRecordDao.save(record);
-	}
+    public void save(MemberOperationRecord record) {
+        memberOperationRecordDao.save(record);
+    }
 
 	public ListPage findByConditions(int page, int size, MemberOperationRecord record) {
 		long amount = memberOperationRecordDao.countAmountByConditions(record);

@@ -113,15 +113,16 @@ public class DataReportController {
 
     /**
      * 新增用户明细
+     * @param currentTime
+     * @return
      */
-    @PostMapping(value = "addUserCount")
+    @PostMapping(value = "/addUserCount")
     public CommonVO addUserCount(Long currentTime){
         //1.月份开始时间点转化为月起始时间点,月结束时间点
         Long startTime= TimeUtil.getBeginDayTimeOfCurrentMonth(currentTime);
         Long endTime=TimeUtil.getEndDayTimeOfCurrentMonth(currentTime);
         //2.查询时间点中新增用户(借鉴老代码)
-        ListPage listPage = platformReportService.findPlatformReportByTime(1, 31, startTime, endTime);
-        List<PlatformReport> reportList= (List<PlatformReport>) listPage.getItems();
+        List<PlatformReport> reportList=platformReportService.findAllPlatformReportByTime(startTime,endTime);
 
         //3.查询从九月一号到月起始时间点注册的用户数量
         int totalMember = (int) memberService.countNewMemberByTime(1535731200000L, startTime);

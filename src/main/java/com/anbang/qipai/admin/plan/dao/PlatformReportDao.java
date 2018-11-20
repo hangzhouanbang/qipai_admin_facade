@@ -10,4 +10,6 @@ public interface PlatformReportDao {
 	long getAmountByTime(long startTime, long endTime);
 
 	void addReport(PlatformReport report);
+
+    List<PlatformReport> findAllReportByTime(Long startTime, Long endTime);
 }

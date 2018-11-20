@@ -35,7 +35,20 @@ public class MongodbPlatformReportDao implements PlatformReportDao {
 		mongoTemplate.insert(report);
 	}
 
-	@Override
+    /**
+     * 在时间段中查询(无分页)
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Override
+    public List<PlatformReport> findAllReportByTime(Long startTime, Long endTime) {
+        Query query = new Query(Criteria.where("date").gte(startTime).lte(endTime));
+        query.with(new Sort(new Order(Direction.DESC, "date")));
+        return mongoTemplate.find(query, PlatformReport.class);
+    }
+
+    @Override
 	public long getAmountByTime(long startTime, long endTime) {
 		Query query = new Query(Criteria.where("date").gte(startTime).lte(endTime));
 		return mongoTemplate.count(query, PlatformReport.class);

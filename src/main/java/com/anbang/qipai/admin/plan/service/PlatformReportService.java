@@ -25,4 +25,15 @@ public class PlatformReportService {
 	public void addPlatformReport(PlatformReport report) {
 		platformReportDao.addReport(report);
 	}
+
+    /**
+     * 在时间段中查询(无分页)
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public List<PlatformReport> findAllPlatformReportByTime(Long startTime, Long endTime) {
+        List<PlatformReport> reportList = platformReportDao.findAllReportByTime(startTime, endTime);
+	    return reportList;
+    }
 }

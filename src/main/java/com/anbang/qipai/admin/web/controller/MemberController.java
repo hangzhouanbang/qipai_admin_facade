@@ -155,7 +155,7 @@ public class MemberController {
 	@RequestMapping(value = "/update_agent_bind", method = RequestMethod.POST)
 	public CommonVO updateAgentBind(String token, String memberId, String agentId) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO rvo = qipaiMembersRemoteService.remove_agentbind(memberId);
+		CommonRemoteVO rvo = qipaiMembersRemoteService.update_agentbind(memberId,agentId);
 		if (rvo.isSuccess()) {
 			String adminId = adminAuthService.getAdminIdBySessionId(token);
 			Admin admin = adminService.findAdminById(adminId);
