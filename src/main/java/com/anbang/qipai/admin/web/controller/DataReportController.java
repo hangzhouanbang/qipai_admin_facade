@@ -1,11 +1,14 @@
 package com.anbang.qipai.admin.web.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.bean.report.AddUserCount;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.util.TimeUtil;
+import com.anbang.qipai.admin.util.enums.CommonVOStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +34,10 @@ import com.highto.framework.web.page.ListPage;
 @RestController
 @RequestMapping("/datareport")
 public class DataReportController {
+    private final int CURRENT_TIME_COUNT=0;
+    private final int EVERY_DAY_COUNT=1;
+    private final int EVERY_WEEK_COUNT=2;
+    private final int EVERY_MONTH_COUNT=3;
 
 	@Autowired
 	private PlatformReportService platformReportService;
@@ -146,6 +153,38 @@ public class DataReportController {
         Object data=addUserCountList;
         String msg="addUserCountList";
         return CommonVOUtil.success(data,msg);
+    }
+
+    /**
+     * 今日新增和新增用户折线图
+     * @param code
+     * @return
+     */
+    @PostMapping(value = "/addUserGraph")
+    public CommonVO addUserGraph(Integer code){
+        //查询的是今日新增(折线图)
+        if(code==EVERY_DAY_COUNT){
+            long startTime=TimeUtil.getDayStartTime(new Date());
+            List<MemberDbo> memberDboList=memberService.findMemberAfterTime(startTime);
+
+            int[] addUserToday=new int[24];
+            for(MemberDbo memberDbo:memberDboList){
+                //得到每个memberdbo的创建点钟
+                int clock=TimeUtil.getClockByTime(memberDbo.getCreateTime());
+                //填充到数组中
+                addUserToday[clock]++;
+            }
+            return CommonVOUtil.success(addUserToday,"今日新增(折线图)");
+        }
+        //查询的是本周新增(折线图)
+        if(code==EVERY_WEEK_COUNT){
+            long startTime=TimeUtil.getWeekStartTime();
+        }
+
+
+
+        //系统错误才返回
+        return CommonVOUtil.error(CommonVOStatusEnum.CODE_NOT_EXIST.getMsg());
     }
 
 

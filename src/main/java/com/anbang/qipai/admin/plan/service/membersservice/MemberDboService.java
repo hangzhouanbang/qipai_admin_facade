@@ -111,4 +111,8 @@ public class MemberDboService {
 		List<String> ids = memberDao.findAllMemberId();
 		return ids;
 	}
+
+    public List<MemberDbo> findMemberAfterTime(long startTime) {
+        return memberDao.findMemberAfterTime(startTime);
+    }
 }

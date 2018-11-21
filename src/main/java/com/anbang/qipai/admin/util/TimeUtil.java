@@ -1,8 +1,10 @@
 package com.anbang.qipai.admin.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class TimeUtil {
 	//获得多少天前的毫秒数
@@ -74,4 +76,37 @@ public class TimeUtil {
         gc.setTimeInMillis(currentTime);
         return gc.get(2) + 1;
     }
+
+
+
+    /**
+     * 获得某个时间的点钟(0-24)
+     * @param currentTime
+     * @return
+     */
+    public static int getClockByTime(long currentTime){
+
+        SimpleDateFormat sdf=new SimpleDateFormat("HH");
+        // 时间戳转换成时间
+        String sd = sdf.format(currentTime);
+
+        return Integer.parseInt(sd);
+    }
+
+    /**
+     * start
+     * 本周开始时间戳 - 以星期一为本周的第一天
+     */
+    public static long getWeekStartTime() {
+
+        Calendar cal=Calendar.getInstance();
+        //如果当前时间是星期天，则向上移动一天，再取本周的星期一，老外用周日到周六为一周，向前移动一天，则是中国人的本周
+        if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            cal.add(Calendar.DATE, -1);
+        }
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+        return getDayStartTime(cal.getTime());
+    }
+
 }

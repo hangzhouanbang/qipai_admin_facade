@@ -169,7 +169,13 @@ public class MongodbMemberDao implements MemberDao {
 		return ids;
 	}
 
-	@Override
+    @Override
+    public List<MemberDbo> findMemberAfterTime(long startTime) {
+        Query query = new Query(Criteria.where("createTime").gte(startTime));
+        return mongoTemplate.find(query, MemberDbo.class);
+    }
+
+    @Override
 	public void updateMemberGold(String memberId, int gold) {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();

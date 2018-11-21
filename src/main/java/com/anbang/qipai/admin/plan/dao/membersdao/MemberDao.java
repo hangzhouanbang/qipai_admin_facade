@@ -51,4 +51,10 @@ public interface MemberDao {
 
 	List<String> findVipMemberId();
 
+    /**
+     * 查找在某个时间点后的所有member
+     * @param startTime
+     * @return
+     */
+    List<MemberDbo> findMemberAfterTime(long startTime);
 }
