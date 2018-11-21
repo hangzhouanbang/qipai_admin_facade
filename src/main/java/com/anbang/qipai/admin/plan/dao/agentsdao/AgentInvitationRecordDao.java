@@ -6,6 +6,7 @@ import com.anbang.qipai.admin.plan.bean.agents.AgentInvitationRecord;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentInvitationRecordVO;
 
 public interface AgentInvitationRecordDao {
+
 	void addInvitationRecord(AgentInvitationRecord record);
 
 	List<AgentInvitationRecord> findInvitationRecordByConditions(int page, int size, AgentInvitationRecordVO record);
@@ -13,4 +14,6 @@ public interface AgentInvitationRecordDao {
 	long getAmountByByConditions(AgentInvitationRecordVO record);
 
 	void banInvitationRecordById(String id);
+
+	void updateAllInvitationRecordBan(boolean ban);
 }
