@@ -9,9 +9,31 @@ import com.anbang.qipai.admin.web.vo.CommonVO;
  */
 public class CommonVOUtil {
     public static CommonVO success(Object data,String msg) {
-        CommonVO CommonVO = new CommonVO();
-        CommonVO.setData(data);
-        CommonVO.setMsg(msg);
-        return CommonVO;
+        CommonVO commonVO = new CommonVO();
+        commonVO.setData(data);
+        commonVO.setMsg(msg);
+        return commonVO;
+    }
+
+    public static CommonVO success(Boolean success,Object data,String msg) {
+        CommonVO commonVO = new CommonVO();
+        commonVO.setSuccess(success);
+        commonVO.setData(data);
+        commonVO.setMsg(msg);
+        return commonVO;
+    }
+
+    public static CommonVO success(Boolean success,String msg) {
+        CommonVO commonVO = new CommonVO();
+        commonVO.setSuccess(success);
+        commonVO.setMsg(msg);
+        return commonVO;
+    }
+
+    public static CommonVO error(String msg){
+        CommonVO commonVO = new CommonVO();
+        commonVO.setSuccess(false);
+        commonVO.setMsg(msg);
+        return commonVO;
     }
 }

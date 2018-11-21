@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
+import com.anbang.qipai.admin.util.CommonVOUtil;
+import com.anbang.qipai.admin.util.enums.CommonVOStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,6 +78,9 @@ public class MemberController {
 	@Autowired
 	private MemberOperationRecordService memberOperationRecordService;
 
+	@Autowired
+    private AgentDboService agentDboService;
+
 	/**
 	 * 查询用户
 	 * 
@@ -106,6 +113,7 @@ public class MemberController {
 		CommonVO vo = new CommonVO();
 		Map data = new HashMap();
 		MemberDbo memberDbo = memberService.findMemberById(memberId);
+		data.put("agentId",memberDbo.getAgentId());
 		data.put("realName", memberDbo.getRealName());
 		data.put("gender", memberDbo.getGender());
 		data.put("phone", memberDbo.getPhone());
@@ -152,22 +160,44 @@ public class MemberController {
 		return vo;
 	}
 
+    /**
+     * 修改推广员绑定
+     * @param token
+     * @param memberId
+     * @param agentId
+     * @return
+     */
 	@RequestMapping(value = "/update_agent_bind", method = RequestMethod.POST)
 	public CommonVO updateAgentBind(String token, String memberId, String agentId) {
-		CommonVO vo = new CommonVO();
+        //校验token
+        if(adminAuthService.getAdminIdBySessionId(token)==null){
+            return CommonVOUtil.error(CommonVOStatusEnum.TOKEN_NOT_EXIST.getMsg());
+        }
+
+        //校验memberId
+        if(memberService.findMemberById(memberId)==null){
+            return CommonVOUtil.error(CommonVOStatusEnum.MEMBERID_NOT_EXIST.getMsg());
+        }
+
+        //校验agentId
+        AgentDbo agentDbo=agentDboService.findAgentDboById(agentId);
+        if(agentDbo==null){
+            return CommonVOUtil.error(CommonVOStatusEnum.AGENTID_NOT_EXIST.getMsg());
+        }
+
 		CommonRemoteVO rvo = qipaiMembersRemoteService.update_agentbind(memberId,agentId);
 		if (rvo.isSuccess()) {
 			String adminId = adminAuthService.getAdminIdBySessionId(token);
 			Admin admin = adminService.findAdminById(adminId);
+
 			MemberDbo member = memberService.findMemberById(memberId);
 			MemberOperationRecord record = new MemberOperationRecord(member);
+
 			record.setDesc("修改推广员绑定");
 			record.setOperator(admin.getNickname());
 			memberOperationRecordService.save(record);
 		}
-		vo.setSuccess(rvo.isSuccess());
-		vo.setMsg(rvo.getMsg());
-		return vo;
+		return CommonVOUtil.success(rvo.isSuccess(),rvo.getMsg());
 	}
 
 	/**
