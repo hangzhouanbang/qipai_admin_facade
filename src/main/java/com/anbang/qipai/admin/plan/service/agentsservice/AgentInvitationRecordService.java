@@ -31,4 +31,8 @@ public class AgentInvitationRecordService {
 		ListPage listPage = new ListPage(recordList, page, size, (int) amount);
 		return listPage;
 	}
+
+	public void updateAllInvitationRecordBan(boolean ban) {
+		invitationRecordDao.updateAllInvitationRecordBan(ban);
+	}
 }

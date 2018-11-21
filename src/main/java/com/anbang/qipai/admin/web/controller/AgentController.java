@@ -708,4 +708,9 @@ public class AgentController {
 		vo.setMsg(rvo.getMsg());
 		return vo;
 	}
+
+	@RequestMapping("/update_all_ban")
+	public void updateAllBan(boolean ban) {
+		agentInvitationRecordService.updateAllInvitationRecordBan(ban);
+	}
 }
