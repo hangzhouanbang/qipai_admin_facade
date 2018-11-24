@@ -57,4 +57,10 @@ public interface MemberDao {
      * @return
      */
     List<MemberDbo> findMemberAfterTime(long startTime);
+
+    /**
+     * 查询实时在线人数
+     * @return
+     */
+    long countOnlineState();
 }

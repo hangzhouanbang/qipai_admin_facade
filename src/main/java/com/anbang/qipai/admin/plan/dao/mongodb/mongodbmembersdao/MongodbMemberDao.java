@@ -176,6 +176,12 @@ public class MongodbMemberDao implements MemberDao {
     }
 
     @Override
+    public long countOnlineState() {
+        Query query = new Query(Criteria.where("onlineState").is("online"));
+        return mongoTemplate.count(query, MemberDbo.class);
+    }
+
+    @Override
 	public void updateMemberGold(String memberId, int gold) {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();

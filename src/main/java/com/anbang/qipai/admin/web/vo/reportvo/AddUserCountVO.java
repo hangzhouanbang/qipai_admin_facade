@@ -1,10 +1,10 @@
-package com.anbang.qipai.admin.plan.bean.report;
+package com.anbang.qipai.admin.web.vo.reportvo;
 
 /**
  * @author YaphetS
  * @date 2018/11/19
  */
-public class AddUserCount {
+public class AddUserCountVO {
     private long date;
     private int newMember;
     private int totalMember;

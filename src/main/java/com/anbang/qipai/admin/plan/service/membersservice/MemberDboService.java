@@ -115,4 +115,8 @@ public class MemberDboService {
     public List<MemberDbo> findMemberAfterTime(long startTime) {
         return memberDao.findMemberAfterTime(startTime);
     }
+
+    public long countOnlineState() {
+	    return memberDao.countOnlineState();
+    }
 }

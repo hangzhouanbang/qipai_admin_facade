@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -109,4 +110,46 @@ public class TimeUtil {
         return getDayStartTime(cal.getTime());
     }
 
+    /**
+     * 根据时间戳返回星期几(1-7)
+     * @param createTime
+     * @return
+     */
+    public static int getWeekByTime(long createTime) {
+        SimpleDateFormat sdf=new SimpleDateFormat("u");
+        String sd=sdf.format(createTime);
+        return Integer.parseInt(sd);
+    }
+
+    /**
+     * 根据时间戳返回日子(0-30)
+     * @param createTime
+     * @return
+     */
+    public static int getMonthByTime(long createTime) {
+        SimpleDateFormat sdf=new SimpleDateFormat("dd");
+        String sd=sdf.format(createTime);
+        return Integer.parseInt(sd);
+    }
+
+    /**
+     * 返回当前月份的天数
+     * @param currentTimeMillis
+     * @return
+     */
+    public static int getDaysByTime(long currentTimeMillis) {
+
+
+        long time=getEndDayTimeOfCurrentMonth(currentTimeMillis);
+        return getMonthByTime(time);
+    }
+
+    /**
+     * 得到以小时为精度的时间戳
+     * @param currentTime
+     * @return
+     */
+    public static long getTimeWithHourPrecision(long currentTime)  {
+        return currentTime-currentTime%(1000 * 60 * 60);
+    }
 }

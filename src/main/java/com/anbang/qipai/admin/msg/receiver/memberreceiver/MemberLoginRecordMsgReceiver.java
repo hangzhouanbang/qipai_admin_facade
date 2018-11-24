@@ -1,7 +1,10 @@
 package com.anbang.qipai.admin.msg.receiver.memberreceiver;
 
+import java.util.Calendar;
 import java.util.Map;
 
+import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
+import com.anbang.qipai.admin.publisher.service.OnlineRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -23,6 +26,9 @@ public class MemberLoginRecordMsgReceiver {
 	@Autowired
 	private MemberDboService memberDboService;
 
+	@Autowired
+    private OnlineRecordService onlineRecordService;
+
 	private Gson gson = new Gson();
 
 	@StreamListener(MemberLoginRecordSink.MEMBERLOGINRECORD)
@@ -37,6 +43,10 @@ public class MemberLoginRecordMsgReceiver {
 			memberLoginRecordService.save(record);
 			String onlineState = (String) map.get("onlineState");
 			memberDboService.updateMemberOnlineState(record.getMemberId(), onlineState);
+
+			//利用SpringEvent添加上线记录
+            OnlineStateRecord onlineStateRecord=new OnlineStateRecord(member.getId(),System.currentTimeMillis(),OnlineStateRecord.ON_LINE);
+            onlineRecordService.sendRecord(onlineStateRecord);
 		}
 		if ("update member onlineTime".equals(msg)) {
 			String json = gson.toJson(mo.getData());
@@ -47,6 +57,10 @@ public class MemberLoginRecordMsgReceiver {
 			String memberId = (String) map.get("memberId");
 			String onlineState = (String) map.get("onlineState");
 			memberDboService.updateMemberOnlineState(memberId, onlineState);
+
+			//利用SpringEvent添加下线记录
+            OnlineStateRecord onlineStateRecord=new OnlineStateRecord(memberId,System.currentTimeMillis(),OnlineStateRecord.OFF_LINE);
+            onlineRecordService.sendRecord(onlineStateRecord);
 		}
 	}
 }

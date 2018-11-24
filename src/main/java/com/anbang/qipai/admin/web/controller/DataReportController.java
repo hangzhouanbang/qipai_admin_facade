@@ -1,14 +1,17 @@
 package com.anbang.qipai.admin.web.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
-import com.anbang.qipai.admin.plan.bean.report.AddUserCount;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.util.TimeUtil;
-import com.anbang.qipai.admin.util.enums.CommonVOStatusEnum;
+import com.anbang.qipai.admin.web.vo.reportvo.AddUserCountVO;
+import com.anbang.qipai.admin.web.vo.reportvo.AddUserGraphVO;
+import com.anbang.qipai.admin.web.vo.reportvo.CurrentCountVO;
+import com.anbang.qipai.admin.web.vo.reportvo.OnlineCountVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -135,57 +138,100 @@ public class DataReportController {
         int totalMember = (int) memberService.countNewMemberByTime(1535731200000L, startTime);
 
         //4.拼装List(时间戳,count)
-        List<AddUserCount> addUserCountList=new ArrayList<>();
+        List<AddUserCountVO> addUserCountList=new ArrayList<>();
         for(PlatformReport platformReport:reportList){
             //新增用户不为0才填充
             if(platformReport.getNewMember()!=0){
-                AddUserCount addUserCount=new AddUserCount();
+                AddUserCountVO addUserCount=new AddUserCountVO();
                 addUserCount.setDate(platformReport.getDate());
                 addUserCount.setNewMember(platformReport.getNewMember());
                 //用户总量进行累加
                 totalMember+=platformReport.getNewMember();
-                addUserCount.setTotalMember(platformReport.getNewMember());
+                addUserCount.setTotalMember(totalMember);
                 addUserCountList.add(addUserCount);
             }
         }
 
-
-        Object data=addUserCountList;
-        String msg="addUserCountList";
-        return CommonVOUtil.success(data,msg);
+        return CommonVOUtil.success(addUserCountList,"addUserCountList");
     }
 
     /**
-     * 今日新增和新增用户折线图
-     * @param code
+     * 新增用户折线图
      * @return
      */
     @PostMapping(value = "/addUserGraph")
-    public CommonVO addUserGraph(Integer code){
-        //查询的是今日新增(折线图)
-        if(code==EVERY_DAY_COUNT){
-            long startTime=TimeUtil.getDayStartTime(new Date());
-            List<MemberDbo> memberDboList=memberService.findMemberAfterTime(startTime);
-
-            int[] addUserToday=new int[24];
-            for(MemberDbo memberDbo:memberDboList){
-                //得到每个memberdbo的创建点钟
-                int clock=TimeUtil.getClockByTime(memberDbo.getCreateTime());
-                //填充到数组中
-                addUserToday[clock]++;
-            }
-            return CommonVOUtil.success(addUserToday,"今日新增(折线图)");
+    public CommonVO addUserGraph(){
+        //一次型返回本日新增,本周新增,本月新增
+        //查询今日新增(折线图)
+        int[] addUserToday=new int[24];
+        long dayStartTime=TimeUtil.getDayStartTime(new Date());
+        for(MemberDbo memberDbo:findMemberAfterTime(dayStartTime)){
+            //得到每个memberdbo的创建点钟
+            int clock=TimeUtil.getClockByTime(memberDbo.getCreateTime());
+            //填充到数组
+            addUserToday[clock]++;
         }
+
         //查询的是本周新增(折线图)
-        if(code==EVERY_WEEK_COUNT){
-            long startTime=TimeUtil.getWeekStartTime();
+        int[] addUserWeek=new int[7];
+        long weekStartTime=TimeUtil.getWeekStartTime();
+        for(MemberDbo memberDbo:findMemberAfterTime(weekStartTime)){
+            //得到每个memberdbo的创建星期日期(0-6)
+            int weekTime=TimeUtil.getWeekByTime(memberDbo.getCreateTime())-1;
+            //填充到数组
+            addUserWeek[weekTime]++;
         }
 
+        //查询本月新增(折线图)
+        int[] addUserMonth=new int[31];
+        long monthStartTime=TimeUtil.getBeginDayTimeOfCurrentMonth(System.currentTimeMillis());
+        for(MemberDbo memberDbo:findMemberAfterTime(monthStartTime)){
+            //得到每个memberdbo的创建日子(0-31),先不考虑29和30天
+            int monthTime=TimeUtil.getMonthByTime(memberDbo.getCreateTime())-1;
+            addUserMonth[monthTime]++;
+        }
+        //判断本月有的天数,截取数组
+        int days=TimeUtil.getDaysByTime(System.currentTimeMillis());
+        int[] ActualAddUserMonth=Arrays.copyOf(addUserMonth,days);
 
+        AddUserGraphVO addUserGraphVO=new AddUserGraphVO(addUserToday,addUserWeek,ActualAddUserMonth);
+        return CommonVOUtil.success(addUserGraphVO,"成功");
+    }
 
-        //系统错误才返回
-        return CommonVOUtil.error(CommonVOStatusEnum.CODE_NOT_EXIST.getMsg());
+    private List<MemberDbo> findMemberAfterTime(long startTime){
+        return memberService.findMemberAfterTime(startTime);
     }
 
 
+    /**
+     * 在线人数明细
+     * @param currentTime
+     * @return
+     */
+    @PostMapping(value = "/onlineCount")
+    public CommonVO onlineCount(Long currentTime){
+
+
+
+
+        return CommonVOUtil.success(new OnlineCountVO(),"");
+    }
+
+    /**
+     * 统计实时更新的数据
+     * @return
+     */
+    @PostMapping(value = "/currentCount")
+    public CommonVO currentCount(){
+        //今日新增
+        Integer addCountToday=findMemberAfterTime(TimeUtil.getDayStartTime(new Date())).size();
+        //在线人数
+        Integer onlineCount=(int)memberService.countOnlineState();
+        //启动次数
+        Integer launchCount=0;
+        //活跃用户
+        Integer activeUserCount=0;
+
+        return CommonVOUtil.success(new CurrentCountVO(addCountToday,onlineCount,launchCount,activeUserCount),"currentCount");
+    }
 }
