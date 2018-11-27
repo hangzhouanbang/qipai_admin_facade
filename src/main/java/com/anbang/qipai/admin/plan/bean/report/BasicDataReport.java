@@ -3,12 +3,13 @@ package com.anbang.qipai.admin.plan.bean.report;
 import lombok.Data;
 
 /**
- * 基础数据统计表(在线人数)
+ * 每小时在线人数表
  * @author YaphetS
  * @date 2018/11/23
  */
 @Data
 public class BasicDataReport {
+
     private String id;
 
     /**

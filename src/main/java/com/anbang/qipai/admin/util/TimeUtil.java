@@ -152,4 +152,17 @@ public class TimeUtil {
     public static long getTimeWithHourPrecision(long currentTime)  {
         return currentTime-currentTime%(1000 * 60 * 60);
     }
+
+    /**
+     * 得到以天为精度的时间戳
+     * @param currentTime
+     * @return
+     */
+    public static long getTimeWithDayPrecision(long currentTime){
+        Calendar calendar = Calendar.getInstance();
+       calendar.setTimeInMillis(currentTime);
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
 }

@@ -6,12 +6,16 @@ import java.util.Date;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.report.BasicDataReport;
+import com.anbang.qipai.admin.plan.bean.report.DetailedReport;
+import com.anbang.qipai.admin.plan.service.reportservice.BasicDataReportService;
+import com.anbang.qipai.admin.plan.service.reportservice.DetailedReportService;
+import com.anbang.qipai.admin.plan.service.reportservice.OnlineStateRecordService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.vo.reportvo.AddUserCountVO;
-import com.anbang.qipai.admin.web.vo.reportvo.AddUserGraphVO;
+import com.anbang.qipai.admin.web.vo.reportvo.GraphVO;
 import com.anbang.qipai.admin.web.vo.reportvo.CurrentCountVO;
-import com.anbang.qipai.admin.web.vo.reportvo.OnlineCountVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +60,15 @@ public class DataReportController {
 
 	@Autowired
 	private MemberLoginRecordService memberLoginRecordService;
+
+	@Autowired
+    private BasicDataReportService basicDataReportService;
+
+	@Autowired
+    private OnlineStateRecordService onlineStateRecordService;
+
+	@Autowired
+    private DetailedReportService detailedReportService;
 
 	/**
 	 * 平台运营数据
@@ -111,7 +124,9 @@ public class DataReportController {
 		int currentMember = (int) memberService.countVipMember();
 		double cost = orderService.countCostByTime(startTime, endTime);
 		int gameNum = gameReportService.countGameNumByTime(startTime, endTime);
+
 		int loginMember = memberLoginRecordService.countLoginMemberByTime(startTime, endTime);
+
 		int remainSecond = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay);
 		int remainThird = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 2);
 		int remainSeventh = memberLoginRecordService.countRemainMemberByDeviationTime(oneDay * 6);
@@ -194,8 +209,8 @@ public class DataReportController {
         int days=TimeUtil.getDaysByTime(System.currentTimeMillis());
         int[] ActualAddUserMonth=Arrays.copyOf(addUserMonth,days);
 
-        AddUserGraphVO addUserGraphVO=new AddUserGraphVO(addUserToday,addUserWeek,ActualAddUserMonth);
-        return CommonVOUtil.success(addUserGraphVO,"成功");
+        GraphVO graphVO=new GraphVO(addUserToday,addUserWeek,ActualAddUserMonth);
+        return CommonVOUtil.success(graphVO,"成功");
     }
 
     private List<MemberDbo> findMemberAfterTime(long startTime){
@@ -204,18 +219,55 @@ public class DataReportController {
 
 
     /**
-     * 在线人数明细
-     * @param currentTime
+     * 在线人数折线图
      * @return
      */
-    @PostMapping(value = "/onlineCount")
-    public CommonVO onlineCount(Long currentTime){
+    @PostMapping(value = "/onlineUserGraph")
+    public CommonVO onlineUserGraph() {
+
+        int[] countByToday=new int[24];
+        long dayStartTime=TimeUtil.getDayStartTime(new Date());
+        for(BasicDataReport dataReport:findBasicDataAfterTime(dayStartTime)){
+            int clock=TimeUtil.getClockByTime(dataReport.getCreateTime());
+            countByToday[clock]=dataReport.getMaxQuantity();
+        }
+
+        int[] countByWeek=new int[7];
+        long weekStartTime=TimeUtil.getWeekStartTime();
+        for(BasicDataReport dataReport:findBasicDataAfterTime(dayStartTime)){
+            //得到星期的日期(0-6)
+            int weekTime=TimeUtil.getWeekByTime(dataReport.getCreateTime())-1;
+            if(dataReport.getMaxQuantity()>countByWeek[weekTime]){
+                //数据比数组中的原数据大才填充
+                countByWeek[weekTime]=dataReport.getMaxQuantity();
+            }
+        }
+
+        int[] countByMonth=new int[31];
+        long monthStartTime=TimeUtil.getBeginDayTimeOfCurrentMonth(System.currentTimeMillis());
+        for(BasicDataReport dataReport:findBasicDataAfterTime(dayStartTime)){
+            //得到每条数据的创建日期(0-31),先不考虑29和30天
+            int monthTime=TimeUtil.getMonthByTime(dataReport.getCreateTime())-1;
+            if(dataReport.getMaxQuantity()>countByMonth[monthTime]){
+                //数据比数组中的原数据大才填充
+                countByMonth[monthTime]=dataReport.getMaxQuantity();
+            }
+        }
 
 
-
-
-        return CommonVOUtil.success(new OnlineCountVO(),"");
+        //判断本月有的天数,截取数组
+        int days=TimeUtil.getDaysByTime(System.currentTimeMillis());
+        int[] ActualAddUserMonth=Arrays.copyOf(countByMonth,days);
+        GraphVO graphVO=new GraphVO(countByToday,countByWeek,ActualAddUserMonth);
+        return CommonVOUtil.success(graphVO,"成功");
     }
+
+    private List<BasicDataReport> findBasicDataAfterTime(long startTime){
+        return basicDataReportService.findBasicDataAfterTime(startTime);
+    }
+
+
+
 
     /**
      * 统计实时更新的数据
@@ -228,10 +280,25 @@ public class DataReportController {
         //在线人数
         Integer onlineCount=(int)memberService.countOnlineState();
         //启动次数
-        Integer launchCount=0;
+        Long launchCount=onlineStateRecordService.countOnlineRecord();
         //活跃用户
         Integer activeUserCount=0;
 
         return CommonVOUtil.success(new CurrentCountVO(addCountToday,onlineCount,launchCount,activeUserCount),"currentCount");
+    }
+
+    /**
+     * 统计明细表
+     * @param currentTime
+     * @return
+     */
+    @PostMapping(value = "/getDetailedReport")
+    public CommonVO getDetailedReport(Long currentTime){
+        //得到本月开始和结束的时间戳
+        Long startTime= TimeUtil.getBeginDayTimeOfCurrentMonth(currentTime);
+        Long endTime=TimeUtil.getEndDayTimeOfCurrentMonth(currentTime);
+        //查找DetailedReport表,按照降序的顺序返回,填充到list中
+        List<DetailedReport> reportList=detailedReportService.findByTime(startTime,endTime);
+        return CommonVOUtil.success(reportList,"DetailedReport");
     }
 }

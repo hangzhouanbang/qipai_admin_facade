@@ -12,4 +12,10 @@ public interface OnlineStateRecordDao {
      * @param onlineStateRecord
      */
     void insert(OnlineStateRecord onlineStateRecord);
+
+    /**
+     * 计算启动次数
+     * @return
+     */
+    long countOnlineRecord();
 }
