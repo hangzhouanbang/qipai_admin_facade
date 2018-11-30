@@ -116,7 +116,7 @@ public class MemberDboService {
         return memberDao.findMemberAfterTime(startTime);
     }
 
-    public long countOnlineState() {
-	    return memberDao.countOnlineState();
+    public Integer countOnlineState() {
+	    return (int)memberDao.countOnlineState();
     }
 }

@@ -8,6 +8,7 @@ import com.anbang.qipai.admin.plan.dao.reportdao.OnlineStateRecordDao;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.reportservice.BasicDataReportService;
 import com.anbang.qipai.admin.plan.service.reportservice.DetailedReportService;
+import com.anbang.qipai.admin.plan.service.reportservice.OnlineStateRecordService;
 import com.anbang.qipai.admin.publisher.EntityCreatedEvent;
 import com.anbang.qipai.admin.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,10 @@ public class OnlineRecordNotifier {
     private final static int OFF_LINE_ACTION=-1;
 
     @Autowired
-    private OnlineStateRecordDao onlineStateRecordDao;
+    private OnlineStateRecordService onlineStateRecordService;
 
     @Autowired
-    private BasicDataReportDao basicDataReportDao;
+    private BasicDataReportService basicDataReportService;
 
     @Autowired
     private MemberDboService memberDboService;
@@ -42,19 +43,28 @@ public class OnlineRecordNotifier {
 
         OnlineStateRecord onlineStateRecord=(OnlineStateRecord)event.getSource();
         //添加上下线记录
-        onlineStateRecordDao.insert(onlineStateRecord);
+        onlineStateRecordService.insert(onlineStateRecord);
+        //如果是上线操作,更新DetailedReport的loginUser字段
+        if(onlineStateRecord.getOnlineState()==OnlineStateRecord.ON_LINE){
+            long dayStartTime=TimeUtil.getTimeWithDayPrecision(onlineStateRecord.getCreateTime());
+            DetailedReport detailedReport=new DetailedReport(
+                    dayStartTime, onlineStateRecordService.countOnlineRecordAfterTime(dayStartTime));
+            detailedReportService.upsertLoginUser(detailedReport);
+        }
 
-        //得到当前点钟的开始时间(以小时为精度的时间戳)
+        //得到以小时为精度的时间戳
         long createTime= TimeUtil.getTimeWithHourPrecision(onlineStateRecord.getCreateTime());
-        BasicDataReport report=basicDataReportDao.findByCreateTime(createTime);
+        BasicDataReport report=basicDataReportService.findByCreateTime(createTime);
+
         if(report==null){
             //当前时间的记录不存在
             //在线人数
-            Integer onlineCount=(int)memberDboService.countOnlineState();
+            Integer onlineCount=memberDboService.countOnlineState();
             //（开始时间，当前在线，最高在线（跟上个字段数据一致））
             //为了防止并发,使用upsert
             BasicDataReport basicDataReport=new BasicDataReport(createTime,onlineCount,onlineCount);
-            basicDataReportDao.upsert(basicDataReport);
+            basicDataReportService.upsert(basicDataReport);
+
             //根据每小时在线人数更新明细表数据
             detailedReportService.updateDetailedReport(basicDataReport);
         }else{
@@ -63,21 +73,19 @@ public class OnlineRecordNotifier {
 
             if(onlineState==OnlineStateRecord.ON_LINE){
                 //$inc,当前在线+1
-                basicDataReportDao.incCurrentQuantity(report,ON_LINE_ACTION);
+                basicDataReportService.incCurrentQuantity(report,ON_LINE_ACTION);
                 //为了防止并发,根据开始时间查出这条数据,如果当前在线>最高在线,最高在线=当前在线,存入数据库
-                BasicDataReport basicDataReport=basicDataReportDao.findByCreateTime(createTime);
+                BasicDataReport basicDataReport=basicDataReportService.findByCreateTime(createTime);
                 if(basicDataReport.getCurrentQuantity()>basicDataReport.getMaxQuantity()){
                     basicDataReport.setMaxQuantity(basicDataReport.getCurrentQuantity());
-                    basicDataReportDao.updateMaxQuantity(basicDataReport);
+                    basicDataReportService.updateMaxQuantity(basicDataReport);
 
                     //根据每小时在线人数更新明细表数据
                     detailedReportService.updateDetailedReport(basicDataReport);
-
                 }
-
             }else if(onlineState==OnlineStateRecord.OFF_LINE){
                 //$inc,当前在线-1
-                basicDataReportDao.incCurrentQuantity(report,OFF_LINE_ACTION);
+                basicDataReportService.incCurrentQuantity(report,OFF_LINE_ACTION);
             }
         }
     }

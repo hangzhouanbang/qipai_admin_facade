@@ -20,4 +20,20 @@ public class BasicDataReportService {
     public List<BasicDataReport> findBasicDataAfterTime(long startTime) {
         return reportDao.findBasicDataAfterTime(startTime);
     }
+
+    public BasicDataReport findByCreateTime(long createTime) {
+        return reportDao.findByCreateTime(createTime);
+    }
+
+    public void upsert(BasicDataReport basicDataReport) {
+        reportDao.upsert(basicDataReport);
+    }
+
+    public void incCurrentQuantity(BasicDataReport report, int onLineAction) {
+        reportDao.incCurrentQuantity(report,onLineAction);
+    }
+
+    public void updateMaxQuantity(BasicDataReport basicDataReport) {
+        reportDao.updateMaxQuantity(basicDataReport);
+    }
 }

@@ -2,6 +2,7 @@ package com.anbang.qipai.admin.plan.service.reportservice;
 
 import com.anbang.qipai.admin.plan.bean.report.BasicDataReport;
 import com.anbang.qipai.admin.plan.bean.report.DetailedReport;
+import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
 import com.anbang.qipai.admin.plan.dao.reportdao.DetailedReportDao;
 import com.anbang.qipai.admin.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class DetailedReportService {
 
     @Autowired
     private DetailedReportDao reportDao;
+
+
 
     public void upsert(DetailedReport detailedReport) {
         reportDao.upsert(detailedReport);
@@ -45,9 +48,14 @@ public class DetailedReportService {
             detailedReport.setCreateTime(dayStartTime);
             detailedReport.setOnlineCount(basicDataReport.getCurrentQuantity());
             detailedReport.setMaxOnlineTime(basicDataReport.getCreateTime());
-            upsert(detailedReport);
+            reportDao.upsertOnlineData(detailedReport);
         }else{
             //存在
+            //如果detailed.getOnlineCount()为null
+            if(detailed.getOnlineCount()==null){
+                updateByOnline(
+                        new DetailedReport(dayStartTime,basicDataReport.getCurrentQuantity(),basicDataReport.getCreateTime()));
+            }
             //如果刚才得到的当前在线>明细表中存在的同时在线
             //update:(同时在线,峰值时间)
             if(basicDataReport.getCurrentQuantity()>detailed.getOnlineCount()){
@@ -59,5 +67,9 @@ public class DetailedReportService {
 
     public List<DetailedReport> findByTime(Long startTime, Long endTime) {
         return reportDao.findByTime(startTime, endTime);
+    }
+
+    public void upsertLoginUser(DetailedReport detailedReport) {
+        reportDao.upsertLoginUser(detailedReport);
     }
 }

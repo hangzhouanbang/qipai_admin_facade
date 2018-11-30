@@ -29,9 +29,7 @@ public class MongodbDetailedReportDao implements DetailedReportDao {
     @Override
     public void upsert(DetailedReport detailedReport) {
         Update update=new Update();
-        update.set("onlineCount",detailedReport.getOnlineCount());
         update.set("maxOnlineTime",detailedReport.getMaxOnlineTime());
-        update.set("loginUser",detailedReport.getLoginUser());
         mongoTemplate.upsert(query(where("createTime").is(detailedReport.getCreateTime())),
                 update,DetailedReport.class);
     }
@@ -54,5 +52,22 @@ public class MongodbDetailedReportDao implements DetailedReportDao {
         Query query = new Query(Criteria.where("createTime").gte(startTime).lte(endTime));
         query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "createTime")));
         return mongoTemplate.find(query, DetailedReport.class);
+    }
+
+    @Override
+    public void upsertOnlineData(DetailedReport detailedReport) {
+        Update update=new Update();
+        update.set("onlineCount",detailedReport.getOnlineCount());
+        update.set("maxOnlineTime",detailedReport.getMaxOnlineTime());
+        mongoTemplate.upsert(query(where("createTime").is(detailedReport.getCreateTime())),
+                update,DetailedReport.class);
+    }
+
+    @Override
+    public void upsertLoginUser(DetailedReport detailedReport) {
+        Update update=new Update();
+        update.set("loginUser",detailedReport.getLoginUser());
+        mongoTemplate.upsert(query(where("createTime").is(detailedReport.getCreateTime())),
+                update,DetailedReport.class);
     }
 }

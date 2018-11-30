@@ -11,7 +11,7 @@ import java.util.List;
 public interface DetailedReportDao {
 
     /**
-     * 更新明细表
+     * 更新明细表(暂时没用)
      * @param detailedReport
      */
     void upsert(DetailedReport detailedReport);
@@ -36,4 +36,16 @@ public interface DetailedReportDao {
      * @return
      */
     List<DetailedReport> findByTime(Long startTime, Long endTime);
+
+    /**
+     * 更新OnlineCount,MaxOnlineTime字段
+     * @param detailedReport
+     */
+    void upsertOnlineData(DetailedReport detailedReport);
+
+    /**
+     * 更新loginUser字段
+     * @param detailedReport
+     */
+    void upsertLoginUser(DetailedReport detailedReport);
 }

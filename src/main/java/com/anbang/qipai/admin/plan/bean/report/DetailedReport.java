@@ -43,4 +43,9 @@ public class DetailedReport {
         this.onlineCount = onlineCount;
         this.maxOnlineTime = maxOnlineTime;
     }
+
+    public DetailedReport(Long createTime,Integer loginUser) {
+        this.createTime = createTime;
+        this.loginUser = loginUser;
+    }
 }

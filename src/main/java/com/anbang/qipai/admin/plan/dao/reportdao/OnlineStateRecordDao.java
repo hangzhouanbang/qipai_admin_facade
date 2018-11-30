@@ -2,6 +2,8 @@ package com.anbang.qipai.admin.plan.dao.reportdao;
 
 import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
 
+import java.util.List;
+
 /**
  * @author YaphetS
  * @date 2018/11/24
@@ -18,4 +20,11 @@ public interface OnlineStateRecordDao {
      * @return
      */
     long countOnlineRecord();
+
+    /**
+     * 计算某个时刻后的上线记录数(根据用户id去重)
+     * @param createTime
+     * @return
+     */
+    long countOnlineRecordAfterTime(long createTime);
 }
