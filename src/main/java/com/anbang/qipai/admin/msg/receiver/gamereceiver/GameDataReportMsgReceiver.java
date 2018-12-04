@@ -21,8 +21,8 @@ public class GameDataReportMsgReceiver {
 	public void gameDataReport(CommonMO mo) {
 		String msg = mo.getMsg();
 		String json = gson.toJson(mo.getData());
-		GameDataReport report = gson.fromJson(json, GameDataReport.class);
 		if ("record gameDataReport".equals(msg)) {
+            GameDataReport report = gson.fromJson(json, GameDataReport.class);
 			gameReportService.addGameReport(report);
 		}
 	}

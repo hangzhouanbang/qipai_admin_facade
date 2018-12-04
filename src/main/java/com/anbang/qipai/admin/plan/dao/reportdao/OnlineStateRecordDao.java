@@ -27,4 +27,11 @@ public interface OnlineStateRecordDao {
      * @return
      */
     long countOnlineRecordAfterTime(long createTime);
+
+    /**
+     * 查询某个时刻后的上线记录数
+     * @param dayStartTime
+     * @return
+     */
+    List<OnlineStateRecord> findOnlineRecordAfterTime(long dayStartTime);
 }

@@ -44,12 +44,13 @@ public class OnlineRecordNotifier {
         OnlineStateRecord onlineStateRecord=(OnlineStateRecord)event.getSource();
         //添加上下线记录
         onlineStateRecordService.insert(onlineStateRecord);
-        //如果是上线操作,更新DetailedReport的loginUser字段
+        //如果是上线操作,更新DetailedReport的loginUser字段,powerCount字段
         if(onlineStateRecord.getOnlineState()==OnlineStateRecord.ON_LINE){
             long dayStartTime=TimeUtil.getTimeWithDayPrecision(onlineStateRecord.getCreateTime());
             DetailedReport detailedReport=new DetailedReport(
                     dayStartTime, onlineStateRecordService.countOnlineRecordAfterTime(dayStartTime));
             detailedReportService.upsertLoginUser(detailedReport);
+            detailedReportService.incPowerCount(detailedReport);
         }
 
         //得到以小时为精度的时间戳

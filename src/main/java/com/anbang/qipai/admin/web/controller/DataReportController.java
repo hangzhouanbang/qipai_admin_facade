@@ -6,8 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
-import com.anbang.qipai.admin.plan.bean.report.BasicDataReport;
-import com.anbang.qipai.admin.plan.bean.report.DetailedReport;
+import com.anbang.qipai.admin.plan.bean.report.*;
 import com.anbang.qipai.admin.plan.service.reportservice.BasicDataReportService;
 import com.anbang.qipai.admin.plan.service.reportservice.DetailedReportService;
 import com.anbang.qipai.admin.plan.service.reportservice.OnlineStateRecordService;
@@ -21,8 +20,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import com.anbang.qipai.admin.plan.bean.games.Game;
-import com.anbang.qipai.admin.plan.bean.report.GameDataReport;
-import com.anbang.qipai.admin.plan.bean.report.PlatformReport;
 import com.anbang.qipai.admin.plan.service.GameReportService;
 import com.anbang.qipai.admin.plan.service.PlatformReportService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
@@ -234,7 +231,7 @@ public class DataReportController {
 
         int[] countByWeek=new int[7];
         long weekStartTime=TimeUtil.getWeekStartTime();
-        for(BasicDataReport dataReport:findBasicDataAfterTime(dayStartTime)){
+        for(BasicDataReport dataReport:findBasicDataAfterTime(weekStartTime)){
             //得到星期的日期(0-6)
             int weekTime=TimeUtil.getWeekByTime(dataReport.getCreateTime())-1;
             if(dataReport.getMaxQuantity()>countByWeek[weekTime]){
@@ -245,7 +242,7 @@ public class DataReportController {
 
         int[] countByMonth=new int[31];
         long monthStartTime=TimeUtil.getBeginDayTimeOfCurrentMonth(System.currentTimeMillis());
-        for(BasicDataReport dataReport:findBasicDataAfterTime(dayStartTime)){
+        for(BasicDataReport dataReport:findBasicDataAfterTime(monthStartTime)){
             //得到每条数据的创建日期(0-31),先不考虑29和30天
             int monthTime=TimeUtil.getMonthByTime(dataReport.getCreateTime())-1;
             if(dataReport.getMaxQuantity()>countByMonth[monthTime]){
@@ -266,6 +263,50 @@ public class DataReportController {
         return basicDataReportService.findBasicDataAfterTime(startTime);
     }
 
+    /**
+     * 启动次数折线图
+     * @return
+     */
+    @SuppressWarnings("Duplicates")
+    @PostMapping(value = "/powerCountGraph")
+    public CommonVO powerCountGraph() {
+
+        //本日启动来源:上下线记录表
+        int[] countByToday=new int[24];
+        long dayStartTime=TimeUtil.getDayStartTime(new Date());
+        for(OnlineStateRecord stateRecord:onlineStateRecordService.findOnlineRecordAfterTime(dayStartTime)){
+            int clock=TimeUtil.getClockByTime(stateRecord.getCreateTime());
+            countByToday[clock]++;
+        }
+
+        //本周启动,本月启动来源:明细表
+        int[] countByWeek=new int[7];
+        long weekStartTime=TimeUtil.getWeekStartTime();
+        for(DetailedReport detailedReport:findDetailedReportAfterTime(weekStartTime)){
+            //得到星期的日期(0-6)
+            int weekTime=TimeUtil.getWeekByTime(detailedReport.getCreateTime())-1;
+            countByWeek[weekTime]=detailedReport.getPowerCount();
+        }
+
+        int[] countByMonth=new int[31];
+        long monthStartTime=TimeUtil.getBeginDayTimeOfCurrentMonth(System.currentTimeMillis());
+        for(DetailedReport detailedReport:findDetailedReportAfterTime(monthStartTime)){
+            //得到每条数据的创建日期(0-31),先不考虑29和30天
+            int monthTime=TimeUtil.getMonthByTime(detailedReport.getCreateTime())-1;
+            countByMonth[monthTime]=detailedReport.getPowerCount();
+        }
+
+
+        //判断本月有的天数,截取数组
+        int days=TimeUtil.getDaysByTime(System.currentTimeMillis());
+        int[] ActualAddUserMonth=Arrays.copyOf(countByMonth,days);
+        GraphVO graphVO=new GraphVO(countByToday,countByWeek,ActualAddUserMonth);
+        return CommonVOUtil.success(graphVO,"成功");
+    }
+
+    private List<DetailedReport> findDetailedReportAfterTime(long startTime){
+        return detailedReportService.findDetailedReportAfterTime(startTime);
+    }
 
 
 

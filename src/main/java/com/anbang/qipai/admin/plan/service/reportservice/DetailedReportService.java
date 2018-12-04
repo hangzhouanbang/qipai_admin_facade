@@ -72,4 +72,12 @@ public class DetailedReportService {
     public void upsertLoginUser(DetailedReport detailedReport) {
         reportDao.upsertLoginUser(detailedReport);
     }
+
+    public void incPowerCount(DetailedReport detailedReport) {
+        reportDao.incPowerCount(detailedReport);
+    }
+
+    public List<DetailedReport> findDetailedReportAfterTime(long startTime) {
+        return reportDao.findDetailedReportAfterTime(startTime);
+    }
 }

@@ -48,4 +48,17 @@ public interface DetailedReportDao {
      * @param detailedReport
      */
     void upsertLoginUser(DetailedReport detailedReport);
+
+    /**
+     * 启动次数自增1次
+     * @param detailedReport
+     */
+    void incPowerCount(DetailedReport detailedReport);
+
+    /**
+     * 查询某个时间点后的明细数据
+     * @param startTime
+     * @return
+     */
+    List<DetailedReport> findDetailedReportAfterTime(long startTime);
 }

@@ -27,6 +27,10 @@ public class DetailedReport {
      * 登陆用户数
      */
     private Integer loginUser;
+    /**
+     * 启动次数统计
+     */
+    private Integer powerCount;
 
     public DetailedReport() {
     }
@@ -48,4 +52,5 @@ public class DetailedReport {
         this.createTime = createTime;
         this.loginUser = loginUser;
     }
+
 }

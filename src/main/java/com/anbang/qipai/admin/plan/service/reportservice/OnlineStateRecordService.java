@@ -5,6 +5,8 @@ import com.anbang.qipai.admin.plan.dao.reportdao.OnlineStateRecordDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author YaphetS
  * @date 2018/11/26
@@ -26,5 +28,9 @@ public class OnlineStateRecordService {
 
     public void insert(OnlineStateRecord onlineStateRecord) {
         onlineStateRecordDao.insert(onlineStateRecord);
+    }
+
+    public List<OnlineStateRecord> findOnlineRecordAfterTime(long dayStartTime) {
+        return onlineStateRecordDao.findOnlineRecordAfterTime(dayStartTime);
     }
 }

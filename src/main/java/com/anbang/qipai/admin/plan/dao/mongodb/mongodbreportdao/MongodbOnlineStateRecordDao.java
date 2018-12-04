@@ -39,7 +39,12 @@ public class MongodbOnlineStateRecordDao implements OnlineStateRecordDao {
         query.put("createTime", new BasicDBObject("$gte", createTime));
         query.put("onlineState",0);
         return mongoTemplate.getCollection("onlineStateRecord").distinct("memberId", query).size();
+    }
 
+    @Override
+    public List<OnlineStateRecord> findOnlineRecordAfterTime(long dayStartTime) {
+        Query query=new Query(Criteria.where("createTime").gte(dayStartTime));
+        return mongoTemplate.find(query,OnlineStateRecord.class);
     }
 
 }

@@ -70,4 +70,17 @@ public class MongodbDetailedReportDao implements DetailedReportDao {
         mongoTemplate.upsert(query(where("createTime").is(detailedReport.getCreateTime())),
                 update,DetailedReport.class);
     }
+
+    @Override
+    public void incPowerCount(DetailedReport detailedReport) {
+        Query query=new Query(where("createTime").is(detailedReport.getCreateTime()));
+        Update update=new Update().inc("powerCount",1);
+        mongoTemplate.updateFirst(query,update,DetailedReport.class);
+    }
+
+    @Override
+    public List<DetailedReport> findDetailedReportAfterTime(long startTime) {
+        Query query = new Query(Criteria.where("createTime").gte(startTime));
+        return mongoTemplate.find(query, DetailedReport.class);
+    }
 }
