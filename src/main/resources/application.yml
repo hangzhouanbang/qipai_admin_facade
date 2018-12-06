@@ -239,6 +239,34 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        dianpaoMajiangResult:
+          destination: dianpaoMajiangResult
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        ruianMajiangResult:
+          destination: ruianMajiangResult
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        fangpaoMajiangResult:
+          destination: fangpaoMajiangResult
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        wenzhouMajiangResult:
+          destination: wenzhouMajiangResult
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
   application:
     name: qipai-admin-facade
 server:
