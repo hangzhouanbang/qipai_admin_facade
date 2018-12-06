@@ -28,7 +28,7 @@ public class QrCodeCreateUtil {
 		BitMatrix byteMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, qrCodeSize, qrCodeSize, hintMap);
 		// 使BufferedImage勾画QRCode (matrixWidth 是行二维码像素点)
 		int matrixWidth = byteMatrix.getWidth();
-		BufferedImage image = new BufferedImage(matrixWidth - 200, matrixWidth - 200, BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(matrixWidth - 100, matrixWidth - 100, BufferedImage.TYPE_INT_RGB);
 		image.createGraphics();
 		Graphics2D graphics = (Graphics2D) image.getGraphics();
 		graphics.setColor(Color.WHITE);
@@ -38,7 +38,7 @@ public class QrCodeCreateUtil {
 		for (int i = 0; i < matrixWidth; i++) {
 			for (int j = 0; j < matrixWidth; j++) {
 				if (byteMatrix.get(i, j)) {
-					graphics.fillRect(i - 100, j - 100, 1, 1);
+					graphics.fillRect(i - 50, j - 50, 1, 1);
 				}
 			}
 		}

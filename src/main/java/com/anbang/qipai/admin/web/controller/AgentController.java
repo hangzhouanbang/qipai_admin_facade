@@ -1,5 +1,7 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.config.GongZhongHaoConfig;
 import com.anbang.qipai.admin.plan.bean.agents.AgentApplyRecord;
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
@@ -562,8 +565,15 @@ public class AgentController {
 	public void qrcode(String agentId, HttpServletResponse response) {
 		AgentDbo agent = agentDboService.findAgentDboById(agentId);
 		if (agent != null) {
-			String content = "http://scs.3cscy.com/majiang/u3D/html/xiazai.html?invitationCode="
-					+ agent.getInvitationCode();
+			String REDIRECT_URI = null;
+			try {
+				REDIRECT_URI = URLEncoder.encode("http://scs.3cscy.com/thirdauth/memberlogin", "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			String content = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + GongZhongHaoConfig.APPID
+					+ "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state="
+					+ agent.getInvitationCode() + "#wechat_redirect";
 			try {
 				QrCodeCreateUtil.createQrCode(content, 1000, "jpg", response);
 			} catch (Exception e) {
