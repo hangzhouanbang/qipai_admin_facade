@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/qipai_admin_facade
+      #uri: mongodb://localhost:27017/qipai_admin_facade
      
   cloud:
     stream:
@@ -204,9 +204,8 @@ spring:
         signInPrizeLog:
           destination: signInPrizeLog
           contentType: application/json
-          consumer:
-           concurrency: 1
-           partitioned: false
+          producer:
+            partitionCount: 1
         memberClubCard: 
           destination: memberClubCard
           contentType: application/json
@@ -223,7 +222,7 @@ spring:
           destination: memberLoginLimitRecord
           group: qipai-admin-facade
           consumer:
-            concurfrency: 1
+            concurrency: 1
             partitioned: false
           contentType: application/json
         agentType:

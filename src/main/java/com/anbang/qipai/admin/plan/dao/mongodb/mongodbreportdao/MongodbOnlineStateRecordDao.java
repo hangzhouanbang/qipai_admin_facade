@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+
 /**
  * @author YaphetS
  * @date 2018/11/24
@@ -29,7 +32,7 @@ public class MongodbOnlineStateRecordDao implements OnlineStateRecordDao {
 
     @Override
     public long countOnlineRecord() {
-        Query query = new Query(Criteria.where("onlineState").is(0));
+        Query query = new Query(where("onlineState").is(0));
         return mongoTemplate.count(query, OnlineStateRecord.class);
     }
 
@@ -43,8 +46,14 @@ public class MongodbOnlineStateRecordDao implements OnlineStateRecordDao {
 
     @Override
     public List<OnlineStateRecord> findOnlineRecordAfterTime(long dayStartTime) {
-        Query query=new Query(Criteria.where("createTime").gte(dayStartTime));
+        Query query=new Query(where("createTime").gte(dayStartTime));
         return mongoTemplate.find(query,OnlineStateRecord.class);
+    }
+
+    @Override
+    public List<OnlineStateRecord> findByMemberIdAfterTime(String memberId, Long createTime) {
+        return mongoTemplate.find(query(where("memberId").is(memberId)
+                .and("createTime").gte(createTime)), OnlineStateRecord.class);
     }
 
 }

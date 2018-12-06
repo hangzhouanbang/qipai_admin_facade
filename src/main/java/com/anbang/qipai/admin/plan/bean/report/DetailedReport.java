@@ -7,7 +7,6 @@ import lombok.Data;
  * @author YaphetS
  * @date 2018/11/26
  */
-@Data
 public class DetailedReport {
     private String id;
 
@@ -31,8 +30,20 @@ public class DetailedReport {
      * 启动次数统计
      */
     private Integer powerCount;
+    /**
+     * 活跃用户数
+     */
+    private Integer activeUser;
+    /**
+     * 日均在线时长
+     */
+    private Long dayOnlineTime;
 
     public DetailedReport() {
+    }
+
+    public DetailedReport(Long createTime) {
+        this.createTime = createTime;
     }
 
     public DetailedReport(Long createTime, Integer onlineCount, Long maxOnlineTime, Integer loginUser) {
@@ -53,4 +64,67 @@ public class DetailedReport {
         this.loginUser = loginUser;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getOnlineCount() {
+        return onlineCount;
+    }
+
+    public void setOnlineCount(Integer onlineCount) {
+        this.onlineCount = onlineCount;
+    }
+
+    public Long getMaxOnlineTime() {
+        return maxOnlineTime;
+    }
+
+    public void setMaxOnlineTime(Long maxOnlineTime) {
+        this.maxOnlineTime = maxOnlineTime;
+    }
+
+    public Integer getLoginUser() {
+        return loginUser;
+    }
+
+    public void setLoginUser(Integer loginUser) {
+        this.loginUser = loginUser;
+    }
+
+    public Integer getPowerCount() {
+        return powerCount;
+    }
+
+    public void setPowerCount(Integer powerCount) {
+        this.powerCount = powerCount;
+    }
+
+    public Integer getActiveUser() {
+        return activeUser;
+    }
+
+    public void setActiveUser(Integer activeUser) {
+        this.activeUser = activeUser;
+    }
+
+    public Long getDayOnlineTime() {
+        return dayOnlineTime;
+    }
+
+    public void setDayOnlineTime(Long dayOnlineTime) {
+        this.dayOnlineTime = dayOnlineTime;
+    }
 }

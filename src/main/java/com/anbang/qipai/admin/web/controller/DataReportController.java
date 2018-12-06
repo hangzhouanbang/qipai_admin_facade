@@ -15,6 +15,7 @@ import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.vo.reportvo.AddUserCountVO;
 import com.anbang.qipai.admin.web.vo.reportvo.GraphVO;
 import com.anbang.qipai.admin.web.vo.reportvo.CurrentCountVO;
+import com.anbang.qipai.admin.web.vo.reportvo.SubtotalVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -267,7 +268,6 @@ public class DataReportController {
      * 启动次数折线图
      * @return
      */
-    @SuppressWarnings("Duplicates")
     @PostMapping(value = "/powerCountGraph")
     public CommonVO powerCountGraph() {
 
@@ -304,8 +304,79 @@ public class DataReportController {
         return CommonVOUtil.success(graphVO,"成功");
     }
 
+    /**
+     * 活跃用户折线图
+     * @return
+     */
+    @PostMapping(value = "/activeUserGraph")
+    public CommonVO activeUserGraph() {
+        //本周活跃,本月活跃来源:明细表
+        int[] countByWeek=new int[7];
+        long weekStartTime=TimeUtil.getWeekStartTime();
+        for(DetailedReport detailedReport:findDetailedReportAfterTime(weekStartTime)){
+            //得到星期的日期(0-6)
+            int weekTime=TimeUtil.getWeekByTime(detailedReport.getCreateTime())-1;
+            countByWeek[weekTime]=detailedReport.getActiveUser();
+        }
+
+        int[] countByMonth=new int[31];
+        long monthStartTime=TimeUtil.getBeginDayTimeOfCurrentMonth(System.currentTimeMillis());
+        for(DetailedReport detailedReport:findDetailedReportAfterTime(monthStartTime)){
+            //得到每条数据的创建日期(0-31),先不考虑29和30天
+            int monthTime=TimeUtil.getMonthByTime(detailedReport.getCreateTime())-1;
+            countByMonth[monthTime]=detailedReport.getActiveUser();
+        }
+
+
+        //判断本月有的天数,截取数组
+        int days=TimeUtil.getDaysByTime(System.currentTimeMillis());
+        int[] ActualAddUserMonth=Arrays.copyOf(countByMonth,days);
+        GraphVO graphVO=new GraphVO(countByWeek,ActualAddUserMonth);
+        return CommonVOUtil.success(graphVO,"成功");
+    }
+
+    /**
+     * 活跃用户小计(昨日活跃,过去七日活跃,过去三十日活跃)
+     * @return
+     */
+    @PostMapping(value = "/activeUserSubtotal")
+    public CommonVO activeUserSubtotal(){
+        //昨日活跃小计
+        DetailedReport detailedReport=detailedReportService.findByTime(TimeUtil.getTimeWithLastDay());
+        SubtotalVO lastDay=new SubtotalVO(detailedReport.getActiveUser(),detailedReport.getDayOnlineTime());
+        //过去七日活跃小计
+        //查询过去七日的记录
+        List<DetailedReport> sevenDayList=findDetailedReportAfterTime(TimeUtil.getTimeWithLastSevenDay());
+        SubtotalVO sevenDay=getSubtotalVO(sevenDayList);
+
+
+        //过去三十日活跃小计
+        //查询过去三十日的记录
+        List<DetailedReport> thirtyDayList=findDetailedReportAfterTime(TimeUtil.getTimeWithLastThirtyDay());
+        SubtotalVO thirtyDay=getSubtotalVO(thirtyDayList);
+
+        //拼装数据
+        List<SubtotalVO> subtotalVOList=new ArrayList<>();
+        subtotalVOList.add(lastDay);
+        subtotalVOList.add(sevenDay);
+        subtotalVOList.add(thirtyDay);
+
+        //返回一个subtotalVO的集合(三个元素)
+        return CommonVOUtil.success(subtotalVOList,"成功");
+    }
+
     private List<DetailedReport> findDetailedReportAfterTime(long startTime){
         return detailedReportService.findDetailedReportAfterTime(startTime);
+    }
+
+    private SubtotalVO getSubtotalVO(List<DetailedReport> list){
+        int activeUser=0;
+        long dayOnlineTime=0L;
+        for(DetailedReport report:list){
+            activeUser+=report.getActiveUser();
+            dayOnlineTime+=report.getDayOnlineTime();
+        }
+        return new SubtotalVO(activeUser/list.size(),dayOnlineTime/list.size());
     }
 
 
@@ -322,8 +393,8 @@ public class DataReportController {
         Integer onlineCount=(int)memberService.countOnlineState();
         //启动次数
         Long launchCount=onlineStateRecordService.countOnlineRecord();
-        //活跃用户
-        Integer activeUserCount=0;
+        //昨日活跃
+        Integer activeUserCount=detailedReportService.findByTime(TimeUtil.getTimeWithLastDay()).getActiveUser();
 
         return CommonVOUtil.success(new CurrentCountVO(addCountToday,onlineCount,launchCount,activeUserCount),"currentCount");
     }

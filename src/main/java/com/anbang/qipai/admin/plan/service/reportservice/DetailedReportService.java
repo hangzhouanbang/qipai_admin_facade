@@ -80,4 +80,21 @@ public class DetailedReportService {
     public List<DetailedReport> findDetailedReportAfterTime(long startTime) {
         return reportDao.findDetailedReportAfterTime(startTime);
     }
+
+    /**
+     * 更新活跃用户和日均在线时长
+     * @param detailedReport
+     */
+    public void upsertActiveData(DetailedReport detailedReport) {
+        reportDao.upsertActiveUserAndDayOnlineTime(detailedReport);
+    }
+
+    /**
+     * 查找某一个日期的明细
+     * @param timeWithLastDay
+     * @return
+     */
+    public DetailedReport findByTime(long timeWithLastDay) {
+        return reportDao.findByTime(timeWithLastDay);
+    }
 }

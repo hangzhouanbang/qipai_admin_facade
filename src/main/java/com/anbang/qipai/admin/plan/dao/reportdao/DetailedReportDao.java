@@ -61,4 +61,17 @@ public interface DetailedReportDao {
      * @return
      */
     List<DetailedReport> findDetailedReportAfterTime(long startTime);
+
+    /**
+     * 更新ActiveUser和DayOnlineTime
+     * @param detailedReport
+     */
+    void upsertActiveUserAndDayOnlineTime(DetailedReport detailedReport);
+
+    /**
+     * 查找某一个日期的明细
+     * @param timeWithLastDay
+     * @return
+     */
+    DetailedReport findByTime(long timeWithLastDay);
 }

@@ -81,6 +81,22 @@ public class MongodbDetailedReportDao implements DetailedReportDao {
     @Override
     public List<DetailedReport> findDetailedReportAfterTime(long startTime) {
         Query query = new Query(Criteria.where("createTime").gte(startTime));
+//        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "createTime"));
+//        query.with(sort);
         return mongoTemplate.find(query, DetailedReport.class);
+    }
+
+    @Override
+    public void upsertActiveUserAndDayOnlineTime(DetailedReport detailedReport) {
+        Update update=new Update();
+        update.set("activeUser",detailedReport.getActiveUser());
+        update.set("dayOnlineTime",detailedReport.getDayOnlineTime());
+        mongoTemplate.upsert(query(where("createTime").is(detailedReport.getCreateTime())),
+                update,DetailedReport.class);
+    }
+
+    @Override
+    public DetailedReport findByTime(long timeWithLastDay) {
+        return mongoTemplate.findOne(query(where("createTime").is(timeWithLastDay)),DetailedReport.class);
     }
 }

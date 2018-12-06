@@ -165,4 +165,27 @@ public class TimeUtil {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTimeInMillis();
     }
+
+    /**
+     * 得到昨日开始的时间
+     * @return
+     */
+    public static long getTimeWithLastDay(){
+        return getTimeWithDayPrecision(System.currentTimeMillis())-1000*60*60*24;
+    }
+
+    /**
+     * 得到7日前(不算今天)开始的时间
+     */
+    public static long getTimeWithLastSevenDay(){
+        return getTimeWithDayPrecision(System.currentTimeMillis())-1000*60*60*24*7;
+    }
+
+    /**
+     * 得到30日前(不算今日)开始的时间
+     */
+    public static long getTimeWithLastThirtyDay(){
+        return getTimeWithDayPrecision(System.currentTimeMillis())-1000*60*60*24*30;
+    }
+
 }
