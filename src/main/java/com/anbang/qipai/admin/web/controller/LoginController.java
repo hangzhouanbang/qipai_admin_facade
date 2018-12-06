@@ -69,4 +69,20 @@ public class LoginController {
 		}
 		return vo;
 	}
+
+	@RequestMapping("/admin_info")
+	public CommonVO info(String token) {
+		CommonVO vo = new CommonVO();
+		String adminId = adminAuthService.getAdminIdBySessionId(token);
+		if (adminId == null) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid token");
+			return vo;
+		}
+		Admin admin = adminService.findAdminById(adminId);
+		Map data = new HashMap();
+		admin.setPass(null);
+		data.put("admin", admin);
+		return vo;
+	}
 }
