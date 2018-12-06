@@ -9,7 +9,7 @@ public enum LotteryMoEnum {
     /**
      * 实物
      */
-    ENTIRY("ENTIRY","实体","1111"),
+    ENTIRY("ENTIRY","实体","实物"),
     /**
      * 红包
      */

@@ -232,17 +232,24 @@ public class SignInController {
             signInPrize.setLotteryNum(0);
             signInPrize.setStoreNum(1000);
             signInPrize.setIconUrl("www.anbangtech.com");
-            if (moEnum.getDescription().equals("MEMBER_CARD_DAY")) {
-                signInPrize.setPrizeProb(5000000);
-                signInPrize.setFirstPrizeProb(5000000);
-            } else {
-                if (moEnum.getDescription().equals("PHONE_FEE")) {
-                    signInPrize.setPrizeProb(5000000);
-                    signInPrize.setFirstPrizeProb(5000000);
-                } else {
+
+            switch (moEnum.getDescription()) {
+                case "MEMBER_CARD_DAY":
+                    signInPrize.setPrizeProb(3000000);
+                    signInPrize.setFirstPrizeProb(3000000);
+                    break;
+                case "PHONE_FEE":
+                    signInPrize.setPrizeProb(3000000);
+                    signInPrize.setFirstPrizeProb(3000000);
+                    break;
+                case "MEMBER_CARD_SEASON":
+                    signInPrize.setPrizeProb(4000000);
+                    signInPrize.setFirstPrizeProb(4000000);
+                    break;
+                default:
                     signInPrize.setPrizeProb(0);
                     signInPrize.setFirstPrizeProb(0);
-                }
+                    break;
             }
             signInPrize.setOverstep("否");
             signInPrizeService.addSignInPrize(signInPrize);
