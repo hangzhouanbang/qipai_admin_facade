@@ -49,7 +49,10 @@ public class AdminService {
 	}
 
 	public Admin findAdminById(String adminId) {
-		return adminDao.findAdminById(adminId);
+		Admin admin = adminDao.findAdminById(adminId);
+		List<AdminRefRole> roleList = adminRefRoleDao.findByAdminId(admin.getId());
+		admin.setRoleList(roleList);
+		return admin;
 	}
 
 	public void addAdmin(Admin admin) {
