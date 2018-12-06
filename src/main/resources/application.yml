@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      #uri: mongodb://localhost:27017/qipai_admin_facade
+      uri: mongodb://localhost:27017/qipai_admin_facade
      
   cloud:
     stream:
@@ -204,8 +204,9 @@ spring:
         signInPrizeLog:
           destination: signInPrizeLog
           contentType: application/json
-          producer:
-            partitionCount: 1
+          consumer:
+           concurrency: 1
+           partitioned: false
         memberClubCard: 
           destination: memberClubCard
           contentType: application/json
@@ -222,7 +223,7 @@ spring:
           destination: memberLoginLimitRecord
           group: qipai-admin-facade
           consumer:
-            concurrency: 1
+            concurfrency: 1
             partitioned: false
           contentType: application/json
         agentType:
@@ -247,6 +248,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:8761/eureka/
-  #instance:
-    #prefer-ip-address: true
-    #instance-id: http://172.16.21.51:99
+  instance:
+    prefer-ip-address: true
+    instance-id: http://172.16.21.51:99
