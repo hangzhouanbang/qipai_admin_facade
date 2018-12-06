@@ -41,19 +41,34 @@ public class SignInController {
     @RequestMapping(value = "/addsigninprize")
     public CommonVO addSignInPrize(SignInPrize signInPrize) {
         CommonVO vo = new CommonVO();
-        if (signInPrize.getName() == null ||
-                signInPrize.getSingleNum() == 0 ||
-                signInPrize.getStoreNum() == 0 ||
-                signInPrize.getIconUrl() == null ||
-                //中奖概率可以设置为0，中奖概率类型设计为包装类，可以与null进行比较
-                signInPrize.getPrizeProb() == null ||
-                signInPrize.getFirstPrizeProb() == null ||
-                signInPrize.getOverstep() == null //新增OverStep必填
-                ) {
-            vo.setSuccess(false);
-            vo.setMsg("incompleteParam");
-            return vo;
+        if (!signInPrize.getType().equals("谢谢惠顾")) {
+            if (signInPrize.getName() == null ||
+                    signInPrize.getSingleNum() == 0 ||
+                    signInPrize.getStoreNum() == 0 ||
+                    signInPrize.getIconUrl() == null ||
+                    //中奖概率可以设置为0，中奖概率类型设计为包装类，可以与null进行比较
+                    signInPrize.getPrizeProb() == null ||
+                    signInPrize.getFirstPrizeProb() == null ||
+                    signInPrize.getOverstep() == null //新增OverStep必填
+                    ) {
+                vo.setSuccess(false);
+                vo.setMsg("incompleteParam");
+                return vo;
+            }
+        } else {
+            if (signInPrize.getName() == null ||
+                    signInPrize.getIconUrl() == null ||
+                    //中奖概率可以设置为0，中奖概率类型设计为包装类，可以与null进行比较
+                    signInPrize.getPrizeProb() == null ||
+                    signInPrize.getFirstPrizeProb() == null ||
+                    signInPrize.getOverstep() == null //新增OverStep必填)
+                    ) {
+                vo.setSuccess(false);
+                vo.setMsg("incompleteParam");
+                return vo;
+            }
         }
+
         int count = signInPrizeService.countSignInPrize();
         //这里进行抽奖的奖励设置
         if (count >= 10) {
@@ -228,23 +243,23 @@ public class SignInController {
             signInPrize.setId(UUID.randomUUID().toString().replace("-", "").toLowerCase());
             signInPrize.setName(moEnum.getName());
             signInPrize.setType(moEnum.getType());
-            signInPrize.setSingleNum(1);
-            signInPrize.setLotteryNum(0);
+            signInPrize.setSingleNum(100);
+            signInPrize.setLotteryNum(100);
             signInPrize.setStoreNum(1000);
             signInPrize.setIconUrl("www.anbangtech.com");
 
             switch (moEnum.getDescription()) {
-                case "MEMBER_CARD_DAY":
-                    signInPrize.setPrizeProb(3000000);
-                    signInPrize.setFirstPrizeProb(3000000);
+                case "ENTIRY":
+                    signInPrize.setPrizeProb(6000000);
+                    signInPrize.setFirstPrizeProb(6000000);
                     break;
                 case "PHONE_FEE":
-                    signInPrize.setPrizeProb(3000000);
-                    signInPrize.setFirstPrizeProb(3000000);
-                    break;
-                case "MEMBER_CARD_SEASON":
                     signInPrize.setPrizeProb(4000000);
                     signInPrize.setFirstPrizeProb(4000000);
+                    break;
+                case "HONGBAO":
+                    signInPrize.setPrizeProb(0);
+                    signInPrize.setFirstPrizeProb(0);
                     break;
                 default:
                     signInPrize.setPrizeProb(0);

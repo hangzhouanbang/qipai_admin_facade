@@ -12,6 +12,11 @@ public class SignInPrizeExchangeLog {//签到奖品兑奖纪录
     private long rewardTime;//兑奖时间
     private String issue;//是否发放,0：未发放，1、已发放
     private long issueTime;//发放时间
+
+    public SignInPrizeExchangeLog() {
+    }
+
+
     /**
      * 兑换的积分数量
      */

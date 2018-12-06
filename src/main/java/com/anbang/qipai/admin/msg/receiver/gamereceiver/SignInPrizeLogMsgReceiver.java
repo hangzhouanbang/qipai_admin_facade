@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.msg.receiver.gamereceiver;
 
+import com.alibaba.fastjson.JSON;
 import com.anbang.qipai.admin.constant.LotteryType;
 import com.anbang.qipai.admin.msg.msjobj.*;
 import com.anbang.qipai.admin.plan.bean.ObatinSigningPrizeRecord;
@@ -71,7 +72,7 @@ public class SignInPrizeLogMsgReceiver {
     }
 
     public void handleObtainSigningPrize(String dataJson) {
-        ObtainSigningPrizeRecordMo obtainSigningPrizeRecordMo = gson.fromJson(dataJson, ObtainSigningPrizeRecordMo.class);
+        ObtainSigningPrizeRecordMo obtainSigningPrizeRecordMo = JSON.parseObject(dataJson, ObtainSigningPrizeRecordMo.class);
         ObatinSigningPrizeRecord obatinSigningPrizeRecord = new ObatinSigningPrizeRecord();
         obatinSigningPrizeRecord.setId(obtainSigningPrizeRecordMo.getId());
         obatinSigningPrizeRecord.setMemberId(obtainSigningPrizeRecordMo.getMemberId());
@@ -112,7 +113,7 @@ public class SignInPrizeLogMsgReceiver {
     }
 
     public void handleRaffle(String dataJson) {
-        MemberRaffleHistoryMo memberRaffleHistoryMo = gson.fromJson(dataJson, MemberRaffleHistoryMo.class);
+        MemberRaffleHistoryMo memberRaffleHistoryMo = JSON.parseObject(dataJson, MemberRaffleHistoryMo.class);
         SignInPrizeLog signInPrizeLog = new SignInPrizeLog();
         signInPrizeLog.setId(memberRaffleHistoryMo.getId());
         signInPrizeLog.setCreateTime(memberRaffleHistoryMo.getTime());
@@ -149,7 +150,8 @@ public class SignInPrizeLogMsgReceiver {
     }
 
     public void handleExchange(String dataJson) {
-        ScoreExchangeMo scoreExchangeMo = gson.fromJson(dataJson, ScoreExchangeMo.class);
+
+        ScoreExchangeMo scoreExchangeMo = JSON.parseObject(dataJson, ScoreExchangeMo.class);
         SignInPrizeExchangeLog signInPrizeExchangeLog = new SignInPrizeExchangeLog();
         signInPrizeExchangeLog.setId(scoreExchangeMo.getId());
         signInPrizeExchangeLog.setPhone(scoreExchangeMo.getPhone());
