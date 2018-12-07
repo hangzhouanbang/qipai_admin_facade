@@ -135,7 +135,7 @@ public class DataReportController {
 	}
 
     /**
-     * 新增用户明细
+     * 新增用户明细(暂时不暴露)
      * @param currentTime
      * @return
      */
@@ -342,7 +342,7 @@ public class DataReportController {
     @PostMapping(value = "/activeUserSubtotal")
     public CommonVO activeUserSubtotal(){
         //昨日活跃小计
-        DetailedReport detailedReport=detailedReportService.findByTime(TimeUtil.getTimeWithLastDay());
+        DetailedReport detailedReport=detailedReportService.findByCreateTime(TimeUtil.getTimeWithLastDay());
         SubtotalVO lastDay=new SubtotalVO(detailedReport.getActiveUser(),detailedReport.getDayOnlineTime());
         //过去七日活跃小计
         //查询过去七日的记录
@@ -387,14 +387,16 @@ public class DataReportController {
      */
     @PostMapping(value = "/currentCount")
     public CommonVO currentCount(){
+        //得到实时的最新明细
+        DetailedReport report=detailedReportService.findByCreateTime(TimeUtil.getTimeWithDayPrecision(System.currentTimeMillis()));
         //今日新增
-        Integer addCountToday=findMemberAfterTime(TimeUtil.getDayStartTime(new Date())).size();
+        Integer addCountToday=report.getAddUserCount();
         //在线人数
-        Integer onlineCount=(int)memberService.countOnlineState();
+        Integer onlineCount=memberService.countOnlineState();
         //启动次数
-        Long launchCount=onlineStateRecordService.countOnlineRecord();
+        Integer launchCount=report.getPowerCount();
         //昨日活跃
-        Integer activeUserCount=detailedReportService.findByTime(TimeUtil.getTimeWithLastDay()).getActiveUser();
+        Integer activeUserCount=detailedReportService.findByCreateTime(TimeUtil.getTimeWithLastDay()).getActiveUser();
 
         return CommonVOUtil.success(new CurrentCountVO(addCountToday,onlineCount,launchCount,activeUserCount),"currentCount");
     }

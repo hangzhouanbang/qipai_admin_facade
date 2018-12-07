@@ -1,13 +1,11 @@
 package com.anbang.qipai.admin.web.vo.reportvo;
 
-import lombok.Data;
-
 /**
  * 统计实时更新的数据
  * @author YaphetS
  * @date 2018/11/22
  */
-@Data
+
 public class CurrentCountVO {
     /**
      * 今日新增
@@ -20,7 +18,7 @@ public class CurrentCountVO {
     /**
      * 启动次数
      */
-    private Long launchCount;
+    private Integer powerCount;
     /**
      * 活跃用户
      */
@@ -29,11 +27,42 @@ public class CurrentCountVO {
     public CurrentCountVO() {
     }
 
-    public CurrentCountVO(Integer addCountToday, Integer onlineCount, Long launchCount, Integer activeUserCount) {
+    public CurrentCountVO(Integer addCountToday, Integer onlineCount, Integer powerCount, Integer activeUserCount) {
         this.addCountToday = addCountToday;
         this.onlineCount = onlineCount;
-        this.launchCount = launchCount;
+        this.powerCount = powerCount;
         this.activeUserCount = activeUserCount;
     }
 
+    public Integer getAddCountToday() {
+        return addCountToday;
+    }
+
+    public void setAddCountToday(Integer addCountToday) {
+        this.addCountToday = addCountToday;
+    }
+
+    public Integer getOnlineCount() {
+        return onlineCount;
+    }
+
+    public void setOnlineCount(Integer onlineCount) {
+        this.onlineCount = onlineCount;
+    }
+
+    public Integer getPowerCount() {
+        return powerCount;
+    }
+
+    public void setPowerCount(Integer powerCount) {
+        this.powerCount = powerCount;
+    }
+
+    public Integer getActiveUserCount() {
+        return activeUserCount;
+    }
+
+    public void setActiveUserCount(Integer activeUserCount) {
+        this.activeUserCount = activeUserCount;
+    }
 }

@@ -95,8 +95,14 @@ public class MongodbDetailedReportDao implements DetailedReportDao {
                 update,DetailedReport.class);
     }
 
+
+
     @Override
-    public DetailedReport findByTime(long timeWithLastDay) {
-        return mongoTemplate.findOne(query(where("createTime").is(timeWithLastDay)),DetailedReport.class);
+    public void upsertAddUserCountAndTotalUserCount(DetailedReport report) {
+        Update update=new Update();
+        update.inc("addUserCount",1);
+        update.set("totalUserCount",report.getTotalUserCount());
+        mongoTemplate.upsert(query(where("createTime").is(report.getCreateTime())),
+                update,DetailedReport.class);
     }
 }

@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.plan.bean.report;
 
-import lombok.Data;
+
 
 /**
  * 明细表(按天划分,所有数据汇聚到一张表中)
@@ -14,6 +14,15 @@ public class DetailedReport {
      * 创建时间(以小时为精度的时间戳)
      */
     private Long createTime;
+    /**
+     * 新增用户数
+     */
+    private Integer addUserCount;
+    /**
+     * 用户总量
+     */
+    private Integer totalUserCount;
+
     /**
      * 同时在线
      */
@@ -78,6 +87,22 @@ public class DetailedReport {
 
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getAddUserCount() {
+        return addUserCount;
+    }
+
+    public void setAddUserCount(Integer addUserCount) {
+        this.addUserCount = addUserCount;
+    }
+
+    public Integer getTotalUserCount() {
+        return totalUserCount;
+    }
+
+    public void setTotalUserCount(Integer totalUserCount) {
+        this.totalUserCount = totalUserCount;
     }
 
     public Integer getOnlineCount() {

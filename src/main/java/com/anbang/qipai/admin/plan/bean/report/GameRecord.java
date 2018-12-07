@@ -1,12 +1,10 @@
 package com.anbang.qipai.admin.plan.bean.report;
 
-import lombok.Data;
 
 /**
  * @author YaphetS
  * @date 2018/11/30
  */
-@Data
 public class GameRecord {
     private String id;
 
@@ -31,6 +29,38 @@ public class GameRecord {
     public GameRecord(Long createTime, String memberId, Long dayOnlineTime) {
         this.createTime = createTime;
         this.memberId = memberId;
+        DayOnlineTime = dayOnlineTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public Long getDayOnlineTime() {
+        return DayOnlineTime;
+    }
+
+    public void setDayOnlineTime(Long dayOnlineTime) {
         DayOnlineTime = dayOnlineTime;
     }
 }

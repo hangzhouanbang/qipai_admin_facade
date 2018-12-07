@@ -89,12 +89,13 @@ public class DetailedReportService {
         reportDao.upsertActiveUserAndDayOnlineTime(detailedReport);
     }
 
+
+
     /**
-     * 查找某一个日期的明细
-     * @param timeWithLastDay
-     * @return
+     * 更新新增用户数和用户总量
+     * @param report
      */
-    public DetailedReport findByTime(long timeWithLastDay) {
-        return reportDao.findByTime(timeWithLastDay);
+    public void upsertAddUserData(DetailedReport report) {
+        reportDao.upsertAddUserCountAndTotalUserCount(report);
     }
 }
