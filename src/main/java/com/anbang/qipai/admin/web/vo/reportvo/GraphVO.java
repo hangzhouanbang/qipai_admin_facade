@@ -1,6 +1,5 @@
 package com.anbang.qipai.admin.web.vo.reportvo;
 
-import lombok.Data;
 
 import java.util.Arrays;
 import java.util.List;
