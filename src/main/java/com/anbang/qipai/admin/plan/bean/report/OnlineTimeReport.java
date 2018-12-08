@@ -1,35 +1,33 @@
 package com.anbang.qipai.admin.plan.bean.report;
 
-
 /**
  * @author YaphetS
- * @date 2018/11/30
+ * @date 2018/12/5
  */
-public class GameRecord {
-    private String id;
+public class OnlineTimeReport {
 
+    private String id;
     /**
-     * 最后一次记录时间
+     * 创建时间与用户id的组合唯一
+     * 创建时间
      */
     private Long createTime;
-
     /**
      * 用户id
      */
     private String memberId;
-
     /**
-     * 日均在线时长
+     * 在线时长
      */
-    private Long DayOnlineTime;
+    private Long onlineTime;
 
-    public GameRecord() {
+    public OnlineTimeReport() {
     }
 
-    public GameRecord(Long createTime, String memberId, Long dayOnlineTime) {
+    public OnlineTimeReport(Long createTime, String memberId, Long onlineTime) {
         this.createTime = createTime;
         this.memberId = memberId;
-        DayOnlineTime = dayOnlineTime;
+        this.onlineTime = onlineTime;
     }
 
     public String getId() {
@@ -56,11 +54,11 @@ public class GameRecord {
         this.memberId = memberId;
     }
 
-    public Long getDayOnlineTime() {
-        return DayOnlineTime;
+    public Long getOnlineTime() {
+        return onlineTime;
     }
 
-    public void setDayOnlineTime(Long dayOnlineTime) {
-        DayOnlineTime = dayOnlineTime;
+    public void setOnlineTime(Long onlineTime) {
+        this.onlineTime = onlineTime;
     }
 }

@@ -34,4 +34,12 @@ public interface OnlineStateRecordDao {
      * @return
      */
     List<OnlineStateRecord> findOnlineRecordAfterTime(long dayStartTime);
+
+    /**
+     * 查询某个时刻后某个memberId的上线记录
+     * @param memberId
+     * @param createTime
+     * @return
+     */
+    List<OnlineStateRecord> findByMemberIdAfterTime(String memberId, Long createTime);
 }

@@ -17,7 +17,7 @@ public interface DetailedReportDao {
     void upsert(DetailedReport detailedReport);
 
     /**
-     * 查询明细表是否有当天的数据
+     * 查询明细表某个日期的数据
      * @param dayStartTime
      * @return
      */
@@ -61,4 +61,18 @@ public interface DetailedReportDao {
      * @return
      */
     List<DetailedReport> findDetailedReportAfterTime(long startTime);
+
+    /**
+     * 更新ActiveUser和DayOnlineTime
+     * @param detailedReport
+     */
+    void upsertActiveUserAndDayOnlineTime(DetailedReport detailedReport);
+
+
+
+    /**
+     * 更新新增用户数(自增一)和用户总量
+     * @param report
+     */
+    void upsertAddUserCountAndTotalUserCount(DetailedReport report);
 }

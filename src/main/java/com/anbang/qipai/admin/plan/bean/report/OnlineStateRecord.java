@@ -1,12 +1,11 @@
 package com.anbang.qipai.admin.plan.bean.report;
 
-import lombok.Data;
+
 
 /**
  * @author YaphetS
  * @date 2018/11/24
  */
-@Data
 public class OnlineStateRecord {
     public static final int ON_LINE=0;
     public static final int OFF_LINE=1;
@@ -35,4 +34,38 @@ public class OnlineStateRecord {
         this.createTime = createTime;
         this.onlineState = onlineState;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getOnlineState() {
+        return onlineState;
+    }
+
+    public void setOnlineState(Integer onlineState) {
+        this.onlineState = onlineState;
+    }
+
+
 }
