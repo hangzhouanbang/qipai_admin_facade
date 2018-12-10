@@ -29,4 +29,9 @@ public class MongodbOnlineTimeReportDao {
     public List<OnlineTimeReport> findByTime(Long createTime) {
         return mongoTemplate.find(query(where("createTime").is(createTime)),OnlineTimeReport.class);
     }
+
+    public OnlineTimeReport find(long dayStartTime, String memberId) {
+        return mongoTemplate.findOne(query(where("createTime").is(dayStartTime).and("memberId").is(memberId)),OnlineTimeReport.class);
+
+    }
 }

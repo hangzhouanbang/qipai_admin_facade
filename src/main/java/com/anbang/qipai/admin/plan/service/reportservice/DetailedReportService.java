@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.plan.service.reportservice;
 import com.anbang.qipai.admin.plan.bean.report.BasicDataReport;
 import com.anbang.qipai.admin.plan.bean.report.DetailedReport;
 import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
+import com.anbang.qipai.admin.plan.bean.report.OnlineTimeReport;
 import com.anbang.qipai.admin.plan.dao.reportdao.DetailedReportDao;
 import com.anbang.qipai.admin.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class DetailedReportService {
 
     @Autowired
     private DetailedReportDao reportDao;
+
+    @Autowired
+    private OnlineTimeReportService onlineTimeReportService;
 
 
 
@@ -86,7 +90,23 @@ public class DetailedReportService {
      * @param detailedReport
      */
     public void upsertActiveData(DetailedReport detailedReport) {
+        List<OnlineTimeReport> onlineTimeReportList=onlineTimeReportService.findByTime(detailedReport.getCreateTime());
+        detailedReport.setActiveUser(onlineTimeReportList.size());
+        detailedReport.setDayOnlineTime(getDayOnlineTime(onlineTimeReportList));
         reportDao.upsertActiveUserAndDayOnlineTime(detailedReport);
+    }
+
+    /**
+     * 计算日均在线时长
+     * @param list
+     * @return
+     */
+    private Long getDayOnlineTime(List<OnlineTimeReport> list){
+        long dayOnlineTime=0L;
+        for(OnlineTimeReport report:list){
+            dayOnlineTime+=report.getOnlineTime();
+        }
+        return dayOnlineTime/list.size();
     }
 
 

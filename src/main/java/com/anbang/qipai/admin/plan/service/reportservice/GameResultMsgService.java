@@ -48,26 +48,10 @@ public class GameResultMsgService {
         for(OnlineTimeReport report:reportList){
             onlineTimeReportService.upsertReport(report);
         }
-        //将ActiveUser,DayOnlineTime两字段upsert进明细表
-        DetailedReport detailedReport=new DetailedReport(createTime);
-        List<OnlineTimeReport> onlineTimeReportList=onlineTimeReportService.findByTime(createTime);
-
-        detailedReport.setActiveUser(onlineTimeReportList.size());
-        detailedReport.setDayOnlineTime(getDayOnlineTime(onlineTimeReportList));
-        detailedReportService.upsertActiveData(detailedReport);
+        //更新明细表的ActiveUser,DayOnlineTime两字段
+        detailedReportService.upsertActiveData(new DetailedReport(createTime));
     }
 
 
-    /**
-     * 计算日均在线时长
-     * @param list
-     * @return
-     */
-    private Long getDayOnlineTime(List<OnlineTimeReport> list){
-        long dayOnlineTime=0L;
-        for(OnlineTimeReport report:list){
-            dayOnlineTime+=report.getOnlineTime();
-        }
-        return dayOnlineTime/list.size();
-    }
+
 }

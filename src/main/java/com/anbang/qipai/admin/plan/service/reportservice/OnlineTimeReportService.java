@@ -29,4 +29,14 @@ public class OnlineTimeReportService {
     public List<OnlineTimeReport> findByTime(Long createTime) {
         return reportDao.findByTime(createTime);
     }
+
+    /**
+     * 根据创建时间与用户id的唯一组合,查到该记录
+     * @param dayStartTime
+     * @param memberId
+     * @return
+     */
+    public OnlineTimeReport find(long dayStartTime, String memberId) {
+        return reportDao.find(dayStartTime, memberId);
+    }
 }

@@ -75,9 +75,9 @@ public class OnlineStateRecordService {
             return onlineTime+System.currentTimeMillis();
         }
 //        3.如果上线记录数=下线记录数
-//        下线记录累加-上线记录累加
+//        下线记录累加-上线记录累加(求绝对值)
         if(onlineCount==offlineCount){
-            return onlineTime;
+            return Math.abs(onlineTime);
         }
 //        4.如果上线记录数<下线记录数
 //        下线记录累加-当前日开始时间-上线记录累加
