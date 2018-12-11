@@ -182,6 +182,7 @@ public class AgentController {
 	@RequestMapping(value = "/queryagentclubcard", method = RequestMethod.POST)
 	public CommonVO queryAgentClubCard(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentClubCard card) {
+		card.valid();
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentClubCardService.findAgentClubCardByConditions(page, size, card);
 		vo.setSuccess(true);
@@ -469,11 +470,8 @@ public class AgentController {
 	 */
 	@RequestMapping(value = "/addagentclubcard", method = RequestMethod.POST)
 	public CommonVO addAgentClubCard(AgentClubCard card) {
+		card.valid();
 		CommonVO vo = new CommonVO();
-		if (card.getProduct() == null || card.getProductPic() == null || card.getPayType() == null) {
-			vo.setSuccess(false);
-			vo.setMsg("at least one param is null");
-		}
 		card.setSale(true);
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_addagentclubcard(card);
 		vo.setSuccess(rvo.isSuccess());
@@ -488,11 +486,8 @@ public class AgentController {
 	 */
 	@RequestMapping(value = "/updateagentclubcard", method = RequestMethod.POST)
 	public CommonVO updateAgentClubCard(AgentClubCard card) {
+		card.valid();
 		CommonVO vo = new CommonVO();
-		if (card.getProduct() == null || card.getProductPic() == null || card.getPayType() == null) {
-			vo.setSuccess(false);
-			vo.setMsg("at least one param is null");
-		}
 		CommonRemoteVO rvo = qipaiAgentsRemoteService.clubcard_updateagentclubcard(card);
 		vo.setSuccess(rvo.isSuccess());
 		return vo;
