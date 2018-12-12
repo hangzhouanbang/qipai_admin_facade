@@ -182,10 +182,10 @@ public class TimeUtil {
     }
 
     /**
-     * 得到30日前(不算今日)开始的时间
+     * 得到30日前(不算今日)开始的时间,注意超过int限制的问题
      */
     public static long getTimeWithLastThirtyDay(){
-        return getTimeWithDayPrecision(System.currentTimeMillis())-1000*60*60*24*30;
+        return getTimeWithDayPrecision(System.currentTimeMillis())-1000L*60*60*24*30;
     }
 
 }

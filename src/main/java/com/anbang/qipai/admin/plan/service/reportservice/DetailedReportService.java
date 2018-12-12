@@ -5,6 +5,7 @@ import com.anbang.qipai.admin.plan.bean.report.DetailedReport;
 import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
 import com.anbang.qipai.admin.plan.bean.report.OnlineTimeReport;
 import com.anbang.qipai.admin.plan.dao.reportdao.DetailedReportDao;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ public class DetailedReportService {
     @Autowired
     private OnlineTimeReportService onlineTimeReportService;
 
+    @Autowired
+    private MemberDboService memberDboService;
 
 
     public void upsert(DetailedReport detailedReport) {
@@ -74,6 +77,8 @@ public class DetailedReportService {
     }
 
     public void upsertLoginUser(DetailedReport detailedReport) {
+        //加入对totalUserCount的启动次数修正
+        detailedReport.setTotalUserCount((int)memberDboService.countAmount());
         reportDao.upsertLoginUser(detailedReport);
     }
 

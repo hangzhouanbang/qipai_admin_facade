@@ -8,6 +8,7 @@ import java.util.List;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
 import com.anbang.qipai.admin.plan.bean.report.*;
 import com.anbang.qipai.admin.plan.service.reportservice.BasicDataReportService;
+
 import com.anbang.qipai.admin.plan.service.reportservice.DetailedReportService;
 import com.anbang.qipai.admin.plan.service.reportservice.OnlineStateRecordService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
@@ -67,6 +68,7 @@ public class DataReportController {
 
 	@Autowired
     private DetailedReportService detailedReportService;
+
 
 	/**
 	 * 平台运营数据

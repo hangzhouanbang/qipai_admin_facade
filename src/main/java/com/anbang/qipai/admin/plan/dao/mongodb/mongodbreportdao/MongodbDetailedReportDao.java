@@ -67,6 +67,7 @@ public class MongodbDetailedReportDao implements DetailedReportDao {
     public void upsertLoginUser(DetailedReport detailedReport) {
         Update update=new Update();
         update.set("loginUser",detailedReport.getLoginUser());
+        update.set("totalUserCount",detailedReport.getTotalUserCount());
         mongoTemplate.upsert(query(where("createTime").is(detailedReport.getCreateTime())),
                 update,DetailedReport.class);
     }
