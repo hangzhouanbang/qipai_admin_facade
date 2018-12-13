@@ -389,18 +389,31 @@ public class DataReportController {
      */
     @PostMapping(value = "/currentCount")
     public CommonVO currentCount(){
-        //得到实时的最新明细
-        DetailedReport report=detailedReportService.findByCreateTime(TimeUtil.getTimeWithDayPrecision(System.currentTimeMillis()));
-        //今日新增
-        Integer addCountToday=report.getAddUserCount();
         //在线人数
         Integer onlineCount=memberService.countOnlineState();
-        //启动次数
-        Integer launchCount=report.getPowerCount();
         //昨日活跃
         Integer activeUserCount=detailedReportService.findByCreateTime(TimeUtil.getTimeWithLastDay()).getActiveUser();
 
+        //得到实时的最新明细
+        DetailedReport report=detailedReportService.findByCreateTime(TimeUtil.getTimeWithDayPrecision(System.currentTimeMillis()));
+        //防止查询的时候今天还没数据(几乎不可能发生)
+        if(report==null){
+            //得到上一天的启动次数
+            Integer lastlaunchCount=detailedReportService.findByCreateTime(TimeUtil.getTimeWithLastDay()).getPowerCount();
+            return CommonVOUtil.success(new CurrentCountVO(0,onlineCount,lastlaunchCount,activeUserCount),"currentCount");
+        }
+        //今日新增
+        Integer addCountToday=report.getAddUserCount();
+        //启动次数
+        Integer launchCount=report.getPowerCount();
         return CommonVOUtil.success(new CurrentCountVO(addCountToday,onlineCount,launchCount,activeUserCount),"currentCount");
+    }
+
+    private Integer inspect(Object obj){
+        if(obj==null){
+            return 0;
+        }
+        return (Integer)obj;
     }
 
     /**
