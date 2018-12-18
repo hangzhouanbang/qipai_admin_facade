@@ -78,7 +78,7 @@ public class AgentClubCard {
     }
 
     public void valid() throws AnBangException {
-        if (StringUtils.isEmpty(id) || StringUtils.isEmpty(product)
+        if (StringUtils.isEmpty(product)
                 || StringUtils.isEmpty(payType)) {
             throw new AnBangException("参数类型错误");
         }

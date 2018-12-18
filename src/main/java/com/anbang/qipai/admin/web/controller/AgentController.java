@@ -182,7 +182,6 @@ public class AgentController {
 	@RequestMapping(value = "/queryagentclubcard", method = RequestMethod.POST)
 	public CommonVO queryAgentClubCard(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentClubCard card) {
-		card.valid();
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentClubCardService.findAgentClubCardByConditions(page, size, card);
 		vo.setSuccess(true);
