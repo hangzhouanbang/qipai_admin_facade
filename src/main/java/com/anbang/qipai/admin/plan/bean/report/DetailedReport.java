@@ -11,7 +11,7 @@ public class DetailedReport {
     private String id;
 
     /**
-     * 创建时间(以小时为精度的时间戳)
+     * 创建时间(以天为精度的时间戳)
      */
     private Long createTime;
     /**
