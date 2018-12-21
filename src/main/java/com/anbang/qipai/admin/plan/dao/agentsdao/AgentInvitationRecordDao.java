@@ -14,6 +14,4 @@ public interface AgentInvitationRecordDao {
 	long getAmountByByConditions(AgentInvitationRecordVO record);
 
 	void banInvitationRecordById(String id);
-
-	void updateAllInvitationRecordBan(boolean ban);
 }

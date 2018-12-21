@@ -11,7 +11,7 @@ import com.dml.users.UserSessionsManager;
 @Component
 public class AdminAuthService extends CmdServiceBase {
 
-	private static int sessionKeepaliveTime = 30 * 24 * 60 * 60 * 1000;
+	private static int sessionKeepaliveTime = 8 * 60 * 60 * 1000;
 
 	@Autowired
 	private UserSessionsManager userSessionsManager;

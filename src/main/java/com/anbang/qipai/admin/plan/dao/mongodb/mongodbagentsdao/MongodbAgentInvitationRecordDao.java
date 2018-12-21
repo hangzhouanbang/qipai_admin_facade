@@ -82,12 +82,4 @@ public class MongodbAgentInvitationRecordDao implements AgentInvitationRecordDao
 		mongoTemplate.updateFirst(query, update, AgentInvitationRecord.class);
 	}
 
-	@Override
-	public void updateAllInvitationRecordBan(boolean ban) {
-		Query query = new Query();
-		Update update = new Update();
-		update.set("ban", ban);
-		mongoTemplate.updateMulti(query, update, AgentInvitationRecord.class);
-	}
-
 }
