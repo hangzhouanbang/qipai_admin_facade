@@ -38,7 +38,7 @@ public class SwaggerConfig {
         Contact contact = new Contact("anbangTech", "", "");
         return new ApiInfoBuilder()
                 .title("qipai_admin测试工具")
-                .description("qipai_member测试工具")
+                .description("qipai_admin测试工具")
                 .contact(contact)
                 .version("1.1.0")
                 .build();

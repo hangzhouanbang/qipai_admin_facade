@@ -4,6 +4,7 @@ public class SignInPrize {//签到奖品
     private String id;
     private String name;
     private String type;//奖品类型
+    private String cardType;
     private int singleNum;//单奖数量
     private int lotteryNum;//已抽取数量
     private int storeNum;//库存数量
@@ -90,5 +91,13 @@ public class SignInPrize {//签到奖品
 
     public void setOverstep(String overstep) {
         this.overstep = overstep;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
     }
 }

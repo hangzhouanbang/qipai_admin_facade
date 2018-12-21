@@ -13,22 +13,27 @@ import com.anbang.qipai.admin.plan.bean.signin.SignInPrize;
 import com.anbang.qipai.admin.plan.dao.signindao.SignInPrizeDao;
 
 /**
-*发布奖品
-*/
+ * 发布奖品
+ */
 @EnableBinding(SignInPrizeSource.class)
 public class SignInPrizeSourceService {
 
-	@Autowired
-	private SignInPrizeSource signInPrizeSource;
-	
-	@Autowired
-	private SignInPrizeDao signInPrizeDao;
+    @Autowired
+    private SignInPrizeSource signInPrizeSource;
 
-	public void releaseSignInPrize() {
-		List<SignInPrize> signInPrizes = signInPrizeDao.querySignInPrize();
-		CommonMO commonMO = new CommonMO();
+    @Autowired
+    private SignInPrizeDao signInPrizeDao;
+
+    public void releaseSignInPrize() {
+        List<SignInPrize> signInPrizes = signInPrizeDao.querySignInPrize();
+        int index =1;
+        for (SignInPrize signInPrize : signInPrizes) {
+            signInPrize.setId(String.valueOf(index));
+			index++;
+        }
+        CommonMO commonMO = new CommonMO();
         commonMO.setMsg(SignInPrizeSource.releaseSignInPrize);
         commonMO.setData(signInPrizes);
-		signInPrizeSource.signInPrize().send(MessageBuilder.withPayload(commonMO).build());
-	}
+        signInPrizeSource.signInPrize().send(MessageBuilder.withPayload(commonMO).build());
+    }
 }
