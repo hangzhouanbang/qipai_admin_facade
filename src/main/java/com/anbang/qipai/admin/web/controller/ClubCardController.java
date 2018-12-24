@@ -60,6 +60,13 @@ public class ClubCardController {
 			vo.setMsg("at least one param is null");
 			return vo;
 		}
+		if (clubCard.getFirstDiscount() < 0.1 || clubCard.getFirstDiscount() > 1) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid first discount");
+			return vo;
+		}
+		long time = clubCard.getTime() * 24L * 60 * 60 * 1000;
+		clubCard.setTime(time);
 		clubCardService.addClubCard(clubCard);
 		memberClubCardsSourceService.addClubCard(clubCard);
 		vo.setSuccess(true);
