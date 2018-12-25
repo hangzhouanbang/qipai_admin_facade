@@ -59,6 +59,8 @@ public class SignInPrizeService {
 		signInPrizeDao.deleteSignInPrizeById(id);
 	}
 
+
+	//查看没有超出奖池的奖品
 	public int countSignInPrize() {
 		return (int) signInPrizeDao.countSignInPrize();
 	}

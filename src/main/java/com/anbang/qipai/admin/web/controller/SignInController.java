@@ -71,7 +71,7 @@ public class SignInController {
 
         int count = signInPrizeService.countSignInPrize();
         //这里进行抽奖的奖励设置
-        if (count >= 10) {
+        if (count >= 10 && signInPrize.getOverstep().equals("否")) {
             vo.setSuccess(false);
             vo.setMsg("overstep");
             return vo;
