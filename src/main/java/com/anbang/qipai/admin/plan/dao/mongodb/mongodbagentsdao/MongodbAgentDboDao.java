@@ -43,7 +43,7 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		if (agent.getUserName() != null && !"".equals(agent.getUserName())) {
 			query.addCriteria(Criteria.where("userName").regex(agent.getUserName()));
 		}
-		if (agent.getAgentType() != null && !"".equals(agent.getAgentType().getType())) {
+		if (agent.getType() != null && !"".equals(agent.getType())) {
 			query.addCriteria(Criteria.where("agentType.type").regex(agent.getType()));
 		}
 		if (agent.getStartTime() != null || agent.getEndTime() != null) {
@@ -81,7 +81,7 @@ public class MongodbAgentDboDao implements AgentDboDao {
 		if (agent.getUserName() != null && !"".equals(agent.getUserName())) {
 			query.addCriteria(Criteria.where("userName").regex(agent.getUserName()));
 		}
-		if (agent.getAgentType() != null && !"".equals(agent.getAgentType().getType())) {
+		if (agent.getType() != null && !"".equals(agent.getType())) {
 			query.addCriteria(Criteria.where("agentType.type").regex(agent.getType()));
 		}
 		if (agent.getStartTime() != null || agent.getEndTime() != null) {
