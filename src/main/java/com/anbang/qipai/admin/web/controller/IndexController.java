@@ -92,6 +92,9 @@ public class IndexController {
 		int agentJiAmount = agentClubCardRecordDboService.countProductNumByTimeAndProduct("季卡", "buy", startTime,
 				endTime);
 		data.put("agentJiAmount", agentJiAmount);
+		int agentGoldAmount = agentClubCardRecordDboService.countProductNumByTimeAndProduct("玉石", "buy", startTime,
+				endTime);
+		data.put("agentGoldAmount", agentGoldAmount);
 		vo.setSuccess(true);
 		vo.setMsg("index info");
 		vo.setData(data);
