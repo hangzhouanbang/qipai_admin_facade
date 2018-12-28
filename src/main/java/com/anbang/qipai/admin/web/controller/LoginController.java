@@ -73,6 +73,11 @@ public class LoginController {
 	@RequestMapping("/admin_info")
 	public CommonVO info(String token) {
 		CommonVO vo = new CommonVO();
+		if (token == null) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid token");
+			return vo;
+		}
 		String adminId = adminAuthService.getAdminIdBySessionId(token);
 		if (adminId == null) {
 			vo.setSuccess(false);
