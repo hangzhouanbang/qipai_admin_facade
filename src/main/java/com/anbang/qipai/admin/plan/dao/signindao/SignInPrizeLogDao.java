@@ -8,6 +8,8 @@ public interface SignInPrizeLogDao {
 
 	void addSignInPrizeLog(SignInPrizeLog signInPrizeLog) ;
 	
-	List<SignInPrizeLog> querySignInPrizeLog(SignInPrizeLog signInPrizeLog, Long startTime, Long endTime);
+	List<SignInPrizeLog> querySignInPrizeLog(SignInPrizeLog signInPrizeLog, Long startTime, Long endTime,int page ,int size);
+
+	int countSignInPrizeLog(SignInPrizeLog signInPrizeLog, Long startTime, Long endTime);
 	
 }

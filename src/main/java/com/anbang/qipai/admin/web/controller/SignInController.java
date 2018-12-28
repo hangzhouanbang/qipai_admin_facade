@@ -3,7 +3,13 @@ package com.anbang.qipai.admin.web.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.anbang.qipai.admin.msg.service.SignInPrizeSourceService;
+import com.anbang.qipai.admin.plan.bean.members.MemberExchangeEntityDbo;
+import com.anbang.qipai.admin.plan.bean.members.SendOutGoods;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberExchangeEntityService;
 import com.anbang.qipai.admin.remote.LotteryMoEnum;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberExchangeEntityPageVO;
+import com.anbang.qipai.admin.web.vo.membersvo.SignInPrizeLogPageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +43,12 @@ public class SignInController {
     @Autowired
     private SignInPrizeExchangeLogService signInPrizeExchangeLogService;
 
+    @Autowired
+    private SignInPrizeSourceService signInPrizeSourceService;
+
+    @Autowired
+    private MemberExchangeEntityService entityService;
+
     //添加抽奖奖励
     @RequestMapping(value = "/addsigninprize")
     public CommonVO addSignInPrize(SignInPrize signInPrize) {
@@ -69,13 +81,14 @@ public class SignInController {
             }
         }
 
-        int count = signInPrizeService.countSignInPrize();
-        //这里进行抽奖的奖励设置
-        if (count >= 10 && signInPrize.getOverstep().equals("否")) {
-            vo.setSuccess(false);
-            vo.setMsg("overstep");
-            return vo;
-        }
+//        int count = signInPrizeService.countSignInPrize();
+//        //这里进行抽奖的奖励设置
+//        if (count >= 10 && signInPrize.getOverstep().equals("否")) {
+//            vo.setSuccess(false);
+//            vo.setMsg("overstep");
+//            return vo;
+//        }
+        signInPrize.setId(String.valueOf(signInPrizeService.findIndex() + 1));
         signInPrizeService.addSignInPrize(signInPrize);
         vo.setSuccess(true);
         vo.setMsg("success");
@@ -108,7 +121,7 @@ public class SignInController {
     @RequestMapping(value = "/deletesigninprizebyid", method = RequestMethod.POST)
     public CommonVO deleteSignInPrizeById(String id) {
         CommonVO vo = new CommonVO();
-        signInPrizeService.deleteSignInPrizeById(id);
+        signInPrizeService.deleteSignInPrizeByIdAdvice(id);
         vo.setSuccess(true);
         vo.setMsg("success");
         return vo;
@@ -165,13 +178,23 @@ public class SignInController {
     @RequestMapping(value = "/querysigninprizelog", method = RequestMethod.POST)
     public CommonVO querySignInPrizeLog(SignInPrizeLog signInPrizeLog,
                                         @RequestParam(value = "startTime", required = false) Long startTime,
-                                        @RequestParam(value = "endTime", required = false) Long endTime) {
+                                        @RequestParam(value = "endTime", required = false) Long endTime,
+                                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                                        @RequestParam(name = "size", defaultValue = "10") Integer size) {
         CommonVO vo = new CommonVO();
         List<SignInPrizeLog> signInPrizeLogs =
-                signInPrizeLogService.querySignInPrizeLog(signInPrizeLog, startTime, endTime);
+                signInPrizeLogService.querySignInPrizeLog(signInPrizeLog, startTime, endTime, page, size);
+        int count = signInPrizeLogService.countSignInPrizeLog(signInPrizeLog, startTime, endTime);
+
+        SignInPrizeLogPageVO signInPrizeLogPageVO = new SignInPrizeLogPageVO();
+        signInPrizeLogPageVO.setCount(count);
+        signInPrizeLogPageVO.setPage(page);
+        signInPrizeLogPageVO.setSize(size);
+        signInPrizeLogPageVO.setList(signInPrizeLogs);
+
         vo.setSuccess(true);
         vo.setMsg("success");
-        vo.setData(signInPrizeLogs);
+        vo.setData(signInPrizeLogPageVO);
         return vo;
     }
 
@@ -187,6 +210,34 @@ public class SignInController {
         vo.setMsg("success");
         vo.setData(list);
         return vo;
+    }
+
+    //查询抽奖奖品兑换纪录  最终版本
+    @RequestMapping(value = "/queryexchangeentity", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonVO queryExchangeEntity(String memberId, String nickName, String telephone,
+                                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                                        @RequestParam(name = "size", defaultValue = "10") Integer size,
+                                        @RequestParam(value = "startTime", required = false) Long startTime,
+                                        @RequestParam(value = "endTime", required = false) Long endTime) {
+
+        MemberExchangeEntityPageVO entityPageVO = entityService.findWithConditions(memberId, nickName,
+                telephone, page, size,
+                startTime, endTime);
+        CommonVO vo = new CommonVO();
+        vo.setSuccess(true);
+        vo.setData(entityPageVO);
+        return vo;
+    }
+
+
+    @RequestMapping("/querypendingreward")
+    @ResponseBody
+    public CommonVO queryPendingReward() {
+        CommonVO commonVO = new CommonVO();
+        commonVO.setSuccess(true);
+        commonVO.setData(entityService.countPending());
+        return commonVO;
     }
 
     /**
@@ -211,6 +262,38 @@ public class SignInController {
         signInPrizeExchangeLogService.issueSignInPrize(id);
         vo.setSuccess(true);
         vo.setMsg("success");
+        return vo;
+    }
+
+    //发货  实体
+    @RequestMapping(value = {"/sendoutgood"})
+    public CommonVO sendOutGood(String id, boolean send) {
+        CommonVO vo = new CommonVO();
+        MemberExchangeEntityDbo entityDbo = entityService.findById(id);
+
+        if (entityDbo == null) {
+            vo.setSuccess(false);
+            vo.setMsg("没有该条中奖记录");
+        }
+        if (entityDbo.getHasExchange()) {
+            vo.setSuccess(false);
+            vo.setMsg("已经兑换过了");
+            return vo;
+        }
+
+        //暂时不用通知会员大厅已经发货
+//        SendOutGoods goods = new SendOutGoods();
+//        goods.setHasSent("YES");
+//        goods.setMemberId(memberId);
+//        goods.setRaffleRecordId(raffleRecordId);
+//        signInPrizeSourceService.sendOutGood(goods);
+
+
+        entityDbo.setDistributeTime(System.currentTimeMillis());
+        entityDbo.setHasExchange(true);
+        entityService.saveOne(entityDbo);
+        vo.setSuccess(true);
+        vo.setMsg("发货成功");
         return vo;
     }
 
@@ -275,5 +358,6 @@ public class SignInController {
         commonVO.setMsg("success");
         return commonVO;
     }
+
 
 }

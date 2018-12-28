@@ -6,19 +6,23 @@ import com.anbang.qipai.admin.plan.bean.signin.SignInPrize;
 
 public interface SignInPrizeDao {
 
-	void addSignInPrize(SignInPrize signInPrize);
-	
-	void updateSignInPrize(SignInPrize signInPrize);
-	
-	List<SignInPrize> querySignInPrize();
-	
-	SignInPrize querySignInPrizeById(String id);
+    void addSignInPrize(SignInPrize signInPrize);
 
-	void deleteSignInPrizeById(String id);
+    void updateSignInPrize(SignInPrize signInPrize);
 
-	long countSignInPrize();
+    List<SignInPrize> querySignInPrize();
 
-	void releaseSignInPrize();
+    SignInPrize querySignInPrizeById(String id);
 
-	void decreaseStoreById(String id);
+    void deleteSignInPrizeById(String id);
+
+    long countSignInPrize();
+
+    void releaseSignInPrize();
+
+    void decreaseStoreById(String id);
+
+    int findIndex();
+
+    void save(SignInPrize signInPrize);
 }

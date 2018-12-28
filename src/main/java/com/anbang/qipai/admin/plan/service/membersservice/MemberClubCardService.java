@@ -15,7 +15,12 @@ public class MemberClubCardService {
 	private MemberClubCardDao clubCardDao;
 
 	public List<MemberClubCard> showClubCard() {
-		return clubCardDao.findAllClubCard();
+		List<MemberClubCard> cardList = clubCardDao.findAllClubCard();
+		for (MemberClubCard card : cardList) {
+			long time = card.getTime();
+			card.setTime(time / (24 * 60 * 60 * 1000));
+		}
+		return cardList;
 	}
 
 	public void addClubCard(MemberClubCard clubCard) {

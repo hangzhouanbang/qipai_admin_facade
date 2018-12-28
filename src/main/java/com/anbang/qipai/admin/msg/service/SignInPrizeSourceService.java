@@ -2,6 +2,7 @@ package com.anbang.qipai.admin.msg.service;
 
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.members.SendOutGoods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -24,16 +25,25 @@ public class SignInPrizeSourceService {
     @Autowired
     private SignInPrizeDao signInPrizeDao;
 
+
     public void releaseSignInPrize() {
         List<SignInPrize> signInPrizes = signInPrizeDao.querySignInPrize();
-        int index =1;
+        int index = 1;
         for (SignInPrize signInPrize : signInPrizes) {
-            signInPrize.setId(String.valueOf(index));
-			index++;
+            signInPrize.setIndex(String.valueOf(index));
+            index++;
         }
         CommonMO commonMO = new CommonMO();
         commonMO.setMsg(SignInPrizeSource.releaseSignInPrize);
         commonMO.setData(signInPrizes);
+        signInPrizeSource.signInPrize().send(MessageBuilder.withPayload(commonMO).build());
+    }
+
+
+    public void sendOutGood(SendOutGoods goods){
+        CommonMO commonMO = new CommonMO();
+        commonMO.setMsg(SignInPrizeSource.sendOutGoods);
+        commonMO.setData(goods);
         signInPrizeSource.signInPrize().send(MessageBuilder.withPayload(commonMO).build());
     }
 }
