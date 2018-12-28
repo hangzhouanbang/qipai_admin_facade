@@ -24,6 +24,11 @@ public class MongodbSignInPrizeDao implements SignInPrizeDao {
     }
 
     @Override
+    public void save(SignInPrize signInPrize) {
+        mongoTemplate.save(signInPrize);
+    }
+
+    @Override
     public void updateSignInPrize(SignInPrize signInPrize) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(signInPrize.getId()));
@@ -58,8 +63,15 @@ public class MongodbSignInPrizeDao implements SignInPrizeDao {
 
     @Override
     public long countSignInPrize() {
-        Query query = new Query(Criteria.where("overstep").is("否"));
+        Query query = new Query();
         return mongoTemplate.count(query, SignInPrize.class);
+    }
+
+
+    @Override
+    public int findIndex() {
+        Query query = new Query();
+        return (int) mongoTemplate.count(query, SignInPrize.class);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.anbang.qipai.admin.plan.bean.signin;
 
 public class SignInPrizeLog {//签到奖品纪录
-	private String id;
+	private String id;//中奖记录
 	private String memberId;
 	private String nickname;//用户昵称
 	private String signInPrizeId;

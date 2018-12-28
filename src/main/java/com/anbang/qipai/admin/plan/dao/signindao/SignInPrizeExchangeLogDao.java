@@ -15,5 +15,7 @@ public interface SignInPrizeExchangeLogDao {
 	long countUnIssueSignInPrize();
 
 	void updateSignInPrizeExchangeLog(SignInPrizeExchangeLog signInPrizeExchangeLog);
+
+	SignInPrizeExchangeLog findBymemberId(String memberId);
 	
 }

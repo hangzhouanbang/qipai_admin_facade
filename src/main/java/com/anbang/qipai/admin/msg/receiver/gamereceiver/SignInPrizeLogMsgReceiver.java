@@ -6,15 +6,19 @@ import com.anbang.qipai.admin.msg.msjobj.*;
 import com.anbang.qipai.admin.plan.bean.ObatinSigningPrizeRecord;
 import com.anbang.qipai.admin.plan.bean.PrizeEnum;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.members.MemberExchangeEntityDbo;
 import com.anbang.qipai.admin.plan.bean.members.MemberGoldRecordDbo;
 import com.anbang.qipai.admin.plan.bean.members.MemberScoreRecordDbo;
 import com.anbang.qipai.admin.plan.bean.signin.PhoneFeeRecord;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberExchangeEntityService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberGoldService;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberScoreService;
 import com.anbang.qipai.admin.plan.service.signinservice.*;
 import com.anbang.qipai.admin.remote.LotteryMoTypeEnum;
 import com.dml.accounting.AccountingRecord;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -55,6 +59,9 @@ public class SignInPrizeLogMsgReceiver {
     @Autowired
     private MemberDboService memberService;
 
+    @Autowired
+    private MemberExchangeEntityService exchangeEntityService;
+
     private Gson gson = new Gson();
 
     @StreamListener(SignInPrizeLogSink.channel)
@@ -68,6 +75,8 @@ public class SignInPrizeLogMsgReceiver {
             this.handleObtainSigningPrize(dataJson);
         } else if (PRIZE_EXCHANGE.equals(msg)) {
             this.handleExchange(dataJson);
+        } else if (RAFFLE_HISTORY_ADDRESS.equals(msg)) {
+            this.handleEntityExchange(dataJson);
         }
     }
 
@@ -123,7 +132,7 @@ public class SignInPrizeLogMsgReceiver {
         signInPrizeService.decreaseStoreById(id);
 
         signInPrizeLog.setName(lotteryMo.getName());
-        signInPrizeLog.setSignInPrizeId(memberRaffleHistoryMo.getId());
+        signInPrizeLog.setSignInPrizeId(memberRaffleHistoryMo.getLottery().getId());
         signInPrizeLog.setSingleNum(lotteryMo.getSingleNum());
         final String type = LotteryMoTypeEnum.of(lotteryMo.getType());
         signInPrizeLog.setType(type);
@@ -131,21 +140,24 @@ public class SignInPrizeLogMsgReceiver {
         signInPrizeLogService.addSignInPrizeLog(signInPrizeLog);
         signInPrizeService.decreaseStoreById(memberRaffleHistoryMo.getLottery().getId());
         if (LotteryType.exchangeAble(type)) {
-            SignInPrizeExchangeLog signInPrizeExchangeLog = new SignInPrizeExchangeLog();
+            MemberExchangeEntityDbo memberExchangeEntityDbo = new MemberExchangeEntityDbo();
             MemberDbo memberDbo = memberService.findMemberById(memberRaffleHistoryMo.getMemberId());
-            signInPrizeExchangeLog.setNickName(memberDbo.getNickname());
-            signInPrizeExchangeLog.setMemberId(memberDbo.getId());
-            signInPrizeExchangeLog.setPrizeName(lotteryMo.getName());
-            signInPrizeExchangeLog.setId(memberRaffleHistoryMo.getId());
-            signInPrizeExchangeLog.setRewardTime(memberRaffleHistoryMo.getTime());
-            signInPrizeExchangeLog.setIssue("0");
+            memberExchangeEntityDbo.setNickName(memberDbo.getNickname());
+            memberExchangeEntityDbo.setMemberId(memberDbo.getId());
+            memberExchangeEntityDbo.setLotteryName(lotteryMo.getName());
+            //memberID_中奖记录
+            memberExchangeEntityDbo.setId(memberRaffleHistoryMo.getMemberId() + "_" +
+                    memberRaffleHistoryMo.getId());
+            memberExchangeEntityDbo.setLotteryId(memberRaffleHistoryMo.getLottery().getId());
+            memberExchangeEntityDbo.setRaffleRecordId(memberRaffleHistoryMo.getId());
+            memberExchangeEntityDbo.setSingleNum(String.valueOf(memberRaffleHistoryMo.getLottery().getSingleNum()));
+            memberExchangeEntityDbo.setHasExchange(false);
             final Address address = memberRaffleHistoryMo.getAddress();
             if (address != null) {
-                signInPrizeExchangeLog.setAddress(address.getAddress());
-                signInPrizeExchangeLog.setPhone(address.getPhone());
-                signInPrizeExchangeLog.setDeliveryName(address.getName());
+                memberExchangeEntityDbo.setAddress(address.getAddress());
+                memberExchangeEntityDbo.setTelephone(address.getPhone());
             }
-            signInPrizeExchangeLogService.addSignInPrizeExchangeLog(signInPrizeExchangeLog);
+            exchangeEntityService.saveOne(memberExchangeEntityDbo);
         }
     }
 
@@ -168,6 +180,32 @@ public class SignInPrizeLogMsgReceiver {
         signInPrizeExchangeLog.setScore(scoreExchangeMo.getScore());
         signInPrizeExchangeLog.setCurrency(scoreExchangeMo.getCurrency());
         signInPrizeExchangeLogService.addSignInPrizeExchangeLog(signInPrizeExchangeLog);
+    }
+
+    public void handleEntityExchange(String dataJson) {
+        EntityExchangeMO entityExchangeMO = JSON.parseObject(dataJson, EntityExchangeMO.class);
+
+        if (!StringUtils.isEmpty(entityExchangeMO.getLotteryType())) {
+            if (entityExchangeMO.getLotteryType().equals("PHONE_FEE") || entityExchangeMO.getLotteryType().equals("HONG_BAO")) {
+                MemberExchangeEntityDbo entityDbo = new MemberExchangeEntityDbo();
+                BeanUtils.copyProperties(entityExchangeMO, entityDbo);
+                entityDbo.setHasExchange(false);
+                exchangeEntityService.addOne(entityDbo);
+                return;
+            }
+        }
+
+        String id = entityExchangeMO.getMemberId() + "_" + entityExchangeMO.getRaffleRecordId();
+        MemberExchangeEntityDbo entityDbo = exchangeEntityService.findById(id);
+        if (entityDbo == null) {
+
+        } else {
+            entityDbo.setTelephone(entityExchangeMO.getTelephone());
+            entityDbo.setExchangeTime(entityExchangeMO.getExchangeTime());
+            entityDbo.setAddress(entityExchangeMO.getAddress());
+            entityDbo.setRealName(entityExchangeMO.getNickName());
+            exchangeEntityService.saveOne(entityDbo);
+        }
     }
 
 }

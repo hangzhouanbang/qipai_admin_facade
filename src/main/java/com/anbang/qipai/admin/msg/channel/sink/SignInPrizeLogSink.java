@@ -16,6 +16,7 @@ public interface SignInPrizeLogSink {
 	String OBTAIN_SIGN_PRIZE = "OBTAIN_SIGN_PRIZE_LOG";
 	String PRIZE_EXCHANGE = "EXCHANGE_HONGBAO_PHONEFEE";
 	String RAFFLE_HISTORY = "RAFFLE_HISTORY";
+	String RAFFLE_HISTORY_ADDRESS = "RAFFLE_HISTORY_ADDRESS";
 
 	@Input
 	SubscribableChannel signInPrizeLog();

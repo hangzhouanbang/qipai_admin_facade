@@ -12,6 +12,7 @@ public class SignInPrize {//签到奖品
     private Integer prizeProb;//中奖概率
     private Integer firstPrizeProb;//首次中奖概率
     private String overstep;//超出奖池
+    private String index;
 
     public String getId() {
         return id;
@@ -99,5 +100,13 @@ public class SignInPrize {//签到奖品
 
     public void setCardType(String cardType) {
         this.cardType = cardType;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
     }
 }
