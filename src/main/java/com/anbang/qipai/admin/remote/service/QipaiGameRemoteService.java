@@ -82,4 +82,8 @@ public interface QipaiGameRemoteService {
 	@RequestMapping(value = "/snapshot/save")
 	CommonRemoteVO snapshot_save();
 
+	@RequestMapping(value = "/result/query_historicalrecord")
+	public CommonRemoteVO queryHistoricalRecord(@RequestParam(value = "page") Integer page,
+												@RequestParam(value = "size") Integer size,
+												@RequestParam(value = "memberId") String memberId);
 }

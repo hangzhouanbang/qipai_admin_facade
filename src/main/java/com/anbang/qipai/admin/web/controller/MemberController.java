@@ -133,6 +133,10 @@ public class MemberController {
 		data.put("loginTime", loginTime);
 		CommonRemoteVO rvo = qipaiGameRemoteService.game_queryMemberPlayingRoom(memberId);
 		data.put("roomList", rvo.getData());
+
+		CommonRemoteVO rvo1 = qipaiGameRemoteService.queryHistoricalRecord(1, 20, memberId);
+		data.put("recordList", rvo1);
+		
 		vo.setSuccess(true);
 		vo.setMsg("member detail");
 		vo.setData(data);
