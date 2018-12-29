@@ -97,6 +97,13 @@ public class ClubCardController {
 	@RequestMapping(value = "/updateclubcard", method = RequestMethod.POST)
 	public CommonVO updateClubCard(MemberClubCard clubCard) {
 		CommonVO vo = new CommonVO();
+		if (clubCard.getFirstDiscount() < 0.1 || clubCard.getFirstDiscount() > 1) {
+			vo.setSuccess(false);
+			vo.setMsg("invalid first discount");
+			return vo;
+		}
+		long time = clubCard.getTime() * 24L * 60 * 60 * 1000;
+		clubCard.setTime(time);
 		clubCardService.updateClubCard(clubCard);
 		memberClubCardsSourceService.updateClubCards(clubCard);
 		vo.setSuccess(true);
