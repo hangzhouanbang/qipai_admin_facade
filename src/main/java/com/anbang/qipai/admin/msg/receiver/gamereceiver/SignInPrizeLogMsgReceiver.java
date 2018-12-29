@@ -27,6 +27,7 @@ import com.anbang.qipai.admin.msg.channel.sink.SignInPrizeLogSink;
 import com.anbang.qipai.admin.plan.bean.signin.SignInPrizeExchangeLog;
 import com.anbang.qipai.admin.plan.bean.signin.SignInPrizeLog;
 import com.google.gson.Gson;
+import org.springframework.context.annotation.Bean;
 
 import static com.anbang.qipai.admin.msg.channel.sink.SignInPrizeLogSink.*;
 
@@ -137,28 +138,31 @@ public class SignInPrizeLogMsgReceiver {
         final String type = LotteryMoTypeEnum.of(lotteryMo.getType());
         signInPrizeLog.setType(type);
         signInPrizeLog.setMemberId(memberRaffleHistoryMo.getMemberId());
+
+        signInPrizeLog.setNickname(memberService.findMemberById(memberRaffleHistoryMo.getMemberId()).getNickname());
+
         signInPrizeLogService.addSignInPrizeLog(signInPrizeLog);
         signInPrizeService.decreaseStoreById(memberRaffleHistoryMo.getLottery().getId());
-        if (LotteryType.exchangeAble(type)) {
-            MemberExchangeEntityDbo memberExchangeEntityDbo = new MemberExchangeEntityDbo();
-            MemberDbo memberDbo = memberService.findMemberById(memberRaffleHistoryMo.getMemberId());
-            memberExchangeEntityDbo.setNickName(memberDbo.getNickname());
-            memberExchangeEntityDbo.setMemberId(memberDbo.getId());
-            memberExchangeEntityDbo.setLotteryName(lotteryMo.getName());
-            //memberID_中奖记录
-            memberExchangeEntityDbo.setId(memberRaffleHistoryMo.getMemberId() + "_" +
-                    memberRaffleHistoryMo.getId());
-            memberExchangeEntityDbo.setLotteryId(memberRaffleHistoryMo.getLottery().getId());
-            memberExchangeEntityDbo.setRaffleRecordId(memberRaffleHistoryMo.getId());
-            memberExchangeEntityDbo.setSingleNum(String.valueOf(memberRaffleHistoryMo.getLottery().getSingleNum()));
-            memberExchangeEntityDbo.setHasExchange(false);
-            final Address address = memberRaffleHistoryMo.getAddress();
-            if (address != null) {
-                memberExchangeEntityDbo.setAddress(address.getAddress());
-                memberExchangeEntityDbo.setTelephone(address.getPhone());
-            }
-            exchangeEntityService.saveOne(memberExchangeEntityDbo);
-        }
+//        if (LotteryType.exchangeAble(type)) {
+//            MemberExchangeEntityDbo memberExchangeEntityDbo = new MemberExchangeEntityDbo();
+//            MemberDbo memberDbo = memberService.findMemberById(memberRaffleHistoryMo.getMemberId());
+//            memberExchangeEntityDbo.setNickName(memberDbo.getNickname());
+//            memberExchangeEntityDbo.setMemberId(memberDbo.getId());
+//            memberExchangeEntityDbo.setLotteryName(lotteryMo.getName());
+//            //memberID_中奖记录
+//            memberExchangeEntityDbo.setId(memberRaffleHistoryMo.getMemberId() + "_" +
+//                    memberRaffleHistoryMo.getId());
+//            memberExchangeEntityDbo.setLotteryId(memberRaffleHistoryMo.getLottery().getId());
+//            memberExchangeEntityDbo.setRaffleRecordId(memberRaffleHistoryMo.getId());
+//            memberExchangeEntityDbo.setSingleNum(String.valueOf(memberRaffleHistoryMo.getLottery().getSingleNum()));
+//            memberExchangeEntityDbo.setHasExchange(false);
+//            final Address address = memberRaffleHistoryMo.getAddress();
+//            if (address != null) {
+//                memberExchangeEntityDbo.setAddress(address.getAddress());
+//                memberExchangeEntityDbo.setTelephone(address.getPhone());
+//            }
+//            exchangeEntityService.saveOne(memberExchangeEntityDbo);
+//        }
     }
 
     public void handleExchange(String dataJson) {
@@ -196,16 +200,15 @@ public class SignInPrizeLogMsgReceiver {
         }
 
         String id = entityExchangeMO.getMemberId() + "_" + entityExchangeMO.getRaffleRecordId();
-        MemberExchangeEntityDbo entityDbo = exchangeEntityService.findById(id);
-        if (entityDbo == null) {
-
-        } else {
-            entityDbo.setTelephone(entityExchangeMO.getTelephone());
-            entityDbo.setExchangeTime(entityExchangeMO.getExchangeTime());
-            entityDbo.setAddress(entityExchangeMO.getAddress());
-            entityDbo.setRealName(entityExchangeMO.getNickName());
-            exchangeEntityService.saveOne(entityDbo);
-        }
+        MemberExchangeEntityDbo entityDbo = new MemberExchangeEntityDbo();
+        BeanUtils.copyProperties(entityExchangeMO, entityDbo);
+        entityDbo.setId(id);
+        entityDbo.setTelephone(entityExchangeMO.getTelephone());
+        entityDbo.setExchangeTime(entityExchangeMO.getExchangeTime());
+        entityDbo.setAddress(entityExchangeMO.getAddress());
+        entityDbo.setRealName(entityExchangeMO.getNickName());
+        entityDbo.setHasExchange(false);
+        exchangeEntityService.saveOne(entityDbo);
     }
 
 }
