@@ -35,7 +35,7 @@ public class MongodbSignInPrizeDao implements SignInPrizeDao {
         Update update = new Update();
         update.set("name", signInPrize.getName());
         update.set("type", signInPrize.getType());
-        update.set("cardType",signInPrize.getCardType());
+        update.set("cardType", signInPrize.getCardType());
         update.set("singleNum", signInPrize.getSingleNum());
         update.set("storeNum", signInPrize.getStoreNum());
         update.set("iconUrl", signInPrize.getIconUrl());

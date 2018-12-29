@@ -214,7 +214,6 @@ public class SignInController {
 
     //查询抽奖奖品兑换纪录  最终版本
     @RequestMapping(value = "/queryexchangeentity", method = RequestMethod.POST)
-    @ResponseBody
     public CommonVO queryExchangeEntity(String memberId, String nickName, String telephone,
                                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                                         @RequestParam(name = "size", defaultValue = "10") Integer size,
@@ -232,7 +231,6 @@ public class SignInController {
 
 
     @RequestMapping("/querypendingreward")
-    @ResponseBody
     public CommonVO queryPendingReward() {
         CommonVO commonVO = new CommonVO();
         commonVO.setSuccess(true);

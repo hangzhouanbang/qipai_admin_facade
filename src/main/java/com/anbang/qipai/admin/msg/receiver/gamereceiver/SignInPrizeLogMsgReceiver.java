@@ -129,8 +129,8 @@ public class SignInPrizeLogMsgReceiver {
         signInPrizeLog.setCreateTime(memberRaffleHistoryMo.getTime());
         final LotteryMo lotteryMo = memberRaffleHistoryMo.getLottery();
 
-        final String id = lotteryMo.getId();
-        signInPrizeService.decreaseStoreById(id);
+//        final String id = lotteryMo.getId();
+//        signInPrizeService.decreaseStoreById(id);
 
         signInPrizeLog.setName(lotteryMo.getName());
         signInPrizeLog.setSignInPrizeId(memberRaffleHistoryMo.getLottery().getId());
@@ -141,8 +141,13 @@ public class SignInPrizeLogMsgReceiver {
 
         signInPrizeLog.setNickname(memberService.findMemberById(memberRaffleHistoryMo.getMemberId()).getNickname());
 
-        signInPrizeLogService.addSignInPrizeLog(signInPrizeLog);
-        signInPrizeService.decreaseStoreById(memberRaffleHistoryMo.getLottery().getId());
+        try {
+
+            signInPrizeLogService.addSignInPrizeLog(signInPrizeLog);
+            signInPrizeService.decreaseStoreById(memberRaffleHistoryMo.getLottery().getId());
+        } catch (Exception e) {
+            return;
+        }
 //        if (LotteryType.exchangeAble(type)) {
 //            MemberExchangeEntityDbo memberExchangeEntityDbo = new MemberExchangeEntityDbo();
 //            MemberDbo memberDbo = memberService.findMemberById(memberRaffleHistoryMo.getMemberId());

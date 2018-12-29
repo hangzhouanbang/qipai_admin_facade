@@ -59,6 +59,8 @@ public class MongodbMemberExchangeEntityDao implements MemberExchangeEntityDao {
         if (endTime != null) {
             query.addCriteria(Criteria.where("exchangeTime").lte(endTime));
         }
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "exchangeTime"));
+        query.with(sort);
         query.skip((page - 1) * size);
         query.limit(size);
         return mongoTemplate.find(query, MemberExchangeEntityDbo.class);
