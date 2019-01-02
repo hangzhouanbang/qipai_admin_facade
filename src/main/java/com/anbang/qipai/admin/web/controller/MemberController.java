@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
+import com.anbang.qipai.admin.plan.service.gameservice.GameHistoricalJuResultService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.util.enums.CommonVOStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,9 @@ public class MemberController {
 	@Autowired
     private AgentDboService agentDboService;
 
+	@Autowired
+	private GameHistoricalJuResultService gameHistoricalJuResultService;
+
 	/**
 	 * 查询用户
 	 * 
@@ -134,9 +138,10 @@ public class MemberController {
 		CommonRemoteVO rvo = qipaiGameRemoteService.game_queryMemberPlayingRoom(memberId);
 		data.put("roomList", rvo.getData());
 
-		CommonRemoteVO rvo1 = qipaiGameRemoteService.queryHistoricalRecord(1, 20, memberId);
-		data.put("recordList", rvo1.getData());
-		
+		//查询历史战绩
+		ListPage listPage = gameHistoricalJuResultService.findGameHistoricalResultByMemberId(1, 20, memberId);
+		data.put("recordList", listPage);
+
 		vo.setSuccess(true);
 		vo.setMsg("member detail");
 		vo.setData(data);
