@@ -48,4 +48,12 @@ public class AgentInvitationRecordService {
 		ListPage listPage = new ListPage(list, page, size, (int) amount);
 		return listPage;
 	}
+
+	public ListPage findInviteCodeRecordByConditions(int page, int size, AgentInvitationRecordVO record) {
+		long amount = invitationRecordDao.getAmountByByConditions(record);
+		List<AgentInvitationRecord> recordList = invitationRecordDao.findInvitationRecordByConditions(page, size,
+				record);
+		ListPage listPage = new ListPage(recordList, page, size, (int) amount);
+		return listPage;
+	}
 }

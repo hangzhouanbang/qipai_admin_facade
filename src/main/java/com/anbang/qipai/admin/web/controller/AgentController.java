@@ -156,7 +156,7 @@ public class AgentController {
 	 * 
 	 * @param page
 	 * @param size
-	 * @param recordVo
+	 * @param record
 	 * @return
 	 */
 	@RequestMapping(value = "/queryapplyrecord", method = RequestMethod.POST)
@@ -280,6 +280,25 @@ public class AgentController {
 			@RequestParam(defaultValue = "10") int size, AgentInvitationRecordVO record) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentInvitationRecordService.findInvitationRecordByConditions(page, size, record);
+		vo.setSuccess(true);
+		vo.setMsg("recordList");
+		vo.setData(listPage);
+		return vo;
+	}
+
+	/**
+	 * 查询推广码使用记录
+	 *
+	 * @param page
+	 * @param size
+	 * @param record
+	 * @return
+	 */
+	@RequestMapping(value = "/queryinvitecoderecord", method = RequestMethod.POST)
+	public CommonVO queryInviteCodeRecord(@RequestParam(defaultValue = "1") int page,
+											   @RequestParam(defaultValue = "10") int size, AgentInvitationRecordVO record) {
+		CommonVO vo = new CommonVO();
+		ListPage listPage = agentInvitationRecordService.findInviteCodeRecordByConditions(page, size, record);
 		vo.setSuccess(true);
 		vo.setMsg("recordList");
 		vo.setData(listPage);
@@ -494,7 +513,7 @@ public class AgentController {
 	/**
 	 * 删除推广员会员卡
 	 * 
-	 * @param cardIds
+	 * @param cardId
 	 * @return
 	 */
 	@RequestMapping(value = "/deleteagentclubcard", method = RequestMethod.POST)
@@ -509,7 +528,7 @@ public class AgentController {
 	 * 调整推广员会员卡
 	 * 
 	 * @param agentId
-	 * @param scoreAmount
+	 * @param cardAmount
 	 * @return
 	 */
 	@RequestMapping(value = "/clubcardmanager", method = RequestMethod.POST)
@@ -538,8 +557,6 @@ public class AgentController {
 	 * 调整推广员积分
 	 * 
 	 * @param agentId
-	 * @param card
-	 * @param cardAmount
 	 * @param scoreAmount
 	 * @return
 	 */
