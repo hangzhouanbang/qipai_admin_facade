@@ -108,6 +108,6 @@ public interface QipaiAgentsRemoteService {
 	public CommonRemoteVO reward_rewardapplypass(@RequestParam(value = "recordId") String recordId);
 
 	@RequestMapping("/reward/rewardapplyrefuse")
-	public CommonRemoteVO reward_rewardapplyrefusee(@RequestParam(value = "recordId") String recordId,
-			@RequestParam(value = "desc") String desc);
+	public CommonRemoteVO reward_rewardapplyrefuse(@RequestParam(value = "recordId") String recordId,
+			@RequestParam(value = "orderId") String orderId, @RequestParam(value = "desc") String desc);
 }
