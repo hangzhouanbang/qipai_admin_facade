@@ -1,11 +1,14 @@
 package com.anbang.qipai.admin.plan.bean.games;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GameRoom {
     private String id;
     private String no;// 房间6位编号,可循环使用
     private Game game;
+    private List<GameLaw> laws;
     private boolean vip;
     private int playersCount;
     private int panCountPerJu;
@@ -16,6 +19,33 @@ public class GameRoom {
     private long deadlineTime;
     private boolean finished;
     private List<PlayersRecord> playersRecord;//房间玩家记录
+    public void calculateVip() {
+        if (laws != null) {
+            for (GameLaw law : laws) {
+                if (law.isVip()) {
+                    vip = true;
+                    return;
+                }
+            }
+        }
+        vip = false;
+    }
+
+    public boolean validateLaws() {
+        if (laws != null) {
+            Set<String> groupIdSet = new HashSet<>();
+            for (GameLaw law : laws) {
+                String groupId = law.getMutexGroupId();
+                if (groupId != null) {
+                    //contain this element,return false
+                    if (!groupIdSet.add(groupId)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     public String getId() {
         return id;
@@ -39,6 +69,14 @@ public class GameRoom {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public List<GameLaw> getLaws() {
+        return laws;
+    }
+
+    public void setLaws(List<GameLaw> laws) {
+        this.laws = laws;
     }
 
     public boolean isVip() {
