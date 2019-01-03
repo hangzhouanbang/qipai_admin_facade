@@ -29,6 +29,9 @@ import com.anbang.qipai.admin.plan.bean.signin.SignInPrizeLog;
 import com.google.gson.Gson;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import static com.anbang.qipai.admin.msg.channel.sink.SignInPrizeLogSink.*;
 
 /**
@@ -147,6 +150,36 @@ public class SignInPrizeLogMsgReceiver {
             signInPrizeService.decreaseStoreById(memberRaffleHistoryMo.getLottery().getId());
         } catch (Exception e) {
             return;
+        }
+
+        //如果是会员卡的话
+        if (LotteryType.isClubCard(lotteryMo.getType().name())) {
+            MemberDbo memberDbo = memberService.findMemberById(memberRaffleHistoryMo.getMemberId());
+            if (memberDbo == null) {
+                return;
+            }
+            long time = 0;
+            if (memberDbo.getVipEndTime() < System.currentTimeMillis()) {
+                time = System.currentTimeMillis();
+            } else {
+                time = memberDbo.getVipEndTime();
+            }
+            Calendar c = Calendar.getInstance();
+            c.setTime(new Date(time));
+
+            if (lotteryMo.getType().name().equals("MEMBER_CARD_DAY")) {
+                c.add(Calendar.DAY_OF_WEEK, +lotteryMo.getSingleNum());
+            }
+            if (lotteryMo.getType().name().equals("MEMBER_CARD_WEAK")) {
+                c.add(Calendar.WEEK_OF_MONTH, +lotteryMo.getSingleNum());
+            }
+            if (lotteryMo.getType().name().equals("MEMBER_CARD_MONTH")) {
+                c.add(Calendar.MONTH, +lotteryMo.getSingleNum());
+            }
+            if (lotteryMo.getType().name().equals("MEMBER_CARD_SEASON")) {
+                c.add(Calendar.MONTH, +(3 * lotteryMo.getSingleNum()));
+            }
+            memberService.updateVip(memberDbo.getId(),true,c.getTime().getTime());
         }
 //        if (LotteryType.exchangeAble(type)) {
 //            MemberExchangeEntityDbo memberExchangeEntityDbo = new MemberExchangeEntityDbo();

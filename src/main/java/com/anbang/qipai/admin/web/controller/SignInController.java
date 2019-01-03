@@ -319,36 +319,20 @@ public class SignInController {
     @RequestMapping(value = "batchAdd")
     @ResponseBody
     public CommonVO batchAdd() {
-        for (LotteryMoEnum moEnum : LotteryMoEnum.values()) {
+        for (int i = 0; i < 10; i++) {
             SignInPrize signInPrize = new SignInPrize();
-            signInPrize.setId(UUID.randomUUID().toString().replace("-", "").toLowerCase());
-            signInPrize.setName(moEnum.getName());
-            signInPrize.setType(moEnum.getType());
-            signInPrize.setSingleNum(100);
-            signInPrize.setLotteryNum(100);
+            signInPrize.setId(String.valueOf(i));
+            signInPrize.setIndex(String.valueOf(i));
+            signInPrize.setName("日卡");
+            signInPrize.setCardType("日卡");
+            signInPrize.setType("会员卡");
+            signInPrize.setSingleNum(10);
             signInPrize.setStoreNum(1000);
-            signInPrize.setIconUrl("www.anbangtech.com");
-
-            switch (moEnum.getDescription()) {
-                case "ENTIRY":
-                    signInPrize.setPrizeProb(6000000);
-                    signInPrize.setFirstPrizeProb(6000000);
-                    break;
-                case "PHONE_FEE":
-                    signInPrize.setPrizeProb(4000000);
-                    signInPrize.setFirstPrizeProb(4000000);
-                    break;
-                case "HONGBAO":
-                    signInPrize.setPrizeProb(0);
-                    signInPrize.setFirstPrizeProb(0);
-                    break;
-                default:
-                    signInPrize.setPrizeProb(0);
-                    signInPrize.setFirstPrizeProb(0);
-                    break;
-            }
+            signInPrize.setPrizeProb(1000000);
+            signInPrize.setFirstPrizeProb(1000000);
+            signInPrize.setIconUrl("1");
             signInPrize.setOverstep("否");
-            signInPrizeService.addSignInPrize(signInPrize);
+            addSignInPrize(signInPrize);
         }
 
         CommonVO commonVO = new CommonVO();
