@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -296,7 +297,7 @@ public class AgentController {
 	 */
 	@RequestMapping(value = "/queryinvitecoderecord", method = RequestMethod.POST)
 	public CommonVO queryInviteCodeRecord(@RequestParam(defaultValue = "1") int page,
-											   @RequestParam(defaultValue = "10") int size, AgentInvitationRecordVO record) {
+			@RequestParam(defaultValue = "10") int size, AgentInvitationRecordVO record) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = agentInvitationRecordService.findInviteCodeRecordByConditions(page, size, record);
 		vo.setSuccess(true);
@@ -727,7 +728,8 @@ public class AgentController {
 	@RequestMapping(value = "/rewardapplyrefuse", method = RequestMethod.POST)
 	public CommonVO rewardApplyRefuse(String recordId, String desc) {
 		CommonVO vo = new CommonVO();
-		CommonRemoteVO rvo = qipaiAgentsRemoteService.reward_rewardapplyrefusee(recordId, desc);
+		String uuid = UUID.randomUUID().toString().replace("-", "");
+		CommonRemoteVO rvo = qipaiAgentsRemoteService.reward_rewardapplyrefuse(recordId, uuid, desc);
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
 		return vo;
