@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.anbang.qipai.admin.constant.Constants;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
 import com.anbang.qipai.admin.plan.service.gameservice.GameHistoricalJuResultService;
@@ -139,7 +140,7 @@ public class MemberController {
 		data.put("roomList", rvo.getData());
 
 		//查询历史战绩
-		ListPage listPage = gameHistoricalJuResultService.findGameHistoricalResultByMemberId(1, 20, memberId);
+		ListPage listPage = gameHistoricalJuResultService.findGameHistoricalResultByMemberId(Constants.PageSetup.defaultPage, Constants.PageSetup.defaultSize, memberId);
 		data.put("recordList", listPage);
 
 		vo.setSuccess(true);
