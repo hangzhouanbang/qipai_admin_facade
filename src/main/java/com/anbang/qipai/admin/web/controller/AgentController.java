@@ -128,6 +128,7 @@ public class AgentController {
 			data.put("clubCardJi", accountRemoteVo.getClubCardJi());
 			data.put("clubCardRi", accountRemoteVo.getClubCardRi());
 			data.put("coins", accountRemoteVo.getCoins());
+			data.put("reward", accountRemoteVo.getReward());
 		}
 		vo.setSuccess(true);
 		vo.setMsg("agent detail");

@@ -19,6 +19,8 @@ public class AccountRemoteVO {
 
 	private int coins;
 
+	private double reward;
+
 	public boolean isSuccess() {
 		return success;
 	}
@@ -89,6 +91,14 @@ public class AccountRemoteVO {
 
 	public void setCoins(int coins) {
 		this.coins = coins;
+	}
+
+	public double getReward() {
+		return reward;
+	}
+
+	public void setReward(double reward) {
+		this.reward = reward;
 	}
 
 }
