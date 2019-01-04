@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.anbang.qipai.admin.constant.Constants;
+import com.anbang.qipai.admin.plan.bean.games.*;
+import com.anbang.qipai.admin.plan.service.gameservice.GameVersionService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anbang.qipai.admin.plan.bean.games.Game;
-import com.anbang.qipai.admin.plan.bean.games.GameLaw;
-import com.anbang.qipai.admin.plan.bean.games.GameServer;
-import com.anbang.qipai.admin.plan.bean.games.LawsMutexGroup;
 import com.anbang.qipai.admin.plan.service.gameservice.GameService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
@@ -35,6 +35,9 @@ public class GameController {
 
 	@Autowired
 	private GameService gameService;
+
+	@Autowired
+	private GameVersionService gameVersionService;
 
 	@RequestMapping(value = "/servers_for_game", method = RequestMethod.POST)
 	public CommonVO serversforgame(Game game) {
@@ -157,6 +160,76 @@ public class GameController {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO rvo = qipaiGameRomoteService.game_removemutexgroup(groupId);
 		vo.setSuccess(rvo.isSuccess());
+		return vo;
+	}
+
+	@RequestMapping(value = "/addgameversion", method = RequestMethod.POST)
+	public CommonVO addGameVersion(GameVersion gameVersion) {
+		CommonVO vo = new CommonVO();
+		if (StringUtils.isBlank(gameVersion.getVersionNo())) {
+			vo.setSuccess(false);
+			vo.setMsg("at least one param is null");
+			return vo;
+		}
+		gameVersion.setGameType(Constants.DEFAULTGAMETYPE);
+		gameVersionService.save(gameVersion);
+		vo.setSuccess(true);
+		vo.setMsg("add gameversion success");
+		return vo;
+	}
+
+	@RequestMapping(value = "/querylastgameversion", method = RequestMethod.POST)
+	public CommonVO queryLastGameVersion(String gameType) {
+		CommonVO vo = new CommonVO();
+		gameType = Constants.DEFAULTGAMETYPE;
+		GameVersion gameVersion = gameVersionService.findLastRecord(gameType);
+		vo.setMsg("query versionno success");
+		vo.setSuccess(true);
+		vo.setData(gameVersion.getVersionNo());
+		return vo;
+	}
+
+	/**
+	 * 查询游戏版本号
+	 * @param page
+	 * @param size
+	 * @param gameVersion
+	 * @return
+	 */
+	@RequestMapping(value = "/querygameversion", method = RequestMethod.POST)
+	public CommonVO queryGameVersion(@RequestParam(value = "page", defaultValue = "1") int page,
+									 @RequestParam(value = "size", defaultValue = "10") int size, GameVersion gameVersion) {
+		CommonVO vo = new CommonVO();
+		ListPage listPage = gameVersionService.findByBean(page, size, gameVersion);
+		vo.setMsg("query list success");
+		vo.setSuccess(true);
+		vo.setData(listPage);
+		return vo;
+	}
+
+	/**
+	 * 房间管理-查询
+	 * @param playerId
+	 * @param roomNo
+	 * @return
+	 */
+	@RequestMapping(value = "/queryroom", method = RequestMethod.POST)
+	public CommonVO queryRoom(String playerId, String roomNo) {
+		CommonVO vo = new CommonVO();
+
+		return vo;
+	}
+
+	/**
+	 * 房间管理-查看
+	 * @param playerId
+	 * @param roomNo
+	 * @return
+	 */
+	@RequestMapping(value = "/queryroomdetail", method = RequestMethod.POST)
+	public CommonVO queryRoomDetail(String playerId, String roomNo) {
+		CommonVO vo = new CommonVO();
+
 		return vo;
 	}
 

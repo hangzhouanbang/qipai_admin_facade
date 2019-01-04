@@ -140,7 +140,7 @@ public class MemberController {
 		data.put("roomList", rvo.getData());
 
 		//查询历史战绩
-		ListPage listPage = gameHistoricalJuResultService.findGameHistoricalResultByMemberId(Constants.PageSetup.defaultPage, Constants.PageSetup.defaultSize, memberId);
+		ListPage listPage = gameHistoricalJuResultService.findGameHistoricalResultByMemberId(Constants.PageSetup.DEFAULT_PAGE, Constants.PageSetup.DEFAULT_SIZE, memberId);
 		data.put("recordList", listPage);
 
 		vo.setSuccess(true);
