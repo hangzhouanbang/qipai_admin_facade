@@ -60,6 +60,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
 		registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**");
+		registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/game/querylastgameversion");
 	}
 
 	@Override
