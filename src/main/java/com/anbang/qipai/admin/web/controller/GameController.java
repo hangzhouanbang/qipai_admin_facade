@@ -178,7 +178,7 @@ public class GameController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/querylastgameversion", method = RequestMethod.POST)
+	@RequestMapping(value = "/querylastgameversion", method = RequestMethod.GET)
 	public CommonVO queryLastGameVersion(String gameType) {
 		CommonVO vo = new CommonVO();
 		gameType = Constants.DEFAULTGAMETYPE;
