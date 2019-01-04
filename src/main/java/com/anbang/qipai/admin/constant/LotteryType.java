@@ -10,6 +10,17 @@ public interface LotteryType {
     String MEMBER_CARD_MONTH = "月卡";
     String MEMBER_CARD_SEASON = "季卡";
 
+    public static boolean isClubCard(String type) {
+        if (type.equals("MEMBER_CARD_DAY") ||
+                type.equals("MEMBER_CARD_WEAK") ||
+                type.equals("MEMBER_CARD_MONTH") ||
+                type.equals("MEMBER_CARD_SEASON")) {
+            return true;
+        }
+        return false;
+    }
+
+
     public static boolean exchangeAble(String type) {
         if (LotteryType.isValid(type)) {
             switch (type) {

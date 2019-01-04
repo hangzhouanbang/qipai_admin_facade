@@ -9,51 +9,49 @@ public enum LotteryMoEnum {
     /**
      * 实物
      */
-    ENTIRY("ENTIRY","实体","实物"),
+    ENTIRY("ENTIRY", "实体", "实物"),
     /**
      * 红包
      */
-    HONGBAO("HONGBAO","红包","红包"),
+    HONGBAO("HONGBAO", "红包", "红包"),
     /**
      * 会员卡日卡
      */
-    MEMBER_CARD_DAY("MEMBER_CARD_DAY","会员卡日卡","日卡"),
+    MEMBER_CARD_DAY("MEMBER_CARD_DAY", "会员卡日卡", "日卡"),
     /**
      * 周卡会员卡
      */
-    MEMBER_CARD_WEAK("MEMBER_CARD_WEAK","周卡会员卡","周卡"),
+    MEMBER_CARD_WEAK("MEMBER_CARD_WEAK", "周卡会员卡", "周卡"),
     /**
      * 月卡会员卡
      */
-    MEMBER_CARD_MONTH("MEMBER_CARD_MONTH","月卡会员卡","月卡"),
+    MEMBER_CARD_MONTH("MEMBER_CARD_MONTH", "月卡会员卡", "月卡"),
     /**
      * 季卡会员卡
      */
-    MEMBER_CARD_SEASON("MEMBER_CARD_SEASON","季卡会员卡","季卡"),
+    MEMBER_CARD_SEASON("MEMBER_CARD_SEASON", "季卡会员卡", "季卡"),
     /**
      * 话费
      */
-    PHONE_FEE("PHONE_FEE","话费","话费"),
+    PHONE_FEE("PHONE_FEE", "话费", "话费"),
     /**
      * 玉石
      */
-    GOLD("GOLD","玉石","玉石"),
+    GOLD("GOLD", "玉石", "玉石"),
 
 
-    GOlD1("GOLD1","玉石","玉石"),
+    GOlD1("GOLD1", "玉石", "玉石"),
 
-    GOlD2("GOLD2","玉石","玉石");
+    GOlD2("GOLD2", "玉石", "玉石");;
 
-    ;
-
+    private String Type;
     private String description;
     private String Name;
-    private String Type;
 
-    LotteryMoEnum(String description, String name, String type) {
+    LotteryMoEnum(String type, String description, String name) {
+        Type = type;
         this.description = description;
         Name = name;
-        Type = type;
     }
 
     public String getDescription() {
