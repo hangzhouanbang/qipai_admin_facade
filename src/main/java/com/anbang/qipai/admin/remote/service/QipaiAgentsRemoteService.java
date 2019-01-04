@@ -49,40 +49,24 @@ public interface QipaiAgentsRemoteService {
 	@RequestMapping("/clubcard/deleteagentclubcard")
 	public CommonRemoteVO clubcard_deleteagentclubcard(@RequestParam(value = "cardId") String cardId);
 
-	@RequestMapping("/score/withdraw")
-	public CommonRemoteVO score_withdraw(@RequestParam(value = "agentId") String agentId,
-			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
-
 	@RequestMapping("/score/givescoretoagent")
 	public CommonRemoteVO score_givescoretoagent(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
 
-	@RequestMapping("/clubcard/withdrawclubcardri")
-	public CommonRemoteVO clubcard_withdrawclubcardri(@RequestParam(value = "agentId") String agentId,
+	@RequestMapping("/clubcard/giveclubcardcoinstoagent")
+	public CommonRemoteVO clubcard_giveclubcardcoinstoagent(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
 
 	@RequestMapping("/clubcard/giveclubcardritoagent")
 	public CommonRemoteVO clubcard_giveclubcardritoagent(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
 
-	@RequestMapping("/clubcard/withdrawclubcardzhou")
-	public CommonRemoteVO clubcard_withdrawclubcardzhou(@RequestParam(value = "agentId") String agentId,
-			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
-
 	@RequestMapping("/clubcard/giveclubcardzhoutoagent")
 	public CommonRemoteVO clubcard_giveclubcardzhoutoagent(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
 
-	@RequestMapping("/clubcard/withdrawclubcardyue")
-	public CommonRemoteVO clubcard_withdrawclubcardyue(@RequestParam(value = "agentId") String agentId,
-			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
-
 	@RequestMapping("/clubcard/giveclubcardyuetoagent")
 	public CommonRemoteVO clubcard_giveclubcardyuetoagent(@RequestParam(value = "agentId") String agentId,
-			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
-
-	@RequestMapping("/clubcard/withdrawclubcardji")
-	public CommonRemoteVO clubcard_withdrawclubcardji(@RequestParam(value = "agentId") String agentId,
 			@RequestParam(value = "amount") int amount, @RequestParam(value = "textSummary") String textSummary);
 
 	@RequestMapping("/clubcard/giveclubcardjitoagent")
