@@ -127,6 +127,7 @@ public class AgentController {
 			data.put("clubCardYue", accountRemoteVo.getClubCardYue());
 			data.put("clubCardJi", accountRemoteVo.getClubCardJi());
 			data.put("clubCardRi", accountRemoteVo.getClubCardRi());
+			data.put("coins", accountRemoteVo.getCoins());
 		}
 		vo.setSuccess(true);
 		vo.setMsg("agent detail");
@@ -306,6 +307,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查询代理类型
+	 */
 	@RequestMapping(value = "/queryagenttype", method = RequestMethod.POST)
 	public CommonVO queryAgentType(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentType type) {
@@ -319,6 +323,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查询推广收益
+	 */
 	@RequestMapping(value = "/queryagentreward", method = RequestMethod.POST)
 	public CommonVO queryAgentReward(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentRewardRecordDboVO record) {
@@ -332,6 +339,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查询推广员申请
+	 */
 	@RequestMapping(value = "/queryagentrewardapply", method = RequestMethod.POST)
 	public CommonVO queryAgentRewardApply(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int size, AgentWithdrawRecordDbo record) {
@@ -393,6 +403,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 设置代理类型
+	 */
 	@RequestMapping(value = "/settype", method = RequestMethod.POST)
 	public CommonVO setType(String agentId, String type) {
 		CommonVO vo = new CommonVO();
@@ -555,6 +568,20 @@ public class AgentController {
 	}
 
 	/**
+	 * 推广员玉石调整
+	 */
+	@RequestMapping(value = "/goldmanager", method = RequestMethod.POST)
+	public CommonVO goldManager(String agentId, int goldAmount) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = new CommonRemoteVO();
+		rvo.setSuccess(false);
+		rvo = qipaiAgentsRemoteService.clubcard_giveclubcardcoinstoagent(agentId, goldAmount, "admin adjust");
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		return vo;
+	}
+
+	/**
 	 * 调整推广员积分
 	 * 
 	 * @param agentId
@@ -572,6 +599,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 查询推广员二维码
+	 */
 	@RequestMapping(value = "/qrcode", method = RequestMethod.GET)
 	public void qrcode(String agentId, HttpServletResponse response) {
 		AgentDbo agent = agentDboService.findAgentDboById(agentId);
@@ -582,12 +612,6 @@ public class AgentController {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			/*
-			 * String content = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
-			 * + GongZhongHaoConfig.APPID + "&redirect_uri=" + REDIRECT_URI +
-			 * "&response_type=code&scope=snsapi_userinfo&state=" +
-			 * agent.getInvitationCode() + "#wechat_redirect";
-			 */
 			String content = "";
 			try {
 				QrCodeCreateUtil.createQrCode(content, 1000, "jpg", response);
@@ -597,6 +621,9 @@ public class AgentController {
 		}
 	}
 
+	/**
+	 * 查询推广图
+	 */
 	@RequestMapping(value = "/queryimage", method = RequestMethod.POST)
 	public CommonVO queryimage() {
 		CommonVO vo = new CommonVO();
@@ -609,6 +636,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 添加推广图
+	 */
 	@RequestMapping(value = "/addimage", method = RequestMethod.POST)
 	public CommonVO addimage(String fileName, @RequestParam(required = true) Integer ordinal) {
 		CommonVO vo = new CommonVO();
@@ -637,6 +667,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 删除推广图
+	 */
 	@RequestMapping(value = "/deleteimage", method = RequestMethod.POST)
 	public CommonVO deleteimage(String imageId) {
 		CommonVO vo = new CommonVO();
@@ -645,6 +678,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 七牛云上传图片token
+	 */
 	@RequestMapping(value = "/uptoken", method = RequestMethod.POST)
 	public CommonVO uptoken() {
 		CommonVO vo = new CommonVO();
@@ -657,6 +693,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 添加代理类型
+	 */
 	@RequestMapping("/addagenttype")
 	public CommonVO addAgentType(AgentType type) {
 		CommonVO vo = new CommonVO();
@@ -679,6 +718,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 修改代理类型
+	 */
 	@RequestMapping("/updateagenttype")
 	public CommonVO updateAgentType(AgentType type) {
 		CommonVO vo = new CommonVO();
@@ -701,6 +743,9 @@ public class AgentController {
 		return vo;
 	}
 
+	/**
+	 * 删除代理类型
+	 */
 	@RequestMapping("/removeagenttype")
 	public CommonVO removeAgentType(@RequestParam(value = "id") String[] typeIds) {
 		CommonVO vo = new CommonVO();
