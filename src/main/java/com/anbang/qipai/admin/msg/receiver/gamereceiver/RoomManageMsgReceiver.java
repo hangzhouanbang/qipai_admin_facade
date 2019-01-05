@@ -27,7 +27,7 @@ public class RoomManageMsgReceiver {
         if (msg.equals(RoomManageSink.CREATROOM) || msg.equals(RoomManageSink.UPDATEPLAYER)) {
             GameRoom gameRoom = gson.fromJson(json, GameRoom.class);
             //创建或更新游戏房间
-            gameService.save(gameRoom);
+            gameService.saveGameRoom(gameRoom);
         }
     }
 

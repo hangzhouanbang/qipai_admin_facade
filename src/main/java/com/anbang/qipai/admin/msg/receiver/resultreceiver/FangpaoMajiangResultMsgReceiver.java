@@ -5,6 +5,7 @@ import com.anbang.qipai.admin.msg.channel.sink.resultsink.FangpaoMajiangResultSi
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.msg.msjobj.MajiangHistoricalJuResultMO;
 import com.anbang.qipai.admin.msg.msjobj.ResultEnum;
+import com.anbang.qipai.admin.plan.bean.games.GameRoom;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalJuResult;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalPanResult;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameJuPlayerResult;
@@ -14,6 +15,7 @@ import com.anbang.qipai.admin.plan.bean.historicalresult.majiang.FangpaoMajiangP
 import com.anbang.qipai.admin.plan.bean.games.Game;
 import com.anbang.qipai.admin.plan.service.gameservice.GameHistoricalJuResultService;
 import com.anbang.qipai.admin.plan.service.gameservice.GameHistoricalPanResultService;
+import com.anbang.qipai.admin.plan.service.gameservice.GameService;
 import com.anbang.qipai.admin.plan.service.reportservice.GameResultMsgService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class FangpaoMajiangResultMsgReceiver {
     @Autowired
     private GameHistoricalPanResultService majiangHistoricalPanResultService;
 
+    @Autowired
+    private GameService gameService;
+
 	private Gson gson = new Gson();
 
 	@StreamListener(FangpaoMajiangResultSink.FANGPAOMAJIANGRESULT)
@@ -54,8 +59,8 @@ public class FangpaoMajiangResultMsgReceiver {
             String gameId = (String) map.get("gameId");
             GameHistoricalJuResult majiangHistoricalResult = new GameHistoricalJuResult();
             majiangHistoricalResult.setGameId(gameId);
-            // TODO: 2018/12/29
-//            GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.fangpaoMajiang, gameId);
+            GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.dianpaoMajiang, gameId);
+            majiangHistoricalResult.setRoomNo(room.getNo());
             majiangHistoricalResult.setRoomNo("1001");
             majiangHistoricalResult.setGame(Game.fangpaoMajiang);
             majiangHistoricalResult.setDayingjiaId((String) map.get("dayingjiaId"));

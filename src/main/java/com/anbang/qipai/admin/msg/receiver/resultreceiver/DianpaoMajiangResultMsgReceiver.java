@@ -6,6 +6,7 @@ import com.anbang.qipai.admin.msg.msjobj.MajiangHistoricalJuResultMO;
 
 import com.anbang.qipai.admin.msg.msjobj.ResultEnum;
 
+import com.anbang.qipai.admin.plan.bean.games.GameRoom;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalJuResult;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalPanResult;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameJuPlayerResult;
@@ -64,9 +65,8 @@ public class DianpaoMajiangResultMsgReceiver {
 			String gameId = (String) map.get("gameId");
 			GameHistoricalJuResult majiangHistoricalResult = new GameHistoricalJuResult();
 			majiangHistoricalResult.setGameId(gameId);
-			// TODO: 2018/12/29
-//			GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.dianpaoMajiang, gameId);
-			majiangHistoricalResult.setRoomNo("1001");
+			GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.dianpaoMajiang, gameId);
+			majiangHistoricalResult.setRoomNo(room.getNo());
 			majiangHistoricalResult.setGame(Game.dianpaoMajiang);
 			majiangHistoricalResult.setDayingjiaId((String) map.get("dayingjiaId"));
 			majiangHistoricalResult.setDatuhaoId((String) map.get("datuhaoId"));

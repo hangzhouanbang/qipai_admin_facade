@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.msg.receiver.resultreceiver;
 import com.anbang.qipai.admin.msg.channel.sink.resultsink.WenzhouShuangkouResultSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.bean.games.Game;
+import com.anbang.qipai.admin.plan.bean.games.GameRoom;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalJuResult;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalPanResult;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameJuPlayerResult;
@@ -11,6 +12,7 @@ import com.anbang.qipai.admin.plan.bean.historicalresult.puke.WenzhouShuangkouJu
 import com.anbang.qipai.admin.plan.bean.historicalresult.puke.WenzhouShuangkouPanPlayerResult;
 import com.anbang.qipai.admin.plan.service.gameservice.GameHistoricalJuResultService;
 import com.anbang.qipai.admin.plan.service.gameservice.GameHistoricalPanResultService;
+import com.anbang.qipai.admin.plan.service.gameservice.GameService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -30,6 +32,9 @@ public class WenzhouShuangkouResultMsgReceiver {
 	@Autowired
 	private GameHistoricalPanResultService gameHistoricalPanResultService;
 
+	@Autowired
+	private GameService gameService;
+
 	private Gson gson = new Gson();
 
 	@StreamListener(WenzhouShuangkouResultSink.WENZHOUSHUANGKOURESULT)
@@ -43,9 +48,8 @@ public class WenzhouShuangkouResultMsgReceiver {
 			String gameId = (String) map.get("gameId");
 			GameHistoricalJuResult pukeHistoricalResult = new GameHistoricalJuResult();
 			pukeHistoricalResult.setGameId(gameId);
-			// TODO: 2019/1/2
-//			GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.wenzhouShuangkou, gameId);
-			pukeHistoricalResult.setRoomNo("1001");
+			GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.dianpaoMajiang, gameId);
+			pukeHistoricalResult.setRoomNo(room.getNo());
 			pukeHistoricalResult.setGame(Game.wenzhouShuangkou);
 			pukeHistoricalResult.setDayingjiaId((String) map.get("dayingjiaId"));
 			pukeHistoricalResult.setDatuhaoId((String) map.get("datuhaoId"));

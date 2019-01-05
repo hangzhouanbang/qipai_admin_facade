@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import com.anbang.qipai.admin.plan.bean.games.*;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalJuResult;
 import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalPanResult;
-import com.anbang.qipai.admin.plan.bean.historicalresult.GameJuPlayerResult;
 import com.anbang.qipai.admin.plan.dao.gamedao.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,7 +133,19 @@ public class GameService {
 	 * ----------游戏房间mq消费及房间查询
 	 */
 
-	public void save(GameRoom gameRoom) {
+	public void gameRoomFinished(Game game, String serverGameId) {
+		gameRoomDao.updateFinishGameRoom(game, serverGameId, true);
+	}
+
+	public void panFinished(Game game, String serverGameId, int no, List<String> playerIds) {
+		gameRoomDao.updateGameRoomCurrentPanNum(game, serverGameId, no);
+	}
+
+	public GameRoom findRoomByGameAndServerGameGameId(Game game, String serverGameId) {
+		return gameRoomDao.findRoomByGameAndServerGameGameId(game, serverGameId);
+	}
+
+	public void saveGameRoom(GameRoom gameRoom) {
 		this.gameRoomDao.save(gameRoom);
 	}
 
