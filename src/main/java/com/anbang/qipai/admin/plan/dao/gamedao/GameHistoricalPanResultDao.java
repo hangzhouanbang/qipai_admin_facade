@@ -13,4 +13,6 @@ public interface GameHistoricalPanResultDao {
 	List<GameHistoricalPanResult> findGameHistoricalResultByGameIdAndGame(int page, int size, String gameId, Game game);
 
 	long getAmountByGameIdAndGame(String gameId, Game game);
+
+	List<GameHistoricalPanResult> findPanResultByGameId(String gameId);
 }

@@ -16,4 +16,6 @@ public interface GameHistoricalJuResultDao {
 	int countGameNumByGameAndTime(Game game, long startTime, long endTime);
 
 	GameHistoricalJuResult findGameHistoricalResultById(String id);
+
+	GameHistoricalJuResult findJuResultBygameId(String gameId);
 }

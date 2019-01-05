@@ -1,7 +1,17 @@
 package com.anbang.qipai.admin.plan.service.gameservice;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.anbang.qipai.admin.plan.bean.games.*;
+import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalJuResult;
+import com.anbang.qipai.admin.plan.bean.historicalresult.GameHistoricalPanResult;
+import com.anbang.qipai.admin.plan.bean.historicalresult.GameJuPlayerResult;
+import com.anbang.qipai.admin.plan.dao.gamedao.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.support.MessageBuilder;
@@ -10,13 +20,6 @@ import org.springframework.stereotype.Component;
 import com.anbang.qipai.admin.msg.channel.source.GameServerManagerSource;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.msg.receiver.GameServerMsgConstant;
-import com.anbang.qipai.admin.plan.bean.games.Game;
-import com.anbang.qipai.admin.plan.bean.games.GameLaw;
-import com.anbang.qipai.admin.plan.bean.games.GameServer;
-import com.anbang.qipai.admin.plan.bean.games.LawsMutexGroup;
-import com.anbang.qipai.admin.plan.dao.gamedao.GameLawDao;
-import com.anbang.qipai.admin.plan.dao.gamedao.GameServerDao;
-import com.anbang.qipai.admin.plan.dao.gamedao.LawsMutexGroupDao;
 import com.highto.framework.web.page.ListPage;
 
 @Component
@@ -37,6 +40,15 @@ public class GameService {
 
 	@Autowired
 	private GameServerManagerSource gameServerManagerSource;
+
+	@Autowired
+	private GameRoomDao gameRoomDao;
+
+	@Autowired
+	private GameHistoricalJuResultDao gameHistoricalJuResultDao;
+
+	@Autowired
+	private GameHistoricalPanResultDao gameHistoricalPanResultDao;
 
 	public void onlineGameServer(GameServer gameServer) {
 		gameServerDao.save(gameServer);
@@ -117,5 +129,47 @@ public class GameService {
 			this.gameServerDao.updateGameServerState(ids, GameService.GAME_SERVER_STATE_STOP);
 		}
 	}
+
+	/**
+	 * ----------游戏房间mq消费及房间查询
+	 */
+
+	public void save(GameRoom gameRoom) {
+		this.gameRoomDao.save(gameRoom);
+	}
+
+	public ListPage queryRoomList (int page, int size, String playerId, String roomNo) {
+		int count = gameRoomDao.countRoomByPlayerIdAndRoomNo(playerId, roomNo);
+		List<GameRoom> gameRooms = gameRoomDao.findRoomByPlayerIdAndRoomNo(page, size, playerId, roomNo);
+		List<Map> maps = new ArrayList<>();
+		for (GameRoom gameRoom : gameRooms) {
+			Map map = new HashMap();
+			map.put("gameId", gameRoom.getServerGame().getGameId());
+			map.put("roomNo", gameRoom.getNo());
+			map.put("roomType", gameRoom.getGame());
+			String countPan = gameRoom.getCurrentPanNum() + "/" + gameRoom.getPanCountPerJu();
+			map.put("countPan", countPan);
+			map.put("playersCount", gameRoom.getPlayersCount());
+			if (CollectionUtils.isNotEmpty(gameRoom.getPlayersRecord())) {
+				String playerIds = gameRoom.getPlayersRecord().stream().map(PlayersRecord::getPlayerId).collect(Collectors.joining(","));
+				map.put("playerIds", playerIds);
+			}
+			map.put("createTime", String.valueOf(gameRoom.getCreateTime()));
+			maps.add(map);
+		}
+		ListPage listPage = new ListPage(maps, page, size, count);
+		return listPage;
+	}
+
+	public Map queryRoomDetail (String gameId) {
+		GameHistoricalJuResult juResult = gameHistoricalJuResultDao.findJuResultBygameId(gameId);
+		List<GameHistoricalPanResult> panResults = gameHistoricalPanResultDao.findPanResultByGameId(gameId);
+		Map map = new HashMap();
+		map.put("totalScore", juResult.getPlayerResultList());
+		map.put("list", panResults);
+		return map;
+	}
+
+
 
 }

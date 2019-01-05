@@ -214,23 +214,28 @@ public class GameController {
 	 * @return
 	 */
 	@RequestMapping(value = "/queryroom", method = RequestMethod.POST)
-	public CommonVO queryRoom(String playerId, String roomNo) {
+	public CommonVO queryRoom(@RequestParam(value = "page", defaultValue = "1") int page,
+							  @RequestParam(value = "size", defaultValue = "10") int size,String playerId, String roomNo) {
 		CommonVO vo = new CommonVO();
-
+		ListPage listPage = gameService.queryRoomList(page, size, playerId, roomNo);
+		vo.setSuccess(true);
+		vo.setMsg("query roomlist success");
+		vo.setData(listPage);
 		return vo;
 	}
 
 	/**
 	 * 房间管理-查看
-	 * @param playerId
-	 * @param roomNo
+	 * @param gameId
 	 * @return
 	 */
 	@RequestMapping(value = "/queryroomdetail", method = RequestMethod.POST)
-	public CommonVO queryRoomDetail(String playerId, String roomNo) {
+	public CommonVO queryRoomDetail(String gameId) {
 		CommonVO vo = new CommonVO();
-
+		Map map = gameService.queryRoomDetail(gameId);
+		vo.setSuccess(true);
+		vo.setMsg("query roomdetail success");
+		vo.setData(map);
 		return vo;
 	}
-
 }

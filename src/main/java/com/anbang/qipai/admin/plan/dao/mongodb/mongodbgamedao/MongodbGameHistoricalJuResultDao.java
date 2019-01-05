@@ -79,4 +79,9 @@ public class MongodbGameHistoricalJuResultDao implements GameHistoricalJuResultD
 		}
 	}
 
+	@Override
+	public GameHistoricalJuResult findJuResultBygameId(String gameId) {
+		Query query = new Query(Criteria.where("gameId").is(gameId));
+		return mongoTemplate.findOne(query, GameHistoricalJuResult.class);
+	}
 }

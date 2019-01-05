@@ -2,7 +2,14 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/qipai_admin_facade
-     
+#      database: qipai_admin_facade
+#      host: 172.16.21.50
+#      port: 27017
+#      username: root
+#      password: '''~kkO837/FZ.'
+#      authentication-database: admin
+#      repositories:
+#        enabled: true
   cloud:
     stream:
       kafka: 
@@ -262,6 +269,13 @@ spring:
           contentType: application/json
         wenzhouMajiangResult:
           destination: wenzhouMajiangResult
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        roomManage:
+          destination: roomManage
           group: qipai-admin-facade
           consumer:
             concurrency: 1

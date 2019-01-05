@@ -22,4 +22,8 @@ public interface GameRoomDao {
 	void updateFinishGameRoom(Game game, String serverGameId, boolean finished);
 
 	void updateGameRoomCurrentPanNum(Game game, String serverGameId, int no);
+
+	public int countRoomByPlayerIdAndRoomNo(String playerId, String roomNo);
+
+	public List<GameRoom> findRoomByPlayerIdAndRoomNo(int page, int size, String playerId, String roomNo);
 }

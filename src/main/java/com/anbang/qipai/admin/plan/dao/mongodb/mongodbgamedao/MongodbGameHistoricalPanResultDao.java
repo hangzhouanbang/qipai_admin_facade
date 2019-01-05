@@ -45,4 +45,12 @@ public class MongodbGameHistoricalPanResultDao implements GameHistoricalPanResul
 		return mongoTemplate.count(query, GameHistoricalPanResult.class);
 	}
 
+	@Override
+	public List<GameHistoricalPanResult> findPanResultByGameId(String gameId){
+		Query query = new Query();
+		query.addCriteria(Criteria.where("gameId").is(gameId));
+		query.with(new Sort(new Order(Direction.ASC, "no")));
+		return mongoTemplate.find(query, GameHistoricalPanResult.class);
+	}
+
 }
