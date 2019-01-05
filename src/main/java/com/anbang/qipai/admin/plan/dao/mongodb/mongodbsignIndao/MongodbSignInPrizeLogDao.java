@@ -48,7 +48,7 @@ public class MongodbSignInPrizeLogDao implements SignInPrizeLogDao {
 			query.addCriteria(Criteria.where("type").is(signInPrizeLog.getType()));
 		}
 
-		Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "exchangeTime"));
+		Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, "createTime"));
 		query.with(sort);
 
 		query.skip((page - 1) * size);

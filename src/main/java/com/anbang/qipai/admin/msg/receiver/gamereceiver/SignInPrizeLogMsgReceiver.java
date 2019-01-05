@@ -18,6 +18,8 @@ import com.anbang.qipai.admin.plan.service.signinservice.*;
 import com.anbang.qipai.admin.remote.LotteryMoTypeEnum;
 import com.dml.accounting.AccountingRecord;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -68,9 +70,12 @@ public class SignInPrizeLogMsgReceiver {
 
     private Gson gson = new Gson();
 
+    final private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @StreamListener(SignInPrizeLogSink.channel)
     public void addSignInPrizeLog(CommonMO mo) {
-        System.out.println(">>>监听到消息:" + mo);
+//        System.out.println(">>>监听到消息:" + mo);
+        logger.info(">>>监听到消息:" + mo);
         final String msg = mo.getMsg();
         final String dataJson = gson.toJson(mo.getData());
         if (RAFFLE_RECORD.equals(msg)) {
@@ -149,6 +154,7 @@ public class SignInPrizeLogMsgReceiver {
             signInPrizeLogService.addSignInPrizeLog(signInPrizeLog);
             signInPrizeService.decreaseStoreById(memberRaffleHistoryMo.getLottery().getId());
         } catch (Exception e) {
+            logger.error("修改数据库异常");
             return;
         }
 
