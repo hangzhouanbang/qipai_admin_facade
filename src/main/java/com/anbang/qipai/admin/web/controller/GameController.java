@@ -238,4 +238,14 @@ public class GameController {
 		vo.setData(map);
 		return vo;
 	}
+
+	@RequestMapping(value = "/get_backcode", method = RequestMethod.POST)
+	public CommonVO getBackcode (Game game, String gameId, int panNo) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO remoteVO = qipaiGameRomoteService.getBackcode(game, gameId, panNo);
+		vo.setSuccess(true);
+		vo.setMsg("query roomdetail success");
+		vo.setData(remoteVO.getData());
+		return vo;
+	}
 }

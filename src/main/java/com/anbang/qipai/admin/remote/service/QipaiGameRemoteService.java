@@ -2,15 +2,12 @@ package com.anbang.qipai.admin.remote.service;
 
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.games.*;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.anbang.qipai.admin.plan.bean.games.GameLaw;
-import com.anbang.qipai.admin.plan.bean.games.GameServer;
-import com.anbang.qipai.admin.plan.bean.games.LawsMutexGroup;
-import com.anbang.qipai.admin.plan.bean.games.SystemNoticePlace;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 /**
@@ -86,4 +83,14 @@ public interface QipaiGameRemoteService {
 	public CommonRemoteVO queryHistoricalRecord(@RequestParam(value = "page") Integer page,
 												@RequestParam(value = "size") Integer size,
 												@RequestParam(value = "memberId") String memberId);
+
+	@RequestMapping(value = "/result/query_backcode")
+	public CommonRemoteVO queryBackcode (@RequestParam(value = "game") Game game,
+								  @RequestParam(value = "gameId")String gameId,
+								  @RequestParam(value = "panNo")Integer panNo);
+
+	@RequestMapping(value = "/result/get_backcode")
+	public CommonRemoteVO getBackcode (@RequestParam(value = "game")Game game,
+								@RequestParam(value = "gameId")String gameId,
+								@RequestParam(value = "panNo")Integer panNo);
 }
