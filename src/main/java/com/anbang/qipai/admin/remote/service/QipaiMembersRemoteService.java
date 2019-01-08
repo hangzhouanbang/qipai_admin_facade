@@ -39,6 +39,11 @@ public interface QipaiMembersRemoteService {
 	@RequestMapping(value = "/member/update_viptime")
 	public CommonRemoteVO give_viptime(@RequestBody String[] ids, @RequestParam(value = "vipEndTime") Long vipEndTime);
 
+
+	@RequestMapping(value = "/member/update_viptime_id")
+	public CommonRemoteVO give_viptime_id(@RequestBody String id, @RequestParam(value = "vipEndTime") Long vipEndTime);
+
+
 	@RequestMapping(value = "/auth/addlimit")
 	public CommonRemoteVO addlimit(@RequestBody MemberLoginLimitRecord record);
 

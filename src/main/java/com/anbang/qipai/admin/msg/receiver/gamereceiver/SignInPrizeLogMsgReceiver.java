@@ -10,10 +10,7 @@ import com.anbang.qipai.admin.plan.bean.members.MemberExchangeEntityDbo;
 import com.anbang.qipai.admin.plan.bean.members.MemberGoldRecordDbo;
 import com.anbang.qipai.admin.plan.bean.members.MemberScoreRecordDbo;
 import com.anbang.qipai.admin.plan.bean.signin.PhoneFeeRecord;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberExchangeEntityService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberGoldService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberScoreService;
+import com.anbang.qipai.admin.plan.service.membersservice.*;
 import com.anbang.qipai.admin.plan.service.signinservice.*;
 import com.anbang.qipai.admin.remote.LotteryMoTypeEnum;
 import com.dml.accounting.AccountingRecord;
@@ -67,6 +64,9 @@ public class SignInPrizeLogMsgReceiver {
 
     @Autowired
     private MemberExchangeEntityService exchangeEntityService;
+
+    @Autowired
+    private MemberClubCardService memberClubCardService;
 
     private Gson gson = new Gson();
 
@@ -175,17 +175,22 @@ public class SignInPrizeLogMsgReceiver {
 
             if (lotteryMo.getType().name().equals("MEMBER_CARD_DAY")) {
                 c.add(Calendar.DAY_OF_WEEK, +lotteryMo.getSingleNum());
+                memberClubCardService.giveClubCardToMember(memberDbo.getId(), 1, lotteryMo.getSingleNum());
             }
             if (lotteryMo.getType().name().equals("MEMBER_CARD_WEAK")) {
                 c.add(Calendar.WEEK_OF_MONTH, +lotteryMo.getSingleNum());
+                memberClubCardService.giveClubCardToMember(memberDbo.getId(), 7, lotteryMo.getSingleNum());
             }
             if (lotteryMo.getType().name().equals("MEMBER_CARD_MONTH")) {
                 c.add(Calendar.MONTH, +lotteryMo.getSingleNum());
+                memberClubCardService.giveClubCardToMember(memberDbo.getId(), 30, lotteryMo.getSingleNum());
             }
             if (lotteryMo.getType().name().equals("MEMBER_CARD_SEASON")) {
                 c.add(Calendar.MONTH, +(3 * lotteryMo.getSingleNum()));
+                memberClubCardService.giveClubCardToMember(memberDbo.getId(), 90, lotteryMo.getSingleNum());
             }
-            memberService.updateVip(memberDbo.getId(),true,c.getTime().getTime());
+            memberService.updateVip(memberDbo.getId(), true, c.getTime().getTime());
+
         }
 //        if (LotteryType.exchangeAble(type)) {
 //            MemberExchangeEntityDbo memberExchangeEntityDbo = new MemberExchangeEntityDbo();
