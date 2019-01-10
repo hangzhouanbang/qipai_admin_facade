@@ -14,113 +14,118 @@ import com.highto.framework.web.page.ListPage;
 @Service
 public class MemberDboService {
 
-    @Autowired
-    private MemberDao memberDao;
+	@Autowired
+	private MemberDao memberDao;
 
-    public List<MemberDbo> findMemberDboByIds(String[] memberIds) {
-        return memberDao.findMemberDboByIds(memberIds);
-    }
+	public List<MemberDbo> findMemberDboByIds(String[] memberIds) {
+		return memberDao.findMemberDboByIds(memberIds);
+	}
 
-    public ListPage findMemberDboByConditions(int page, int size, MemberVO member) {
-        long amount = memberDao.getAmountByConditions(member);
-        List<MemberDbo> memberList = memberDao.findMemberDboByConditions(page, size, member);
-        for (int i = 0; i < memberList.size(); i++) {
-            String onlineState = memberList.get(i).getOnlineState();
-            memberList.get(i).setOnlineState(MemberOnlineState.getSummaryText(onlineState));
-        }
-        ListPage listPage = new ListPage(memberList, page, size, (int) amount);
-        return listPage;
-    }
+	public ListPage findMemberDboByConditions(int page, int size, MemberVO member) {
+		long amount = memberDao.getAmountByConditions(member);
+		List<MemberDbo> memberList = memberDao.findMemberDboByConditions(page, size, member);
+		for (int i = 0; i < memberList.size(); i++) {
+			String onlineState = memberList.get(i).getOnlineState();
+			memberList.get(i).setOnlineState(MemberOnlineState.getSummaryText(onlineState));
+		}
+		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
+		return listPage;
+	}
 
-    public long countAmount() {
-        return memberDao.countAmount();
-    }
+	public long countAmount() {
+		return memberDao.countAmount();
+	}
 
-    public void addMember(MemberDbo member) {
-        memberDao.addMember(member);
-    }
+	public void addMember(MemberDbo member) {
+		memberDao.addMember(member);
+	}
 
-    public MemberDbo findMemberById(String memberId) {
-        return memberDao.findMemberById(memberId);
-    }
+	public MemberDbo findMemberById(String memberId) {
+		return memberDao.findMemberById(memberId);
+	}
 
-    public void updateMemberPhone(MemberDbo member) {
-        memberDao.updateMemberPhone(member.getId(), member.getPhone());
-    }
+	public void updateMemberPhone(MemberDbo member) {
+		memberDao.updateMemberPhone(member.getId(), member.getPhone());
+	}
 
-    public void updateMemberVip(MemberDbo member) {
-        memberDao.updateMemberVip(member.getId(), member.isVip());
-    }
+	public void updateMemberBaseInfo(MemberDbo member) {
+		memberDao.updateMemberBaseInfo(member.getId(), member.getNickname(), member.getHeadimgurl(),
+				member.getGender());
+	}
 
-    public void updateMemberCost(MemberDbo member) {
-        memberDao.updateMemberCost(member.getId(), member.getCost());
-    }
+	public void updateMemberVip(MemberDbo member) {
+		memberDao.updateMemberVip(member.getId(), member.isVip());
+	}
 
-    public void updateMemberGold(String memberId, int gold) {
-        memberDao.updateMemberGold(memberId, gold);
-    }
+	public void updateMemberCost(MemberDbo member) {
+		memberDao.updateMemberCost(member.getId(), member.getCost());
+	}
 
-    public void updateMemberScore(String memberId, int score) {
-        memberDao.updateMemberScore(memberId, score);
-    }
+	public void updateMemberGold(String memberId, int gold) {
+		memberDao.updateMemberGold(memberId, gold);
+	}
 
-    public void memberOrderDelive(MemberDbo member) {
-        memberDao.memberOrderDelive(member.getId(), member.isVip(), member.getVipEndTime(), member.getVipLevel(),
-                member.getVipScore(), member.getCost());
-    }
+	public void updateMemberScore(String memberId, int score) {
+		memberDao.updateMemberScore(memberId, score);
+	}
 
-    public void updateVip(String memberId, boolean vip, long endTime) {
-        memberDao.rechargeVip(memberId, vip, endTime);
-    }
+	public void memberOrderDelive(MemberDbo member) {
+		memberDao.memberOrderDelive(member.getId(), member.isVip(), member.getVipEndTime(), member.getVipLevel(),
+				member.getVipScore(), member.getCost());
+	}
 
-    public void rechargeVip(MemberDbo member) {
-        memberDao.rechargeVip(member.getId(), member.isVip(), member.getVipEndTime());
-    }
+	public void updateVip(String memberId, boolean vip, long endTime) {
+		memberDao.rechargeVip(memberId, vip, endTime);
+	}
 
-    public long countNewMemberByTime(long startTime, long endTime) {
-        return memberDao.countNewMemberByTime(startTime, endTime);
-    }
+	public void rechargeVip(MemberDbo member) {
+		memberDao.rechargeVip(member.getId(), member.isVip(), member.getVipEndTime());
+	}
 
-    public long countVipMember() {
-        return memberDao.countVipMember();
-    }
+	public long countNewMemberByTime(long startTime, long endTime) {
+		return memberDao.countNewMemberByTime(startTime, endTime);
+	}
 
-    public void updateMemberRealUser(MemberDbo member) {
-        memberDao.updateMemberRealUser(member.getId(), member.getRealName(), member.getIdCard(), member.isVerifyUser());
-    }
+	public long countVipMember() {
+		return memberDao.countVipMember();
+	}
 
-    public void updateMemberBindAgent(String memberId, String agentId, boolean bindAgent) {
-        memberDao.updateMemberBindAgent(memberId, agentId, bindAgent);
-    }
+	public void updateMemberRealUser(MemberDbo member) {
+		memberDao.updateMemberRealUser(member.getId(), member.getRealName(), member.getIdCard(), member.isVerifyUser());
+	}
 
-    public void removeMemberBindAgent(String memberId) {
-        memberDao.removeMemberBindAgent(memberId);
-    }
+	public void updateMemberBindAgent(String memberId, String agentId, boolean bindAgent) {
+		memberDao.updateMemberBindAgent(memberId, agentId, bindAgent);
+	}
 
-    public void updateMemberOnlineState(String memberId, String onlineState) {
-        memberDao.updateMemberOnlineState(memberId, onlineState);
-    }
+	public void removeMemberBindAgent(String memberId) {
+		memberDao.removeMemberBindAgent(memberId);
+	}
 
-    public List<String> findVipMemberId() {
-        List<String> ids = memberDao.findVipMemberId();
-        return ids;
-    }
+	public void updateMemberOnlineState(String memberId, String onlineState) {
+		memberDao.updateMemberOnlineState(memberId, onlineState);
+	}
 
-    public List<String> findMemberId() {
-        List<String> ids = memberDao.findMemberId();
-        return ids;
-    }
+	public List<String> findVipMemberId() {
+		List<String> ids = memberDao.findVipMemberId();
+		return ids;
+	}
 
-    public List<String> findAllMemberId() {
-        List<String> ids = memberDao.findAllMemberId();
-        return ids;
-    }
+	public List<String> findMemberId() {
+		List<String> ids = memberDao.findMemberId();
+		return ids;
+	}
 
-    public List<MemberDbo> findMemberAfterTime(long startTime) {
-        return memberDao.findMemberAfterTime(startTime);
-    }
+	public List<String> findAllMemberId() {
+		List<String> ids = memberDao.findAllMemberId();
+		return ids;
+	}
 
-    public Integer countOnlineState() {
-        return (int) memberDao.countOnlineState();
-    }
+	public List<MemberDbo> findMemberAfterTime(long startTime) {
+		return memberDao.findMemberAfterTime(startTime);
+	}
+
+	public Integer countOnlineState() {
+		return (int) memberDao.countOnlineState();
+	}
 }

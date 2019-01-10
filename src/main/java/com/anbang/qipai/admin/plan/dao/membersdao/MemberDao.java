@@ -19,6 +19,8 @@ public interface MemberDao {
 
 	void updateMemberPhone(String memberId, String phone);
 
+	void updateMemberBaseInfo(String memberId, String nickname, String headimgurl, String gender);
+
 	void updateMemberVip(String memberId, boolean vip);
 
 	void updateMemberCost(String memberId, double cost);
@@ -51,16 +53,18 @@ public interface MemberDao {
 
 	List<String> findVipMemberId();
 
-    /**
-     * 查找在某个时间点后的所有member
-     * @param startTime
-     * @return
-     */
-    List<MemberDbo> findMemberAfterTime(long startTime);
+	/**
+	 * 查找在某个时间点后的所有member
+	 * 
+	 * @param startTime
+	 * @return
+	 */
+	List<MemberDbo> findMemberAfterTime(long startTime);
 
-    /**
-     * 查询实时在线人数
-     * @return
-     */
-    long countOnlineState();
+	/**
+	 * 查询实时在线人数
+	 * 
+	 * @return
+	 */
+	long countOnlineState();
 }
