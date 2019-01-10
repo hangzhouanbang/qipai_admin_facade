@@ -16,6 +16,7 @@ import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 
 @Component
 public class MongodbMemberDao implements MemberDao {
+
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
@@ -169,19 +170,19 @@ public class MongodbMemberDao implements MemberDao {
 		return ids;
 	}
 
-    @Override
-    public List<MemberDbo> findMemberAfterTime(long startTime) {
-        Query query = new Query(Criteria.where("createTime").gte(startTime));
-        return mongoTemplate.find(query, MemberDbo.class);
-    }
+	@Override
+	public List<MemberDbo> findMemberAfterTime(long startTime) {
+		Query query = new Query(Criteria.where("createTime").gte(startTime));
+		return mongoTemplate.find(query, MemberDbo.class);
+	}
 
-    @Override
-    public long countOnlineState() {
-        Query query = new Query(Criteria.where("onlineState").is("online"));
-        return mongoTemplate.count(query, MemberDbo.class);
-    }
+	@Override
+	public long countOnlineState() {
+		Query query = new Query(Criteria.where("onlineState").is("online"));
+		return mongoTemplate.count(query, MemberDbo.class);
+	}
 
-    @Override
+	@Override
 	public void updateMemberGold(String memberId, int gold) {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
@@ -234,6 +235,13 @@ public class MongodbMemberDao implements MemberDao {
 		update.set("bindAgent", false);
 		update.unset("agentId");
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	@Override
+	public void updateMemberBaseInfo(String memberId, String nickname, String headimgurl, String gender) {
+		mongoTemplate.updateFirst(new Query(Criteria.where("id").is(memberId)),
+				new Update().set("nickname", nickname).set("headimgurl", headimgurl).set("gender", gender),
+				MemberDbo.class);
 	}
 
 }
