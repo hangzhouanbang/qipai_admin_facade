@@ -48,7 +48,7 @@ public class WenzhouShuangkouResultMsgReceiver {
 			String gameId = (String) map.get("gameId");
 			GameHistoricalJuResult pukeHistoricalResult = new GameHistoricalJuResult();
 			pukeHistoricalResult.setGameId(gameId);
-			GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.dianpaoMajiang, gameId);
+			GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.wenzhouShuangkou, gameId);
 			pukeHistoricalResult.setRoomNo(room.getNo());
 			pukeHistoricalResult.setGame(Game.wenzhouShuangkou);
 			pukeHistoricalResult.setDayingjiaId((String) map.get("dayingjiaId"));

@@ -57,7 +57,7 @@ public class WenzhouMajiangResultMsgReceiver {
             String gameId = (String) map.get("gameId");
             GameHistoricalJuResult majiangHistoricalResult = new GameHistoricalJuResult();
             majiangHistoricalResult.setGameId(gameId);
-            GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.dianpaoMajiang, gameId);
+            GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.wenzhouMajiang, gameId);
             majiangHistoricalResult.setRoomNo(room.getNo());
             majiangHistoricalResult.setGame(Game.wenzhouMajiang);
             majiangHistoricalResult.setDayingjiaId((String) map.get("dayingjiaId"));

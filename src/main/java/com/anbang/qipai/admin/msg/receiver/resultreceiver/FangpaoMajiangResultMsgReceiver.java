@@ -59,7 +59,7 @@ public class FangpaoMajiangResultMsgReceiver {
             String gameId = (String) map.get("gameId");
             GameHistoricalJuResult majiangHistoricalResult = new GameHistoricalJuResult();
             majiangHistoricalResult.setGameId(gameId);
-            GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.dianpaoMajiang, gameId);
+            GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.fangpaoMajiang, gameId);
             majiangHistoricalResult.setRoomNo(room.getNo());
             majiangHistoricalResult.setRoomNo("1001");
             majiangHistoricalResult.setGame(Game.fangpaoMajiang);
