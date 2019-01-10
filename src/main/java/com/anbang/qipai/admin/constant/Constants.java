@@ -12,4 +12,8 @@ public class Constants {
         public static final int DEFAULT_PAGE = 1;
         public static final int DEFAULT_SIZE = 20;
     }
+
+    public static class Task {
+        public static final String EXCHANGE_TYPE = "hongBaoDian";   //默认为红包点兑换
+    }
 }
