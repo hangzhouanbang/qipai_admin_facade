@@ -10,7 +10,7 @@ public interface ExchangeManageDao {
 
     void updateExchangeManage(ExchangeManage exchangeManage);
 
-    void deleteExchangeManage(String id);
+    void deleteExchangeManage(String[] ids);
 
     ExchangeManage getExchangeManage(String id);
 

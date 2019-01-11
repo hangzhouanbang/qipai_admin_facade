@@ -38,8 +38,8 @@ public class MongodbExchangeManageDao implements ExchangeManageDao {
     }
 
     @Override
-    public void deleteExchangeManage(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+    public void deleteExchangeManage(String[] ids) {
+        Query query = new Query(Criteria.where("id").in(ids));
         mongoTemplate.remove(query, ExchangeManage.class);
     }
 

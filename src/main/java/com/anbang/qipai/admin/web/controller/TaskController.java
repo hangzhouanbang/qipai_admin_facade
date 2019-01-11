@@ -4,6 +4,8 @@ import com.anbang.qipai.admin.constant.ExchangeType;
 import com.anbang.qipai.admin.plan.bean.tasks.*;
 import com.anbang.qipai.admin.plan.service.tasksservice.*;
 import com.anbang.qipai.admin.web.query.TaskCommonQuery;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -279,14 +281,14 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/delete_exchangmanage", method = RequestMethod.POST)
-    public CommonVO deleteExchangmanage(String id) {
+    public CommonVO deleteExchangmanage(String[] ids) {
         CommonVO vo = new CommonVO();
-        if (StringUtils.isBlank(id)) {
+        if (ArrayUtils.isEmpty(ids)) {
             vo.setSuccess(false);
             vo.setMsg("at least one param is null");
             return vo;
         }
-        exchangeManageService.deleteExchangeManage(id);
+        exchangeManageService.deleteExchangeManage(ids);
         vo.setSuccess(true);
         vo.setMsg("delete success");
         return vo;

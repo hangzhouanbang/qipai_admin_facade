@@ -24,8 +24,8 @@ public class ExchangeManageService {
         exchangeManageDao.addExchangeManage(exchangeManage);
     }
 
-    public void deleteExchangeManage(String id) {
-        exchangeManageDao.deleteExchangeManage(id);
+    public void deleteExchangeManage(String[] ids) {
+        exchangeManageDao.deleteExchangeManage(ids);
     }
 
     public void updateExchangeManage(ExchangeManage exchangeManage) {
