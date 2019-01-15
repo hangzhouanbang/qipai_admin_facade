@@ -1,5 +1,11 @@
 package com.anbang.qipai.admin.plan.bean.members;
 
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
+@CompoundIndexes({ @CompoundIndex(name = "loginTime", def = "{'loginTime': 1}") })
 public class MemberLoginRecord {
 	private String id;
 	private String memberId;// 会员id
