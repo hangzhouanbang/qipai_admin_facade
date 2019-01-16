@@ -33,9 +33,6 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 		if (order.getId() != null && !"".equals(order.getId())) {
 			query.addCriteria(Criteria.where("id").is(order.getId()));
 		}
-		if (order.getPayerName() != null && !"".equals(order.getPayerName())) {
-			query.addCriteria(Criteria.where("payerName").is(order.getPayerName()));
-		}
 		if (order.getPay_type() != null && !"".equals(order.getPay_type())) {
 			query.addCriteria(Criteria.where("pay_type").is(order.getPay_type()));
 		}
