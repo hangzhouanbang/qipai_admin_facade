@@ -1,7 +1,12 @@
 package com.anbang.qipai.admin.plan.service.tasksservice;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.anbang.qipai.admin.plan.bean.tasks.RewardType;
+import com.anbang.qipai.admin.plan.bean.tasks.TaskDocumentHistoryState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,7 +25,26 @@ public class TaskDocumentHistoryService {
 	public ListPage queryTaskDocumentHistory(int page, int size, Sort sort, TaskDocumentHistory task) {
 		long amount = taskDocumentHistoryDao.getAmount(task);
 		List<TaskDocumentHistory> taskList = taskDocumentHistoryDao.findTaskDocumentHistory(page, size, sort, task);
-		ListPage listPage = new ListPage(taskList, page, size, (int) amount);
+		List<Map> data = new ArrayList<>();
+		for (TaskDocumentHistory list : taskList) {
+			Map map = new HashMap();
+			map.put("id", list.getId());
+			map.put("taskDocId", list.getTaskDocId());
+			map.put("name", list.getName());
+			map.put("desc", list.getDesc());
+			map.put("type", list.getType());
+			map.put("taskName", list.getTaskName());
+			map.put("rewardType", RewardType.toMap().get(list.getRewardType().name()));
+			map.put("rewardNum", list.getRewardNum());
+			map.put("vip", list.getVip());
+			map.put("targetNum", list.getTargetNum());
+			map.put("limitTime", list.getLimitTime());
+			map.put("taskType", list.getTaskType());
+			map.put("state", list.getState());
+			map.put("promulgator", list.getPromulgator());
+			data.add(map);
+		}
+		ListPage listPage = new ListPage(data, page, size, (int) amount);
 		return listPage;
 	}
 
@@ -28,8 +52,8 @@ public class TaskDocumentHistoryService {
 		taskDocumentHistoryDao.addTaskDocumentHistory(task);
 	}
 
-	public void withdrawTaskDocumentHistory(String taskId, String state) {
-		taskDocumentHistoryDao.updateTaskState(taskId, state);
+	public void withdrawTaskDocumentHistory(String[] taskIds) {
+		taskDocumentHistoryDao.updateTaskState(taskIds, TaskDocumentHistoryState.STOP);
 	}
 
 	public TaskDocumentHistory releaseTaskDocumentHistory(TaskDocument taskDoc, TaskDocumentHistory task) {

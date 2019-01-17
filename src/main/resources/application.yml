@@ -309,6 +309,27 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        hongbaodianProduct:
+          destination: hongbaodianProduct
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        hongbaodianOrder:
+          destination: hongbaodianOrder
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        finishTasks:
+          destination: finishTasks
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
   application:
     name: qipai-admin-facade
 server:

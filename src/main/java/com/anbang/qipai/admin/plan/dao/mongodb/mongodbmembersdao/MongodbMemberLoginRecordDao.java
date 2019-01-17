@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.plan.dao.mongodb.mongodbmembersdao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -110,6 +111,24 @@ public class MongodbMemberLoginRecordDao implements MemberLoginRecordDao {
 		} catch (Exception e) {
 			return 0;
 		}
+	}
+
+	@Override
+	public List<MemberLoginRecord> findMemberLoginRecords(String loginIp, String memberId) {
+		Query query = new Query();
+		if (StringUtils.isNotBlank(loginIp)) {
+			query.addCriteria(Criteria.where("loginIp").is(loginIp));
+		}
+		if (StringUtils.isNotBlank(memberId)) {
+			query.addCriteria(Criteria.where("memberId").is(memberId));
+		}
+		return mongoTemplate.find(query, MemberLoginRecord.class);
+	}
+
+	@Override
+	public List<MemberLoginRecord> findMemberLoginRecordByMemberIds(String[] memberIds) {
+		Query query = new Query(Criteria.where("memberId").in(memberIds));
+		return mongoTemplate.find(query,MemberLoginRecord.class);
 	}
 
 }

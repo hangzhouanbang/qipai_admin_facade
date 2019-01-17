@@ -1,20 +1,20 @@
 package com.anbang.qipai.admin.plan.dao.tasksdao;
 
-import com.anbang.qipai.admin.plan.bean.tasks.ExchangeManage;
+import com.anbang.qipai.admin.plan.bean.tasks.HongbaodianProduct;
 
 import java.util.List;
 
 public interface ExchangeManageDao {
 
-    void addExchangeManage(ExchangeManage exchangeManage);
+    void addExchangeManage(HongbaodianProduct hongbaodianProduct);
 
-    void updateExchangeManage(ExchangeManage exchangeManage);
+    void updateExchangeManage(HongbaodianProduct hongbaodianProduct);
 
     void deleteExchangeManage(String[] ids);
 
-    ExchangeManage getExchangeManage(String id);
+    HongbaodianProduct getExchangeManage(String id);
 
     long countExchangeMange();
 
-    List<ExchangeManage> getExchangeManages(int page, int size);
+    List<HongbaodianProduct> getExchangeManages(int page, int size);
 }

@@ -8,6 +8,8 @@ import java.util.List;
 public interface ExchangeRecordDao {
     void addExchangeRecord (ExchangeRecord exchangeRecord);
 
+    void updateExchangeRecord (ExchangeRecord exchangeRecord);
+
     long countExchangeRecord(TaskCommonQuery taskCommonQuery);
 
     List<ExchangeRecord> getExchangeRecords(int page, int size, TaskCommonQuery taskCommonQuery);

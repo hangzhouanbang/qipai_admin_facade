@@ -2,6 +2,7 @@ package com.anbang.qipai.admin.plan.dao.mongodb.mongotaskdao;
 
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.tasks.TaskDocumentHistoryState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -31,7 +32,7 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 		if (task.getType() != null && !"".equals(task.getType())) {
 			query.addCriteria(Criteria.where("type").is(task.getType()));
 		}
-		if ("true".equals(task.getVip()) || "false".equals(task.getVip())) {
+		if (task.getVip() != null) {
 			query.addCriteria(Criteria.where("vip").is(task.getVip()));
 		}
 		query.addCriteria(Criteria.where("state").is("START"));
@@ -53,7 +54,7 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 		if (task.getType() != null && !"".equals(task.getType())) {
 			query.addCriteria(Criteria.where("type").is(task.getType()));
 		}
-		if ("true".equals(task.getVip()) || "false".equals(task.getVip())) {
+		if (task.getVip() != null) {
 			query.addCriteria(Criteria.where("vip").is(task.getVip()));
 		}
 		query.addCriteria(Criteria.where("state").is("START"));
@@ -66,11 +67,12 @@ public class MongodbTaskDocumentHistoryDao implements TaskDocumentHistoryDao {
 	}
 
 	@Override
-	public void updateTaskState(String taskId, String state) {
-		Query query = new Query(Criteria.where("id").is(taskId));
+	public void updateTaskState(String[] taskIds, TaskDocumentHistoryState state) {
+		Object[] ids = taskIds;
+		Query query = new Query(Criteria.where("id").in(ids));
 		Update update = new Update();
 		update.set("state", state);
-		mongoTemplate.updateFirst(query, update, TaskDocumentHistory.class);
+		mongoTemplate.updateMulti(query, update, TaskDocumentHistory.class);
 	}
 
 }

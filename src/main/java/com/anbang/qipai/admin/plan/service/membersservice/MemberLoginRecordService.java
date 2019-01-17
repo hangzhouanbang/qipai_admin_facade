@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberLoginRecordDao;
 
+import java.util.List;
+
 @Service
 public class MemberLoginRecordService {
 
@@ -30,5 +32,13 @@ public class MemberLoginRecordService {
 
 	public int countRemainMemberByDeviationTime(long deviation) {
 		return memberLoginRecordDao.countRemainMemberByDeviationTime(deviation);
+	}
+
+	public List<MemberLoginRecord> findMemberLoginRecords(String loginIp, String memberId) {
+		return memberLoginRecordDao.findMemberLoginRecords(loginIp, memberId);
+	}
+
+	public List<MemberLoginRecord> findMemberLoginRecordByMemberIds(String[] memberIds) {
+		return memberLoginRecordDao.findMemberLoginRecordByMemberIds(memberIds);
 	}
 }

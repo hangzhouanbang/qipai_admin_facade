@@ -2,6 +2,8 @@ package com.anbang.qipai.admin.plan.dao.membersdao;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
 
+import java.util.List;
+
 public interface MemberLoginRecordDao {
 
 	void save(MemberLoginRecord record);
@@ -13,4 +15,8 @@ public interface MemberLoginRecordDao {
 	int countRemainMemberByDeviationTime(long deviation);
 
 	MemberLoginRecord findRecentRecordByMemberId(String memberId);
+
+	List<MemberLoginRecord> findMemberLoginRecords(String loginIp, String memberId);
+
+	List<MemberLoginRecord> findMemberLoginRecordByMemberIds(String[] memberIds);
 }

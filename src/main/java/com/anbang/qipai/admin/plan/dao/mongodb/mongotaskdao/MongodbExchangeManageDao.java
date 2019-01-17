@@ -1,6 +1,6 @@
 package com.anbang.qipai.admin.plan.dao.mongodb.mongotaskdao;
 
-import com.anbang.qipai.admin.plan.bean.tasks.ExchangeManage;
+import com.anbang.qipai.admin.plan.bean.tasks.HongbaodianProduct;
 import com.anbang.qipai.admin.plan.dao.tasksdao.ExchangeManageDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,44 +22,44 @@ public class MongodbExchangeManageDao implements ExchangeManageDao {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public void addExchangeManage(ExchangeManage exchangeManage) {
-        mongoTemplate.insert(exchangeManage);
+    public void addExchangeManage(HongbaodianProduct hongbaodianProduct) {
+        mongoTemplate.insert(hongbaodianProduct);
     }
 
     @Override
-    public void updateExchangeManage(ExchangeManage exchangeManage) {
-        Query query = new Query(Criteria.where("id").is(exchangeManage.getId()));
+    public void updateExchangeManage(HongbaodianProduct hongbaodianProduct) {
+        Query query = new Query(Criteria.where("id").is(hongbaodianProduct.getId()));
         Update update = new Update();
-        update.set("exchangeType", exchangeManage.getExchangeType());
-        update.set("exchangeCount", exchangeManage.getExchangeCount());
-        update.set("exchangeConsumption", exchangeManage.getExchangeConsumption());
-        update.set("itemName", exchangeManage.getItemName());
-        mongoTemplate.updateFirst(query, update, ExchangeManage.class);
+        update.set("name", hongbaodianProduct.getName());
+        update.set("price", hongbaodianProduct.getPrice());
+        update.set("rewardNum", hongbaodianProduct.getRewardNum());
+        update.set("rewardType", hongbaodianProduct.getRewardType());
+        mongoTemplate.updateFirst(query, update, HongbaodianProduct.class);
     }
 
     @Override
     public void deleteExchangeManage(String[] ids) {
         Query query = new Query(Criteria.where("id").in(ids));
-        mongoTemplate.remove(query, ExchangeManage.class);
+        mongoTemplate.remove(query, HongbaodianProduct.class);
     }
 
     @Override
-    public ExchangeManage getExchangeManage(String id) {
+    public HongbaodianProduct getExchangeManage(String id) {
         Query query = new Query(Criteria.where("id").is(id));
-        return mongoTemplate.findOne(query, ExchangeManage.class);
+        return mongoTemplate.findOne(query, HongbaodianProduct.class);
     }
 
     @Override
     public long countExchangeMange() {
         Query query = new Query();
-        return mongoTemplate.count(query, ExchangeManage.class);
+        return mongoTemplate.count(query, HongbaodianProduct.class);
     }
 
     @Override
-    public List<ExchangeManage> getExchangeManages(int page, int size) {
+    public List<HongbaodianProduct> getExchangeManages(int page, int size) {
         Query query = new Query();
         query.skip((page - 1) * size);
         query.limit(size);
-        return mongoTemplate.find(query, ExchangeManage.class);
+        return mongoTemplate.find(query, HongbaodianProduct.class);
     }
 }

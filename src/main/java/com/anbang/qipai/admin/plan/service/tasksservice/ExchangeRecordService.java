@@ -23,6 +23,10 @@ public class ExchangeRecordService {
         exchangeRecordDao.addExchangeRecord(exchangeRecord);
     }
 
+    public void updateExchangeRecord(ExchangeRecord exchangeRecord) {
+        exchangeRecordDao.updateExchangeRecord(exchangeRecord);
+    }
+
     public ListPage getExchangeRecords(int page, int size, TaskCommonQuery taskCommonQuery) {
         long count = exchangeRecordDao.countExchangeRecord(taskCommonQuery);
         List<ExchangeRecord> exchangeRecords = exchangeRecordDao.getExchangeRecords(page, size, taskCommonQuery);

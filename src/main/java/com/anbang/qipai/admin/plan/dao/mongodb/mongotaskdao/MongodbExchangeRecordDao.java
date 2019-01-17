@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,6 +27,22 @@ public class MongodbExchangeRecordDao implements ExchangeRecordDao {
     @Override
     public void addExchangeRecord(ExchangeRecord exchangeRecord) {
         mongoTemplate.insert(exchangeRecord);
+    }
+
+    @Override
+    public void updateExchangeRecord(ExchangeRecord exchangeRecord) {
+        Query query = new Query(Criteria.where("id").is(exchangeRecord.getId()));
+        Update update = new Update();
+        update.set("id",exchangeRecord.getId());
+        update.set("type",exchangeRecord.getExchangeType());
+        update.set("nickName",exchangeRecord.getNickName());
+        update.set("playerId",exchangeRecord.getPlayerId());
+        update.set("loginIP",exchangeRecord.getLoginIP());
+        update.set("exchangeTime",exchangeRecord.getExchangeTime());
+        update.set("exchangeType",exchangeRecord.getExchangeType());
+        update.set("exchangeAmount",exchangeRecord.getExchangeAmount());
+        update.set("itemName",exchangeRecord.getItemName());
+        mongoTemplate.updateFirst(query,update,ExchangeRecord.class);
     }
 
     @Override

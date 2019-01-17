@@ -1,10 +1,9 @@
 package com.anbang.qipai.admin.web.controller;
 
-import com.anbang.qipai.admin.constant.ExchangeType;
 import com.anbang.qipai.admin.plan.bean.tasks.*;
 import com.anbang.qipai.admin.plan.service.tasksservice.*;
+import com.anbang.qipai.admin.remote.service.QipaiHongBaoRemoteService;
 import com.anbang.qipai.admin.web.query.TaskCommonQuery;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +57,12 @@ public class TaskController {
 
     @Autowired
     private ExchangeRecordService exchangeRecordService;
+
+    @Autowired
+    private QipaiHongBaoRemoteService qipaiHongBaoRemoteService;
+
+    @Autowired
+    private WhiteListService whiteListService;
 
     /**
      * 查询任务种类、类型
@@ -214,7 +219,7 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
-    public CommonVO withdrawTask(String taskId) {
+    public CommonVO withdrawTask(String[] taskId) {
         CommonVO vo = new CommonVO();
         CommonRemoteVO rvo = qipaiTasksRemoteService.taskdocument_withdraw(taskId);
         vo.setSuccess(rvo.isSuccess());
@@ -251,30 +256,38 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/add_exchangmanage", method = RequestMethod.POST)
-    public CommonVO addExchangmanage(ExchangeManage exchangeManage) {
+    public CommonVO addExchangmanage(HongbaodianProduct hongbaodianProduct) {
         CommonVO vo = new CommonVO();
-        if (StringUtils.isBlank(exchangeManage.getExchangeType()) || StringUtils.isBlank(exchangeManage.getExchangeConsumption())
-                || StringUtils.isBlank(exchangeManage.getItemName()) || exchangeManage.getExchangeCount() == null) {
+        if (StringUtils.isBlank(hongbaodianProduct.getName())) {
             vo.setSuccess(false);
             vo.setMsg("at least one param is null");
             return vo;
         }
-        exchangeManageService.addExchangeManage(exchangeManage);
+        CommonRemoteVO remoteVO = qipaiHongBaoRemoteService.add_product(hongbaodianProduct);
+        if (remoteVO.isSuccess() == false) {
+            vo.setSuccess(false);
+            vo.setMsg("add exchangmanage fail");
+            return vo;
+        }
         vo.setSuccess(true);
         vo.setMsg("add success");
         return vo;
     }
 
     @RequestMapping(value = "/update_exchangmanage", method = RequestMethod.POST)
-    public CommonVO updateExchangmanage(ExchangeManage exchangeManage) {
+    public CommonVO updateExchangmanage(HongbaodianProduct hongbaodianProduct) {
         CommonVO vo = new CommonVO();
-        if (StringUtils.isBlank(exchangeManage.getExchangeType()) || StringUtils.isBlank(exchangeManage.getExchangeConsumption())
-                || StringUtils.isBlank(exchangeManage.getItemName()) || exchangeManage.getExchangeCount() == null) {
+        if (StringUtils.isBlank(hongbaodianProduct.getName())) {
             vo.setSuccess(false);
             vo.setMsg("at least one param is null");
             return vo;
         }
-        exchangeManageService.updateExchangeManage(exchangeManage);
+        CommonRemoteVO remoteVO = qipaiHongBaoRemoteService.update_product(hongbaodianProduct);
+        if (remoteVO.isSuccess() == false) {
+            vo.setSuccess(false);
+            vo.setMsg("update exchangmanage fail ");
+            return vo;
+        }
         vo.setSuccess(true);
         vo.setMsg("update success");
         return vo;
@@ -288,7 +301,12 @@ public class TaskController {
             vo.setMsg("at least one param is null");
             return vo;
         }
-        exchangeManageService.deleteExchangeManage(ids);
+        CommonRemoteVO remoteVO = qipaiHongBaoRemoteService.remove_product_by_id(ids);
+        if (remoteVO.isSuccess() == false) {
+            vo.setSuccess(false);
+            vo.setMsg("remove exchangmanage fail ");
+            return vo;
+        }
         vo.setSuccess(true);
         vo.setMsg("delete success");
         return vo;
@@ -302,10 +320,10 @@ public class TaskController {
             vo.setMsg("at least one param is null");
             return vo;
         }
-        ExchangeManage exchangeManage = exchangeManageService.getExchangeManage(id);
+        HongbaodianProduct hongbaodianProduct = exchangeManageService.getExchangeManage(id);
         vo.setSuccess(true);
         vo.setMsg("get success");
-        vo.setData(exchangeManage);
+        vo.setData(hongbaodianProduct);
         return vo;
     }
 
@@ -320,14 +338,63 @@ public class TaskController {
         return vo;
     }
 
-
     @RequestMapping(value = "/query_exchangetype", method = RequestMethod.POST)
     public CommonVO queryExchangeType() {
-        CommonVO vo = new CommonVO() {{
-            setSuccess(true);
-            setMsg("query exchangeType success");
-            setData(ExchangeType.exchangeTypeList);
-        }};
+        CommonVO vo = new CommonVO();
+        vo.setSuccess(true);
+        vo.setMsg("query exchangeType success");
+        vo.setData(RewardType.toMap());
+        return vo;
+    }
+
+    /**
+     * 白名单管理查询
+     */
+    @RequestMapping(value = "/query_whitelist", method = RequestMethod.POST)
+    public CommonVO queryWhiteList(@RequestParam(value = "page", defaultValue = "1") int page,
+                                   @RequestParam(value = "size", defaultValue = "20") int size,
+                                   String playerId,
+                                   String loginIp) {
+        CommonVO vo = new CommonVO();
+        ListPage listPage = whiteListService.findWhiteLists(page, size, playerId, loginIp);
+        vo.setSuccess(true);
+        vo.setMsg("query exchangeManage success");
+        vo.setData(listPage);
+        return vo;
+    }
+
+    @RequestMapping(value = "/add_whitelist", method = RequestMethod.POST)
+    public CommonVO addWhiteList(@RequestParam(value = "page", defaultValue = "1") int page,
+                                 @RequestParam(value = "size", defaultValue = "20") int size,
+                                 WhiteList whiteList,
+                                 String token) {
+        CommonVO vo = new CommonVO();
+        if (StringUtils.isBlank(whiteList.getPlayerId())) {
+            vo.setSuccess(false);
+            vo.setMsg("at least one param is null");
+            return vo;
+        }
+        String adminId = adminAuthService.getAdminIdBySessionId(token);
+        if (adminId == null) {
+            vo.setSuccess(false);
+            return vo;
+        }
+        Admin admin = adminService.findAdminById(adminId);
+        whiteList.setOperator(admin.getNickname());
+        whiteListService.addWhiteList(whiteList);
+        vo.setSuccess(true);
+        vo.setMsg("add whitelist success");
+        return vo;
+    }
+
+    @RequestMapping(value = "/delete_whitelist", method = RequestMethod.POST)
+    public CommonVO deleteWhiteList(@RequestParam(value = "page", defaultValue = "1") int page,
+                                    @RequestParam(value = "size", defaultValue = "20") int size,
+                                    String[] ids) {
+        CommonVO vo = new CommonVO();
+        whiteListService.deleteWhiteList(ids);
+        vo.setSuccess(true);
+        vo.setMsg("delete whitelist success");
         return vo;
     }
 
