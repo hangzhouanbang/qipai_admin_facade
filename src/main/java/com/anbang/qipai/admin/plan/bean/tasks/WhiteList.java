@@ -5,10 +5,19 @@ package com.anbang.qipai.admin.plan.bean.tasks;
  * @Description: 白名单
  */
 public class WhiteList {
+    private String id;
     private String playerId;
     private long addTime;
     private String remark;
     private String operator;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getPlayerId() {
         return playerId;
