@@ -7,6 +7,8 @@ public class Constants {
 
     public static final String DEFAULTGAMETYPE = "三财神茶苑";
 
+    public static final long DAY_MESC = 24 * 60 * 60 * 1000;
+
     // 默认页数
     public static class PageSetup {
         public static final int DEFAULT_PAGE = 1;

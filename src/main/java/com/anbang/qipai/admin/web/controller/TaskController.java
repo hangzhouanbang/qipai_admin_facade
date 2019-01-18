@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
+import com.anbang.qipai.admin.constant.Constants;
 import com.anbang.qipai.admin.plan.bean.tasks.*;
 import com.anbang.qipai.admin.plan.service.tasksservice.*;
 import com.anbang.qipai.admin.remote.service.QipaiHongBaoRemoteService;
@@ -207,6 +208,7 @@ public class TaskController {
             return vo;
         }
         TaskDocumentHistory taskHistory = taskDocumentHistoryService.releaseTaskDocumentHistory(taskDoc, task);
+        taskHistory.setLimitTime(taskHistory.getLimitTime() * Constants.DAY_MESC);
         CommonRemoteVO rvo = qipaiTasksRemoteService.taskdocument_release(taskHistory);
         vo.setSuccess(rvo.isSuccess());
         return vo;
@@ -381,7 +383,13 @@ public class TaskController {
         }
         Admin admin = adminService.findAdminById(adminId);
         whiteList.setOperator(admin.getNickname());
-        whiteListService.addWhiteList(whiteList);
+
+        CommonRemoteVO remoteVO = qipaiHongBaoRemoteService.addWhiteList(whiteList);
+        if (remoteVO.isSuccess() == false) {
+            vo.setSuccess(false);
+            vo.setMsg("add whitelist fail");
+            return vo;
+        }
         vo.setSuccess(true);
         vo.setMsg("add whitelist success");
         return vo;
@@ -392,7 +400,12 @@ public class TaskController {
                                     @RequestParam(value = "size", defaultValue = "20") int size,
                                     String[] ids) {
         CommonVO vo = new CommonVO();
-        whiteListService.deleteWhiteList(ids);
+        CommonRemoteVO remoteVO = qipaiHongBaoRemoteService.removeWhiteListById(ids);
+        if (remoteVO.isSuccess() == false) {
+            vo.setSuccess(false);
+            vo.setMsg("add whitelist fail");
+            return vo;
+        }
         vo.setSuccess(true);
         vo.setMsg("delete whitelist success");
         return vo;
