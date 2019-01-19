@@ -42,6 +42,7 @@ public class TaskDocumentHistoryService {
 			map.put("taskType", list.getTaskType());
 			map.put("state", list.getState());
 			map.put("promulgator", list.getPromulgator());
+			map.put("weight", list.getWeight());
 			data.add(map);
 		}
 		ListPage listPage = new ListPage(data, page, size, (int) amount);

@@ -11,6 +11,9 @@ public class WhiteList {
     private String remark;
     private String operator;
 
+    private String nickname;// 玩家昵称
+    private String loginIP;// 登陆IP
+
     public String getId() {
         return id;
     }
@@ -49,5 +52,21 @@ public class WhiteList {
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getLoginIP() {
+        return loginIP;
+    }
+
+    public void setLoginIP(String loginIP) {
+        this.loginIP = loginIP;
     }
 }

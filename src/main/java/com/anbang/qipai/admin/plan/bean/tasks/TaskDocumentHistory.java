@@ -16,6 +16,7 @@ public class TaskDocumentHistory {
 	private TaskDocumentHistoryState state;// 状态:发布，停用
 	private long releaseTime;// 发布时间
 	private String promulgator;// 发布者
+	private int weight;  //权重
 
 	public String getId() {
 		return id;
@@ -137,4 +138,11 @@ public class TaskDocumentHistory {
 		this.promulgator = promulgator;
 	}
 
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
 }
