@@ -63,7 +63,7 @@ public class MongodbTaskReceiveRecordDao implements TaskReceiveRecordDao {
                 query.addCriteria(Criteria.where("loginIP").is(taskCommonQuery.getLoginIP()));
             }
             if (taskCommonQuery.getStartTime() != null || taskCommonQuery.getEndTime() != null) {
-                Criteria criteria = Criteria.where("exchangeTime");
+                Criteria criteria = Criteria.where("receiveTime");
                 if (taskCommonQuery.getStartTime() != null) {
                     criteria = criteria.gte(taskCommonQuery.getStartTime());
                 }
