@@ -91,50 +91,27 @@ public class MemberOrderController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/download", method = RequestMethod.GET)
-	public CommonVO downLoad(MemberOrderVO order, HttpServletResponse response) {
-		CommonVO vo = new CommonVO();
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-		Date date = new Date();
-		String fileName = format.format(date) + "order.xlsx";
-		response.reset();
-		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-		response.setContentType("application/msexcel");
-		try {
-			OutputStream output = response.getOutputStream();
-			orderService.exportOrder(order, output);
-			output.close();
-		} catch (IOException e) {
-			vo.setSuccess(false);
-			vo.setMsg("IOException");
-		}
-		vo.setSuccess(true);
-		vo.setMsg("orderList");
-		return vo;
-	}
-
-	@RequestMapping(value = "/rechargedownload", method = RequestMethod.GET)
-	public CommonVO rechargeDownLoad(MemberOrderVO order, HttpServletResponse response) {
-		CommonVO vo = new CommonVO();
-		order.setStatus("PAYSUCCESS");
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-		Date date = new Date();
-		String fileName = format.format(date) + "order.xlsx";
-		response.reset();
-		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-		response.setContentType("application/msexcel");
-		try {
-			OutputStream output = response.getOutputStream();
-			orderService.exportOrder(order, output);
-			output.close();
-		} catch (IOException e) {
-			vo.setSuccess(false);
-			vo.setMsg("IOException");
-		}
-		vo.setSuccess(true);
-		vo.setMsg("orderList");
-		return vo;
-	}
+//	@RequestMapping(value = "/download", method = RequestMethod.GET)
+//	public CommonVO downLoad(MemberOrderVO order, HttpServletResponse response) {
+//		CommonVO vo = new CommonVO();
+//		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+//		Date date = new Date();
+//		String fileName = format.format(date) + "order.xlsx";
+//		response.reset();
+//		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+//		response.setContentType("application/msexcel");
+//		try {
+//			OutputStream output = response.getOutputStream();
+//			orderService.exportOrder(order, output);
+//			output.close();
+//		} catch (IOException e) {
+//			vo.setSuccess(false);
+//			vo.setMsg("IOException");
+//		}
+//		vo.setSuccess(true);
+//		vo.setMsg("orderList");
+//		return vo;
+//	}
 
 	/**
 	 * 代理收益查询
@@ -152,6 +129,31 @@ public class MemberOrderController {
 		vo.setSuccess(true);
 		vo.setMsg("agent reward");
 		vo.setData(data);
+		return vo;
+	}
+
+	/**
+	 * 代理收益excel export
+	 */
+	@RequestMapping(value = "/agentrewardexport", method = RequestMethod.GET)
+	public CommonVO agentRewardExport(AgentRewardRecordDboVO order, HttpServletResponse response) {
+		CommonVO vo = new CommonVO();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		String fileName = format.format(date) + "AgentReward.xlsx";
+		response.reset();
+		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+		response.setContentType("application/msexcel");
+		try {
+			OutputStream output = response.getOutputStream();
+			agentRewardRecordDboService.exportOrder(order, output);
+			output.close();
+		} catch (IOException e) {
+			vo.setSuccess(false);
+			vo.setMsg("IOException");
+		}
+		vo.setSuccess(true);
+		vo.setMsg("orderList");
 		return vo;
 	}
 
@@ -178,6 +180,32 @@ public class MemberOrderController {
     }
 
 	/**
+	 * 代理消费excel export
+	 */
+	@RequestMapping(value = "/agentcostexport", method = RequestMethod.GET)
+	public CommonVO agentCostExport(AgentOrderQuery order, HttpServletResponse response) {
+		CommonVO vo = new CommonVO();
+		order.setStatus("SUCCESS");  //默认查询已支付的记录
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		String fileName = format.format(date) + "Agentcost.xlsx";
+		response.reset();
+		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+		response.setContentType("application/msexcel");
+		try {
+			OutputStream output = response.getOutputStream();
+			agentOrderService.exportOrder(order, output);
+			output.close();
+		} catch (IOException e) {
+			vo.setSuccess(false);
+			vo.setMsg("IOException");
+		}
+		vo.setSuccess(true);
+		vo.setMsg("orderList");
+		return vo;
+	}
+
+	/**
 	 * 查询充值记录
 	 */
 	@RequestMapping(value = "/queryrechargerecord", method = RequestMethod.POST)
@@ -194,6 +222,32 @@ public class MemberOrderController {
 		vo.setSuccess(true);
 		vo.setMsg("orderList");
 		vo.setData(data);
+		return vo;
+	}
+
+	/**
+	 * 充值记录excel export
+	 */
+	@RequestMapping(value = "/rechargedownload", method = RequestMethod.GET)
+	public CommonVO rechargeDownLoad(MemberOrderVO order, HttpServletResponse response) {
+		CommonVO vo = new CommonVO();
+		order.setStatus("PAYSUCCESS");
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		String fileName = format.format(date) + "order.xlsx";
+		response.reset();
+		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+		response.setContentType("application/msexcel");
+		try {
+			OutputStream output = response.getOutputStream();
+			orderService.exportOrder(order, output);
+			output.close();
+		} catch (IOException e) {
+			vo.setSuccess(false);
+			vo.setMsg("IOException");
+		}
+		vo.setSuccess(true);
+		vo.setMsg("orderList");
 		return vo;
 	}
 

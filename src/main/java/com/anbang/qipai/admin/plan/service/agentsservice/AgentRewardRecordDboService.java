@@ -1,10 +1,14 @@
 package com.anbang.qipai.admin.plan.service.agentsservice;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.agents.AgentRewardType;
+import com.anbang.qipai.admin.util.ExcelUtils;
 import com.dml.accounting.TextAccountingSummary;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +60,22 @@ public class AgentRewardRecordDboService {
 		}
 		ListPage listPage = new ListPage(rewardRecordDboVOS, page, size, (int) amount);
 		return listPage;
+	}
+
+	public void exportOrder(AgentRewardRecordDboVO record, OutputStream output) throws IOException {
+		Integer rowid = 0;
+		Integer sheetNum = 1;
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		long amount = agentRewardRecordDboDao.getAmountByConditions(record);
+		int size = 300;
+		long pageNum = amount % size > 0 ? amount / size + 1 : amount / size;
+		for (int page = 1; page <= pageNum; page++) {
+			List<AgentRewardRecordDbo> orderList = agentRewardRecordDboDao.findAgentRewardRecordDboByConditions(page, size,
+					record);
+			ExcelUtils.agentRewardExcel(rowid, sheetNum, orderList, workbook);
+		}
+		workbook.write(output);
+		workbook.close();
 	}
 
 	public ListPage findAgentWithdrawRecordDboByConditions(int page, int size, AgentWithdrawRecordDbo record) {
