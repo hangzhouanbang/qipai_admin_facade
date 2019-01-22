@@ -10,6 +10,8 @@ public class AgentRewardRecordDboVO extends AgentRewardRecordDbo {
 	private Long startTime;
 	private Long endTime;
 
+	private String rewardType;  //返利类型
+
 	public Sort getSort() {
 		Sort sort = new Sort(new Order(Direction.DESC, "accountingTime"));
 		return sort;
@@ -31,4 +33,11 @@ public class AgentRewardRecordDboVO extends AgentRewardRecordDbo {
 		this.endTime = endTime;
 	}
 
+	public String getRewardType() {
+		return rewardType;
+	}
+
+	public void setRewardType(String rewardType) {
+		this.rewardType = rewardType;
+	}
 }

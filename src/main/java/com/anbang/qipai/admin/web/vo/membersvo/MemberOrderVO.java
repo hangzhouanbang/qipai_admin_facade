@@ -21,16 +21,16 @@ public class MemberOrderVO extends MemberOrder {
 
 	public Sort getSort() {
 		List<Order> orderList = new ArrayList<>();
-		if ("ASC".equals(productPriceSort)) {
-			orderList.add(new Order(Direction.ASC, "productPrice"));
-		} else if ("DESC".equals(productPriceSort)) {
-			orderList.add(new Order(Direction.DESC, "productPrice"));
-		}
-		if ("ASC".equals(numberSort)) {
-			orderList.add(new Order(Direction.ASC, "number"));
-		} else if ("DESC".equals(numberSort)) {
-			orderList.add(new Order(Direction.DESC, "number"));
-		}
+//		if ("ASC".equals(productPriceSort)) {
+//			orderList.add(new Order(Direction.ASC, "productPrice"));
+//		} else if ("DESC".equals(productPriceSort)) {
+//			orderList.add(new Order(Direction.DESC, "productPrice"));
+//		}
+//		if ("ASC".equals(numberSort)) {
+//			orderList.add(new Order(Direction.ASC, "number"));
+//		} else if ("DESC".equals(numberSort)) {
+//			orderList.add(new Order(Direction.DESC, "number"));
+//		}
 		if ("ASC".equals(totalamountSort)) {
 			orderList.add(new Order(Direction.ASC, "totalamount"));
 		} else if ("DESC".equals(totalamountSort)) {
@@ -41,16 +41,16 @@ public class MemberOrderVO extends MemberOrder {
 		} else if ("DESC".equals(createTimeSort)) {
 			orderList.add(new Order(Direction.DESC, "createTime"));
 		}
-		if ("ASC".equals(statusSort)) {
-			orderList.add(new Order(Direction.ASC, "status"));
-		} else if ("DESC".equals(statusSort)) {
-			orderList.add(new Order(Direction.DESC, "status"));
-		}
-		if ("ASC".equals(pay_typeSort)) {
-			orderList.add(new Order(Direction.ASC, "pay_type"));
-		} else if ("DESC".equals(pay_typeSort)) {
-			orderList.add(new Order(Direction.DESC, "pay_type"));
-		}
+//		if ("ASC".equals(statusSort)) {
+//			orderList.add(new Order(Direction.ASC, "status"));
+//		} else if ("DESC".equals(statusSort)) {
+//			orderList.add(new Order(Direction.DESC, "status"));
+//		}
+//		if ("ASC".equals(pay_typeSort)) {
+//			orderList.add(new Order(Direction.ASC, "pay_type"));
+//		} else if ("DESC".equals(pay_typeSort)) {
+//			orderList.add(new Order(Direction.DESC, "pay_type"));
+//		}
 		if (!orderList.isEmpty()) {
 			Sort sort = new Sort(orderList);
 			return sort;

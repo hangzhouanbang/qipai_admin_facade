@@ -1,7 +1,11 @@
 package com.anbang.qipai.admin.plan.service.agentsservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentRewardType;
+import com.dml.accounting.TextAccountingSummary;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +46,15 @@ public class AgentRewardRecordDboService {
 		long amount = agentRewardRecordDboDao.getAmountByConditions(record);
 		List<AgentRewardRecordDbo> recordList = agentRewardRecordDboDao.findAgentRewardRecordDboByConditions(page, size,
 				record);
-		ListPage listPage = new ListPage(recordList, page, size, (int) amount);
+		List<AgentRewardRecordDboVO> rewardRecordDboVOS = new ArrayList<>();
+		for (AgentRewardRecordDbo list : recordList) {
+			AgentRewardRecordDboVO vo = new AgentRewardRecordDboVO();
+			TextAccountingSummary summary = (TextAccountingSummary) list.getSummary();
+			BeanUtils.copyProperties(list, vo);
+			vo.setRewardType(AgentRewardType.getRewardType(summary.getText()));
+			rewardRecordDboVOS.add(vo);
+		}
+		ListPage listPage = new ListPage(rewardRecordDboVOS, page, size, (int) amount);
 		return listPage;
 	}
 
@@ -67,4 +79,9 @@ public class AgentRewardRecordDboService {
 	public void agentRewardApplyRefuse(String id, String state, String desc) {
 		agentWithdrawRecordDboDao.updateAgentWithdrawRecordDboDescAndState(id, state, desc);
 	}
+
+	public double findAmountByConditions(AgentRewardRecordDboVO record) {
+		return agentRewardRecordDboDao.findAmountByConditions(record);
+	}
+
 }

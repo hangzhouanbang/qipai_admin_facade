@@ -11,4 +11,6 @@ public interface AgentRewardRecordDboDao {
 	long getAmountByConditions(AgentRewardRecordDboVO record);
 
 	List<AgentRewardRecordDbo> findAgentRewardRecordDboByConditions(int page, int size, AgentRewardRecordDboVO record);
+
+	double findAmountByConditions(AgentRewardRecordDboVO record);
 }

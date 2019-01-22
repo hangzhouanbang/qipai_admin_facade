@@ -9,6 +9,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.anbang.qipai.admin.plan.bean.agents.AgentOrder;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentOrderService;
+import com.anbang.qipai.admin.plan.service.agentsservice.AgentRewardRecordDboService;
+import com.anbang.qipai.admin.web.query.AgentOrderQuery;
+import com.anbang.qipai.admin.web.vo.agentsvo.AdminMappingVO;
+import com.anbang.qipai.admin.web.vo.agentsvo.AgentRewardRecordDboVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +28,7 @@ import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderVO;
 import com.highto.framework.web.page.ListPage;
 
 /**
- * 充值记录controller
+ * 财务系统>代理消费、收益记录controller
  * 
  * @author 林少聪 2018.7.9
  *
@@ -34,14 +40,16 @@ public class MemberOrderController {
 	@Autowired
 	private MemberOrderService orderService;
 
+	@Autowired
+	private AgentRewardRecordDboService agentRewardRecordDboService;
+
+	@Autowired
+	private AgentOrderService agentOrderService;
+
 	/**
-	 * 查询充值记录
-	 * 
-	 * @param page
-	 * @param size
-	 * @param order
-	 * @return
+	 * 原订单管理
 	 */
+	@Deprecated
 	@RequestMapping(value = "/queryorder", method = RequestMethod.POST)
 	public CommonVO queryOrder(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, MemberOrderVO order) {
@@ -63,6 +71,10 @@ public class MemberOrderController {
 		return vo;
 	}
 
+	/**
+	 * 原充值记录
+	 */
+	@Deprecated
 	@RequestMapping(value = "/queryrecharge", method = RequestMethod.POST)
 	public CommonVO queryCharge(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "size", defaultValue = "10") Integer size, MemberOrderVO order) {
@@ -123,4 +135,80 @@ public class MemberOrderController {
 		vo.setMsg("orderList");
 		return vo;
 	}
+
+	/**
+	 * 代理收益查询
+	 */
+	@RequestMapping(value = "/queryagentreward", method = RequestMethod.POST)
+	public CommonVO queryAgentReward(@RequestParam(defaultValue = "1") int page,
+									 @RequestParam(defaultValue = "50") int size, AgentRewardRecordDboVO record) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		ListPage listPage = agentRewardRecordDboService.findAgentRewardRecordDboByConditions(page, size, record);
+		data.put("listPage", listPage);
+		double totalReword = agentRewardRecordDboService.findAmountByConditions(record);
+		data.put("totalReward", totalReword);
+		data.put("totalOrder", listPage.getTotalItemsCount());
+		vo.setSuccess(true);
+		vo.setMsg("agent reward");
+		vo.setData(data);
+		return vo;
+	}
+
+    /**
+     * 代理消费查询
+     */
+    @RequestMapping(value = "/queryagentcost", method = RequestMethod.POST)
+    public CommonVO queryAgentCost(@RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "50") int size, AgentOrderQuery agentOrder) {
+        CommonVO vo = new CommonVO();
+        Map data = new HashMap<>();
+
+        agentOrder.setStatus("SUCCESS");  //默认查询已支付的记录
+
+        ListPage listPage = agentOrderService.findAgentOrderByBean(page, size, agentOrder);
+        data.put("listPage", listPage);
+        double totalReword = agentOrderService.findAmountByBean(agentOrder);
+        data.put("totalReward", totalReword);
+        data.put("totalOrder", listPage.getTotalItemsCount());
+        vo.setSuccess(true);
+        vo.setMsg("queryAgentCost success");
+        vo.setData(data);
+        return vo;
+    }
+
+	/**
+	 * 查询充值记录
+	 */
+	@RequestMapping(value = "/queryrechargerecord", method = RequestMethod.POST)
+	public CommonVO queryReChargeRecord(@RequestParam(value = "page", defaultValue = "1") Integer page,
+								@RequestParam(value = "size", defaultValue = "50") Integer size, MemberOrderVO order) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		order.setStatus("PAYSUCCESS");
+		ListPage listPage = orderService.findOrderByConditions(page, size, order);
+		data.put("listPage", listPage);
+		double totalCost = orderService.countPayCostByConditions(order);
+		data.put("totalCost", totalCost);
+		data.put("totalRecord", listPage.getTotalItemsCount());
+		vo.setSuccess(true);
+		vo.setMsg("orderList");
+		vo.setData(data);
+		return vo;
+	}
+
+	/**
+	 * 枚举显示映射
+	 */
+	@RequestMapping(value = "/adminmapping")
+	public CommonVO adminMapping() {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		data.put("agentPayType", AdminMappingVO.agentPayType);
+		vo.setSuccess(true);
+		vo.setMsg("success");
+		vo.setData(data);
+		return vo;
+	}
+
 }

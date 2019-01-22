@@ -22,7 +22,7 @@ public class AgentRewardRecordDbo {
 
 	private double totalamount;// 总消费
 
-	private double seniorReward;// 上级收益
+	private double seniorReward;// 推广员收益
 
 	private String accountId;
 
