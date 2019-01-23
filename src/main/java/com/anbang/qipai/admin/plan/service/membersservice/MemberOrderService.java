@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import com.anbang.qipai.admin.util.TimeUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class MemberOrderService {
 	private MemberOrderDao orderDao;
 
 	public void addOrder(MemberOrder order) {
+		order.setOrderMonth(TimeUtil.getNowMonth(order.getCreateTime()));
 		orderDao.addOrder(order);
 	}
 
@@ -88,5 +90,9 @@ public class MemberOrderService {
 
 	public int countProductNumByTimeAndProduct(String productName, long startTime, long endTime) {
 		return orderDao.countProductNumByTimeAndProduct(productName, startTime, endTime);
+	}
+
+	public double sumField(MemberOrderVO memberOrderVO, String field) {
+		return orderDao.sumField(memberOrderVO, field);
 	}
 }

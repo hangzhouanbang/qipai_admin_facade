@@ -1,6 +1,7 @@
 package com.anbang.qipai.admin.plan.service.agentsservice;
 
 import com.anbang.qipai.admin.util.ExcelUtils;
+import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.query.AgentOrderQuery;
 import com.anbang.qipai.admin.web.vo.agentsvo.AgentPayType;
 import com.highto.framework.web.page.ListPage;
@@ -23,6 +24,7 @@ public class AgentOrderService {
 	private AgentOrderDao orderDao;
 
 	public void addOrder(AgentOrder order) {
+		order.setOrderMonth(TimeUtil.getNowMonth(order.getCreateTime()));
 		orderDao.addOrder(order);
 	}
 	
@@ -59,6 +61,11 @@ public class AgentOrderService {
 		workbook.write(output);
 		workbook.close();
 	}
+
+	public double sumField(AgentOrderQuery agentOrderQuery, String field) {
+		return orderDao.sumField(agentOrderQuery, field);
+	}
+
 
 	//显示转换
 	public static String conversion(String productName, int number) {

@@ -2,6 +2,7 @@ package com.anbang.qipai.admin.plan.dao.mongodb.mongodbagentsdao;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -82,9 +83,14 @@ public class MongodbAgentClubCardRecordDboDao implements AgentClubCardRecordDboD
 
 	@Override
 	public int countProductNumByTimeAndProduct(String productName, String type, long startTime, long endTime) {
+		Criteria criteria = new Criteria();
+		criteria.and("accountingTime").gte(startTime).lte(endTime).and("summary.text").regex(type);
+		if (StringUtils.isNotBlank(productName)) {
+			criteria.and("product").is(productName);
+		}
+
 		Aggregation aggregation = Aggregation.newAggregation(AgentClubCardRecordDbo.class,
-				Aggregation.match(Criteria.where("accountingTime").gte(startTime).lte(endTime).and("product")
-						.is(productName).and("summary.text").regex(type)),
+				Aggregation.match(criteria),
 				Aggregation.group().sum("accountingAmount").as("num"));
 		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, AgentClubCardRecordDbo.class,
 				BasicDBObject.class);

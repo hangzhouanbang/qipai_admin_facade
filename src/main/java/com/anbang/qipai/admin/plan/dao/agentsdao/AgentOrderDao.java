@@ -16,4 +16,6 @@ public interface AgentOrderDao {
 	long countByBean(AgentOrderQuery agentOrderQuery);
 
 	List<AgentOrder> findAgentOrderByBean(int page, int size, AgentOrderQuery agentOrderQuery);
+
+	double sumField(AgentOrderQuery agentOrderQuery, String field);
 }

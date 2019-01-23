@@ -9,6 +9,8 @@ public class Constants {
 
     public static final long DAY_MESC = 24 * 60 * 60 * 1000;
 
+    public static final String[] MONTHLIST = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+
     // 默认页数
     public static class PageSetup {
         public static final int DEFAULT_PAGE = 1;

@@ -1,5 +1,8 @@
 package com.anbang.qipai.admin.util;
 
+import javafx.util.Pair;
+import org.apache.commons.lang.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -186,6 +189,44 @@ public class TimeUtil {
      */
     public static long getTimeWithLastThirtyDay(){
         return getTimeWithDayPrecision(System.currentTimeMillis())-1000L*60*60*24*30;
+    }
+
+    /**
+     * 获取年的第一与最后一天时间戳范围
+     * @return
+     */
+    public static Pair getYearRange(Integer year){
+        //不输入默认当前年
+        if (year == null) {
+            Calendar currCal=Calendar.getInstance();
+            year = currCal.get(Calendar.YEAR);
+        }
+        return new Pair(getYearFirst(year),getYearLast(year));
+    }
+
+    /**
+     * 获取某年第一天日期
+     * @param year 年份
+     * @return Date
+     */
+    public static long getYearFirst(int year){
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, year);
+        return calendar.getTimeInMillis();
+    }
+
+    /**
+     * 获取某年最后一天日期
+     * @param year 年份
+     * @return Date
+     */
+    public static long getYearLast(int year){
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, year);
+        calendar.roll(Calendar.DAY_OF_YEAR, -1);
+        return calendar.getTimeInMillis();
     }
 
 }

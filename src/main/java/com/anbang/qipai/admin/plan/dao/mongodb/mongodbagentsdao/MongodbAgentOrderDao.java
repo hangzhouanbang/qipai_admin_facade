@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.plan.dao.mongodb.mongodbagentsdao;
 
+import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.query.AgentOrderQuery;
 import com.mongodb.BasicDBObject;
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +37,7 @@ public class MongodbAgentOrderDao implements AgentOrderDao {
 		update.set("transaction_id", transaction_id);
 		update.set("status", status);
 		update.set("deliveTime", deliveTime);
+		update.set("orderMonth", TimeUtil.getNowMonth(deliveTime));
 		mongoTemplate.updateFirst(query, update, AgentOrder.class);
 	}
 
@@ -123,6 +125,36 @@ public class MongodbAgentOrderDao implements AgentOrderDao {
 		query.limit(size);
 		query.skip((page - 1) * size);
 		return mongoTemplate.find(query, AgentOrder.class);
+	}
+
+	@Override
+	public double sumField(AgentOrderQuery agentOrder, String field) {
+		Criteria criteria = new Criteria();
+		if (StringUtils.isNotBlank(agentOrder.getPayerId())) {
+			criteria.and("payerId").is(agentOrder.getPayerId());
+		}
+		if (StringUtils.isNotBlank(agentOrder.getPay_type())) {
+			criteria.and("pay_type").is(agentOrder.getPay_type());
+		}
+		if (StringUtils.isNotBlank(agentOrder.getStatus())) {
+			criteria.and("status").is(agentOrder.getStatus());
+		}
+		if (StringUtils.isNotBlank(agentOrder.getProductName())) {
+			criteria.and("productName").is(agentOrder.getProductName());
+		}
+		if (agentOrder.getOrderMonth() != null) {
+			criteria.and("orderMonth").is(agentOrder.getOrderMonth());
+		}
+
+		Aggregation aggregation = Aggregation.newAggregation(AgentOrder.class, Aggregation.match(criteria),
+				Aggregation.group().sum(field).as("total"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, AgentOrder.class, BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getDouble("total");
 	}
 
 }

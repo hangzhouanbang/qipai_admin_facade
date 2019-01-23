@@ -30,4 +30,6 @@ public interface MemberOrderDao {
 	void orderFinished(String id, String transaction_id, String status, long deliveTime);
 
 	int countProductNumByTimeAndProduct(String productName, long startTime, long endTime);
+
+	double sumField(MemberOrderVO memberOrderVO, String field);
 }

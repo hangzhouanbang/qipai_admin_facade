@@ -17,6 +17,7 @@ public class AgentOrder {
 	private String reqIP;// 终端ip
 	private long createTime;// 订单创建时间
 	private long deliveTime;// 发货时间
+	private Integer orderMonth;//订单月份
 
 	public String getId() {
 		return id;
@@ -146,4 +147,11 @@ public class AgentOrder {
 		this.deliveTime = deliveTime;
 	}
 
+	public Integer getOrderMonth() {
+		return orderMonth;
+	}
+
+	public void setOrderMonth(Integer orderMonth) {
+		this.orderMonth = orderMonth;
+	}
 }

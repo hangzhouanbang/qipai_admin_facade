@@ -2,6 +2,8 @@ package com.anbang.qipai.admin.plan.dao.mongodb.mongodbmembersdao;
 
 import java.util.List;
 
+import com.anbang.qipai.admin.util.TimeUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -134,6 +136,7 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 		update.set("transaction_id", transaction_id);
 		update.set("status", status);
 		update.set("deliveTime", deliveTime);
+		update.set("orderMonth", TimeUtil.getNowMonth(deliveTime));
 		mongoTemplate.updateFirst(query, update, MemberOrder.class);
 	}
 
@@ -364,9 +367,14 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 
 	@Override
 	public int countProductNumByTimeAndProduct(String productName, long startTime, long endTime) {
+		Criteria criteria = new Criteria();
+		Criteria.where("createTime").gte(startTime).lte(endTime).and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+		if (StringUtils.isNotBlank(productName)) {
+			criteria.and("product").is(productName);
+		}
+
 		Aggregation aggregation = Aggregation.newAggregation(MemberOrder.class,
-				Aggregation.match(Criteria.where("createTime").gte(startTime).lte(endTime).and("productName")
-						.is(productName).and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS")),
+				Aggregation.match(criteria),
 				Aggregation.group().sum("number").as("num"));
 		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
 				BasicDBObject.class);
@@ -376,6 +384,39 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 		}
 		BasicDBObject basicObj = list.get(0);
 		return basicObj.getInt("num");
+	}
+
+	@Override
+	public double sumField(MemberOrderVO order, String field) {
+		Criteria criteria = new Criteria();
+		if (StringUtils.isNotBlank(order.getStatus())) {
+			criteria.and("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS");
+		}
+		if (StringUtils.isNotBlank(order.getProductName())) {
+			criteria.and("productName").is(order.getProductName());
+		}
+		if (order.getOrderMonth() != null) {
+			criteria.and("orderMonth").is(order.getOrderMonth());
+		}
+		if (order.getStartTime() != null || order.getEndTime() != null) {
+			criteria = criteria.and("createTime");
+			if (order.getStartTime() != null) {
+				criteria = criteria.gte(order.getStartTime());
+			}
+			if (order.getEndTime() != null) {
+				criteria = criteria.lte(order.getEndTime());
+			}
+		}
+
+		Aggregation aggregation = Aggregation.newAggregation(MemberOrder.class, Aggregation.match(criteria),
+				Aggregation.group().sum(field).as("total"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class, BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getDouble("total");
 	}
 
 }
