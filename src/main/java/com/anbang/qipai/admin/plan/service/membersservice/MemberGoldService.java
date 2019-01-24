@@ -34,4 +34,8 @@ public class MemberGoldService {
 		memberGoldRecordDao.addGoldRecord(dbo);
 	}
 
+	public MemberGoldRecordDbo findRecentlyGoldRecordByMemberId(String memberId) {
+		return memberGoldRecordDao.findRecentlyGoldRecordByMemberId(memberId);
+	}
+
 }

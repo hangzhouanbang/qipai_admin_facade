@@ -30,19 +30,24 @@ public class MemberGoldsMsgReceiver {
 	public void recordMemberGoldRecordDbo(CommonMO mo) {
 		Map<String, Object> map = (Map<String, Object>) mo.getData();
 		if ("accounting".equals(mo.getMsg())) {
-			MemberGoldRecordDbo dbo = new MemberGoldRecordDbo();
-			dbo.setId((String) map.get("id"));
-			dbo.setAccountId((String) map.get("accountId"));
-			dbo.setMemberId((String) map.get("memberId"));
-			dbo.setAccountingNo(Long.valueOf((int) map.get("accountingNo")));
-			dbo.setBalanceAfter((int) map.get("balanceAfter"));
-			AccountingSummary summary = new TextAccountingSummary(
-					(String) ((Map<String, Object>) map.get("summary")).get("text"));
-			dbo.setSummary(summary);
-			dbo.setAccountingTime((long) map.get("accountingTime"));
-			dbo.setAccountingAmount((int) map.get("accountingAmount"));
-			memberGoldService.addGoldRecord(dbo);
-			memberService.updateMemberGold((String) map.get("memberId"), (int) map.get("balanceAfter"));
+			long no = Long.valueOf((int) map.get("accountingNo"));
+			String memberId = (String) map.get("memberId");
+			MemberGoldRecordDbo recentDbo = memberGoldService.findRecentlyGoldRecordByMemberId(memberId);
+			if (no > recentDbo.getAccountingNo()) {
+				MemberGoldRecordDbo dbo = new MemberGoldRecordDbo();
+				dbo.setId((String) map.get("id"));
+				dbo.setAccountId((String) map.get("accountId"));
+				dbo.setMemberId(memberId);
+				dbo.setAccountingNo(no);
+				dbo.setBalanceAfter((int) map.get("balanceAfter"));
+				AccountingSummary summary = new TextAccountingSummary(
+						(String) ((Map<String, Object>) map.get("summary")).get("text"));
+				dbo.setSummary(summary);
+				dbo.setAccountingTime((long) map.get("accountingTime"));
+				dbo.setAccountingAmount((int) map.get("accountingAmount"));
+				memberGoldService.addGoldRecord(dbo);
+				memberService.updateMemberGold(memberId, (int) map.get("balanceAfter"));
+			}
 		}
 	}
 }

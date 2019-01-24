@@ -40,4 +40,11 @@ public class MongodbMemberGoldRecordDao implements MemberGoldRecordDao {
 		mongoTemplate.insert(dbo);
 	}
 
+	@Override
+	public MemberGoldRecordDbo findRecentlyGoldRecordByMemberId(String memberId) {
+		Query query = new Query(Criteria.where("memberId").is(memberId));
+		query.with(new Sort(new Order(Direction.DESC, "accountingTime")));
+		return mongoTemplate.findOne(query, MemberGoldRecordDbo.class);
+	}
+
 }
