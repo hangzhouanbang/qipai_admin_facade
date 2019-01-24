@@ -10,15 +10,15 @@ import com.anbang.qipai.admin.web.vo.CommonVO;
 public class CommonVOUtil {
     public static CommonVO success(Object data,String msg) {
         CommonVO commonVO = new CommonVO();
+        commonVO.setSuccess(true);
         commonVO.setData(data);
         commonVO.setMsg(msg);
         return commonVO;
     }
 
-    public static CommonVO success(Boolean success,Object data,String msg) {
+    public static CommonVO success(String msg) {
         CommonVO commonVO = new CommonVO();
-        commonVO.setSuccess(success);
-        commonVO.setData(data);
+        commonVO.setSuccess(true);
         commonVO.setMsg(msg);
         return commonVO;
     }
