@@ -38,6 +38,7 @@ public class MongodbMemberDao implements MemberDao {
 		if ("true".equals(member.getIsVip()) || "false".equals(member.getIsVip())) {
 			query.addCriteria(Criteria.where("vip").is(Boolean.valueOf(member.getIsVip())));
 		}
+		query.addCriteria(Criteria.where("isRobot").is(member.isRobot()));	//默认查询非机器人的玩家
 		query.with(member.getSort());
 		query.skip((page - 1) * size);
 		query.limit(size);
@@ -59,6 +60,7 @@ public class MongodbMemberDao implements MemberDao {
 		if (CollectionUtils.isNotEmpty(memberQuery.getIds())){
 			query.addCriteria(Criteria.where("id").in(memberQuery.getIds()));
 		}
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		query.with(memberQuery.getSort());
 		query.skip((page - 1) * size);
 		query.limit(size);
@@ -80,6 +82,7 @@ public class MongodbMemberDao implements MemberDao {
 		if (CollectionUtils.isNotEmpty(memberQuery.getIds())){
 			query.addCriteria(Criteria.where("id").in(memberQuery.getIds()));
 		}
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
@@ -98,6 +101,7 @@ public class MongodbMemberDao implements MemberDao {
 		if ("true".equals(member.getIsVip()) || "false".equals(member.getIsVip())) {
 			query.addCriteria(Criteria.where("vip").is(Boolean.valueOf(member.getIsVip())));
 		}
+		query.addCriteria(Criteria.where("isRobot").is(member.isRobot()));	//默认查询非机器人的玩家
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
@@ -114,12 +118,14 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public long countNewMemberByTime(long startTime, long endTime) {
 		Query query = new Query(Criteria.where("createTime").gte(startTime).lt(endTime));
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
 	@Override
 	public long countVipMember() {
 		Query query = new Query(Criteria.where("vip").is(true));
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
@@ -182,6 +188,7 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public List<String> findAllMemberId() {
 		Query query = new Query();
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		List<MemberDbo> memberDboList = mongoTemplate.find(query, MemberDbo.class);
 		List<String> ids = new ArrayList<String>();
 		for (int i = 0; i < memberDboList.size(); i++) {
@@ -193,6 +200,7 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public List<String> findMemberId() {
 		Query query = new Query(Criteria.where("vip").is(false));
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		List<MemberDbo> memberDboList = mongoTemplate.find(query, MemberDbo.class);
 		List<String> ids = new ArrayList<String>();
 		for (int i = 0; i < memberDboList.size(); i++) {
@@ -204,6 +212,7 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public List<String> findVipMemberId() {
 		Query query = new Query(Criteria.where("vip").is(true));
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		List<MemberDbo> memberDboList = mongoTemplate.find(query, MemberDbo.class);
 		List<String> ids = new ArrayList<String>();
 		for (int i = 0; i < memberDboList.size(); i++) {
@@ -215,12 +224,14 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public List<MemberDbo> findMemberAfterTime(long startTime) {
 		Query query = new Query(Criteria.where("createTime").gte(startTime));
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		return mongoTemplate.find(query, MemberDbo.class);
 	}
 
 	@Override
 	public long countOnlineState() {
 		Query query = new Query(Criteria.where("onlineState").is("online"));
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
@@ -251,6 +262,7 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public long countAmount() {
 		Query query = new Query();
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
@@ -267,6 +279,7 @@ public class MongodbMemberDao implements MemberDao {
 	public List<MemberDbo> findMemberDboByIds(String[] memberIds) {
 		Object[] ids = memberIds;
 		Query query = new Query(Criteria.where("id").in(ids));
+		query.addCriteria(Criteria.where("isRobot").is(false));	//默认查询非机器人的玩家
 		return mongoTemplate.find(query, MemberDbo.class);
 	}
 
