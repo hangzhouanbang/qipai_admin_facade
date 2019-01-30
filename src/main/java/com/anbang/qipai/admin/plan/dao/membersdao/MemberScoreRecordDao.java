@@ -2,10 +2,7 @@ package com.anbang.qipai.admin.plan.dao.membersdao;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-
 import com.anbang.qipai.admin.plan.bean.members.MemberScoreRecordDbo;
-import com.mongodb.BasicDBObject;
 
 public interface MemberScoreRecordDao {
 	long getAmountByMemberId(String memberId);
@@ -14,4 +11,5 @@ public interface MemberScoreRecordDao {
 
 	void addScoreRecord(MemberScoreRecordDbo dbo);
 
+	MemberScoreRecordDbo findRecentlyScoreRecordByMemberId(String memberId);
 }

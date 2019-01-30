@@ -33,4 +33,8 @@ public class MemberScoreService {
 		memberScoreRecordDao.addScoreRecord(dbo);
 	}
 
+	public MemberScoreRecordDbo findRecentlyScoreRecordByMemberId(String memberId) {
+		return memberScoreRecordDao.findRecentlyScoreRecordByMemberId(memberId);
+	}
+
 }
