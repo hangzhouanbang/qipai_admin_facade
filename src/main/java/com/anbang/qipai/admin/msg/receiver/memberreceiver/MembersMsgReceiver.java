@@ -1,6 +1,5 @@
 package com.anbang.qipai.admin.msg.receiver.memberreceiver;
 
-import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,6 @@ public class MembersMsgReceiver {
 
     @StreamListener(MembersSink.MEMBERS)
     public void recordMember(CommonMO mo) {
-        logger.info("hahahah" + JSON.toJSONString(mo));
-        logger.info("bbbbb" + mo.toString());
         String msg = mo.getMsg();
         String json = gson.toJson(mo.getData());
         MemberDbo member = gson.fromJson(json, MemberDbo.class);
