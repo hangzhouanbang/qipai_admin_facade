@@ -97,12 +97,23 @@ public class MemberController {
         Map data = new HashMap();
         ListPage listPage = memberService.findMemberDboByConditions(page, size, member);
         data.put("memberList", listPage);
-        long amount = memberService.countAmount();
-        data.put("amount", amount);
-        long vipAmount = memberService.countVipMember();
-        data.put("vipAmount", vipAmount);
-        long noVipAmount = amount - vipAmount;
-        data.put("noVipAmount", noVipAmount);
+
+        //是否为机器人玩家
+        if (member.isRobot() == true) {
+            long amount = memberService.countRobotAmount();
+            data.put("amount", amount);
+            long vipAmount = memberService.countRobotVipMember();
+            data.put("vipAmount", vipAmount);
+            long noVipAmount = amount - vipAmount;
+            data.put("noVipAmount", noVipAmount);
+        } else {
+            long amount = memberService.countAmount();
+            data.put("amount", amount);
+            long vipAmount = memberService.countVipMember();
+            data.put("vipAmount", vipAmount);
+            long noVipAmount = amount - vipAmount;
+            data.put("noVipAmount", noVipAmount);
+        }
         vo.setSuccess(true);
         vo.setMsg("memberList");
         vo.setData(data);

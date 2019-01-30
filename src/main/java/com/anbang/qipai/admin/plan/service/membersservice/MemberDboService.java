@@ -79,6 +79,7 @@ public class MemberDboService {
 		return memberDao.countAmount();
 	}
 
+
 	public void addMember(MemberDbo member) {
 		memberDao.addMember(member);
 	}
@@ -170,5 +171,13 @@ public class MemberDboService {
 
 	public Integer countOnlineState() {
 		return (int) memberDao.countOnlineState();
+	}
+
+	public long countRobotAmount() {
+		return memberDao.countRobotAmount();
+	}
+
+	public long countRobotVipMember() {
+		return memberDao.countRobotVipMember();
 	}
 }

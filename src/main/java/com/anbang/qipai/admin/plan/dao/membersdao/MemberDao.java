@@ -72,4 +72,8 @@ public interface MemberDao {
 	 * @return
 	 */
 	long countOnlineState();
+
+	long countRobotVipMember();
+
+	long countRobotAmount();
 }
