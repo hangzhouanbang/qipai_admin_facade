@@ -419,4 +419,24 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 		return basicObj.getDouble("total");
 	}
 
+	@Override
+	public int countMonthPayPlayer(Integer orderMonth) {
+		Criteria criteria = new Criteria();
+		if (orderMonth != null) {
+			criteria = criteria.and("orderMonth").is(orderMonth);
+		}
+		Aggregation aggregation = Aggregation.newAggregation(MemberOrder.class, Aggregation.match(criteria),
+				Aggregation.match(Criteria.where("status").in("TRADE_SUCCESS", "TRADE_FINISHED", "SUCCESS")),
+				Aggregation.group("payerId"),
+				Aggregation.count().as("num"));
+		AggregationResults<BasicDBObject> result = mongoTemplate.aggregate(aggregation, MemberOrder.class,
+				BasicDBObject.class);
+		List<BasicDBObject> list = result.getMappedResults();
+		if (list.isEmpty()) {
+			return 0;
+		}
+		BasicDBObject basicObj = list.get(0);
+		return basicObj.getInt("num");
+	}
+
 }

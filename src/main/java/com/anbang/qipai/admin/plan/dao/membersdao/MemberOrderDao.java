@@ -32,4 +32,6 @@ public interface MemberOrderDao {
 	int countProductNumByTimeAndProduct(String productName, long startTime, long endTime);
 
 	double sumField(MemberOrderVO memberOrderVO, String field);
+
+	int countMonthPayPlayer(Integer orderMonth);
 }

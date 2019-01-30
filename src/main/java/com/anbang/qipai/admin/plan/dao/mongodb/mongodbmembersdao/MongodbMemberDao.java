@@ -3,6 +3,9 @@ package com.anbang.qipai.admin.plan.dao.mongodb.mongodbmembersdao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.anbang.qipai.admin.web.query.MemberQuery;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -39,6 +42,45 @@ public class MongodbMemberDao implements MemberDao {
 		query.skip((page - 1) * size);
 		query.limit(size);
 		return mongoTemplate.find(query, MemberDbo.class);
+	}
+
+	@Override
+	public List<MemberDbo> findMemberDboByQuery(int page, int size, MemberQuery memberQuery) {
+		Query query = new Query();
+		if (StringUtils.isNotBlank(memberQuery.getId())) {
+			query.addCriteria(Criteria.where("id").is(memberQuery.getId()));
+		}
+		if (StringUtils.isNotBlank(memberQuery.getNickname())) {
+			query.addCriteria(Criteria.where("nickname").regex(memberQuery.getNickname()));
+		}
+		if (StringUtils.isNotBlank(memberQuery.getOnlineState())) {
+			query.addCriteria(Criteria.where("onlineState").is(memberQuery.getOnlineState()));
+		}
+		if (CollectionUtils.isNotEmpty(memberQuery.getIds())){
+			query.addCriteria(Criteria.where("id").in(memberQuery.getIds()));
+		}
+		query.with(memberQuery.getSort());
+		query.skip((page - 1) * size);
+		query.limit(size);
+		return mongoTemplate.find(query, MemberDbo.class);
+	}
+
+	@Override
+	public long countByQuery(MemberQuery memberQuery) {
+		Query query = new Query();
+		if (StringUtils.isNotBlank(memberQuery.getId())) {
+			query.addCriteria(Criteria.where("id").is(memberQuery.getId()));
+		}
+		if (StringUtils.isNotBlank(memberQuery.getNickname())) {
+			query.addCriteria(Criteria.where("nickname").regex(memberQuery.getNickname()));
+		}
+		if (StringUtils.isNotBlank(memberQuery.getOnlineState())) {
+			query.addCriteria(Criteria.where("onlineState").is(memberQuery.getOnlineState()));
+		}
+		if (CollectionUtils.isNotEmpty(memberQuery.getIds())){
+			query.addCriteria(Criteria.where("id").in(memberQuery.getIds()));
+		}
+		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
 	@Override

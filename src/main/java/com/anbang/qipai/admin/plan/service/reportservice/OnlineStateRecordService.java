@@ -87,6 +87,11 @@ public class OnlineStateRecordService {
         return 0L;
     }
 
+    public List<String> listIdsByTime(long startTime, long endTime) {
+        return onlineStateRecordDao.listIdsByTime(startTime,endTime);
+    }
+
+
     /**
      * 下线记录累加-上线记录累加
      * @param onlineList

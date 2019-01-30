@@ -1,22 +1,24 @@
 package com.anbang.qipai.admin.web.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.anbang.qipai.admin.constant.Constants;
+import com.anbang.qipai.admin.plan.bean.members.CardSouceEnum;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.members.MemberType;
 import com.anbang.qipai.admin.plan.bean.report.*;
+import com.anbang.qipai.admin.plan.service.membersservice.MemberTypeService;
 import com.anbang.qipai.admin.plan.service.reportservice.BasicDataReportService;
 
 import com.anbang.qipai.admin.plan.service.reportservice.DetailedReportService;
 import com.anbang.qipai.admin.plan.service.reportservice.OnlineStateRecordService;
+import com.anbang.qipai.admin.util.CalculateUtils;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.util.TimeUtil;
-import com.anbang.qipai.admin.web.vo.reportvo.AddUserCountVO;
-import com.anbang.qipai.admin.web.vo.reportvo.GraphVO;
-import com.anbang.qipai.admin.web.vo.reportvo.CurrentCountVO;
-import com.anbang.qipai.admin.web.vo.reportvo.SubtotalVO;
+import com.anbang.qipai.admin.web.query.MemberQuery;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderVO;
+import com.anbang.qipai.admin.web.vo.reportvo.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +34,7 @@ import com.highto.framework.web.page.ListPage;
 
 /**
  * 数据报表controller
- * 
+ *
  * @author 林少聪 2018.7.9
  *
  */
@@ -69,10 +71,13 @@ public class DataReportController {
 	@Autowired
     private DetailedReportService detailedReportService;
 
+	@Autowired
+	private MemberTypeService memberTypeService;
+
 
 	/**
 	 * 平台运营数据
-	 * 
+	 *
 	 * @param startTime
 	 * @param endTime
 	 * @param page
@@ -93,7 +98,7 @@ public class DataReportController {
 
 	/**
 	 * 游戏日报
-	 * 
+	 *
 	 * @param startTime
 	 * @param endTime
 	 * @param game
@@ -430,4 +435,114 @@ public class DataReportController {
         List<DetailedReport> reportList=detailedReportService.findByTime(startTime,endTime);
         return CommonVOUtil.success(reportList,"DetailedReport");
     }
+
+    /**
+     * 沉默玩家统计
+     */
+    @PostMapping(value = "/silencePlayer")
+    public CommonVO silencePlayer(@RequestParam(defaultValue = "1") Integer page,
+                                  @RequestParam(defaultValue = "10") Integer size,
+                                  String playerId, String nickName, String onlineState) {
+        MemberType memberType = new MemberType();
+        memberType.setCardSource(CardSouceEnum.PLAYER);
+        long time = System.currentTimeMillis() - Constants.SEVEN_DAY_MS;
+        //取买过会员且到期超过7天的玩家ids
+        List<String> ids = memberTypeService.listIdsByBeanAndTime(memberType,time);
+
+        MemberQuery query = new MemberQuery();
+        query.setId(playerId);
+        query.setNickname(nickName);
+        query.setOnlineState(onlineState);
+        query.setIds(ids);
+        ListPage listPage = memberService.findMemberDboByQuery(page, size, query);
+        long totalSilence = memberService.countMemberDboByQuery(ids);
+
+        Map data = new HashMap();
+        data.put("listPage",listPage);
+        data.put("totalSilence", totalSilence);
+        return CommonVOUtil.success(data,"silencePlayer");
+    }
+
+    /**
+     * 付费数据统计(饼状图)
+     */
+    @PostMapping(value = "/paidStatistics")
+    public CommonVO paidStatistics() {
+        Map data = new HashMap();
+
+        //当前会员玩家属性占比
+        List<CommonRatioVo> nowPie = memberTypeService.queryRatio();
+        data.put("nowPie", nowPie);
+
+        //昨日玩家属性占比
+        long startTime = TimeUtil.getTimeWithLastDay();
+        Long endTime = TimeUtil.getEndTimeWithLastDay();
+        List<String> timeRangeIds = onlineStateRecordService.listIdsByTime(startTime,endTime);
+        List<CommonRatioVo> yesterdayPie = memberTypeService.queryRatio(timeRangeIds);
+        data.put("yesterdayPie", yesterdayPie);
+
+        //玩家付费占比
+        List<CommonRatioVo> payPie = new ArrayList<>();
+        List<String> ids = memberTypeService.listIdsByBeanAndTime(new MemberType(), null);
+        int playerCount = (int) memberService.countAmount();
+        double payPlayerRatio = CalculateUtils.div(ids.size(), playerCount, 4);
+        payPie.add(new CommonRatioVo("付费玩家", ids.size(), payPlayerRatio));
+        payPie.add(new CommonRatioVo("非付费玩家", playerCount, 1 - payPlayerRatio));
+        data.put("payPie",payPie);
+
+        return CommonVOUtil.success(data,"paidStatistics");
+    }
+
+    /**
+     * 售卡数查询
+     */
+    @PostMapping(value = "/sellCards")
+    public CommonVO sellCards(Integer yearMonth) {
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        if (yearMonth == null) {
+            return CommonVOUtil.error("Missing required input parameters");
+        }
+
+        //玩家消费
+        MemberOrderVO memberOrderVO = new MemberOrderVO();
+        memberOrderVO.setStatus("PAYSUCCESS");
+        memberOrderVO.setOrderMonth(yearMonth);
+        memberOrderVO.setProductName("日卡");
+        double memberRiNum = orderService.sumField(memberOrderVO, "number");
+        double memberRiAmount = orderService.sumField(memberOrderVO, "totalamount");
+        memberOrderVO.setProductName("周卡");
+        double memberZhouNum = orderService.sumField(memberOrderVO, "number");
+        double memberZhouAmount = orderService.sumField(memberOrderVO, "totalamount");
+        memberOrderVO.setProductName("月卡");
+        double memberYueNum = orderService.sumField(memberOrderVO, "number");
+        double memberYueAmount = orderService.sumField(memberOrderVO, "totalamount");
+        memberOrderVO.setProductName("季卡");
+        double memberJiNum = orderService.sumField(memberOrderVO, "number");
+        double memberJiAmount = orderService.sumField(memberOrderVO, "totalamount");
+        data.put("memberRiNum",memberRiNum);
+        data.put("memberRiAmount",memberRiAmount);
+        data.put("memberZhouNum",memberZhouNum);
+        data.put("memberZhouAmount",memberZhouAmount);
+        data.put("memberYueNum",memberYueNum);
+        data.put("memberYueAmount",memberYueAmount);
+        data.put("memberJiNum",memberJiNum);
+        data.put("memberJiAmount",memberJiAmount);
+
+        //月玩家购买总额
+        int month = Integer.valueOf(yearMonth);
+        MemberOrderVO orderVO = new MemberOrderVO();
+        orderVO.setStatus("PAYSUCCESS");
+        orderVO.setOrderMonth(month);
+        double memberBuy = orderService.sumField(orderVO, "totalamount");
+        data.put("memberBuy", memberBuy);
+
+        //月arpu
+        int monthPayPlayer = orderService.countMonthPayPlayer(yearMonth);
+        double arpu= CalculateUtils.div(memberBuy,(double)monthPayPlayer,2);
+        data.put("arpu", arpu);
+
+        return CommonVOUtil.success(data,"sellCards");
+    }
+
 }

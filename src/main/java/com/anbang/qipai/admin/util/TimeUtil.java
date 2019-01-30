@@ -178,6 +178,13 @@ public class TimeUtil {
     }
 
     /**
+     * 昨日结束时间
+     */
+    public static long getEndTimeWithLastDay(){
+        return getTimeWithDayPrecision(System.currentTimeMillis());
+    }
+
+    /**
      * 得到7日前(不算今天)开始的时间
      */
     public static long getTimeWithLastSevenDay(){

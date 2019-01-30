@@ -42,4 +42,14 @@ public interface OnlineStateRecordDao {
      * @return
      */
     List<OnlineStateRecord> findByMemberIdAfterTime(String memberId, Long createTime);
+
+    /**
+     * 最后一次记录
+     */
+    OnlineStateRecord lastRecord(String id);
+
+    /**
+     * 某个时间段之间的id
+     */
+    public List<String> listIdsByTime(long startTime, long endTime);
 }

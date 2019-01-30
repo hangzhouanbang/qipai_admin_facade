@@ -21,6 +21,8 @@ public class MemberDbo {
 	private int score;// 积分
 	private double cost;// 累计消费
 
+	private boolean isRobot;
+
 	public String getId() {
 		return id;
 	}
@@ -173,4 +175,11 @@ public class MemberDbo {
 		this.cost = cost;
 	}
 
+	public boolean isRobot() {
+		return isRobot;
+	}
+
+	public void setRobot(boolean robot) {
+		isRobot = robot;
+	}
 }

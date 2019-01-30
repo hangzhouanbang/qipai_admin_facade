@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.plan.dao.membersdao;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.web.query.MemberQuery;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 
 public interface MemberDao {
@@ -10,6 +11,10 @@ public interface MemberDao {
 	List<MemberDbo> findMemberDboByIds(String[] memberIds);
 
 	List<MemberDbo> findMemberDboByConditions(int page, int size, MemberVO member);
+
+	List<MemberDbo> findMemberDboByQuery(int page, int size, MemberQuery memberQuery);
+
+	long countByQuery(MemberQuery memberQuery);
 
 	long getAmountByConditions(MemberVO member);
 

@@ -1,7 +1,13 @@
 package com.anbang.qipai.admin.plan.service.membersservice;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
+import com.anbang.qipai.admin.plan.dao.reportdao.OnlineStateRecordDao;
+import com.anbang.qipai.admin.web.query.MemberQuery;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +23,9 @@ public class MemberDboService {
 	@Autowired
 	private MemberDao memberDao;
 
+	@Autowired
+	private OnlineStateRecordDao onlineStateRecordDao;
+
 	public List<MemberDbo> findMemberDboByIds(String[] memberIds) {
 		return memberDao.findMemberDboByIds(memberIds);
 	}
@@ -30,6 +39,40 @@ public class MemberDboService {
 		}
 		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
 		return listPage;
+	}
+
+	public ListPage findMemberDboByQuery(int page, int size, MemberQuery query) {
+		if (CollectionUtils.isEmpty(query.getIds())) {
+			return new ListPage(new ArrayList<>(), page,size, 0);
+		}
+
+		long amount = memberDao.countByQuery(query);
+		List<MemberDbo> memberList = memberDao.findMemberDboByQuery(page, size, query);
+		List<MemberVO> memberVOS = new ArrayList<>();
+		for (MemberDbo list : memberList) {
+			String onlineState = list.getOnlineState();
+			list.setOnlineState(MemberOnlineState.getSummaryText(onlineState));
+			// 获取最后一次登录时间
+			OnlineStateRecord onlineStateRecord = onlineStateRecordDao.lastRecord(list.getId());
+			MemberVO vo = new MemberVO();
+			BeanUtils.copyProperties(list,vo);
+			if (onlineStateRecord != null) {
+				vo.setLastLoginTime(onlineStateRecord.getCreateTime());
+			}
+			memberVOS.add(vo);
+		}
+		ListPage listPage = new ListPage(memberVOS, page, size, (int) amount);
+		return listPage;
+	}
+
+	public long countMemberDboByQuery(List<String> ids) {
+		if (CollectionUtils.isEmpty(ids)) {
+			return 0;
+		}
+		MemberQuery query = new MemberQuery();
+		query.setIds(ids);
+		long amount = memberDao.countByQuery(query);
+		return amount;
 	}
 
 	public long countAmount() {

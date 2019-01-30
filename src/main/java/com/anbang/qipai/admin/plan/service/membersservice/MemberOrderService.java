@@ -95,4 +95,11 @@ public class MemberOrderService {
 	public double sumField(MemberOrderVO memberOrderVO, String field) {
 		return orderDao.sumField(memberOrderVO, field);
 	}
+
+	/**
+	 * 月付费玩家
+	 */
+	public int countMonthPayPlayer(Integer orderMonth) {
+		return orderDao.countMonthPayPlayer(orderMonth);
+	}
 }

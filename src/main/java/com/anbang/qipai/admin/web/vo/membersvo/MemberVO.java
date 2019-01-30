@@ -21,6 +21,8 @@ public class MemberVO extends MemberDbo {
 	private String onlineStateSort;
 	private String verifyUserSort;
 
+	private long lastLoginTime;  //最后一次登录时间
+
 	public Sort getSort() {
 		List<Order> orderList = new ArrayList<>();
 		if ("ASC".equals(goldSort)) {
@@ -154,5 +156,13 @@ public class MemberVO extends MemberDbo {
 
 	public void setVerifyUserSort(String verifyUserSort) {
 		this.verifyUserSort = verifyUserSort;
+	}
+
+	public long getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(long lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
 	}
 }
