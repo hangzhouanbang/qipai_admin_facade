@@ -32,7 +32,7 @@ public class MemberScoresMsgReceiver {
 			long no = Long.valueOf((int) map.get("accountingNo"));
 			String memberId = (String) map.get("memberId");
 			MemberScoreRecordDbo recentDbo = memberScoreService.findRecentlyScoreRecordByMemberId(memberId);
-			if (no > recentDbo.getAccountingNo()) {
+			if (recentDbo == null || no > recentDbo.getAccountingNo()) {
 				MemberScoreRecordDbo dbo = new MemberScoreRecordDbo();
 				dbo.setId((String) map.get("id"));
 				dbo.setAccountId((String) map.get("accountId"));

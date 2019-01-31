@@ -33,7 +33,7 @@ public class MemberGoldsMsgReceiver {
 			long no = Long.valueOf((int) map.get("accountingNo"));
 			String memberId = (String) map.get("memberId");
 			MemberGoldRecordDbo recentDbo = memberGoldService.findRecentlyGoldRecordByMemberId(memberId);
-			if (no > recentDbo.getAccountingNo()) {
+			if (recentDbo == null || no > recentDbo.getAccountingNo()) {
 				MemberGoldRecordDbo dbo = new MemberGoldRecordDbo();
 				dbo.setId((String) map.get("id"));
 				dbo.setAccountId((String) map.get("accountId"));
