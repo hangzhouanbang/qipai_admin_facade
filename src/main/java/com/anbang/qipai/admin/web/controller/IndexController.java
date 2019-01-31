@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.anbang.qipai.admin.constant.Constants;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentOrderService;
+import com.anbang.qipai.admin.util.CommonVOUtil;
+import com.anbang.qipai.admin.util.FormatUtils;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.query.AgentOrderQuery;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderVO;
@@ -86,6 +88,10 @@ public class IndexController {
 			vo.setSuccess(false);
 			vo.setMsg("Missing required input parameters");
 			return vo;
+		}
+
+		if (!FormatUtils.monthCheck(yearMonth)) {
+			return CommonVOUtil.error("Parameter format error");
 		}
 
 		//玩家消费
