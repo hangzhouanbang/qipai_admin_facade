@@ -504,10 +504,6 @@ public class DataReportController {
             return CommonVOUtil.error("Missing required input parameters");
         }
 
-        if (!FormatUtils.monthCheck(yearMonth)) {
-            return CommonVOUtil.error("Incorrect parameter format");
-        }
-
         //玩家消费
         MemberOrderVO memberOrderVO = new MemberOrderVO();
         memberOrderVO.setStatus("PAYSUCCESS");
@@ -543,7 +539,10 @@ public class DataReportController {
 
         //月arpu
         int monthPayPlayer = orderService.countMonthPayPlayer(yearMonth);
-        double arpu= CalculateUtils.div(memberBuy,(double)monthPayPlayer,2);
+        double arpu = 0;
+        if (monthPayPlayer != 0) {
+            arpu = CalculateUtils.div(memberBuy, (double) monthPayPlayer, 2);
+        }
         data.put("arpu", arpu);
 
         return CommonVOUtil.success(data,"sellCards");
