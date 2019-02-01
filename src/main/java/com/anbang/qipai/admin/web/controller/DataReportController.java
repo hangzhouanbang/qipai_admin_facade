@@ -14,11 +14,11 @@ import com.anbang.qipai.admin.plan.service.reportservice.DetailedReportService;
 import com.anbang.qipai.admin.plan.service.reportservice.OnlineStateRecordService;
 import com.anbang.qipai.admin.util.CalculateUtils;
 import com.anbang.qipai.admin.util.CommonVOUtil;
+import com.anbang.qipai.admin.util.FormatUtils;
 import com.anbang.qipai.admin.util.TimeUtil;
 import com.anbang.qipai.admin.web.query.MemberQuery;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberOrderVO;
 import com.anbang.qipai.admin.web.vo.reportvo.*;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -502,6 +502,10 @@ public class DataReportController {
         Map<String, Object> data = new HashMap<String, Object>();
         if (yearMonth == null) {
             return CommonVOUtil.error("Missing required input parameters");
+        }
+
+        if (!FormatUtils.monthCheck(yearMonth)) {
+            return CommonVOUtil.error("Incorrect parameter format");
         }
 
         //玩家消费
