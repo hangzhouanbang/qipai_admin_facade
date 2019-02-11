@@ -148,7 +148,7 @@ public class ExcelUtils {
 			row.createCell(3).setCellValue(order.getReceiverId());
 			row.createCell(4).setCellValue(order.getReceiverName());
 			row.createCell(5).setCellValue(order.getTotalamount());
-			row.createCell(6).setCellValue(AgentOrderService.conversion(order.getProductName(),order.getNumber()));
+			row.createCell(6).setCellValue(order.getProductName());
 			row.createCell(7).setCellValue(order.getReqIP());
 			row.createCell(8)
 					.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order.getDeliveTime())));

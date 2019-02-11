@@ -42,4 +42,13 @@ public class AgentClubCardService {
 	public AgentClubCard findAgentClubCardById(String id) {
 		return clubCardDao.findAgentClubCardById(id);
 	}
+
+	public int queryProductNum (String id) {
+		int number = 0;
+		AgentClubCard agentClubCard = clubCardDao.findAgentClubCardById(id);
+		if (agentClubCard != null) {
+			number = agentClubCard.getNumber();
+		}
+		return number;
+	}
 }
