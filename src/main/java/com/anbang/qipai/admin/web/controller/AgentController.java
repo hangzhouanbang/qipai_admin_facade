@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.config.GongZhongHaoConfig;
 import com.anbang.qipai.admin.plan.bean.agents.AgentApplyRecord;
 import com.anbang.qipai.admin.plan.bean.agents.AgentClubCard;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
@@ -613,7 +614,9 @@ public class AgentController {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			String content = "";
+			String content = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + GongZhongHaoConfig.APPID
+					+ "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state="
+					+ agent.getInvitationCode() + "#wechat_redirect";
 			try {
 				QrCodeCreateUtil.createQrCode(content, 1000, "jpg", response);
 			} catch (Exception e) {
