@@ -24,7 +24,7 @@ public class MemberOrderService {
 	private MemberOrderDao orderDao;
 
 	public void addOrder(MemberOrder order) {
-		order.setOrderMonth(TimeUtil.getNowMonth(order.getCreateTime()));
+		order.setOrderMonth(TimeUtil.getNowMonth(order.getCreateTime(),""));
 		orderDao.addOrder(order);
 	}
 

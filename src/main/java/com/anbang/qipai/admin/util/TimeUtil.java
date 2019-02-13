@@ -236,4 +236,16 @@ public class TimeUtil {
         return calendar.getTimeInMillis();
     }
 
+    /**
+     * 获取当前时间点的日期格式（默认“201901”）
+     */
+    public static int getNowMonth(long time, String format) {
+        if (StringUtils.isBlank(format)) {
+            format = "yyyyMM";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String tempTime = sdf.format(new Date(time));
+        return Integer.valueOf(tempTime);
+    }
+
 }

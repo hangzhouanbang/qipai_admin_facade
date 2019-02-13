@@ -27,7 +27,7 @@ public class AgentOrderService {
 	private AgentClubCardService agentClubCardService;
 
 	public void addOrder(AgentOrder order) {
-		order.setOrderMonth(TimeUtil.getNowMonth(order.getCreateTime()));
+		order.setOrderMonth(TimeUtil.getNowMonth(order.getCreateTime(), ""));
 		orderDao.addOrder(order);
 	}
 	
