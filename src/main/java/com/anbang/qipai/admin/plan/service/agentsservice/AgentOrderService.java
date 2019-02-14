@@ -23,8 +23,11 @@ public class AgentOrderService {
 	@Autowired
 	private AgentOrderDao orderDao;
 
+	@Autowired
+	private AgentClubCardService agentClubCardService;
+
 	public void addOrder(AgentOrder order) {
-		order.setOrderMonth(TimeUtil.getNowMonth(order.getCreateTime()));
+		order.setOrderMonth(TimeUtil.getNowMonth(order.getCreateTime(), ""));
 		orderDao.addOrder(order);
 	}
 	
@@ -41,7 +44,10 @@ public class AgentOrderService {
 		List<AgentOrder> agentOrders = orderDao.findAgentOrderByBean(page,size,agentOrderQuery);
 		for(AgentOrder list : agentOrders) {
 			list.setPay_type(AgentPayType.getSummaryText(list.getPay_type()));
-			list.setProductName(conversion(list.getProductName(),list.getNumber()));
+
+			//获取产品数量
+			int productNum = agentClubCardService.queryProductNum(list.getProductId());
+			list.setProductName(conversion(list.getProductName(),list.getNumber(), productNum));
 		}
 		ListPage listPage = new ListPage(agentOrders, page, size, (int)count);
 		return listPage;
@@ -56,6 +62,13 @@ public class AgentOrderService {
 		long pageNum = amount % size > 0 ? amount / size + 1 : amount / size;
 		for (int page = 1; page <= pageNum; page++) {
 			List<AgentOrder> agentOrders = orderDao.findAgentOrderByBean(page,size,agentOrderQuery);
+
+			//获取产品数量
+			for(AgentOrder list : agentOrders) {
+				int productNum = agentClubCardService.queryProductNum(list.getProductId());
+				list.setProductName(conversion(list.getProductName(),list.getNumber(), productNum));
+			}
+
 			ExcelUtils.agentOrderExcel(rowid, sheetNum, agentOrders, workbook);
 		}
 		workbook.write(output);
@@ -68,12 +81,12 @@ public class AgentOrderService {
 
 
 	//显示转换
-	public static String conversion(String productName, int number) {
+	public static String conversion(String productName, int number, int	productNum) {
 		if (StringUtils.contains(productName,"卡")) {
-			return productName + number + "张";
+			return productName + number + "*" + productNum + "张";
 		}
 		if ("玉石".equals(productName)) {
-			return productName + number + "个";
+			return productName + number + "*" + productNum + "个";
 		}
 		return productName;
 	}
