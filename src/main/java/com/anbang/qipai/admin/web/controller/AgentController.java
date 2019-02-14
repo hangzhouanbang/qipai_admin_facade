@@ -610,7 +610,7 @@ public class AgentController {
 		if (agent != null) {
 			String REDIRECT_URI = null;
 			try {
-				REDIRECT_URI = URLEncoder.encode("http://scs.3cscy.com/thirdauth/memberlogin", "utf-8");
+				REDIRECT_URI = URLEncoder.encode("http://3cs.3cscy.com/thirdauth/memberlogin", "utf-8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
