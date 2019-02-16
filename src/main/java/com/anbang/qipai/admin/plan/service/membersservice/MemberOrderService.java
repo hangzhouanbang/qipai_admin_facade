@@ -83,6 +83,7 @@ public class MemberOrderService {
 		for (int page = 1; page <= pageNum; page++) {
 			List<MemberOrder> orderList = orderDao.findOrderByConditions(page, size, order);
 			ExcelUtils.generateOrderExcel(rowid, sheetNum, orderList, workbook);
+			sheetNum++;
 		}
 		workbook.write(output);
 		workbook.close();

@@ -70,6 +70,7 @@ public class AgentOrderService {
 			}
 
 			ExcelUtils.agentOrderExcel(rowid, sheetNum, agentOrders, workbook);
+			sheetNum++;
 		}
 		workbook.write(output);
 		workbook.close();

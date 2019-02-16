@@ -73,6 +73,7 @@ public class AgentRewardRecordDboService {
 			List<AgentRewardRecordDbo> orderList = agentRewardRecordDboDao.findAgentRewardRecordDboByConditions(page, size,
 					record);
 			ExcelUtils.agentRewardExcel(rowid, sheetNum, orderList, workbook);
+			sheetNum++;
 		}
 		workbook.write(output);
 		workbook.close();
