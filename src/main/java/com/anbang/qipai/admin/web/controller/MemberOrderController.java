@@ -91,27 +91,30 @@ public class MemberOrderController {
 		return vo;
 	}
 
-//	@RequestMapping(value = "/download", method = RequestMethod.GET)
-//	public CommonVO downLoad(MemberOrderVO order, HttpServletResponse response) {
-//		CommonVO vo = new CommonVO();
-//		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-//		Date date = new Date();
-//		String fileName = format.format(date) + "order.xlsx";
-//		response.reset();
-//		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-//		response.setContentType("application/msexcel");
-//		try {
-//			OutputStream output = response.getOutputStream();
-//			orderService.exportOrder(order, output);
-//			output.close();
-//		} catch (IOException e) {
-//			vo.setSuccess(false);
-//			vo.setMsg("IOException");
-//		}
-//		vo.setSuccess(true);
-//		vo.setMsg("orderList");
-//		return vo;
-//	}
+	/**
+	 * 订单管理导出
+	 */
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public CommonVO downLoad(MemberOrderVO order, HttpServletResponse response) {
+		CommonVO vo = new CommonVO();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date date = new Date();
+		String fileName = format.format(date) + "order.xlsx";
+		response.reset();
+		response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+		response.setContentType("application/msexcel");
+		try {
+			OutputStream output = response.getOutputStream();
+			orderService.exportOrder(order, output);
+			output.close();
+		} catch (IOException e) {
+			vo.setSuccess(false);
+			vo.setMsg("IOException");
+		}
+		vo.setSuccess(true);
+		vo.setMsg("orderList");
+		return vo;
+	}
 
 	/**
 	 * 代理收益查询
