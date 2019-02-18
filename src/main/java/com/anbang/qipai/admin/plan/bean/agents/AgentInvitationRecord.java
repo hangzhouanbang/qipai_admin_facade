@@ -12,6 +12,7 @@ public class AgentInvitationRecord {
 	private int score;// 累计得分
 	private long createTime;// 绑定时间
 	private boolean ban;// 是否禁用
+	private boolean haveLogin;  //是否已登录
 
 	public boolean isBan() {
 		return ban;
@@ -101,4 +102,11 @@ public class AgentInvitationRecord {
 		this.createTime = createTime;
 	}
 
+	public boolean isHaveLogin() {
+		return haveLogin;
+	}
+
+	public void setHaveLogin(boolean haveLogin) {
+		this.haveLogin = haveLogin;
+	}
 }
