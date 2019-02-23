@@ -136,7 +136,7 @@ public class MongodbMemberOrderDao implements MemberOrderDao {
 		update.set("transaction_id", transaction_id);
 		update.set("status", status);
 		update.set("deliveTime", deliveTime);
-		update.set("orderMonth", TimeUtil.getNowMonth(deliveTime));
+		update.set("orderMonth", TimeUtil.getNowMonth(deliveTime,""));
 		mongoTemplate.updateFirst(query, update, MemberOrder.class);
 	}
 
