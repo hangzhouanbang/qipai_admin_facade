@@ -4,16 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Hashtable;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -24,8 +16,10 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class QrCodeCreateUtil {
 
-	public static void createQrCode(String content, int qrCodeSize, String imageFormat, HttpServletResponse response)
-			throws IOException, WriterException {
+	/**
+	 * 生成二维码
+	 */
+	public static BufferedImage createQrCode(String content, int qrCodeSize) throws WriterException {
 		// 设置二维码纠错级别ＭＡＰ
 		Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
 		hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L); // 矫错级别
@@ -35,11 +29,12 @@ public class QrCodeCreateUtil {
 		// 使BufferedImage勾画QRCode (matrixWidth 是行二维码像素点)
 		int matrixWidth = byteMatrix.getWidth();
 		BufferedImage image = new BufferedImage(matrixWidth - 100, matrixWidth - 100, BufferedImage.TYPE_INT_RGB);
-		image.createGraphics();
-		Graphics2D graphics = (Graphics2D) image.getGraphics();
+		// 获取画笔
+		Graphics2D graphics = image.createGraphics();
+		// 填充空白区域
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(0, 0, matrixWidth, matrixWidth);
-		// 使用比特矩阵画并保存图像
+		// 使用比特矩阵画
 		graphics.setColor(Color.BLACK);
 		for (int i = 0; i < matrixWidth; i++) {
 			for (int j = 0; j < matrixWidth; j++) {
@@ -48,67 +43,36 @@ public class QrCodeCreateUtil {
 				}
 			}
 		}
-		// 增加LOGO
-		// 获取输入流
-		BufferedImage imageLocal = ImageIO.read(new File("/data/app/qipai_admin_facade/logo.jpg"));
-		graphics.drawImage(imageLocal, 350, 350, 200, 200, new ImageObserver() {
-
-			@Override
-			public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		});
-		ImageIO.write(image, imageFormat, response.getOutputStream());
+		// 释放画笔
+		graphics.dispose();
+		return image;
 	}
 
-	// 合成图片
-	public static void generateImag(String imageUrl, String content, String imageFormat, OutputStream out, String extra)
-			throws IOException, WriterException {
-		// 获取合成图片
-		HttpURLConnection conn = (HttpURLConnection) new URL(imageUrl).openConnection();
-		conn.setRequestMethod("GET");
-		// 获取输入流
-		BufferedImage imageLocal = ImageIO.read(conn.getInputStream());
-		imageLocal.createGraphics();
-		// 获取二维码图片
-		Graphics2D graphics = (Graphics2D) imageLocal.getGraphics();
-		// 设置二维码纠错级别ＭＡＰ
-		Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
-		hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q); // 矫错级别
-		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		// 创建比特矩阵(位矩阵)的QR码编码的字符串
-		BitMatrix byteMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, 180, 180, hintMap);
-		// 使BufferedImage勾画QRCode (matrixWidth 是行二维码像素点)
-		int matrixWidth = byteMatrix.getWidth();
-		// graphics.setColor(Color.WHITE);
-		// graphics.fillRect(30, 500, matrixWidth - 20, matrixWidth - 20);
-		// 使用比特矩阵画并保存图像
-		graphics.setColor(Color.BLACK);
-		for (int i = 0; i < matrixWidth; i++) {
-			for (int j = 0; j < matrixWidth; j++) {
-				if (byteMatrix.get(i, j)) {
-					graphics.fillRect(i + 20, j + 490, 1, 1);
-				}
-			}
-		}
-		// 增加LOGO
-		// 获取输入流
-		BufferedImage imageLocal1 = ImageIO.read(new File("/data/app/qipai_agent/logo.jpg"));
-		graphics.drawImage(imageLocal1, 90, 560, 40, 40, new ImageObserver() {
+	// 将img2合成到img1
+	public static void mergeImag(BufferedImage img1, BufferedImage img2, int x, int y, int width, int height) {
+		// 获取画笔
+		Graphics2D graphics = img1.createGraphics();
+		// 合成
+		graphics.drawImage(img2, x, y, width, height, null);
+		// 释放画笔
+		graphics.dispose();
+	}
 
-			@Override
-			public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		});
-		// 填充邀请码
-		// Font font = new Font("思源黑体", Font.BOLD, 40); // 定义字体对象
-		// graphics.setFont(font); // 设置graphics的字体对象
-		// graphics.setColor(Color.RED);
-		// graphics.drawString(extra, 160, 704);
-		ImageIO.write(imageLocal, imageFormat, out);
+	/**
+	 * 指定长和宽对图片进行缩放
+	 */
+	public static BufferedImage zoomBySize(int width, int height, BufferedImage img) throws IOException {
+		// 获取缩放后的实例
+		Image _img = img.getScaledInstance(width, height, Image.SCALE_DEFAULT);
+		// 创建新画布
+		BufferedImage newImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		// 获取画笔
+		Graphics2D graphics = newImg.createGraphics();
+		// 将缩放后的图画到新画布上
+		graphics.drawImage(_img, 0, 0, null);
+		// 释放画笔
+		graphics.dispose();
+		return newImg;
 	}
 
 }
