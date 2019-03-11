@@ -15,15 +15,10 @@ import com.anbang.qipai.admin.plan.bean.games.PlayersRecord;
 import com.anbang.qipai.admin.plan.service.gameservice.GameService;
 import com.google.gson.Gson;
 
-import test.dml.users.MemberService;
-
 @EnableBinding(DoudizhuGameSink.class)
 public class DoudizhuGameMsgReceiver {
 	@Autowired
 	private GameService gameService;
-
-	@Autowired
-	private MemberService memberService;
 
 	private Gson gson = new Gson();
 
