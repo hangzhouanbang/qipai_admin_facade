@@ -267,6 +267,20 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        wenzhouShuangkouResult:
+          destination: wenzhouShuangkouResult
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        doudizhuResult:
+          destination: doudizhuResult
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
         roomManage:
           destination: roomManage
           group: qipai-admin-facade
@@ -309,6 +323,13 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        doudizhuGame:
+          destination: doudizhuGame
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
         hongbaodianProduct:
           destination: hongbaodianProduct
           group: qipai-admin-facade
@@ -332,13 +353,6 @@ spring:
           contentType: application/json
         whitelist:
           destination: whitelist
-          group: qipai-admin-facade
-          consumer:
-            concurrency: 1
-            partitioned: false
-          contentType: application/json
-        memberType:
-          destination: memberType
           group: qipai-admin-facade
           consumer:
             concurrency: 1
