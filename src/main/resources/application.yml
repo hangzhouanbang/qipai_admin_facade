@@ -2,7 +2,14 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/qipai_admin_facade
-
+#      database: qipai_admin_facade
+#      host: 172.16.21.50
+#      port: 27017
+#      username: root
+#      password: '''~kkO837/FZ.'
+#      authentication-database: admin
+#      repositories:
+#        enabled: true
 
   cloud:
     stream:
@@ -35,6 +42,16 @@ spring:
                 batch:
                   size: 16384
           memberClubCard: 
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
+          juPrize:
             producer:
               configuration:
                 request:
@@ -368,6 +385,13 @@ spring:
           contentType: application/json
         whitelist:
           destination: whitelist
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        juPrize:
+          destination: juPrize
           group: qipai-admin-facade
           consumer:
             concurrency: 1

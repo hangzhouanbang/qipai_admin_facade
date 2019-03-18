@@ -36,4 +36,18 @@ public class CommonVOUtil {
         commonVO.setMsg(msg);
         return commonVO;
     }
+
+    public static CommonVO systemException(){
+        CommonVO commonVO = new CommonVO();
+        commonVO.setSuccess(false);
+        commonVO.setMsg("SYSTEMEXCEPTION");
+        return commonVO;
+    }
+
+    public static CommonVO lackParameter(){
+        CommonVO commonVO = new CommonVO();
+        commonVO.setSuccess(false);
+        commonVO.setMsg("Lack of parameter");
+        return commonVO;
+    }
 }
