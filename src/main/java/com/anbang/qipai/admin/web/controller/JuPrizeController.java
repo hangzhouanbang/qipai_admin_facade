@@ -99,7 +99,7 @@ public class JuPrizeController {
         List<JuPrize> juPrizes = juPrizeService.listJuPrize();
         Map<DrawTypeEnum, List<JuPrize>> map = juPrizes.stream().collect(Collectors.groupingBy(JuPrize::getDrawType));
 
-        int firstPrizeProbCount = map.get(DrawTypeEnum.first).stream().mapToInt(JuPrize::getFirstPrizeProb).sum();
+        int firstPrizeProbCount = map.get(DrawTypeEnum.first).stream().mapToInt(JuPrize::getPrizeProb).sum();
         int prizeProbCount = map.get(DrawTypeEnum.general).stream().mapToInt(JuPrize::getPrizeProb).sum();
 
         if (firstPrizeProbCount != 10000 || prizeProbCount != 10000) {

@@ -13,7 +13,6 @@ public class JuPrize {
     private int storeNum;//库存数量
     private String iconUrl;
     private int prizeProb;//中奖概率
-    private int firstPrizeProb;//首次中奖概率
     private boolean overstep;//超出奖池
 
     private DrawTypeEnum drawType;  // 抽奖行为本身的类型
@@ -74,14 +73,6 @@ public class JuPrize {
         this.prizeProb = prizeProb;
     }
 
-    public int getFirstPrizeProb() {
-        return firstPrizeProb;
-    }
-
-    public void setFirstPrizeProb(int firstPrizeProb) {
-        this.firstPrizeProb = firstPrizeProb;
-    }
-
     public boolean isOverstep() {
         return overstep;
     }
@@ -106,7 +97,6 @@ public class JuPrize {
         return singleNum == juPrize.singleNum &&
                 storeNum == juPrize.storeNum &&
                 prizeProb == juPrize.prizeProb &&
-                firstPrizeProb == juPrize.firstPrizeProb &&
                 overstep == juPrize.overstep &&
                 Objects.equals(id, juPrize.id) &&
                 Objects.equals(name, juPrize.name) &&
@@ -117,6 +107,6 @@ public class JuPrize {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, prizeType, singleNum, storeNum, iconUrl, prizeProb, firstPrizeProb, overstep, drawType);
+        return Objects.hash(id, name, prizeType, singleNum, storeNum, iconUrl, prizeProb, overstep, drawType);
     }
 }
