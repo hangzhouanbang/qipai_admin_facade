@@ -14,7 +14,8 @@ public class JuPrizeRelease {
     private boolean release;
     private long creatTime;
 
-    private List<JuPrize> snapshot;
+    private List<JuPrize> firstJuPrizes;
+    private List<JuPrize> generalJuPrizes;
 
     public Game getGame() {
         return game;
@@ -40,11 +41,19 @@ public class JuPrizeRelease {
         this.creatTime = creatTime;
     }
 
-    public List<JuPrize> getSnapshot() {
-        return snapshot;
+    public List<JuPrize> getFirstJuPrizes() {
+        return firstJuPrizes;
     }
 
-    public void setSnapshot(List<JuPrize> snapshot) {
-        this.snapshot = snapshot;
+    public void setFirstJuPrizes(List<JuPrize> firstJuPrizes) {
+        this.firstJuPrizes = firstJuPrizes;
+    }
+
+    public List<JuPrize> getGeneralJuPrizes() {
+        return generalJuPrizes;
+    }
+
+    public void setGeneralJuPrizes(List<JuPrize> generalJuPrizes) {
+        this.generalJuPrizes = generalJuPrizes;
     }
 }

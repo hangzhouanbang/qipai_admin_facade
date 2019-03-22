@@ -1,14 +1,16 @@
-package com.anbang.qipai.admin.plan.bean.juprize;
+package com.anbang.qipai.admin.web.vo.juprize;
 
-import java.util.Objects;
+import com.anbang.qipai.admin.plan.bean.juprize.DrawTypeEnum;
+import com.anbang.qipai.admin.plan.bean.juprize.JuPrize;
+import com.anbang.qipai.admin.plan.bean.juprize.JuPrizeTypeEnum;
 
 /**
- * @Description: 对局奖励物品
+ * @Description:
  */
-public class  JuPrize {
+public class JuPrizeVo {
     private String id;
     private String name;
-    private JuPrizeTypeEnum prizeType;//奖品类型
+    private String prizeType;//奖品类型
     private int singleNum;//单奖数量
     private int storeNum;//库存数量
     private String iconUrl;
@@ -16,6 +18,24 @@ public class  JuPrize {
     private boolean overstep;//超出奖池
 
     private DrawTypeEnum drawType;  // 抽奖行为本身的类型
+
+    public JuPrizeVo(JuPrize juPrize) {
+        this.id = juPrize.getId();
+        this.name = juPrize.getName();
+        switch (juPrize.getPrizeType()) {
+            case hongbaodian:
+                this.prizeType = "红包点";
+                break;
+            default:juPrize.getPrizeType().name();
+
+        }
+        this.singleNum = juPrize.getSingleNum();
+        this.storeNum = juPrize.getStoreNum();
+        this.iconUrl = juPrize.getIconUrl();
+        this.prizeProb = juPrize.getPrizeProb();
+        this.overstep = juPrize.isOverstep();
+        this.drawType = juPrize.getDrawType();
+    }
 
     public String getId() {
         return id;
@@ -33,11 +53,11 @@ public class  JuPrize {
         this.name = name;
     }
 
-    public JuPrizeTypeEnum getPrizeType() {
+    public String getPrizeType() {
         return prizeType;
     }
 
-    public void setPrizeType(JuPrizeTypeEnum prizeType) {
+    public void setPrizeType(String prizeType) {
         this.prizeType = prizeType;
     }
 
@@ -87,26 +107,5 @@ public class  JuPrize {
 
     public void setDrawType(DrawTypeEnum drawType) {
         this.drawType = drawType;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        JuPrize juPrize = (JuPrize) o;
-        return singleNum == juPrize.singleNum &&
-                storeNum == juPrize.storeNum &&
-                prizeProb == juPrize.prizeProb &&
-                overstep == juPrize.overstep &&
-                Objects.equals(id, juPrize.id) &&
-                Objects.equals(name, juPrize.name) &&
-                prizeType == juPrize.prizeType &&
-                Objects.equals(iconUrl, juPrize.iconUrl) &&
-                drawType == juPrize.drawType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, prizeType, singleNum, storeNum, iconUrl, prizeProb, overstep, drawType);
     }
 }

@@ -1,7 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.anbang.qipai.admin.msg.channel.source.JuPrizeSource;
 import com.anbang.qipai.admin.msg.service.JuPrizeSourceService;
 import com.anbang.qipai.admin.plan.bean.juprize.DrawTypeEnum;
 import com.anbang.qipai.admin.plan.bean.juprize.JuPrize;
@@ -12,10 +11,13 @@ import com.anbang.qipai.admin.plan.service.juprizeservice.JuPrizeService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.anbang.qipai.admin.web.vo.juprize.JuPrizeReleaseVo;
+import com.anbang.qipai.admin.web.vo.juprize.JuPrizeVo;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -47,7 +49,11 @@ public class JuPrizeController {
         Map data;
         try {
             List<JuPrize> juPrizes = juPrizeService.listJuPrize();
-            data = juPrizes.stream().collect(Collectors.groupingBy(JuPrize::getDrawType));
+            List<JuPrizeVo> juPrizeVos = new ArrayList<>();
+            for (JuPrize list : juPrizes) {
+                juPrizeVos.add(new JuPrizeVo(list));
+            }
+            data = juPrizeVos.stream().collect(Collectors.groupingBy(JuPrizeVo::getDrawType));
 
             List<JuPrizeRelease> juPrizeReleases = juPrizeReleaseService.listJuPrizeRelease();
             List<JuPrizeReleaseVo> juPrizeReleaseVos = new ArrayList<>();
@@ -75,12 +81,33 @@ public class JuPrizeController {
 
     @PostMapping("/saveGeneralJuPrize")
     public CommonVO saveGeneralJuPrize(JuPrize juPrize) {
-        if (juPrize.getDrawType() != null && juPrize.getName() != null && juPrize.getIconUrl() != null) {
+        if (juPrize.getDrawType() != null && juPrize.getName() != null && juPrize.getIconUrl() != null
+                && juPrize.getPrizeType() == null) {
             return CommonVOUtil.lackParameter();
         }
         juPrize.setDrawType(DrawTypeEnum.general);
         juPrizeService.saveOrUpdateJuPrize(juPrize);
         return CommonVOUtil.success("success");
+    }
+
+    @PostMapping("/deleteJuPrize")
+    public CommonVO deleteJuPrize(String id) {
+        if (StringUtils.isBlank(id)) {
+            return CommonVOUtil.lackParameter();
+        }
+        juPrizeService.deleteJuPrize(id);
+        return CommonVOUtil.success("success");
+    }
+
+    @PostMapping("/getJuPrize")
+    public CommonVO getJuPrize(String id) {
+        if (StringUtils.isBlank(id)) {
+            return CommonVOUtil.lackParameter();
+        }
+        JuPrize juPrize = juPrizeService.getJuPrize(id);
+        Map map = new HashMap();
+        map.put("juPrize", juPrize);
+        return CommonVOUtil.success(map, "success");
     }
 
     @PostMapping("/getJuPrizeType")
@@ -91,13 +118,18 @@ public class JuPrizeController {
     }
 
     @PostMapping("/juPrizeRelease")
-    public CommonVO juPrizeRelease(@RequestBody List<JuPrizeRelease> juPrizeReleases) {
+    public CommonVO juPrizeRelease(@RequestParam(value = "juPrizeReleaseList") String juPrizeReleaseList) {
+        List<JuPrizeRelease> juPrizeReleases = JSON.parseArray(juPrizeReleaseList,JuPrizeRelease.class);
         if (CollectionUtils.isEmpty(juPrizeReleases)) {
             return  CommonVOUtil.lackParameter();
         }
 
         List<JuPrize> juPrizes = juPrizeService.listJuPrize();
         Map<DrawTypeEnum, List<JuPrize>> map = juPrizes.stream().collect(Collectors.groupingBy(JuPrize::getDrawType));
+
+        if (map.get(DrawTypeEnum.first) == null || map.get(DrawTypeEnum.general) == null) {
+            return CommonVOUtil.error("请先设置概率");
+        }
 
         int firstPrizeProbCount = map.get(DrawTypeEnum.first).stream().mapToInt(JuPrize::getPrizeProb).sum();
         int prizeProbCount = map.get(DrawTypeEnum.general).stream().mapToInt(JuPrize::getPrizeProb).sum();
@@ -107,7 +139,8 @@ public class JuPrizeController {
         }
 
         for (JuPrizeRelease list : juPrizeReleases) {
-            list.setSnapshot(juPrizes);
+            list.setFirstJuPrizes(map.get(DrawTypeEnum.first));
+            list.setFirstJuPrizes(map.get(DrawTypeEnum.general));
             list.setCreatTime(System.currentTimeMillis());
             juPrizeReleaseService.save(list);
         }
