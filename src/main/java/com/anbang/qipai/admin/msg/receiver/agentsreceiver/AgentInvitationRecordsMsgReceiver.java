@@ -27,5 +27,8 @@ public class AgentInvitationRecordsMsgReceiver {
 		if ("ban invitation record".equals(mo.getMsg())) {
 			agentInvitationRecordService.banInvitationRecordById(record.getId());
 		}
+		if ("update invitation record".equals(mo.getMsg())) {
+			agentInvitationRecordService.saveAgentInvitationRecord(record);
+		}
 	}
 }

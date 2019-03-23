@@ -142,11 +142,12 @@ public class AgentController {
 	 */
 	@RequestMapping("/queryinvitatemember")
 	public CommonVO queryInvitateMember(String agentId, @RequestParam(defaultValue = "1") Integer page,
-			@RequestParam(defaultValue = "10") Integer size) {
+			@RequestParam(defaultValue = "10") Integer size, Boolean haveLogin) {
 		CommonVO vo = new CommonVO();
 		Map<String, Object> data = new HashMap<String, Object>();
 		AgentInvitationRecordVO record = new AgentInvitationRecordVO();
 		record.setAgentId(agentId);
+		record.setHaveLogin(haveLogin);
 		ListPage listPage = agentInvitationRecordService.findInvitationRecordByConditions(page, size, record);
 		data.put("listPage", listPage);
 		vo.setSuccess(true);

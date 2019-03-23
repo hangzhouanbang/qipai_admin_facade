@@ -5,6 +5,8 @@ public class AgentInvitationVO {
 	private String nickname;// 玩家昵称
 	private int gold;// 玉石
 	private long createTime;// 绑定时间
+	private String loginIp;// 登录ip
+	private String ipAddress;//ip地址
 
 	public String getMemberId() {
 		return memberId;
@@ -38,4 +40,19 @@ public class AgentInvitationVO {
 		this.createTime = createTime;
 	}
 
+	public String getLoginIp() {
+		return loginIp;
+	}
+
+	public void setLoginIp(String loginIp) {
+		this.loginIp = loginIp;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
 }

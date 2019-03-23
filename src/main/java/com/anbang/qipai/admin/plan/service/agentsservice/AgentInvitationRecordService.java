@@ -27,6 +27,10 @@ public class AgentInvitationRecordService {
 		invitationRecordDao.addInvitationRecord(record);
 	}
 
+	public void saveAgentInvitationRecord(AgentInvitationRecord record) {
+		invitationRecordDao.saveInvitationRecord(record);
+	}
+
 	public void banInvitationRecordById(String id) {
 		invitationRecordDao.banInvitationRecordById(id);
 	}
@@ -43,6 +47,8 @@ public class AgentInvitationRecordService {
 			vo.setNickname(member.getNickname());
 			vo.setGold(member.getGold());
 			vo.setCreateTime(r.getCreateTime());
+			vo.setLoginIp(r.getLoginIp());
+			vo.setIpAddress(r.getIpAddress());
 			list.add(vo);
 		}
 		ListPage listPage = new ListPage(list, page, size, (int) amount);

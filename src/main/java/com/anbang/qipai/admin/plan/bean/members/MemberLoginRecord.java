@@ -15,6 +15,8 @@ public class MemberLoginRecord {
 	private long loginTime;// 登录时间
 	private long lastLoginTime;// 上次登录时间
 
+	private String ipAddress;  //ip地址
+
 	public String getId() {
 		return id;
 	}
@@ -71,4 +73,11 @@ public class MemberLoginRecord {
 		this.lastLoginTime = lastLoginTime;
 	}
 
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
 }

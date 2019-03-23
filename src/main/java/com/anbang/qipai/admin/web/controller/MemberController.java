@@ -7,14 +7,12 @@ import com.anbang.qipai.admin.constant.Constants;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
 import com.anbang.qipai.admin.plan.service.gameservice.GameHistoricalJuResultService;
+import com.anbang.qipai.admin.remote.service.QipaiXiuxianchangRemoteService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.util.enums.CommonVOStatusEnum;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
@@ -82,6 +80,9 @@ public class MemberController {
     @Autowired
     private GameHistoricalJuResultService gameHistoricalJuResultService;
 
+    @Autowired
+    private QipaiXiuxianchangRemoteService qipaiXiuxianchangRemoteService;
+
     /**
      * 查询用户
      *
@@ -131,6 +132,14 @@ public class MemberController {
         data.put("phone", memberDbo.getPhone());
         data.put("IDcard", memberDbo.getIdCard());
         data.put("cost", memberDbo.getCost());
+
+        data.put("nickname", memberDbo.getNickname());
+        data.put("id", memberDbo.getId());
+        data.put("gold", memberDbo.getGold());
+        data.put("score", memberDbo.getScore());
+        data.put("vip", memberDbo.isVip());
+        data.put("vipEndTime", memberDbo.getVipEndTime());
+
         long onlineTime = 0;
         String loginIp = "";
         String loginTime = "";
@@ -142,6 +151,7 @@ public class MemberController {
         }
         data.put("onlineTime", onlineTime + "m");
         data.put("loginIp", loginIp);
+        data.put("ipAddress", memberDbo.getIpAddress());
         data.put("loginTime", loginTime);
         CommonRemoteVO rvo = qipaiGameRemoteService.game_queryMemberPlayingRoom(memberId);
         data.put("roomList", rvo.getData());
@@ -407,5 +417,20 @@ public class MemberController {
         qipaiMembersRemoteService.deletelimits(recordIds);
         vo.setSuccess(true);
         return vo;
+    }
+
+    @PostMapping("/giveXiuxianGold")
+    public CommonVO giveXiuxianGold(String memberId, int amount, String textSummary) {
+
+        if (StringUtils.isBlank(memberId) || amount == 0 || StringUtils.isBlank(textSummary)) {
+            return CommonVOUtil.lackParameter();
+        }
+
+        CommonRemoteVO rvo = qipaiXiuxianchangRemoteService.giveGoldToMember(memberId, amount, textSummary);
+        if (rvo.isSuccess()) {
+            return CommonVOUtil.success("success");
+        }
+
+        return CommonVOUtil.systemException();
     }
 }

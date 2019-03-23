@@ -25,6 +25,11 @@ public class MongodbAgentInvitationRecordDao implements AgentInvitationRecordDao
 	}
 
 	@Override
+	public void saveInvitationRecord(AgentInvitationRecord record) {
+		mongoTemplate.save(record);
+	}
+
+	@Override
 	public List<AgentInvitationRecord> findInvitationRecordByConditions(int page, int size,
 			AgentInvitationRecordVO record) {
 		Query query = new Query();
@@ -33,6 +38,9 @@ public class MongodbAgentInvitationRecordDao implements AgentInvitationRecordDao
 		}
 		if (record.getAgent() != null && !"".equals(record.getAgent())) {
 			query.addCriteria(Criteria.where("agent").regex(record.getAgent()));
+		}
+		if (record.getHaveLogin() != null) {
+			query.addCriteria(Criteria.where("haveLogin").is(record.getHaveLogin()));
 		}
 		if (record.getStartTime() != null || record.getEndTime() != null) {
 			Criteria criteria = Criteria.where("createTime");
@@ -59,6 +67,9 @@ public class MongodbAgentInvitationRecordDao implements AgentInvitationRecordDao
 		}
 		if (record.getAgent() != null && !"".equals(record.getAgent())) {
 			query.addCriteria(Criteria.where("agent").regex(record.getAgent()));
+		}
+		if (record.getHaveLogin() != null) {
+			query.addCriteria(Criteria.where("haveLogin").is(record.getHaveLogin()));
 		}
 		if (record.getStartTime() != null || record.getEndTime() != null) {
 			Criteria criteria = Criteria.where("createTime");

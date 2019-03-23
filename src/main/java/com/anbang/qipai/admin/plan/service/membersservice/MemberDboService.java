@@ -150,6 +150,10 @@ public class MemberDboService {
 		memberDao.updateMemberOnlineState(memberId, onlineState);
 	}
 
+	public void updateOnlineStateAndIP(String memberId, String onlineState, String loginIp, String ipAddress) {
+		memberDao.updateOnlineStateAndIP(memberId, onlineState, loginIp, ipAddress);
+	}
+
 	public List<String> findVipMemberId() {
 		List<String> ids = memberDao.findVipMemberId();
 		return ids;

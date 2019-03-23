@@ -52,6 +52,8 @@ public interface MemberDao {
 
 	void updateMemberOnlineState(String memberId, String onlineState);
 
+	void updateOnlineStateAndIP(String memberId, String onlineState, String loginIp, String ipAddress);
+
 	List<String> findAllMemberId();
 
 	List<String> findMemberId();

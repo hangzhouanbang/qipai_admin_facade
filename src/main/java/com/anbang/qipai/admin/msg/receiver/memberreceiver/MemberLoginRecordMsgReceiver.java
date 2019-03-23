@@ -41,7 +41,9 @@ public class MemberLoginRecordMsgReceiver {
 			record.setNickname(member.getNickname());
 			memberLoginRecordService.save(record);
 			String onlineState = (String) map.get("onlineState");
-			memberDboService.updateMemberOnlineState(record.getMemberId(), onlineState);
+			String loginIp = (String) map.get("loginIP");
+			String ipAddress = (String) map.get("ipAddress");
+			memberDboService.updateOnlineStateAndIP(record.getMemberId(), onlineState, loginIp, ipAddress);
 
 			// 利用SpringEvent添加上线记录
 			OnlineStateRecord onlineStateRecord = new OnlineStateRecord(member.getId(), System.currentTimeMillis(),
@@ -56,7 +58,9 @@ public class MemberLoginRecordMsgReceiver {
 		if ("member logout".equals(msg)) {
 			String memberId = (String) map.get("memberId");
 			String onlineState = (String) map.get("onlineState");
-			memberDboService.updateMemberOnlineState(memberId, onlineState);
+			String loginIp = (String) map.get("loginIP");
+			String ipAddress = (String) map.get("ipAddress");
+			memberDboService.updateOnlineStateAndIP(memberId, onlineState, loginIp, ipAddress);
 
 			// 利用SpringEvent添加下线记录
 			OnlineStateRecord onlineStateRecord = new OnlineStateRecord(memberId, System.currentTimeMillis(),

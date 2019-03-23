@@ -38,6 +38,9 @@ public class MongodbMemberDao implements MemberDao {
 		if ("true".equals(member.getIsVip()) || "false".equals(member.getIsVip())) {
 			query.addCriteria(Criteria.where("vip").is(Boolean.valueOf(member.getIsVip())));
 		}
+		if (StringUtils.isNotBlank(member.getIpAddress())) {
+			query.addCriteria(Criteria.where("ipAddress").regex(member.getIpAddress()));
+		}
 		query.addCriteria(Criteria.where("robot").is(member.isRobot()));	//默认查询非机器人的玩家
 		query.with(member.getSort());
 		query.skip((page - 1) * size);
@@ -101,6 +104,10 @@ public class MongodbMemberDao implements MemberDao {
 		if ("true".equals(member.getIsVip()) || "false".equals(member.getIsVip())) {
 			query.addCriteria(Criteria.where("vip").is(Boolean.valueOf(member.getIsVip())));
 		}
+		if (StringUtils.isNotBlank(member.getIpAddress())) {
+			query.addCriteria(Criteria.where("ipAddress").regex(member.getIpAddress()));
+		}
+
 		query.addCriteria(Criteria.where("robot").is(member.isRobot()));	//默认查询非机器人的玩家
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
@@ -182,6 +189,15 @@ public class MongodbMemberDao implements MemberDao {
 		Query query = new Query(Criteria.where("id").is(memberId));
 		Update update = new Update();
 		update.set("onlineState", onlineState);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
+
+	public void updateOnlineStateAndIP(String memberId, String onlineState, String loginIp, String ipAddress){
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("onlineState", onlineState);
+		update.set("loginIp", loginIp);
+		update.set("ipAddress", ipAddress);
 		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 

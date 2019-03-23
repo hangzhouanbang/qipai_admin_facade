@@ -23,6 +23,9 @@ public class MemberDbo {
 
 	private boolean robot;//是否是机器人
 
+	private String loginIp;  //登录ip
+	private String ipAddress; //ip地址
+
 	public String getId() {
 		return id;
 	}
@@ -181,5 +184,21 @@ public class MemberDbo {
 
 	public void setRobot(boolean robot) {
 		this.robot = robot;
+	}
+
+	public String getLoginIp() {
+		return loginIp;
+	}
+
+	public void setLoginIp(String loginIp) {
+		this.loginIp = loginIp;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 }

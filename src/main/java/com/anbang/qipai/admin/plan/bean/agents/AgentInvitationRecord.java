@@ -12,15 +12,12 @@ public class AgentInvitationRecord {
 	private int score;// 累计得分
 	private long createTime;// 绑定时间
 	private boolean ban;// 是否禁用
-	private boolean haveLogin;  //是否已登录
+	private Boolean haveLogin;  //是否已登录
 
-	public boolean isBan() {
-		return ban;
-	}
-
-	public void setBan(boolean ban) {
-		this.ban = ban;
-	}
+	private String loginIp;//玩家登录ip
+	private String ipAddress;//ip地址
+	private String agentType;//代理类型
+	private double agentEarn;//特定代理的本次收益
 
 	public String getId() {
 		return id;
@@ -102,11 +99,51 @@ public class AgentInvitationRecord {
 		this.createTime = createTime;
 	}
 
-	public boolean isHaveLogin() {
+	public boolean isBan() {
+		return ban;
+	}
+
+	public void setBan(boolean ban) {
+		this.ban = ban;
+	}
+
+	public Boolean getHaveLogin() {
 		return haveLogin;
 	}
 
-	public void setHaveLogin(boolean haveLogin) {
+	public void setHaveLogin(Boolean haveLogin) {
 		this.haveLogin = haveLogin;
+	}
+
+	public String getLoginIp() {
+		return loginIp;
+	}
+
+	public void setLoginIp(String loginIp) {
+		this.loginIp = loginIp;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public String getAgentType() {
+		return agentType;
+	}
+
+	public void setAgentType(String agentType) {
+		this.agentType = agentType;
+	}
+
+	public double getAgentEarn() {
+		return agentEarn;
+	}
+
+	public void setAgentEarn(double agentEarn) {
+		this.agentEarn = agentEarn;
 	}
 }
