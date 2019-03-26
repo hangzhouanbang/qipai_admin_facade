@@ -140,7 +140,7 @@ public class JuPrizeController {
 
         for (JuPrizeRelease list : juPrizeReleases) {
             list.setFirstJuPrizes(map.get(DrawTypeEnum.first));
-            list.setFirstJuPrizes(map.get(DrawTypeEnum.general));
+            list.setGeneralJuPrizes(map.get(DrawTypeEnum.general));
             list.setCreatTime(System.currentTimeMillis());
             juPrizeReleaseService.save(list);
         }
