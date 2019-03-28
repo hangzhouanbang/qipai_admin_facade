@@ -3,6 +3,7 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/qipai_admin_facade
 
+
   cloud:
     stream:
       kafka: 
@@ -384,6 +385,11 @@ spring:
           contentType: application/json
         juPrize:
           destination: juPrize
+          contentType: application/json
+          producer:
+            partitionCount: 1
+        prizeSend:
+          destination: prizeSend
           group: qipai-admin-facade
           consumer:
             concurrency: 1

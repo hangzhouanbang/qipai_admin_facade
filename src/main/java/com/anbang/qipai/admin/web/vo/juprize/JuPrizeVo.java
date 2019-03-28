@@ -2,7 +2,6 @@ package com.anbang.qipai.admin.web.vo.juprize;
 
 import com.anbang.qipai.admin.plan.bean.juprize.DrawTypeEnum;
 import com.anbang.qipai.admin.plan.bean.juprize.JuPrize;
-import com.anbang.qipai.admin.plan.bean.juprize.JuPrizeTypeEnum;
 
 /**
  * @Description:
@@ -23,7 +22,7 @@ public class JuPrizeVo {
         this.id = juPrize.getId();
         this.name = juPrize.getName();
         switch (juPrize.getPrizeType()) {
-            case hongbaodian:
+            case HONGBAODIAN:
                 this.prizeType = "红包点";
                 break;
             default:juPrize.getPrizeType().name();

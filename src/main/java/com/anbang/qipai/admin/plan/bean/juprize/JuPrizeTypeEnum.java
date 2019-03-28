@@ -13,4 +13,12 @@ public enum JuPrizeTypeEnum {
         dropDowns.add(new CommonDropDown(HONGBAODIAN.name(), "红包点"));
         return dropDowns;
     }
+
+    public static String getJuPrizeName(JuPrizeTypeEnum juPrizeTypeEnum) {
+        switch (juPrizeTypeEnum) {
+            case HONGBAODIAN:
+                return "红包点";
+        }
+        return "";
+    }
 }

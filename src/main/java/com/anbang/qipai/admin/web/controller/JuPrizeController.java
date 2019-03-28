@@ -6,12 +6,15 @@ import com.anbang.qipai.admin.plan.bean.juprize.DrawTypeEnum;
 import com.anbang.qipai.admin.plan.bean.juprize.JuPrize;
 import com.anbang.qipai.admin.plan.bean.juprize.JuPrizeRelease;
 import com.anbang.qipai.admin.plan.bean.juprize.JuPrizeTypeEnum;
+import com.anbang.qipai.admin.plan.service.juprizeservice.JuPrizeRecordDetailService;
 import com.anbang.qipai.admin.plan.service.juprizeservice.JuPrizeReleaseService;
 import com.anbang.qipai.admin.plan.service.juprizeservice.JuPrizeService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.web.vo.CommonVO;
+import com.anbang.qipai.admin.web.vo.juprize.JuPrizeRecordDetailQuery;
 import com.anbang.qipai.admin.web.vo.juprize.JuPrizeReleaseVo;
 import com.anbang.qipai.admin.web.vo.juprize.JuPrizeVo;
+import com.highto.framework.web.page.ListPage;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -20,10 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +45,9 @@ public class JuPrizeController {
 
     @Autowired
     private JuPrizeSourceService juPrizeSourceService;
+
+    @Autowired
+    private JuPrizeRecordDetailService juPrizeRecordDetailService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -148,5 +155,32 @@ public class JuPrizeController {
         juPrizeSourceService.juPrizeRelease(juPrizeReleases);
 
         return CommonVOUtil.success("success");
+    }
+
+    @PostMapping("/listJuPrizeRecord")
+    public CommonVO listJuPrizeRecord(@RequestParam(value = "page", defaultValue = "1") int page,
+                                      @RequestParam(value = "size", defaultValue = "10") int size,
+                                      JuPrizeRecordDetailQuery query) {
+        ListPage listPage = juPrizeRecordDetailService.listPrizeRecordDetailByQuery(page, size, query);
+        return CommonVOUtil.success(listPage, "success");
+    }
+
+    @RequestMapping(value= "/juPrizeRecordExport", method = RequestMethod.GET)
+    public CommonVO juPrizeRecordExport(JuPrizeRecordDetailQuery query, HttpServletResponse response) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        String fileName = format.format(date) + "juPrizeRecord.xlsx";
+        response.reset();
+        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+        response.setContentType("application/msexcel");
+        try {
+            OutputStream output = response.getOutputStream();
+            juPrizeRecordDetailService.juPrizeRecordExport(query, output);
+            output.close();
+            return CommonVOUtil.success("success");
+        } catch (IOException e) {
+            logger.error("juPrizeRecordExport-" + JSON.toJSONString(e));
+        }
+        return CommonVOUtil.systemException();
     }
 }
