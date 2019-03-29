@@ -41,8 +41,8 @@ public class MemberLoginRecordMsgReceiver {
 			record.setNickname(member.getNickname());
 			memberLoginRecordService.save(record);
 			String onlineState = (String) map.get("onlineState");
-			String loginIp = (String) map.get("loginIP");
-			String ipAddress = (String) map.get("ipAddress");
+			String loginIp = record.getLoginIp();
+			String ipAddress = record.getIpAddress();
 			memberDboService.updateOnlineStateAndIP(record.getMemberId(), onlineState, loginIp, ipAddress);
 
 			// 利用SpringEvent添加上线记录
