@@ -13,5 +13,6 @@ public interface JuPrizeDao {
 
     List<JuPrize> listJuPrize();
 
+    void updateStoreNum(String id, int storeNum);
 
 }

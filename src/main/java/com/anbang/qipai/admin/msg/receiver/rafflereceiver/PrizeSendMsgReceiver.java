@@ -3,10 +3,12 @@ package com.anbang.qipai.admin.msg.receiver.rafflereceiver;
 import com.alibaba.fastjson.JSON;
 import com.anbang.qipai.admin.msg.channel.sink.PrizeSendSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
+import com.anbang.qipai.admin.plan.bean.juprize.JuPrize;
 import com.anbang.qipai.admin.plan.bean.juprize.JuPrizeRecord;
 import com.anbang.qipai.admin.plan.bean.juprize.JuPrizeRecordDetail;
 import com.anbang.qipai.admin.plan.bean.juprize.JuPrizeTypeEnum;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.plan.dao.juprizedao.JuPrizeDao;
 import com.anbang.qipai.admin.plan.dao.juprizedao.JuPrizeRecordDetailDao;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberDao;
 import org.slf4j.Logger;
@@ -24,6 +26,9 @@ public class PrizeSendMsgReceiver {
 
     @Autowired
     private MemberDao memberDao;
+
+    @Autowired
+    private JuPrizeDao juPrizeDao;
 
     @Autowired
     private JuPrizeRecordDetailDao juPrizeRecordDetailDao;
@@ -51,6 +56,13 @@ public class PrizeSendMsgReceiver {
                     prizeDetail.setSendTime(record.getSendTime());
                     prizeDetail.setDrawType(record.getJuPrize().getDrawType().name());
                     juPrizeRecordDetailDao.save(prizeDetail);
+                }
+
+                // 更新库存
+                JuPrize juPrize = juPrizeDao.getJuPrize(record.getJuPrize().getId());
+                if (juPrize != null) {
+                    int storeNum = record.getJuPrize().getStoreNum();
+                    juPrizeDao.updateStoreNum(juPrize.getId(), storeNum);
                 }
             }
         } catch (Exception e) {

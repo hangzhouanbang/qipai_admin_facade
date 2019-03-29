@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -40,5 +41,11 @@ public class MongodbJuPrizeDao implements JuPrizeDao {
     @Override
     public List<JuPrize> listJuPrize() {
         return mongoTemplate.findAll(JuPrize.class);
+    }
+
+    @Override
+    public void updateStoreNum(String id, int storeNum) {
+        mongoTemplate.updateFirst(new Query(Criteria.where("id").is(id)),
+                new Update().set("storeNum", storeNum), JuPrize.class);
     }
 }

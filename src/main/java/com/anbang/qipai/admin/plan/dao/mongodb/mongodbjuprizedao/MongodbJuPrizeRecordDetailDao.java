@@ -5,6 +5,7 @@ import com.anbang.qipai.admin.plan.dao.juprizedao.JuPrizeRecordDetailDao;
 import com.anbang.qipai.admin.web.vo.juprize.JuPrizeRecordDetailQuery;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -71,7 +72,7 @@ public class MongodbJuPrizeRecordDetailDao implements JuPrizeRecordDetailDao {
         if (recordQuery.getStartTime() != null) {
             query.addCriteria(Criteria.where("sendTime").lte(recordQuery.getEndTime()));
         }
-
+        query.with(new Sort(Sort.Direction.DESC, "sendTime"));
         query.skip((page - 1) * size);
         query.limit(size);
         return mongoTemplate.find(query, JuPrizeRecordDetail.class);
