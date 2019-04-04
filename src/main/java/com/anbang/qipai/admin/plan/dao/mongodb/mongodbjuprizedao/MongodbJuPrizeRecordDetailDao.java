@@ -40,13 +40,15 @@ public class MongodbJuPrizeRecordDetailDao implements JuPrizeRecordDetailDao {
             query.addCriteria(Criteria.where("loginIp").is(recordQuery.getLoginIp()));
         }
 
-
-
-        if (recordQuery.getStartTime() != null) {
-            query.addCriteria(Criteria.where("sendTime").gte(recordQuery.getStartTime()));
-        }
-        if (recordQuery.getStartTime() != null) {
-            query.addCriteria(Criteria.where("sendTime").lte(recordQuery.getEndTime()));
+        if (recordQuery.getStartTime() != null || recordQuery.getEndTime() != null) {
+            Criteria criteria = Criteria.where("sendTime");
+            if (recordQuery.getStartTime() != null) {
+                criteria = criteria.gte(recordQuery.getStartTime());
+            }
+            if (recordQuery.getEndTime() != null) {
+                criteria = criteria.lte(recordQuery.getEndTime());
+            }
+            query.addCriteria(criteria);
         }
         return mongoTemplate.count(query, JuPrizeRecordDetail.class);
     }
