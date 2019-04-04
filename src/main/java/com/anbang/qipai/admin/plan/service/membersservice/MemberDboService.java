@@ -184,4 +184,8 @@ public class MemberDboService {
 	public long countRobotVipMember() {
 		return memberDao.countRobotVipMember();
 	}
+
+	public List<MemberDbo> findMemberByIP(String loginIp) {
+		return memberDao.findMemberByIP(loginIp);
+	}
 }

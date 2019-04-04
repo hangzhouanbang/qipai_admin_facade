@@ -78,4 +78,6 @@ public interface MemberDao {
 	long countRobotVipMember();
 
 	long countRobotAmount();
+
+	List<MemberDbo> findMemberByIP(String loginIp);
 }

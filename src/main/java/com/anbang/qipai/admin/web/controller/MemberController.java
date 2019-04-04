@@ -433,4 +433,13 @@ public class MemberController {
 
         return CommonVOUtil.systemException();
     }
+
+    @PostMapping("/findMemberByIP")
+    public CommonVO findMemberByIP(String loginIp) {
+        if (StringUtils.isBlank(loginIp)) {
+            return CommonVOUtil.success("loginIp is null");
+        }
+        List<MemberDbo> memberDbos = memberService.findMemberByIP(loginIp);
+        return CommonVOUtil.success(memberDbos, "success");
+    }
 }
