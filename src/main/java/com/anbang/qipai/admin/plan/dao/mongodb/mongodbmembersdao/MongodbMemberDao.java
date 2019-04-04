@@ -318,14 +318,14 @@ public class MongodbMemberDao implements MemberDao {
 	@Override
 	public long countRobotVipMember() {
 		Query query = new Query(Criteria.where("vip").is(true));
-		query.addCriteria(Criteria.where("robot").is(true));	//查询非机器人的玩家
+		query.addCriteria(Criteria.where("robot").is(true));
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
 	@Override
 	public long countRobotAmount() {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("robot").is(true));	//默认查询非机器人的玩家
+		query.addCriteria(Criteria.where("robot").is(true));
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
 
@@ -333,7 +333,7 @@ public class MongodbMemberDao implements MemberDao {
 	public List<MemberDbo> findMemberByIP(String loginIp) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("loginIp").is(loginIp));
-		query.addCriteria(Criteria.where("robot").is(true));	//默认查询非机器人的玩家
+		query.addCriteria(Criteria.where("robot").is(false));	//默认查询非机器人的玩家
 		return mongoTemplate.find(query, MemberDbo.class);
 	}
 }
