@@ -1,6 +1,7 @@
 package com.anbang.qipai.admin.web.controller;
 
 import com.anbang.qipai.admin.msg.service.AdminHongbaoAdjustMsgService;
+import com.anbang.qipai.admin.plan.bean.hongbao.MemberInvitationRecord;
 import com.anbang.qipai.admin.plan.bean.hongbao.MemberInvitationRecordState;
 import com.anbang.qipai.admin.plan.service.MemberInvitationRecordService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
@@ -60,6 +61,12 @@ public class MemberInvitationController {
         if (StringUtils.isBlank(invitationMemberId)) {
             return CommonVOUtil.lackParameter();
         }
+
+        MemberInvitationRecord record = memberInvitationRecordService.findMemberInvitationRecordByInvitationMemberId(invitationMemberId);
+        if (record == null) {
+            return CommonVOUtil.error("parameter error");
+        }
+        memberInvitationRecordService.updateMemberInvitationRecordState(record.getId(), MemberInvitationRecordState.SUCCESS);
         adminHongbaoAdjustMsgService.updateInvitationState(invitationMemberId);
         return CommonVOUtil.success("success");
     }
