@@ -24,6 +24,7 @@ public class MemberVO extends MemberDbo {
 	private long lastLoginTime;  //最后一次登录时间
 
 	private int totalInvitationNum; //玩家邀请人数
+	private String invitedBy;  //该玩家的邀请人（玩家）
 
 	public Sort getSort() {
 		List<Order> orderList = new ArrayList<>();
@@ -174,5 +175,13 @@ public class MemberVO extends MemberDbo {
 
 	public void setTotalInvitationNum(int totalInvitationNum) {
 		this.totalInvitationNum = totalInvitationNum;
+	}
+
+	public String getInvitedBy() {
+		return invitedBy;
+	}
+
+	public void setInvitedBy(String invitedBy) {
+		this.invitedBy = invitedBy;
 	}
 }

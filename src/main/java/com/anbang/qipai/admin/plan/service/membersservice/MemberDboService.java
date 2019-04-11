@@ -3,6 +3,7 @@ package com.anbang.qipai.admin.plan.service.membersservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.anbang.qipai.admin.plan.bean.hongbao.MemberInvitationRecord;
 import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
 import com.anbang.qipai.admin.plan.dao.hongbaodao.MemberInvitationRecordDao;
 import com.anbang.qipai.admin.plan.dao.reportdao.OnlineStateRecordDao;
@@ -48,6 +49,10 @@ public class MemberDboService {
 			BeanUtils.copyProperties(list, vo);
 			int totalInvitationNum = (int) memberInvitationRecordDao.countByMemberId(list.getId(), null);
 			vo.setTotalInvitationNum(totalInvitationNum);
+			MemberInvitationRecord invitationRecord = memberInvitationRecordDao.findByInvitationMemberId(list.getId());
+			if (invitationRecord != null){
+				vo.setInvitedBy(invitationRecord.getMemberId());
+			}
 			memberVOs.add(vo);
 		}
 
