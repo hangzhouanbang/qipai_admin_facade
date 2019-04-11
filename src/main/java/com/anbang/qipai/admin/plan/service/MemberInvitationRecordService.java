@@ -2,14 +2,13 @@ package com.anbang.qipai.admin.plan.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 import com.anbang.qipai.admin.plan.bean.hongbao.MemberInvitationRecord;
 import com.anbang.qipai.admin.plan.bean.hongbao.MemberInvitationRecordState;
 import com.anbang.qipai.admin.plan.dao.hongbaodao.MemberInvitationRecordDao;
 import com.anbang.qipai.admin.web.query.InvitationQuery;
-import com.anbang.qipai.admin.web.vo.hongbao.MemberInvitationRecordVO;
+import com.anbang.qipai.admin.web.vo.membersvo.MemberInvitationRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.web.vo.hongbao;
+package com.anbang.qipai.admin.web.vo.membersvo;
 
 public class MemberInvitationRecordVO {
     private String invitationMemberId;// 被邀请人id

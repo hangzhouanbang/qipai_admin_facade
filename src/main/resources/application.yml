@@ -54,6 +54,17 @@ spring:
                   ms: 5
                 batch:
                   size: 16384
+          adminHongbaoAdjust:
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
+
       bindings:
         members:
           destination: members
@@ -395,6 +406,18 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        memberInvitationRecord:
+          destination: memberInvitationRecord
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        adminHongbaoAdjust:
+          destination: adminHongbaoAdjust
+          contentType: application/json
+          producer:
+            partitionCount: 1
   application:
     name: qipai-admin-facade
 server:
