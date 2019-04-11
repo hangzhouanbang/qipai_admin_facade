@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.web.controller;
 
+import com.anbang.qipai.admin.msg.service.AdminHongbaoAdjustMsgService;
 import com.anbang.qipai.admin.plan.bean.hongbao.MemberInvitationRecordState;
 import com.anbang.qipai.admin.plan.service.MemberInvitationRecordService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
@@ -25,6 +26,9 @@ public class MemberInvitationController {
     @Autowired
     private MemberInvitationRecordService memberInvitationRecordService;
 
+    @Autowired
+    private AdminHongbaoAdjustMsgService adminHongbaoAdjustMsgService;
+
     @RequestMapping("/listInvitationRecord")
     public CommonVO listInvitationRecord(InvitationQuery query) {
         if (query.getPage() == null || query.getSize() == null) {
@@ -49,5 +53,14 @@ public class MemberInvitationController {
         }
 
         return CommonVOUtil.success(data, "success");
+    }
+
+    @RequestMapping("/updateInvitationState")
+    public CommonVO updateInvitationState(String invitationMemberId) {
+        if (StringUtils.isBlank(invitationMemberId)) {
+            return CommonVOUtil.lackParameter();
+        }
+        adminHongbaoAdjustMsgService.updateInvitationState(invitationMemberId);
+        return CommonVOUtil.success("success");
     }
 }

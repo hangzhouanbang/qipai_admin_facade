@@ -15,7 +15,7 @@ public class AdminHongbaoAdjustMsgService {
     @Autowired
     private AdminHongbaoAdjustSource adminHongbaoAdjustSource;
 
-    public void juPrizeRelease(String invitationMemberId) {
+    public void updateInvitationState(String invitationMemberId) {
         CommonMO mo = new CommonMO();
         mo.setMsg("update_invitation_state");
         mo.setData(invitationMemberId);
