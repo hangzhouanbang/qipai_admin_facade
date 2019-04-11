@@ -42,8 +42,10 @@ public class MemberInvitationController {
 
         if (MemberInvitationRecordState.SUCCESS.equals(query.getState())) {
             data.put("validInvitationNum", listPage.getTotalItemsCount());
+            data.put("noValidInvitationNum", totalInvitationNum - listPage.getTotalItemsCount());
         } else {
             data.put("validInvitationNum", totalInvitationNum - listPage.getTotalItemsCount());
+            data.put("noValidInvitationNum", listPage.getTotalItemsCount());
         }
 
         return CommonVOUtil.success(data, "success");
