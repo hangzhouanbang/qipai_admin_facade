@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
+import com.anbang.qipai.admin.plan.dao.hongbaodao.MemberInvitationRecordDao;
 import com.anbang.qipai.admin.plan.dao.reportdao.OnlineStateRecordDao;
 import com.anbang.qipai.admin.web.query.MemberQuery;
 import org.apache.commons.collections4.CollectionUtils;
@@ -26,6 +27,9 @@ public class MemberDboService {
 	@Autowired
 	private OnlineStateRecordDao onlineStateRecordDao;
 
+	@Autowired
+	private MemberInvitationRecordDao memberInvitationRecordDao;
+
 	public List<MemberDbo> findMemberDboByIds(String[] memberIds) {
 		return memberDao.findMemberDboByIds(memberIds);
 	}
@@ -37,7 +41,17 @@ public class MemberDboService {
 			String onlineState = memberList.get(i).getOnlineState();
 			memberList.get(i).setOnlineState(MemberOnlineState.getSummaryText(onlineState));
 		}
-		ListPage listPage = new ListPage(memberList, page, size, (int) amount);
+
+		List<MemberVO> memberVOs = new ArrayList<>();
+		for (MemberDbo list : memberList) {
+			MemberVO vo = new MemberVO();
+			BeanUtils.copyProperties(list, vo);
+			int totalInvitationNum = (int) memberInvitationRecordDao.countByMemberId(list.getId(), null);
+			vo.setTotalInvitationNum(totalInvitationNum);
+			memberVOs.add(vo);
+		}
+
+		ListPage listPage = new ListPage(memberVOs, page, size, (int) amount);
 		return listPage;
 	}
 

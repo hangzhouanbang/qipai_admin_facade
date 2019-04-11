@@ -23,6 +23,8 @@ public class MemberVO extends MemberDbo {
 
 	private long lastLoginTime;  //最后一次登录时间
 
+	private int totalInvitationNum; //玩家邀请人数
+
 	public Sort getSort() {
 		List<Order> orderList = new ArrayList<>();
 		if ("ASC".equals(goldSort)) {
@@ -164,5 +166,13 @@ public class MemberVO extends MemberDbo {
 
 	public void setLastLoginTime(long lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
+	}
+
+	public int getTotalInvitationNum() {
+		return totalInvitationNum;
+	}
+
+	public void setTotalInvitationNum(int totalInvitationNum) {
+		this.totalInvitationNum = totalInvitationNum;
 	}
 }

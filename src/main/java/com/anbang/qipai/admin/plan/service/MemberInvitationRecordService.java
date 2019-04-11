@@ -83,7 +83,7 @@ public class MemberInvitationRecordService {
 	}
 
 	public MemberInvitationRecord updateMemberInvitationRecordCause(String id, String cause) {
-		memberInvitationRecordDao.updateState(id, cause);
+		memberInvitationRecordDao.updateCause(id, cause);
 		return memberInvitationRecordDao.findById(id);
 	}
 }
