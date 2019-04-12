@@ -1,5 +1,12 @@
 package com.anbang.qipai.admin.msg.receiver.resultreceiver;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+
 import com.anbang.qipai.admin.msg.channel.sink.resultsink.PaodekuaiGameSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.bean.games.Game;
@@ -7,12 +14,6 @@ import com.anbang.qipai.admin.plan.bean.games.GameRoom;
 import com.anbang.qipai.admin.plan.bean.games.PlayersRecord;
 import com.anbang.qipai.admin.plan.service.gameservice.GameService;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
-
-import java.util.List;
-import java.util.Map;
 
 @EnableBinding(PaodekuaiGameSink.class)
 public class PaodekuaiGameMsgReceiver {
@@ -40,7 +41,11 @@ public class PaodekuaiGameMsgReceiver {
 				gameService.saveGameRoom(room);
 			}
 		}
-
+		if ("ju canceled".equals(msg)) {// 一局游戏取消
+			Map data = (Map) mo.getData();
+			String gameId = (String) data.get("gameId");
+			gameService.gameRoomFinished(Game.paodekuai, gameId);
+		}
 		if ("ju finished".equals(msg)) {// 一局游戏结束
 			Map data = (Map) mo.getData();
 			String gameId = (String) data.get("gameId");
