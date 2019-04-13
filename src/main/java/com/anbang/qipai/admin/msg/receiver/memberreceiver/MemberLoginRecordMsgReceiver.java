@@ -58,9 +58,7 @@ public class MemberLoginRecordMsgReceiver {
 		if ("member logout".equals(msg)) {
 			String memberId = (String) map.get("memberId");
 			String onlineState = (String) map.get("onlineState");
-			String loginIp = (String) map.get("loginIP");
-			String ipAddress = (String) map.get("ipAddress");
-			memberDboService.updateOnlineStateAndIP(memberId, onlineState, loginIp, ipAddress);
+			memberDboService.updateMemberOnlineState(memberId, onlineState);
 
 			// 利用SpringEvent添加下线记录
 			OnlineStateRecord onlineStateRecord = new OnlineStateRecord(memberId, System.currentTimeMillis(),
