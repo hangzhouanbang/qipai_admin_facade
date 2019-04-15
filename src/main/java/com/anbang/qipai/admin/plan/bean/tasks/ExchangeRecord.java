@@ -15,6 +15,8 @@ public class ExchangeRecord {
     private int exchangeAmount;
     private String itemName;
 
+    private String ipAddress;
+
     public String getId() {
         return id;
     }
@@ -85,5 +87,13 @@ public class ExchangeRecord {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 }
