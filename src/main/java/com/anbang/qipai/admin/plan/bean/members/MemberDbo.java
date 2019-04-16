@@ -20,11 +20,20 @@ public class MemberDbo {
 	private int gold;// 金币
 	private int score;// 积分
 	private double cost;// 累计消费
+	private String reqIP;// 注册ip
 
-	private boolean robot;//是否是机器人
+	private boolean robot;// 是否是机器人
 
-	private String loginIp;  //登录ip
-	private String ipAddress; //ip地址
+	private String loginIp; // 登录ip
+	private String ipAddress; // ip地址
+
+	public String getReqIP() {
+		return reqIP;
+	}
+
+	public void setReqIP(String reqIP) {
+		this.reqIP = reqIP;
+	}
 
 	public String getId() {
 		return id;
