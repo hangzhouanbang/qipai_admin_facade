@@ -42,6 +42,7 @@ public class MongodbExchangeRecordDao implements ExchangeRecordDao {
         update.set("exchangeType",exchangeRecord.getExchangeType());
         update.set("exchangeAmount",exchangeRecord.getExchangeAmount());
         update.set("itemName",exchangeRecord.getItemName());
+        update.set("status",exchangeRecord.getStatus());
         mongoTemplate.updateFirst(query,update,ExchangeRecord.class);
     }
 
@@ -66,6 +67,7 @@ public class MongodbExchangeRecordDao implements ExchangeRecordDao {
                 query.addCriteria(criteria);
             }
         }
+        query.addCriteria(Criteria.where("status").is("SUCCESS"));
         return mongoTemplate.count(query, ExchangeRecord.class);
     }
 
@@ -90,6 +92,7 @@ public class MongodbExchangeRecordDao implements ExchangeRecordDao {
                 query.addCriteria(criteria);
             }
         }
+        query.addCriteria(Criteria.where("status").is("SUCCESS"));
         query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "exchangeTime")));
         query.skip((page - 1) * size);
         query.limit(size);
