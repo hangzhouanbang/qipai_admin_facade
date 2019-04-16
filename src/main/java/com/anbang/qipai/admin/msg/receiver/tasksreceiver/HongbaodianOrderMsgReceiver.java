@@ -40,6 +40,8 @@ public class HongbaodianOrderMsgReceiver {
         exchangeRecord.setExchangeType(RewardType.toMap().get(dbo.getRewardType().name()));
         exchangeRecord.setExchangeAmount((int)dbo.getRewardNum());
         exchangeRecord.setItemName(dbo.getProduceName());
+        exchangeRecord.setIpAddress(dbo.getProvince() + dbo.getCity());
+        exchangeRecord.setStatus(dbo.getStatus());
         if ("add order".equals(msg)) {
             exchangeRecordService.addExchangeRecord(exchangeRecord);
         }

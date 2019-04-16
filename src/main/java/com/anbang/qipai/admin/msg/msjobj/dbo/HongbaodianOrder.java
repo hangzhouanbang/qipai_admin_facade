@@ -26,6 +26,9 @@ public class HongbaodianOrder {
 	private long createTime;// 创建时间
 	private long finishTime;// 完成时间
 
+	private String province;//省份
+	private String city;//城市
+
 	public String getId() {
 		return id;
 	}
@@ -170,4 +173,19 @@ public class HongbaodianOrder {
 		this.finishTime = finishTime;
 	}
 
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 }
