@@ -3,18 +3,18 @@ package com.anbang.qipai.admin.plan.service.membersservice;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.anbang.qipai.admin.plan.bean.hongbao.MemberInvitationRecord;
-import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
-import com.anbang.qipai.admin.plan.dao.hongbaodao.MemberInvitationRecordDao;
-import com.anbang.qipai.admin.plan.dao.reportdao.OnlineStateRecordDao;
-import com.anbang.qipai.admin.web.query.MemberQuery;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.anbang.qipai.admin.plan.bean.hongbao.MemberInvitationRecord;
 import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
+import com.anbang.qipai.admin.plan.bean.report.OnlineStateRecord;
+import com.anbang.qipai.admin.plan.dao.hongbaodao.MemberInvitationRecordDao;
 import com.anbang.qipai.admin.plan.dao.membersdao.MemberDao;
+import com.anbang.qipai.admin.plan.dao.reportdao.OnlineStateRecordDao;
+import com.anbang.qipai.admin.web.query.MemberQuery;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberOnlineState;
 import com.anbang.qipai.admin.web.vo.membersvo.MemberVO;
 import com.highto.framework.web.page.ListPage;
@@ -50,7 +50,7 @@ public class MemberDboService {
 			int totalInvitationNum = (int) memberInvitationRecordDao.countByMemberId(list.getId(), null);
 			vo.setTotalInvitationNum(totalInvitationNum);
 			MemberInvitationRecord invitationRecord = memberInvitationRecordDao.findByInvitationMemberId(list.getId());
-			if (invitationRecord != null){
+			if (invitationRecord != null) {
 				vo.setInvitedBy(invitationRecord.getMemberId());
 			}
 			memberVOs.add(vo);
@@ -62,7 +62,7 @@ public class MemberDboService {
 
 	public ListPage findMemberDboByQuery(int page, int size, MemberQuery query) {
 		if (CollectionUtils.isEmpty(query.getIds())) {
-			return new ListPage(new ArrayList<>(), page,size, 0);
+			return new ListPage(new ArrayList<>(), page, size, 0);
 		}
 
 		long amount = memberDao.countByQuery(query);
@@ -74,7 +74,7 @@ public class MemberDboService {
 			// 获取最后一次登录时间
 			OnlineStateRecord onlineStateRecord = onlineStateRecordDao.lastRecord(list.getId());
 			MemberVO vo = new MemberVO();
-			BeanUtils.copyProperties(list,vo);
+			BeanUtils.copyProperties(list, vo);
 			if (onlineStateRecord != null) {
 				vo.setLastLoginTime(onlineStateRecord.getCreateTime());
 			}
@@ -98,7 +98,6 @@ public class MemberDboService {
 		return memberDao.countAmount();
 	}
 
-
 	public void addMember(MemberDbo member) {
 		memberDao.addMember(member);
 	}
@@ -112,8 +111,8 @@ public class MemberDboService {
 	}
 
 	public void updateMemberBaseInfo(MemberDbo member) {
-		memberDao.updateMemberBaseInfo(member.getId(), member.getNickname(), member.getHeadimgurl(),
-				member.getGender());
+		memberDao.updateMemberBaseInfo(member.getId(), member.getNickname(), member.getHeadimgurl(), member.getGender(),
+				member.getReqIP());
 	}
 
 	public void updateMemberVip(MemberDbo member) {

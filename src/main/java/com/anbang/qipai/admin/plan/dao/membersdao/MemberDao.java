@@ -24,7 +24,7 @@ public interface MemberDao {
 
 	void updateMemberPhone(String memberId, String phone);
 
-	void updateMemberBaseInfo(String memberId, String nickname, String headimgurl, String gender);
+	void updateMemberBaseInfo(String memberId, String nickname, String headimgurl, String gender, String reqIP);
 
 	void updateMemberVip(String memberId, boolean vip);
 
