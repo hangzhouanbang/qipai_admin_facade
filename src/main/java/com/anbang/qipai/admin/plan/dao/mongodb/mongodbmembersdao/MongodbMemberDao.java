@@ -339,4 +339,12 @@ public class MongodbMemberDao implements MemberDao {
 		query.addCriteria(Criteria.where("robot").is(false)); // 默认查询非机器人的玩家
 		return mongoTemplate.find(query, MemberDbo.class);
 	}
+
+	@Override
+	public List<MemberDbo> findMemberByReqIP(String reqIP) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("reqIP").is(reqIP));
+		query.addCriteria(Criteria.where("robot").is(false)); // 默认查询非机器人的玩家
+		return mongoTemplate.find(query, MemberDbo.class);
+	}
 }

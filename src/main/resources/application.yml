@@ -64,6 +64,16 @@ spring:
                   ms: 5
                 batch:
                   size: 16384
+          loginIPLimit:
+            producer:
+              configuration:
+                request:
+                  timeout:
+                    ms: 30000
+                linger:
+                  ms: 5
+                batch:
+                  size: 16384
 
       bindings:
         members:
@@ -443,6 +453,11 @@ spring:
           contentType: application/json
         adminHongbaoAdjust:
           destination: adminHongbaoAdjust
+          contentType: application/json
+          producer:
+            partitionCount: 1
+        loginIPLimit:
+          destination: loginIPLimit
           contentType: application/json
           producer:
             partitionCount: 1

@@ -206,4 +206,8 @@ public class MemberDboService {
 	public List<MemberDbo> findMemberByIP(String loginIp) {
 		return memberDao.findMemberByIP(loginIp);
 	}
+
+	public List<MemberDbo> findMemberByReqIP(String reqIP) {
+		return memberDao.findMemberByReqIP(reqIP);
+	}
 }

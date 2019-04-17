@@ -21,6 +21,7 @@ public class MemberDbo {
 	private int score;// 积分
 	private double cost;// 累计消费
 	private String reqIP;// 注册ip
+	private String reqIpAddress;//注册IP归属地
 
 	private boolean robot;// 是否是机器人
 
@@ -209,5 +210,13 @@ public class MemberDbo {
 
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
+	}
+
+	public String getReqIpAddress() {
+		return reqIpAddress;
+	}
+
+	public void setReqIpAddress(String reqIpAddress) {
+		this.reqIpAddress = reqIpAddress;
 	}
 }
