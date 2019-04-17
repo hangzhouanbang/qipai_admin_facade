@@ -442,4 +442,16 @@ public class MemberController {
         List<MemberDbo> memberDbos = memberService.findMemberByIP(loginIp);
         return CommonVOUtil.success(memberDbos, "success");
     }
+
+    /**
+     * 根据注册IP查询玩家
+     */
+    @PostMapping("/findMemberByReqIP")
+    public CommonVO findMemberByReqIP(String reqIP) {
+        if (StringUtils.isBlank(reqIP)) {
+            return CommonVOUtil.success("reqIP is null");
+        }
+        List<MemberDbo> memberDbos = memberService.findMemberByReqIP(reqIP);
+        return CommonVOUtil.success(memberDbos, "success");
+    }
 }

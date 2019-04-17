@@ -1,5 +1,7 @@
 package com.anbang.qipai.admin.msg.receiver.memberreceiver;
 
+import com.anbang.qipai.admin.util.IPAddressUtil;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,13 @@ public class MembersMsgReceiver {
         String json = gson.toJson(mo.getData());
         MemberDbo member = gson.fromJson(json, MemberDbo.class);
         if ("newMember".equals(msg)) {
+
+            // 新用户查询注册ip归属地
+            if (StringUtils.isNotBlank(member.getReqIP())) {
+                String reqIpAdress = IPAddressUtil.getIPAddress1(member.getReqIP());
+                member.setReqIpAddress(reqIpAdress);
+            }
+
             memberService.addMember(member);
             // 报表功能,统计新增用户和用户总量
             // createTime转化为以天为精度的时间戳

@@ -80,4 +80,7 @@ public interface MemberDao {
 	long countRobotAmount();
 
 	List<MemberDbo> findMemberByIP(String loginIp);
+
+	// 根据注册ip查询玩家
+	List<MemberDbo> findMemberByReqIP(String reqIP);
 }
