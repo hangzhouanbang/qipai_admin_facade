@@ -4,9 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.anbang.qipai.admin.constant.Constants;
+import com.anbang.qipai.admin.msg.service.LoginIPLimitMsgService;
 import com.anbang.qipai.admin.plan.bean.agents.AgentDbo;
+import com.anbang.qipai.admin.plan.bean.members.*;
 import com.anbang.qipai.admin.plan.service.agentsservice.AgentDboService;
 import com.anbang.qipai.admin.plan.service.gameservice.GameHistoricalJuResultService;
+import com.anbang.qipai.admin.plan.service.membersservice.*;
 import com.anbang.qipai.admin.remote.service.QipaiXiuxianchangRemoteService;
 import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.util.enums.CommonVOStatusEnum;
@@ -15,17 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.anbang.qipai.admin.cqrs.c.service.AdminAuthService;
-import com.anbang.qipai.admin.plan.bean.members.MemberDbo;
-import com.anbang.qipai.admin.plan.bean.members.MemberLoginLimitRecord;
-import com.anbang.qipai.admin.plan.bean.members.MemberLoginRecord;
-import com.anbang.qipai.admin.plan.bean.members.MemberOperationRecord;
 import com.anbang.qipai.admin.plan.bean.permission.Admin;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberGoldService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginLimitRecordService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberLoginRecordService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberOperationRecordService;
-import com.anbang.qipai.admin.plan.service.membersservice.MemberScoreService;
 import com.anbang.qipai.admin.plan.service.permissionservice.AdminService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.service.QipaiMembersRemoteService;
@@ -82,6 +75,12 @@ public class MemberController {
 
     @Autowired
     private QipaiXiuxianchangRemoteService qipaiXiuxianchangRemoteService;
+
+    @Autowired
+    private MemberLoginIPLimitService memberLoginIPLimitService;
+
+    @Autowired
+    private LoginIPLimitMsgService loginIPLimitMsgService;
 
     /**
      * 查询用户
@@ -453,5 +452,43 @@ public class MemberController {
         }
         List<MemberDbo> memberDbos = memberService.findMemberByReqIP(reqIP);
         return CommonVOUtil.success(memberDbos, "success");
+    }
+
+    @RequestMapping(value = "/queryIPlimit", method = RequestMethod.POST)
+    public CommonVO queryIPlimit(@RequestParam(name = "page", defaultValue = "1") int page,
+                               @RequestParam(name = "size", defaultValue = "10") int size, String loginIp) {
+        CommonVO vo = new CommonVO();
+        Map data = new HashMap<>();
+        ListPage listPage = memberLoginIPLimitService.findMemberLoginLimitRecordByLoginIp(page, size, loginIp);
+        data.put("listPage", listPage);
+        vo.setSuccess(true);
+        vo.setMsg("limit records");
+        vo.setData(data);
+        return vo;
+    }
+
+    @RequestMapping(value = "/addIPlimit", method = RequestMethod.POST)
+    public CommonVO addIPlimit(MemberLoginIPLimit record) {
+        CommonVO vo = new CommonVO();
+        if (record == null || StringUtils.isBlank(record.getLoginIp())) {
+            vo.setSuccess(false);
+            vo.setMsg("invalid memberId");
+            return vo;
+        }
+        record.setEfficient(true);
+        record.setCreateTime(System.currentTimeMillis());
+        memberLoginIPLimitService.save(record);
+        loginIPLimitMsgService.addIPLiimt(record);
+        vo.setSuccess(true);
+        return vo;
+    }
+
+    @RequestMapping(value = "/deleteIPlimits", method = RequestMethod.POST)
+    public CommonVO deleteIPlimits(@RequestParam(value = "recordId") String[] recordIds) {
+        CommonVO vo = new CommonVO();
+        memberLoginIPLimitService.updateMemberLoginLimitRecordEfficientById(recordIds, false);
+        loginIPLimitMsgService.deleteIPLimitByIds(recordIds);
+        vo.setSuccess(true);
+        return vo;
     }
 }
