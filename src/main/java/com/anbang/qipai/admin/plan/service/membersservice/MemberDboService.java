@@ -203,11 +203,21 @@ public class MemberDboService {
 		return memberDao.countRobotVipMember();
 	}
 
-	public List<MemberDbo> findMemberByIP(String loginIp) {
-		return memberDao.findMemberByIP(loginIp);
+	public ListPage findMemberByIP(int page, int size, String loginIp, int count) {
+		List<MemberDbo> dbos = memberDao.findMemberByIP(page, size, loginIp);
+		return new ListPage(dbos, page, size, count);
 	}
 
-	public List<MemberDbo> findMemberByReqIP(String reqIP) {
-		return memberDao.findMemberByReqIP(reqIP);
+	public ListPage findMemberByReqIP(int page, int size, String reqIP, int count) {
+		List<MemberDbo> dbos = memberDao.findMemberByReqIP(page, size, reqIP);
+		return new ListPage(dbos, page, size, count);
+	}
+
+	public long countMemberByIP(String loginIp) {
+		return memberDao.countMemberByIP(loginIp);
+	}
+
+	public long countMemberByReqIP(String reqIP) {
+		return memberDao.countMemberByReqIP(reqIP);
 	}
 }

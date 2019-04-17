@@ -434,24 +434,42 @@ public class MemberController {
     }
 
     @PostMapping("/findMemberByIP")
-    public CommonVO findMemberByIP(String loginIp) {
+    public CommonVO findMemberByIP(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                   @RequestParam(name = "size", defaultValue = "10") Integer size,
+                                   String loginIp, String reqIP) {
         if (StringUtils.isBlank(loginIp)) {
             return CommonVOUtil.success("loginIp is null");
         }
-        List<MemberDbo> memberDbos = memberService.findMemberByIP(loginIp);
-        return CommonVOUtil.success(memberDbos, "success");
+
+        int loginIpCount = (int)memberService.countMemberByIP(loginIp);
+        int reqIpCount = (int)memberService.countMemberByReqIP(reqIP);
+        ListPage listPage = memberService.findMemberByIP(page, size, loginIp, loginIpCount);
+        Map data = new HashMap();
+        data.put("loginIpCount", loginIpCount);
+        data.put("reqIpCount", reqIpCount);
+        data.put("listPage", listPage);
+        return CommonVOUtil.success(data, "success");
     }
 
     /**
      * 根据注册IP查询玩家
      */
     @PostMapping("/findMemberByReqIP")
-    public CommonVO findMemberByReqIP(String reqIP) {
+    public CommonVO findMemberByReqIP(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                      @RequestParam(name = "size", defaultValue = "10") Integer size,
+                                      String loginIp, String reqIP) {
         if (StringUtils.isBlank(reqIP)) {
             return CommonVOUtil.success("reqIP is null");
         }
-        List<MemberDbo> memberDbos = memberService.findMemberByReqIP(reqIP);
-        return CommonVOUtil.success(memberDbos, "success");
+
+        int loginIpCount = (int)memberService.countMemberByIP(loginIp);
+        int reqIpCount = (int)memberService.countMemberByReqIP(reqIP);
+        ListPage listPage = memberService.findMemberByReqIP(page, size, loginIp, reqIpCount);
+        Map data = new HashMap();
+        data.put("loginIpCount", loginIpCount);
+        data.put("reqIpCount", reqIpCount);
+        data.put("listPage", listPage);
+        return CommonVOUtil.success(data, "success");
     }
 
     @RequestMapping(value = "/queryIPlimit", method = RequestMethod.POST)

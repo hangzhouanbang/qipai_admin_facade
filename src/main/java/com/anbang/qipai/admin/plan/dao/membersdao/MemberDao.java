@@ -79,8 +79,13 @@ public interface MemberDao {
 
 	long countRobotAmount();
 
-	List<MemberDbo> findMemberByIP(String loginIp);
+	List<MemberDbo> findMemberByIP(int page, int size, String loginIp);
 
 	// 根据注册ip查询玩家
-	List<MemberDbo> findMemberByReqIP(String reqIP);
+	List<MemberDbo> findMemberByReqIP(int page, int size, String reqIP);
+
+	long countMemberByIP(String loginIp);
+
+	// 根据注册ip查询玩家
+	long countMemberByReqIP(String reqIP);
 }

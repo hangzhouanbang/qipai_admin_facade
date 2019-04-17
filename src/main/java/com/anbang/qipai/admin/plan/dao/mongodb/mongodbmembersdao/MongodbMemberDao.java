@@ -333,18 +333,40 @@ public class MongodbMemberDao implements MemberDao {
 	}
 
 	@Override
-	public List<MemberDbo> findMemberByIP(String loginIp) {
+	public List<MemberDbo> findMemberByIP(int page, int size, String loginIp) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("loginIp").is(loginIp));
 		query.addCriteria(Criteria.where("robot").is(false)); // 默认查询非机器人的玩家
+
+		query.skip((page - 1) * size);
+		query.limit(size);
 		return mongoTemplate.find(query, MemberDbo.class);
 	}
 
 	@Override
-	public List<MemberDbo> findMemberByReqIP(String reqIP) {
+	public List<MemberDbo> findMemberByReqIP(int page, int size, String reqIP) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("reqIP").is(reqIP));
 		query.addCriteria(Criteria.where("robot").is(false)); // 默认查询非机器人的玩家
+
+		query.skip((page - 1) * size);
+		query.limit(size);
 		return mongoTemplate.find(query, MemberDbo.class);
+	}
+
+	@Override
+	public long countMemberByIP(String loginIp) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("loginIp").is(loginIp));
+		query.addCriteria(Criteria.where("robot").is(false)); // 默认查询非机器人的玩家
+		return mongoTemplate.count(query, MemberDbo.class);
+	}
+
+	@Override
+	public long countMemberByReqIP(String reqIP) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("reqIP").is(reqIP));
+		query.addCriteria(Criteria.where("robot").is(false)); // 默认查询非机器人的玩家
+		return mongoTemplate.count(query, MemberDbo.class);
 	}
 }
