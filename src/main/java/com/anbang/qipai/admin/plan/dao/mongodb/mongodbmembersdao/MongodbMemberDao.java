@@ -310,8 +310,12 @@ public class MongodbMemberDao implements MemberDao {
 
 	@Override
 	public void updateMemberBaseInfo(String memberId, String nickname, String headimgurl, String gender, String reqIP) {
-		mongoTemplate.updateFirst(new Query(Criteria.where("id").is(memberId)), new Update().set("nickname", nickname)
-				.set("headimgurl", headimgurl).set("gender", gender).set("reqIP", reqIP), MemberDbo.class);
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update().set("nickname", nickname).set("headimgurl", headimgurl).set("gender", gender);
+		if (!StringUtils.isBlank(reqIP)) {
+			update.set("reqIP", reqIP);
+		}
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
 	}
 
 	@Override
