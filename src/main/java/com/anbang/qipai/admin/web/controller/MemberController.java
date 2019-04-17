@@ -464,7 +464,7 @@ public class MemberController {
 
         int loginIpCount = (int)memberService.countMemberByIP(loginIp);
         int reqIpCount = (int)memberService.countMemberByReqIP(reqIP);
-        ListPage listPage = memberService.findMemberByReqIP(page, size, loginIp, reqIpCount);
+        ListPage listPage = memberService.findMemberByReqIP(page, size, reqIP, reqIpCount);
         Map data = new HashMap();
         data.put("loginIpCount", loginIpCount);
         data.put("reqIpCount", reqIpCount);
