@@ -438,7 +438,10 @@ public class MemberController {
                                    @RequestParam(name = "size", defaultValue = "10") Integer size,
                                    String loginIp, String reqIP) {
         if (StringUtils.isBlank(loginIp)) {
-            return CommonVOUtil.success("loginIp is null");
+            loginIp = "0";
+        }
+        if (StringUtils.isBlank(reqIP)) {
+            reqIP = "0";
         }
 
         int loginIpCount = (int)memberService.countMemberByIP(loginIp);
@@ -458,8 +461,11 @@ public class MemberController {
     public CommonVO findMemberByReqIP(@RequestParam(name = "page", defaultValue = "1") Integer page,
                                       @RequestParam(name = "size", defaultValue = "10") Integer size,
                                       String loginIp, String reqIP) {
+        if (StringUtils.isBlank(loginIp)) {
+            loginIp = "0";
+        }
         if (StringUtils.isBlank(reqIP)) {
-            return CommonVOUtil.success("reqIP is null");
+            reqIP = "0";
         }
 
         int loginIpCount = (int)memberService.countMemberByIP(loginIp);

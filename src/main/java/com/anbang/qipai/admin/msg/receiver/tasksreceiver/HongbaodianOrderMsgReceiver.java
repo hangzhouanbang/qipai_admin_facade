@@ -9,6 +9,7 @@ import com.anbang.qipai.admin.plan.bean.tasks.RewardType;
 import com.anbang.qipai.admin.plan.service.membersservice.MemberDboService;
 import com.anbang.qipai.admin.plan.service.tasksservice.ExchangeRecordService;
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -40,7 +41,9 @@ public class HongbaodianOrderMsgReceiver {
         exchangeRecord.setExchangeType(RewardType.toMap().get(dbo.getRewardType().name()));
         exchangeRecord.setExchangeAmount((int)dbo.getRewardNum());
         exchangeRecord.setItemName(dbo.getProduceName());
-        exchangeRecord.setIpAddress(dbo.getProvince() + dbo.getCity());
+        if (StringUtils.isNotBlank(dbo.getProvince()) || StringUtils.isNotBlank(dbo.getCity())) {
+            exchangeRecord.setIpAddress(dbo.getProvince() + dbo.getCity());
+        }
         exchangeRecord.setStatus(dbo.getStatus());
         if ("add order".equals(msg)) {
             exchangeRecordService.addExchangeRecord(exchangeRecord);
