@@ -127,6 +127,10 @@ public class MemberDboService {
 		memberDao.updateMemberGold(memberId, gold);
 	}
 
+	public void updateMemberXiuxianchangGold(String memberId, int xiuxianchangGold) {
+		memberDao.updateMemberXiuxianchangGold(memberId, xiuxianchangGold);
+	}
+
 	public void updateMemberScore(String memberId, int score) {
 		memberDao.updateMemberScore(memberId, score);
 	}

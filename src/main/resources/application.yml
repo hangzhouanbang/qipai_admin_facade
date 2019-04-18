@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/qipai_admin_facade
+      #uri: mongodb://localhost:27017/qipai_admin_facade
 
 
   cloud:
@@ -446,6 +446,13 @@ spring:
           contentType: application/json
         memberInvitationRecord:
           destination: memberInvitationRecord
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        memberXiuxianchangGolds:
+          destination: memberXiuxianchangGolds
           group: qipai-admin-facade
           consumer:
             concurrency: 1

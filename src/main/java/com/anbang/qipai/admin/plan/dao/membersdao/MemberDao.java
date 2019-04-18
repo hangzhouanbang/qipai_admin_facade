@@ -32,6 +32,8 @@ public interface MemberDao {
 
 	void updateMemberGold(String memberId, int gold);
 
+	void updateMemberXiuxianchangGold(String memberId, int xiuxianchangGold);
+
 	void updateMemberScore(String memberId, int score);
 
 	void memberOrderDelive(String memberId, boolean vip, long vipEndTime, int vipLevel, double vipScore, double cost);

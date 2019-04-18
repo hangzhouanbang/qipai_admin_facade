@@ -369,4 +369,12 @@ public class MongodbMemberDao implements MemberDao {
 		query.addCriteria(Criteria.where("robot").is(false)); // 默认查询非机器人的玩家
 		return mongoTemplate.count(query, MemberDbo.class);
 	}
+
+	@Override
+	public void updateMemberXiuxianchangGold(String memberId, int xiuxianchangGold) {
+		Query query = new Query(Criteria.where("id").is(memberId));
+		Update update = new Update();
+		update.set("xiuxianchangGold", xiuxianchangGold);
+		mongoTemplate.updateFirst(query, update, MemberDbo.class);
+	}
 }

@@ -19,14 +19,23 @@ public class MemberDbo {
 	private String onlineState;
 	private int gold;// 金币
 	private int score;// 积分
+	private int xiuxianchangGold;// 休闲场金币
 	private double cost;// 累计消费
 	private String reqIP;// 注册ip
-	private String reqIpAddress;//注册IP归属地
+	private String reqIpAddress;// 注册IP归属地
 
 	private boolean robot;// 是否是机器人
 
 	private String loginIp; // 登录ip
 	private String ipAddress; // ip地址
+
+	public int getXiuxianchangGold() {
+		return xiuxianchangGold;
+	}
+
+	public void setXiuxianchangGold(int xiuxianchangGold) {
+		this.xiuxianchangGold = xiuxianchangGold;
+	}
 
 	public String getReqIP() {
 		return reqIP;
