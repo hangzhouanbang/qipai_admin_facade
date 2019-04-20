@@ -13,6 +13,7 @@ import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 
 @FeignClient("qipai-agents")
 public interface QipaiAgentsRemoteService {
+
 	@RequestMapping("/apply/applypass")
 	public CommonRemoteVO apply_pass(@RequestParam(value = "recordId") String recordId,
 			@RequestParam(value = "typeId") String typeId);

@@ -3,7 +3,6 @@ package com.anbang.qipai.admin.web;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.validation.MessageCodesResolver;
@@ -25,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.anbang.qipai.admin.web.interceptor.LoginInterceptor;
 import com.anbang.qipai.admin.web.interceptor.PermissionInterceptor;
 
-@Configuration
+//@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Bean
@@ -58,8 +57,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**","/game/querylastgameversion");
-		registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**","/game/querylastgameversion");
+		registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**",
+				"/game/querylastgameversion");
+		registry.addInterceptor(permissionInterceptor()).addPathPatterns("/**").excludePathPatterns("/login/**",
+				"/game/querylastgameversion");
 	}
 
 	@Override

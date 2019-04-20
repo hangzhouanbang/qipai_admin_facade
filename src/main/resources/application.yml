@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      #uri: mongodb://localhost:27017/qipai_admin_facade
+      uri: mongodb://localhost:27017/qipai_admin_facade
 
 
   cloud:
@@ -468,6 +468,55 @@ spring:
           contentType: application/json
           producer:
             partitionCount: 1
+        chaguanApply:
+          destination: chaguanApply
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguan:
+          destination: chaguan
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanMember:
+          destination: chaguanMember
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanYushiRecord:
+          destination: chaguanYushiRecord
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        memberChaguanYushiRecord:
+          destination: memberChaguanYushiRecord
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanShopOrder:
+          destination: chaguanShopOrder
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanShopProduct:
+          destination: chaguanShopProduct
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
   application:
     name: qipai-admin-facade
 server:
