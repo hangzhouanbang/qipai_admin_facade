@@ -517,6 +517,13 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
+        blackList:
+          destination: blackList
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
   application:
     name: qipai-admin-facade
 server:

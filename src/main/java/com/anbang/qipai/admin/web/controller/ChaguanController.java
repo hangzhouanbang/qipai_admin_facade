@@ -1,13 +1,25 @@
 package com.anbang.qipai.admin.web.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.plan.bean.chaguan.ChaguanDbo;
+import com.anbang.qipai.admin.plan.bean.chaguan.ChaguanShopProduct;
+import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanService;
+import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanShopService;
+import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanYushiService;
 import com.anbang.qipai.admin.remote.service.QipaiChaguanRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
+import com.anbang.qipai.admin.web.vo.chaguanvo.ChaguanShopOrderVO;
+import com.anbang.qipai.admin.web.vo.chaguanvo.ChaguanYushiRecordDboVO;
+import com.highto.framework.web.page.ListPage;
 
 @CrossOrigin
 @RestController
@@ -17,6 +29,44 @@ public class ChaguanController {
 	@Autowired
 	private QipaiChaguanRemoteService qipaiChaguanRemoteService;
 
+	@Autowired
+	private ChaguanService chaguanService;
+
+	@Autowired
+	private ChaguanShopService chaguanShopService;
+
+	@Autowired
+	private ChaguanYushiService chaguanYushiService;
+
+	/**
+	 * 设置茶馆基本信息
+	 */
+	@RequestMapping("/chaguan_info_set")
+	public CommonVO chaguan_info_set(String chaguanId, String name, String desc) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiChaguanRemoteService.chaguan_update_rpc(chaguanId, name, desc);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		vo.setData(rvo.getData());
+		return vo;
+	}
+
+	/**
+	 * 移除茶馆成员
+	 */
+	@RequestMapping("/chaguan_member_remove")
+	public CommonVO chaguan_member_remove(String chaguanId, String memberId) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiChaguanRemoteService.chaguan_member_remove_rpc(chaguanId, memberId);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		vo.setData(rvo.getData());
+		return vo;
+	}
+
+	/**
+	 * 通过推广员开通茶馆申请
+	 */
 	@RequestMapping("/apply_pass")
 	public CommonVO chaguanApplyPass(String applyId) {
 		CommonVO vo = new CommonVO();
@@ -27,6 +77,9 @@ public class ChaguanController {
 		return vo;
 	}
 
+	/**
+	 * 拒绝推广员开通茶馆申请
+	 */
 	@RequestMapping("/apply_refuse")
 	public CommonVO chaguanApplyRefuse(String applyId) {
 		CommonVO vo = new CommonVO();
@@ -34,6 +87,113 @@ public class ChaguanController {
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
 		vo.setData(rvo.getData());
+		return vo;
+	}
+
+	/**
+	 * 添加商品
+	 */
+	@RequestMapping("/product_add")
+	public CommonVO product_add(ChaguanShopProduct product) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiChaguanRemoteService.shop_product_add(product);
+		vo.setMsg(rvo.getMsg());
+		vo.setData(rvo.getData());
+		return vo;
+	}
+
+	/**
+	 * 修改商品
+	 */
+	@RequestMapping("/product_update")
+	public CommonVO product_update(ChaguanShopProduct product) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiChaguanRemoteService.shop_product_update(product);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		vo.setData(rvo.getData());
+		return vo;
+	}
+
+	/**
+	 * 删除商品
+	 */
+	@RequestMapping("/product_remove")
+	public CommonVO product_remove(@RequestParam(name = "productIds") String[] productIds) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO rvo = qipaiChaguanRemoteService.shop_product_remove(productIds);
+		vo.setSuccess(rvo.isSuccess());
+		vo.setMsg(rvo.getMsg());
+		vo.setData(rvo.getData());
+		return vo;
+	}
+
+	/**
+	 * 查询茶馆
+	 */
+	@RequestMapping("/query_chaguan")
+	public CommonVO query_chaguan(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		vo.setData(data);
+		ListPage listPage = chaguanService.findChaguanDbo(page, size);
+		data.put("listPage", listPage);
+		return vo;
+	}
+
+	/**
+	 * 查询茶馆基本信息
+	 */
+	@RequestMapping("/query_chaguan_info")
+	public CommonVO query_chaguan_info(String chaguanId) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		vo.setData(data);
+		ChaguanDbo chaguan = chaguanService.findByChaguanId(chaguanId);
+		data.put("chaguan", chaguan);
+		return vo;
+	}
+
+	/**
+	 * 查询茶馆成员
+	 */
+	@RequestMapping("/query_chaguanmember")
+	public CommonVO query_chaguanmember(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, String chaguanId) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		vo.setData(data);
+		ListPage listPage = chaguanService.findChaguanMemberDbo(page, size, chaguanId);
+		data.put("listPage", listPage);
+		return vo;
+	}
+
+	/**
+	 * 查询购买记录
+	 */
+	@RequestMapping("/query_order")
+	public CommonVO query_order(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+			ChaguanShopOrderVO order) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		vo.setData(data);
+		ListPage listPage = chaguanShopService.findOrderByConditions(page, size, order);
+		data.put("listPage", listPage);
+		return vo;
+	}
+
+	/**
+	 * 查询玉石充值记录
+	 */
+	@RequestMapping("/query_yushi_record")
+	public CommonVO query_yushi_record(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, ChaguanYushiRecordDboVO record) {
+		CommonVO vo = new CommonVO();
+		Map data = new HashMap<>();
+		vo.setData(data);
+		ListPage listPage = chaguanYushiService.findRecordByConditions(page, size, record);
+		data.put("listPage", listPage);
 		return vo;
 	}
 }

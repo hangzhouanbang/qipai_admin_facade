@@ -26,7 +26,7 @@ public class ChaguanShopOrderMsgReceiver {
 			chaguanShopService.saveChaguanShopOrder(order);
 		}
 		if ("finish order".equals(msg)) {
-			chaguanShopService.finishChaguanShopOrderDao(order);
+			chaguanShopService.finishChaguanShopOrder(order);
 		}
 	}
 }
