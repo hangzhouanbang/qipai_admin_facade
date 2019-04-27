@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.anbang.qipai.admin.constant.Constants;
-import com.anbang.qipai.admin.plan.bean.games.*;
-import com.anbang.qipai.admin.plan.service.gameservice.GameVersionService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.constant.Constants;
+import com.anbang.qipai.admin.plan.bean.games.Game;
+import com.anbang.qipai.admin.plan.bean.games.GameLaw;
+import com.anbang.qipai.admin.plan.bean.games.GameServer;
+import com.anbang.qipai.admin.plan.bean.games.GameVersion;
+import com.anbang.qipai.admin.plan.bean.games.LawsMutexGroup;
 import com.anbang.qipai.admin.plan.service.gameservice.GameService;
+import com.anbang.qipai.admin.plan.service.gameservice.GameVersionService;
 import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
@@ -191,6 +195,7 @@ public class GameController {
 
 	/**
 	 * 查询游戏版本号
+	 * 
 	 * @param page
 	 * @param size
 	 * @param gameVersion
@@ -198,7 +203,7 @@ public class GameController {
 	 */
 	@RequestMapping(value = "/querygameversion", method = RequestMethod.POST)
 	public CommonVO queryGameVersion(@RequestParam(value = "page", defaultValue = "1") int page,
-									 @RequestParam(value = "size", defaultValue = "10") int size, GameVersion gameVersion) {
+			@RequestParam(value = "size", defaultValue = "10") int size, GameVersion gameVersion) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = gameVersionService.findByBean(page, size, gameVersion);
 		vo.setMsg("query list success");
@@ -209,13 +214,14 @@ public class GameController {
 
 	/**
 	 * 房间管理-查询
+	 * 
 	 * @param playerId
 	 * @param roomNo
 	 * @return
 	 */
 	@RequestMapping(value = "/queryroom", method = RequestMethod.POST)
 	public CommonVO queryRoom(@RequestParam(value = "page", defaultValue = "1") int page,
-							  @RequestParam(value = "size", defaultValue = "10") int size,String playerId, String roomNo) {
+			@RequestParam(value = "size", defaultValue = "10") int size, String playerId, String roomNo) {
 		CommonVO vo = new CommonVO();
 		ListPage listPage = gameService.queryRoomList(page, size, playerId, roomNo);
 		vo.setSuccess(true);
@@ -226,6 +232,7 @@ public class GameController {
 
 	/**
 	 * 房间管理-查看
+	 * 
 	 * @param gameId
 	 * @return
 	 */
@@ -240,7 +247,7 @@ public class GameController {
 	}
 
 	@RequestMapping(value = "/get_backcode", method = RequestMethod.POST)
-	public CommonVO getBackcode (Game game, String gameId, int panNo) {
+	public CommonVO getBackcode(Game game, String gameId, int panNo) {
 		CommonVO vo = new CommonVO();
 		CommonRemoteVO remoteVO = qipaiGameRomoteService.getBackcode(game, gameId, panNo);
 		vo.setSuccess(true);
