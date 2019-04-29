@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anbang.qipai.admin.plan.bean.chaguan.ChaguanApply;
 import com.anbang.qipai.admin.plan.bean.chaguan.ChaguanDbo;
 import com.anbang.qipai.admin.plan.bean.chaguan.ChaguanShopProduct;
+import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanApplyService;
 import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanService;
 import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanShopService;
 import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanYushiService;
@@ -31,6 +33,9 @@ public class ChaguanController {
 
 	@Autowired
 	private ChaguanService chaguanService;
+
+	@Autowired
+	private ChaguanApplyService chaguanApplyService;
 
 	@Autowired
 	private ChaguanShopService chaguanShopService;
@@ -65,6 +70,21 @@ public class ChaguanController {
 	}
 
 	/**
+	 * 查询茶馆申请
+	 */
+	@RequestMapping("/apply_query")
+	public CommonVO chaguanApplyQuery(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size, ChaguanApply apply) {
+		CommonVO vo = new CommonVO();
+		apply.setStatus("APPLYING");
+		ListPage listPage = chaguanApplyService.findByStatus(page, size, apply);
+		Map data = new HashMap<>();
+		data.put("listPage", listPage);
+		vo.setData(data);
+		return vo;
+	}
+
+	/**
 	 * 通过推广员开通茶馆申请
 	 */
 	@RequestMapping("/apply_pass")
@@ -87,6 +107,21 @@ public class ChaguanController {
 		vo.setSuccess(rvo.isSuccess());
 		vo.setMsg(rvo.getMsg());
 		vo.setData(rvo.getData());
+		return vo;
+	}
+
+	/**
+	 * 查询商品
+	 */
+	@RequestMapping("/product_query")
+	public CommonVO product_query(@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		CommonVO vo = new CommonVO();
+		ListPage listPage = chaguanShopService.findChaguanShopProductByConditions(page, size);
+		vo.setMsg("product list");
+		Map data = new HashMap<>();
+		vo.setData(data);
+		data.put("listPage", listPage);
 		return vo;
 	}
 

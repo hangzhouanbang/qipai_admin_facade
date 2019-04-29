@@ -28,6 +28,13 @@ public class ChaguanShopService {
 		return listPage;
 	}
 
+	public ListPage findChaguanShopProductByConditions(int page, int size) {
+		long amount = chaguanShopProductDao.count();
+		List<ChaguanShopProduct> productList = chaguanShopProductDao.findByConditions(page, size);
+		ListPage listPage = new ListPage(productList, page, size, (int) amount);
+		return listPage;
+	}
+
 	public void saveChaguanShopOrder(ChaguanShopOrder order) {
 		chaguanShopOrderDao.save(order);
 	}

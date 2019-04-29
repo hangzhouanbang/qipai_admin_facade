@@ -6,7 +6,7 @@ public class ChaguanShopProduct {
 	private String name;
 	private String productPic;// ICON图
 	private int weight;// 权重
-	private String rewardType;// 奖励类型
+	private RewardType rewardType;// 奖励类型
 	private double rewardNum;// 奖励数量
 	private double price;
 	private double firstDiscount;// 首次折扣
@@ -44,11 +44,11 @@ public class ChaguanShopProduct {
 		this.name = name;
 	}
 
-	public String getRewardType() {
+	public RewardType getRewardType() {
 		return rewardType;
 	}
 
-	public void setRewardType(String rewardType) {
+	public void setRewardType(RewardType rewardType) {
 		this.rewardType = rewardType;
 	}
 
