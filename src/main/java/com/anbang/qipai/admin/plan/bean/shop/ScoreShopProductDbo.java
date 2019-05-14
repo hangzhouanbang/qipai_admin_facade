@@ -12,7 +12,6 @@ public class ScoreShopProductDbo {
 	private String desc;// 奖品备注
 	private RewardType rewardType;// 奖品类型
 	private String type;// 奖品类别
-	private int spentNum; //已兑换数量
 	private int rewardNum;// 奖品数量
 	private int remain;// 库存数量
 	private String iconurl;// ICON图
@@ -81,14 +80,6 @@ public class ScoreShopProductDbo {
 
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	public int getSpentNum() {
-		return spentNum;
-	}
-
-	public void setSpentNum(int spentNum) {
-		this.spentNum = spentNum;
 	}
 
 	public long getCreateTime() {
