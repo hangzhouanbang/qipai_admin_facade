@@ -3,7 +3,6 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/qipai_admin_facade
 
-
   cloud:
     stream:
       kafka: 
@@ -451,13 +450,6 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-        memberXiuxianchangGolds:
-          destination: memberXiuxianchangGolds
-          group: qipai-admin-facade
-          consumer:
-            concurrency: 1
-            partitioned: false
-          contentType: application/json
         adminHongbaoAdjust:
           destination: adminHongbaoAdjust
           contentType: application/json
@@ -468,57 +460,22 @@ spring:
           contentType: application/json
           producer:
             partitionCount: 1
-        chaguanApply:
-          destination: chaguanApply
+        scoreProductRecord:
+          destination: scoreProductRecord
           group: qipai-admin-facade
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
-        chaguan:
-          destination: chaguan
+        productType:
+          destination: productType
           group: qipai-admin-facade
           consumer:
             concurrency: 1
             partitioned: false
           contentType: application/json
-        chaguanMember:
-          destination: chaguanMember
-          group: qipai-admin-facade
-          consumer:
-            concurrency: 1
-            partitioned: false
-          contentType: application/json
-        chaguanYushiRecord:
-          destination: chaguanYushiRecord
-          group: qipai-admin-facade
-          consumer:
-            concurrency: 1
-            partitioned: false
-          contentType: application/json
-        memberChaguanYushiRecord:
-          destination: memberChaguanYushiRecord
-          group: qipai-admin-facade
-          consumer:
-            concurrency: 1
-            partitioned: false
-          contentType: application/json
-        chaguanShopOrder:
-          destination: chaguanShopOrder
-          group: qipai-admin-facade
-          consumer:
-            concurrency: 1
-            partitioned: false
-          contentType: application/json
-        chaguanShopProduct:
-          destination: chaguanShopProduct
-          group: qipai-admin-facade
-          consumer:
-            concurrency: 1
-            partitioned: false
-          contentType: application/json
-        blackList:
-          destination: blackList
+        scoreShopProductDbo:
+          destination: scoreShopProductDbo
           group: qipai-admin-facade
           consumer:
             concurrency: 1

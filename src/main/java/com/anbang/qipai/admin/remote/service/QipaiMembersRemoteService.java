@@ -1,5 +1,6 @@
 package com.anbang.qipai.admin.remote.service;
 
+import com.anbang.qipai.admin.plan.bean.shop.ScoreShopProductDbo;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.anbang.qipai.admin.plan.bean.grade.MemberGrade;
 import com.anbang.qipai.admin.plan.bean.members.MemberLoginLimitRecord;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
+
+import java.util.List;
 
 /**
  * 设置金币服务接口
@@ -75,4 +78,22 @@ public interface QipaiMembersRemoteService {
 	@RequestMapping(value = "/member/updateagent")
 	public CommonRemoteVO update_agentbind(@RequestParam(value = "memberId") String memberId,
 			@RequestParam(value = "agentId") String agentId);
+
+	@RequestMapping(value = "/scoreshop/addtype")
+	CommonRemoteVO addType(@RequestParam(value = "desc") String desc);
+
+	@RequestMapping(value = "/scoreshop/updatetype")
+	CommonRemoteVO  updateType(@RequestParam(value = "id") String id, @RequestParam(value = "desc") String desc) ;
+
+	@RequestMapping(value = "/scoreshop/removetype")
+	CommonRemoteVO removeType(@RequestBody String[] ids);
+
+	@RequestMapping(value = "/scoreshop/release")
+	CommonRemoteVO release(@RequestBody List<ScoreShopProductDbo> products);
+
+	@RequestMapping(value = "/scoreshop/pass")
+	CommonRemoteVO pass(@RequestParam(value = "id") String id);
+
+	@RequestMapping(value = "/scoreshop/refuse")
+	CommonRemoteVO refuse(@RequestParam(value = "id") String id);
 }
