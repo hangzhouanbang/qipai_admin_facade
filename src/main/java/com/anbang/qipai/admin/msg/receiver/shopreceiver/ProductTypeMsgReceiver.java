@@ -33,7 +33,7 @@ public class ProductTypeMsgReceiver {
 
         if ("remove type".equals(msg)) {
             String[] ids = gson.fromJson(json, String[].class);
-            shopManageService.deleteScoreShopProduct(ids[0]);
+            shopManageService.deleteGoodsType(ids[0]);
         }
     }
 }
