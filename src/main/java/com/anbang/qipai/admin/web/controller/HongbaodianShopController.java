@@ -8,6 +8,7 @@ import com.anbang.qipai.admin.util.CommonVOUtil;
 import com.anbang.qipai.admin.web.query.HongbaoRecordQuery;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.highto.framework.web.page.ListPage;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,9 @@ public class HongbaodianShopController {
 
     @RequestMapping("/saveHongbaodianProduct")
     public CommonVO saveHongbaodianProduct(HongbaodianShopProductDbo productDbo){
+        if (productDbo == null || StringUtils.isAnyBlank(productDbo.getDesc(), productDbo.getIconurl(), productDbo.getType())){
+            return CommonVOUtil.lackParameter();
+        }
         hongbaodianShopService.addHongbaodianProduct(productDbo);
         return CommonVOUtil.success("success");
     }
