@@ -34,7 +34,11 @@ public class ScoreShopController {
         if (goodsType == null || StringUtils.isBlank(goodsType.getType())) {
             return CommonVOUtil.lackParameter();
         }
+
         goodsType.setType(goodsType.getType().trim());
+        if (StringUtils.isBlank(goodsType.getId())) {
+            goodsType.setId(null);
+        }
 
         if (StringUtils.isNotBlank(goodsType.getId())) {
             CommonRemoteVO remoteVO = qipaiMembersRomoteService.updateType(goodsType.getId(), goodsType.getType());
@@ -79,6 +83,9 @@ public class ScoreShopController {
         if (scoreShopProduct== null || StringUtils.isAnyBlank(scoreShopProduct.getDesc(), scoreShopProduct.getIconurl(),
                 scoreShopProduct.getType())){
             return CommonVOUtil.lackParameter();
+        }
+        if (StringUtils.isBlank(scoreShopProduct.getId())) {
+            scoreShopProduct.setId(null);
         }
         scoreShopProduct.setCreateTime(System.currentTimeMillis());
         shopManageService.saveScoreShopProduct(scoreShopProduct);

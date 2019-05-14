@@ -38,6 +38,9 @@ public class HongbaodianShopController {
         if (productDbo == null || StringUtils.isAnyBlank(productDbo.getDesc(), productDbo.getIconurl(), productDbo.getType())){
             return CommonVOUtil.lackParameter();
         }
+        if (StringUtils.isBlank(productDbo.getId())) {
+            productDbo.setId(null);
+        }
         hongbaodianShopService.addHongbaodianProduct(productDbo);
         return CommonVOUtil.success("success");
     }
