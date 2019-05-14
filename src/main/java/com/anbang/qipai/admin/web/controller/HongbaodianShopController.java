@@ -57,8 +57,8 @@ public class HongbaodianShopController {
 
     @RequestMapping("/listHongbaodianShopProduct")
     public CommonVO listHongbaodianShopProduct(int page, int size){
-        List<HongbaodianShopProductDbo> productDboList = hongbaodianShopService.listHongbaodianShopProduct(page,size);
-        return CommonVOUtil.success(productDboList,"success");
+        ListPage listPage = hongbaodianShopService.listHongbaodianShopProduct(page,size);
+        return CommonVOUtil.success(listPage,"success");
     }
 
     /**
@@ -76,7 +76,7 @@ public class HongbaodianShopController {
 
     @RequestMapping("/release")
     public CommonVO release(){
-        List<HongbaodianShopProductDbo> productDboList = hongbaodianShopService.listHongbaodianShopProduct(1,500);
+        List<HongbaodianShopProductDbo> productDboList = hongbaodianShopService.listAllHongbaodianShopProduct();
         CommonRemoteVO remoteVO = qipaiHongBaoRemoteService.release(productDboList);
         if (!remoteVO.isSuccess()) {
             return CommonVOUtil.systemException();

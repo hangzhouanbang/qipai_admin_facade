@@ -26,4 +26,8 @@ public interface HongbaodianShopProductDboDao {
 	void incRemainById(String id, int amount);
 
 	void updateRemainById(String id, int remain);
+
+	long count();
+
+	List<HongbaodianShopProductDbo> listAll();
 }

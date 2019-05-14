@@ -89,4 +89,15 @@ public class MongodbScoreShopProductDboDao implements HongbaodianShopProductDboD
 		mongoTemplate.updateFirst(query, update, HongbaodianShopProductDbo.class);
 	}
 
+	@Override
+	public long count() {
+		Query query = new Query();
+		return mongoTemplate.count(query, HongbaodianShopProductDbo.class);
+	}
+
+	@Override
+	public List<HongbaodianShopProductDbo> listAll() {
+		Query query = new Query();
+		return mongoTemplate.find(query, HongbaodianShopProductDbo.class);
+	}
 }

@@ -31,8 +31,14 @@ public class HongbaodianShopService {
 		return hongbaodianShopProductDboDao.findById(id);
 	}
 
-	public List<HongbaodianShopProductDbo> listHongbaodianShopProduct(int page, int size){
-		return hongbaodianShopProductDboDao.list(page, size);
+	public List<HongbaodianShopProductDbo> listAllHongbaodianShopProduct(){
+		return hongbaodianShopProductDboDao.listAll();
+	}
+
+	public ListPage listHongbaodianShopProduct(int page, int size){
+		int count = (int) hongbaodianShopProductDboDao.count();
+		List<HongbaodianShopProductDbo> records = hongbaodianShopProductDboDao.list(page, size);
+		return new ListPage(records, page, size, count);
 	}
 
 	public long countByMemberIdAndStatus(String id, String status){
