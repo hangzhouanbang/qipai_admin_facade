@@ -1,7 +1,7 @@
-package com.anbang.qipai.admin.msg.receiver.scoreshopreceiver;
+package com.anbang.qipai.admin.msg.receiver.shopreceiver;
 
 import com.alibaba.fastjson.JSON;
-import com.anbang.qipai.admin.msg.channel.sink.scoreshop.ScoreShopProductSink;
+import com.anbang.qipai.admin.msg.channel.sink.shop.ScoreShopProductSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.bean.shop.ScoreShopProductDbo;
 import com.anbang.qipai.admin.plan.dao.shopdao.ScoreShopProductDao;

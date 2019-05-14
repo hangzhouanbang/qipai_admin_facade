@@ -1,4 +1,4 @@
-package com.anbang.qipai.admin.msg.channel.sink.scoreshop;
+package com.anbang.qipai.admin.msg.channel.sink.shop;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

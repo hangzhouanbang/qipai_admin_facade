@@ -1,8 +1,8 @@
-package com.anbang.qipai.admin.msg.receiver.scoreshopreceiver;
+package com.anbang.qipai.admin.msg.receiver.shopreceiver;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.anbang.qipai.admin.msg.channel.sink.scoreshop.ProductTypeSink;
+import com.anbang.qipai.admin.msg.channel.sink.shop.ProductTypeSink;
 import com.anbang.qipai.admin.msg.msjobj.CommonMO;
 import com.anbang.qipai.admin.plan.bean.shop.GoodsType;
 import com.anbang.qipai.admin.plan.service.shopservice.ShopManageService;
