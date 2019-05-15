@@ -31,15 +31,17 @@ public class WenzhouMajiangGameMsgReceiver {
 			String gameId = (String) data.get("gameId");
 			String playerId = (String) data.get("playerId");
 			GameRoom room = gameService.findRoomByGameAndServerGameGameId(Game.wenzhouMajiang, gameId);
-			List<PlayersRecord> playersRecord = room.getPlayersRecord();
-			if (room.isVip()) {
-				for (int i = 0; i < playersRecord.size(); i++) {
-					if (playersRecord.get(i).getPlayerId().equals(playerId)) {
-						// 删除玩家记录
-						playersRecord.remove(i);
+			if (room != null) {
+				List<PlayersRecord> playersRecord = room.getPlayersRecord();
+				if (room.isVip()) {
+					for (int i = 0; i < playersRecord.size(); i++) {
+						if (playersRecord.get(i).getPlayerId().equals(playerId)) {
+							// 删除玩家记录
+							playersRecord.remove(i);
+						}
 					}
+					gameService.saveGameRoom(room);
 				}
-				gameService.saveGameRoom(room);
 			}
 		}
 		if ("ju canceled".equals(msg)) {// 一局游戏取消

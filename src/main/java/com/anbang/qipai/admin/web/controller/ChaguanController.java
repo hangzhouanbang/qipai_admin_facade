@@ -6,17 +6,20 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anbang.qipai.admin.plan.bean.chaguan.ChaguanApply;
 import com.anbang.qipai.admin.plan.bean.chaguan.ChaguanDbo;
 import com.anbang.qipai.admin.plan.bean.chaguan.ChaguanShopProduct;
+import com.anbang.qipai.admin.plan.bean.games.Game;
 import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanApplyService;
 import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanService;
 import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanShopService;
 import com.anbang.qipai.admin.plan.service.chaguanservice.ChaguanYushiService;
 import com.anbang.qipai.admin.remote.service.QipaiChaguanRemoteService;
+import com.anbang.qipai.admin.remote.service.QipaiGameRemoteService;
 import com.anbang.qipai.admin.remote.vo.CommonRemoteVO;
 import com.anbang.qipai.admin.web.vo.CommonVO;
 import com.anbang.qipai.admin.web.vo.chaguanvo.ChaguanShopOrderVO;
@@ -27,6 +30,9 @@ import com.highto.framework.web.page.ListPage;
 @RestController
 @RequestMapping("/chaguan")
 public class ChaguanController {
+
+	@Autowired
+	private QipaiGameRemoteService qipaiGameRomoteService;
 
 	@Autowired
 	private QipaiChaguanRemoteService qipaiChaguanRemoteService;
@@ -229,6 +235,50 @@ public class ChaguanController {
 		vo.setData(data);
 		ListPage listPage = chaguanYushiService.findRecordByConditions(page, size, record);
 		data.put("listPage", listPage);
+		return vo;
+	}
+
+	/**
+	 * 房间管理-查询
+	 * 
+	 * @param playerId
+	 * @param roomNo
+	 * @return
+	 */
+	@RequestMapping(value = "/queryroom", method = RequestMethod.POST)
+	public CommonVO queryRoom(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size, String playerId, String roomNo) {
+		CommonVO vo = new CommonVO();
+		ListPage listPage = chaguanService.queryRoomList(page, size, playerId, roomNo);
+		vo.setSuccess(true);
+		vo.setMsg("query roomlist success");
+		vo.setData(listPage);
+		return vo;
+	}
+
+	/**
+	 * 房间管理-查看
+	 * 
+	 * @param gameId
+	 * @return
+	 */
+	@RequestMapping(value = "/queryroomdetail", method = RequestMethod.POST)
+	public CommonVO queryRoomDetail(String gameId) {
+		CommonVO vo = new CommonVO();
+		Map map = chaguanService.queryRoomDetail(gameId);
+		vo.setSuccess(true);
+		vo.setMsg("query roomdetail success");
+		vo.setData(map);
+		return vo;
+	}
+
+	@RequestMapping(value = "/get_backcode", method = RequestMethod.POST)
+	public CommonVO getBackcode(Game game, String gameId, int panNo) {
+		CommonVO vo = new CommonVO();
+		CommonRemoteVO remoteVO = qipaiGameRomoteService.getBackcode(game, gameId, panNo);
+		vo.setSuccess(true);
+		vo.setMsg("query roomdetail success");
+		vo.setData(remoteVO.getData());
 		return vo;
 	}
 }

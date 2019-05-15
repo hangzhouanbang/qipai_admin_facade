@@ -496,7 +496,76 @@ spring:
             concurrency: 1
             partitioned: false
           contentType: application/json
-
+        chaguanApply:
+          destination: chaguanApply
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguan:
+          destination: chaguan
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanMember:
+          destination: chaguanMember
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanYushiRecord:
+          destination: chaguanYushiRecord
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        memberChaguanYushiRecord:
+          destination: memberChaguanYushiRecord
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanShopOrder:
+          destination: chaguanShopOrder
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanShopProduct:
+          destination: chaguanShopProduct
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        blackList:
+          destination: blackList
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanGameTable:
+          destination: chaguanGameTable
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
+        chaguanDataReport:
+          destination: chaguanDataReport
+          group: qipai-admin-facade
+          consumer:
+            concurrency: 1
+            partitioned: false
+          contentType: application/json
   application:
     name: qipai-admin-facade
 server:
